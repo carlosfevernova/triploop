@@ -22,12 +22,12 @@ export function Nav({ locale }: { locale: Locale }){
         </nav>
         <div className="flex items-center gap-3">
           <LocaleSwitcher currentLocale={locale} />
-          <a
-            href="#hero"
+          <Link
+            href={`/${locale}/trip/new`}
             className="rounded-pill bg-ink-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-ink-700"
           >
             {t('getStarted')}
-          </a>
+          </Link>
         </div>
       </div>
     </header>
