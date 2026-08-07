@@ -1,0 +1,70 @@
+import type { Metadata } from 'next';
+import { Inter, Fraunces } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages, getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import { locales, type Locale } from '@/i18n/request';
+import '../globals.css';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap'
+});
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+  axes: ['SOFT', 'opsz']
+});
+
+export function generateStaticParams(){
+  return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: locale as Locale, namespace: 'meta' });
+  return {
+    title: t('title'),
+    description: t('description'),
+    metadataBase: new URL('https://triploop.app'),
+    openGraph: {
+      title: t('title'),
+      description: t('description'),
+      type: 'website',
+      locale: locale === 'es' ? 'es_MX' : 'en_US',
+      alternateLocale: locale === 'es' ? 'en_US' : 'es_MX'
+    },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        en: '/en',
+        es: '/es'
+      }
+    }
+  };
+}
+
+export default async function LocaleLayout({
+  children,
+  params
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}){
+  const { locale } = await params;
+  if (!locales.includes(locale as Locale)) notFound();
+  const messages = await getMessages();
+
+  return (
+    <html lang={locale} className={`${inter.variable} ${fraunces.variable}`}>
+      <body>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          {children}
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
+}
