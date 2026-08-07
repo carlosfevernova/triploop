@@ -12,13 +12,14 @@ interface Props {
   onStopsChange: (stops: TripStop[]) => void;
   onHover: (stopId: string | null) => void;
   onSettingsChange: (patch: Partial<Trip>) => void;
+  onExploreNearby?: (stop: TripStop) => void;
   saving?: boolean;
   isEs?: boolean;
 }
 
-function SortableStop({ stop, index, leg, unit, isEs, onHover, onRemove }: {
+function SortableStop({ stop, index, leg, unit, isEs, onHover, onRemove, onExploreNearby }: {
   stop: TripStop; index: number; leg?: RouteLeg; unit: UnitSystem; isEs?: boolean;
-  onHover: (id: string | null) => void; onRemove: () => void;
+  onHover: (id: string | null) => void; onRemove: () => void; onExploreNearby?: () => void;
 }){
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: stop.id });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 };
@@ -27,7 +28,7 @@ function SortableStop({ stop, index, leg, unit, isEs, onHover, onRemove }: {
       ref={setNodeRef} style={style}
       onMouseEnter={() => onHover(stop.id)}
       onMouseLeave={() => onHover(null)}
-      className={`group rounded-card border border-ink-100 bg-white ${isDragging ? 'shadow-card-hover' : ''}`}
+      className={`group overflow-hidden rounded-card border border-ink-100 bg-white ${isDragging ? 'shadow-card-hover' : ''}`}
     >
       <div className="flex items-start gap-3 p-4">
         <button {...attributes} {...listeners} className="mt-0.5 cursor-grab touch-none active:cursor-grabbing" aria-label="drag">
@@ -35,9 +36,33 @@ function SortableStop({ stop, index, leg, unit, isEs, onHover, onRemove }: {
             {index + 1}
           </div>
         </button>
+        {stop.photo_url ? (
+          <img src={stop.photo_url} alt="" className="h-14 w-14 flex-shrink-0 rounded-lg object-cover" loading="lazy" />
+        ) : null}
         <div className="min-w-0 flex-1">
           <div className="truncate text-sm font-semibold text-ink-900">{stop.name}</div>
           {stop.address && <div className="truncate text-xs text-ink-500">{stop.address}</div>}
+          {(stop.rating || onExploreNearby) && (
+            <div className="mt-1 flex items-center gap-2 text-[10px]">
+              {stop.rating ? (
+                <span className="inline-flex items-center gap-0.5 font-semibold text-amber-600">
+                  ★ {stop.rating.toFixed(1)}
+                  {stop.user_ratings_total ? <span className="text-ink-400">({stop.user_ratings_total})</span> : null}
+                </span>
+              ) : null}
+              {typeof stop.price_level === 'number' && stop.price_level > 0 ? (
+                <span className="text-emerald-600">{'$'.repeat(stop.price_level)}</span>
+              ) : null}
+              {onExploreNearby ? (
+                <button
+                  onClick={onExploreNearby}
+                  className="ml-auto rounded-pill border border-ocean-400/40 bg-ocean-400/10 px-2 py-0.5 text-[10px] font-semibold text-ocean-400 opacity-0 transition group-hover:opacity-100 hover:bg-ocean-400 hover:text-white"
+                >
+                  🔍 {isEs ? 'Cerca' : 'Nearby'}
+                </button>
+              ) : null}
+            </div>
+          )}
         </div>
         <button
           onClick={onRemove}
@@ -64,7 +89,7 @@ function SortableStop({ stop, index, leg, unit, isEs, onHover, onRemove }: {
   );
 }
 
-export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsChange, saving, isEs }: Props){
+export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsChange, onExploreNearby, saving, isEs }: Props){
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
 
   const handleDragEnd = (e: DragEndEvent) => {
@@ -161,6 +186,7 @@ export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsC
                   isEs={isEs}
                   onHover={onHover}
                   onRemove={() => handleRemove(stop.id)}
+                  onExploreNearby={onExploreNearby ? () => onExploreNearby(stop) : undefined}
                 />
               ))}
             </ul>

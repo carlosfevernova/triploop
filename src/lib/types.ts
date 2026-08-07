@@ -15,6 +15,13 @@ export interface TripStop {
   category?: 'city' | 'attraction' | 'nature' | 'food' | 'hotel' | 'other';
   photo_url?: string;
   notes?: string;
+  // Enriched (from /api/places/enrich):
+  rating?: number;
+  user_ratings_total?: number;
+  phone?: string;
+  website?: string;
+  opening_hours?: Record<string, unknown> | null;
+  price_level?: number;
 }
 
 export interface RouteLeg {
@@ -58,4 +65,7 @@ export interface PlaceSuggestion {
   lng: number;
   types?: string[];
   photo_url?: string;
+  rating?: number;
+  user_ratings_total?: number;
+  price_level?: number;
 }

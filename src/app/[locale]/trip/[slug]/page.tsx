@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { TripMap } from '@/components/trip/TripMap';
 import { ItineraryPanel } from '@/components/trip/ItineraryPanel';
 import { AiSuggestionsPanel } from '@/components/trip/AiSuggestionsPanel';
+import { NearbyPanel } from '@/components/trip/NearbyPanel';
 import { createClient } from '@/lib/supabase-browser';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
 
@@ -26,6 +27,7 @@ export default function TripPage(){
   const [userId, setUserId] = useState<string | null>(null);
   const [forking, setForking] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
+  const [nearbyAnchor, setNearbyAnchor] = useState<TripStop | null>(null);
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const routeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -124,6 +126,42 @@ export default function TripPage(){
   const isOwnerOrAnon = !trip?.owner_id || trip?.owner_id === userId;
   const canFork = userId && trip?.owner_id && trip.owner_id !== userId; // signed in + no soy owner
 
+  // Background enrich: resuelve place_id real + rating + foto contra Google Places
+  const enrichStop = async (stopId: string, name: string, lat: number, lng: number, existingPlaceId?: string) => {
+    try {
+      const isAiSyntheticId = !existingPlaceId || /^(fireworks|groq|anthropic|curated|ai|mock):/i.test(existingPlaceId);
+      const r = await fetch('/api/places/enrich', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(
+          isAiSyntheticId
+            ? { name, lat, lng }
+            : { google_place_id: existingPlaceId }
+        )
+      });
+      const data = await r.json();
+      if(!r.ok || !data.poi) return;
+      setTrip((t) => {
+        if(!t) return t;
+        return {
+          ...t,
+          stops: t.stops.map((s) => s.id === stopId ? {
+            ...s,
+            place_id: data.poi.google_place_id,
+            address: s.address || data.poi.address,
+            photo_url: s.photo_url || data.poi.photo_url,
+            rating: data.poi.rating,
+            user_ratings_total: data.poi.user_ratings_total,
+            phone: data.poi.phone,
+            website: data.poi.website,
+            opening_hours: data.poi.opening_hours,
+            price_level: data.poi.price_level
+          } : s)
+        };
+      });
+    } catch { /* silent */ }
+  };
+
   const handleAiAdd = (place: PlaceSuggestion & { duration_min?: number; category?: string }) => {
     if(!trip) return;
     const newStop: TripStop = {
@@ -135,6 +173,26 @@ export default function TripPage(){
       place_id: place.place_id,
       duration_min: place.duration_min,
       category: (place.category as TripStop['category']) || 'other'
+    };
+    setTrip((t) => t ? { ...t, stops: [...t.stops, newStop] } : t);
+    // Fire-and-forget enrich contra Google Places
+    enrichStop(newStop.id, newStop.name, newStop.lat, newStop.lng, newStop.place_id);
+  };
+
+  const handleNearbyAdd = (place: PlaceSuggestion) => {
+    if(!trip) return;
+    const newStop: TripStop = {
+      id: crypto.randomUUID(),
+      name: place.name,
+      address: place.formatted_address,
+      lat: place.lat,
+      lng: place.lng,
+      place_id: place.place_id,
+      photo_url: place.photo_url,
+      rating: place.rating,
+      user_ratings_total: place.user_ratings_total,
+      price_level: place.price_level,
+      category: mapTypeToCategory(place.types)
     };
     setTrip((t) => t ? { ...t, stops: [...t.stops, newStop] } : t);
   };
@@ -197,6 +255,17 @@ export default function TripPage(){
         />
       )}
 
+      {/* Nearby panel */}
+      {isOwnerOrAnon && (
+        <NearbyPanel
+          open={!!nearbyAnchor}
+          onClose={() => setNearbyAnchor(null)}
+          anchor={nearbyAnchor}
+          onAdd={handleNearbyAdd}
+          isEs={isEs}
+        />
+      )}
+
       {/* Split view */}
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1">
@@ -214,6 +283,7 @@ export default function TripPage(){
             onStopsChange={(stops) => setTrip((t) => t ? { ...t, stops } : t)}
             onHover={setHoveredStopId}
             onSettingsChange={(patch) => setTrip((t) => t ? { ...t, ...patch } : t)}
+            onExploreNearby={isOwnerOrAnon ? setNearbyAnchor : undefined}
             saving={saving}
             isEs={isEs}
           />
@@ -229,4 +299,15 @@ function FullscreenMessage({ children }: { children: React.ReactNode }){
 
 function settingsOf(t: Trip){
   return { title: t.title, unit_system: t.unit_system, currency: t.currency };
+}
+
+function mapTypeToCategory(types?: string[]): TripStop['category'] {
+  if(!types || types.length === 0) return 'other';
+  const t = new Set(types);
+  if(['restaurant','cafe','bakery','bar','food'].some(x => t.has(x))) return 'food';
+  if(['hotel','lodging','resort'].some(x => t.has(x))) return 'hotel';
+  if(['park','national_park','hiking_area','campground','beach'].some(x => t.has(x))) return 'nature';
+  if(['tourist_attraction','museum','art_gallery','amusement_park','zoo'].some(x => t.has(x))) return 'attraction';
+  if(['locality','administrative_area_level_1'].some(x => t.has(x))) return 'city';
+  return 'other';
 }
