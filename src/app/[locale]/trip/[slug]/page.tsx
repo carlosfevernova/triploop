@@ -1,13 +1,15 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { TripMap } from '@/components/trip/TripMap';
 import { ItineraryPanel } from '@/components/trip/ItineraryPanel';
+import { createClient } from '@/lib/supabase-browser';
 import type { RouteLeg, Trip, TripStop } from '@/lib/types';
 
 export default function TripPage(){
   const params = useParams<{ locale: string; slug: string }>();
+  const router = useRouter();
   const slug = params.slug;
   const locale = params.locale;
   const isEs = locale === 'es';
@@ -20,10 +22,17 @@ export default function TripPage(){
   const [routePolyline, setRoutePolyline] = useState<string | undefined>(undefined);
   const [legs, setLegs] = useState<RouteLeg[]>([]);
   const [copiedShare, setCopiedShare] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [forking, setForking] = useState(false);
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const routeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSavedRef = useRef<string>('');
+
+  // Detect current user
+  useEffect(() => {
+    createClient().auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
+  }, []);
 
   // Initial load
   useEffect(() => {
@@ -100,6 +109,19 @@ export default function TripPage(){
     try { await navigator.clipboard.writeText(url); setCopiedShare(true); setTimeout(() => setCopiedShare(false), 2000); } catch {}
   };
 
+  const fork = async () => {
+    if(!userId){ router.push(`/${locale}/signin`); return; }
+    setForking(true);
+    try {
+      const r = await fetch(`/api/trips/${slug}/fork`, { method: 'POST' });
+      const data = await r.json();
+      if(r.ok && data.trip?.slug){ router.push(`/${locale}/trip/${data.trip.slug}`); }
+    } finally { setForking(false); }
+  };
+
+  const isOwnerOrAnon = !trip?.owner_id || trip?.owner_id === userId;
+  const canFork = userId && trip?.owner_id && trip.owner_id !== userId; // signed in + no soy owner
+
   if(loading) return <FullscreenMessage>Cargando…</FullscreenMessage>;
   if(error || !trip) return <FullscreenMessage>{isEs ? 'Viaje no encontrado' : 'Trip not found'}</FullscreenMessage>;
 
@@ -114,6 +136,15 @@ export default function TripPage(){
           <span className="font-display text-lg font-semibold tracking-tight">TripLoop</span>
         </Link>
         <div className="flex items-center gap-2">
+          {canFork && (
+            <button
+              onClick={fork}
+              disabled={forking}
+              className="rounded-pill border border-coral-200 bg-coral-50 px-4 py-2 text-xs font-semibold text-coral-700 transition hover:border-coral-500 disabled:opacity-50"
+            >
+              {forking ? '…' : (isEs ? '📋 Duplicar' : '📋 Duplicate')}
+            </button>
+          )}
           <button
             onClick={share}
             className="rounded-pill border border-ink-200 bg-white px-4 py-2 text-xs font-semibold text-ink-700 transition hover:border-ink-800"

@@ -4,11 +4,37 @@
     "description": "Deja de pelearte con Google Maps. Arma tu road trip por California en minutos con tiempos reales de manejo, precios con impuestos incluidos y kilómetros de verdad. Hecho para turistas internacionales."
   },
   "nav": {
-    "features": "Funciones",
-    "pricing": "Precios",
-    "howItWorks": "Cómo funciona",
-    "signIn": "Iniciar sesión",
-    "getStarted": "Acceso anticipado"
+    "features": "Funciones", "pricing": "Precios", "howItWorks": "Cómo funciona",
+    "signIn": "Iniciar sesión", "signUp": "Registrarse", "signOut": "Cerrar sesión",
+    "myTrips": "Mis viajes", "getStarted": "Planear un viaje"
+  },
+  "auth": {
+    "signInTitle": "Bienvenido de vuelta",
+    "signInSubtitle": "Inicia sesión para ver tus viajes guardados.",
+    "signUpTitle": "Crea tu cuenta",
+    "signUpSubtitle": "Guarda viajes, sincroniza entre dispositivos, colabora.",
+    "email": "Email",
+    "password": "Contraseña",
+    "signInBtn": "Iniciar sesión",
+    "signUpBtn": "Crear cuenta",
+    "noAccount": "¿Aún no tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "createOne": "Créala",
+    "signInInstead": "Inicia sesión",
+    "invalidCredentials": "Email o contraseña incorrectos.",
+    "genericError": "Algo falló. Intenta de nuevo."
+  },
+  "myTrips": {
+    "title": "Mis viajes",
+    "subtitle": "Tus itinerarios guardados.",
+    "empty": "No hay viajes aún. Empieza el primero.",
+    "createNew": "Crear nuevo viaje",
+    "openTrip": "Abrir",
+    "forkTrip": "Duplicar",
+    "deleteTrip": "Eliminar",
+    "confirmDelete": "¿Eliminar este viaje?",
+    "days": "días",
+    "stops": "paradas"
   },
   "hero": {
     "eyebrow": "Beta · Road trips por California",
@@ -26,21 +52,9 @@
   "problem": {
     "title": "Por qué los viajes a California fallan la primera vez",
     "items": [
-      {
-        "emoji": "🚗",
-        "title": "De LA a San Francisco NO son 2 horas",
-        "body": "Son 6. Google Maps oculta el tráfico real. Te enseñamos el día real de manejo con paradas y buffer por jetlag."
-      },
-      {
-        "emoji": "🧾",
-        "title": "Ese hotel de $89 en realidad son $118",
-        "body": "Los precios en USA no incluyen impuestos ni resort fees. Te mostramos precios finales con IVA California incluido."
-      },
-      {
-        "emoji": "📏",
-        "title": "¿Millas o kilómetros? Los dos.",
-        "body": "Un toggle cambia toda distancia, temperatura y galones a litros. Lee tu viaje en el sistema que sí entiendes."
-      }
+      { "emoji": "🚗", "title": "De LA a San Francisco NO son 2 horas", "body": "Son 6. Google Maps oculta el tráfico real. Te enseñamos el día real de manejo con paradas y buffer por jetlag." },
+      { "emoji": "🧾", "title": "Ese hotel de $89 en realidad son $118", "body": "Los precios en USA no incluyen impuestos ni resort fees. Te mostramos precios finales con IVA California incluido." },
+      { "emoji": "📏", "title": "¿Millas o kilómetros? Los dos.", "body": "Un toggle cambia toda distancia, temperatura y galones a litros. Lee tu viaje en el sistema que sí entiendes." }
     ]
   },
   "features": {
@@ -69,49 +83,14 @@
   "pricing": {
     "title": "Gratis para siempre. Upgrade solo si te sirve.",
     "subtitle": "Sin tarjeta para empezar. Cancela cuando quieras.",
-    "free": {
-      "name": "Gratis",
-      "price": "$0",
-      "period": "para siempre",
-      "cta": "Empezar a planear",
-      "features": [
-        "Hasta 3 viajes guardados",
-        "Itinerario inicial con AI",
-        "Tiempos reales con tráfico",
-        "Métrico/imperial + multi-moneda",
-        "Compartir viaje vía link público"
-      ]
-    },
-    "pro": {
-      "name": "Pro",
-      "price": "$6.99",
-      "period": "al mes",
-      "badge": "El más popular",
-      "cta": "Prueba Pro 14 días gratis",
-      "features": [
-        "Viajes ilimitados",
-        "Mapas offline para parques",
-        "Regeneraciones AI ilimitadas",
-        "Colaboración en tiempo real",
-        "Export PDF + manager de reservas",
-        "Soporte prioritario"
-      ]
-    }
+    "free": { "name": "Gratis", "price": "$0", "period": "para siempre", "cta": "Empezar a planear", "features": ["Hasta 3 viajes guardados", "Itinerario inicial con AI", "Tiempos reales con tráfico", "Métrico/imperial + multi-moneda", "Compartir viaje vía link público"] },
+    "pro": { "name": "Pro", "price": "$6.99", "period": "al mes", "badge": "El más popular", "cta": "Prueba Pro 14 días gratis", "features": ["Viajes ilimitados", "Mapas offline para parques", "Regeneraciones AI ilimitadas", "Colaboración en tiempo real", "Export PDF + manager de reservas", "Soporte prioritario"] }
   },
   "footer": {
     "tagline": "El planeador de road trips hecho para quienes llegan volando — no para los que crecieron manejando esas carreteras.",
-    "product": "Producto",
-    "features": "Funciones",
-    "pricing": "Precios",
-    "changelog": "Novedades",
-    "company": "Empresa",
-    "about": "Sobre nosotros",
-    "blog": "Blog",
-    "contact": "Contacto",
-    "legal": "Legal",
-    "terms": "Términos",
-    "privacy": "Privacidad",
-    "affiliate": "Aviso de afiliados",
+    "product": "Producto", "features": "Funciones", "pricing": "Precios", "changelog": "Novedades",
+    "company": "Empresa", "about": "Sobre nosotros", "blog": "Blog", "contact": "Contacto",
+    "legal": "Legal", "terms": "Términos", "privacy": "Privacidad", "affiliate": "Aviso de afiliados",
     "copyright": "© {year} TripLoop. Todos los derechos reservados."
   }
 }

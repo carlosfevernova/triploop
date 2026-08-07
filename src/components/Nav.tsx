@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { LocaleSwitcher } from './LocaleSwitcher';
+import { UserMenu } from './UserMenu';
 import type { Locale } from '@/i18n/request';
 
 export function Nav({ locale }: { locale: Locale }){
@@ -22,6 +23,7 @@ export function Nav({ locale }: { locale: Locale }){
         </nav>
         <div className="flex items-center gap-3">
           <LocaleSwitcher currentLocale={locale} />
+          <UserMenu locale={locale} />
           <Link
             href={`/${locale}/trip/new`}
             className="rounded-pill bg-ink-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-ink-700"

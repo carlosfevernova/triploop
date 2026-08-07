@@ -8,7 +8,38 @@
     "pricing": "Pricing",
     "howItWorks": "How it works",
     "signIn": "Sign in",
-    "getStarted": "Get early access"
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "myTrips": "My trips",
+    "getStarted": "Plan a trip"
+  },
+  "auth": {
+    "signInTitle": "Welcome back",
+    "signInSubtitle": "Sign in to access your saved trips.",
+    "signUpTitle": "Create your account",
+    "signUpSubtitle": "Save trips, sync across devices, collaborate.",
+    "email": "Email",
+    "password": "Password",
+    "signInBtn": "Sign in",
+    "signUpBtn": "Create account",
+    "noAccount": "No account yet?",
+    "hasAccount": "Already have an account?",
+    "createOne": "Create one",
+    "signInInstead": "Sign in",
+    "invalidCredentials": "Wrong email or password.",
+    "genericError": "Something went wrong. Try again."
+  },
+  "myTrips": {
+    "title": "My trips",
+    "subtitle": "Your saved itineraries.",
+    "empty": "No trips yet. Start your first one.",
+    "createNew": "Create new trip",
+    "openTrip": "Open",
+    "forkTrip": "Duplicate",
+    "deleteTrip": "Delete",
+    "confirmDelete": "Delete this trip?",
+    "days": "days",
+    "stops": "stops"
   },
   "hero": {
     "eyebrow": "Beta · California road trips",
@@ -26,21 +57,9 @@
   "problem": {
     "title": "Why California trips fail for first-time visitors",
     "items": [
-      {
-        "emoji": "🚗",
-        "title": "LA to San Francisco isn't 2 hours",
-        "body": "It's 6. Google Maps hides traffic reality. We show your true driving day with rest stops and jetlag buffer."
-      },
-      {
-        "emoji": "🧾",
-        "title": "That $89 hotel is really $118",
-        "body": "US prices exclude sales tax and resort fees. We show final prices with California tax included — no checkout surprises."
-      },
-      {
-        "emoji": "📏",
-        "title": "Miles or kilometers? Yes.",
-        "body": "One toggle switches every distance, temperature, and gallon-to-liter. Read your trip in what actually makes sense."
-      }
+      { "emoji": "🚗", "title": "LA to San Francisco isn't 2 hours", "body": "It's 6. Google Maps hides traffic reality. We show your true driving day with rest stops and jetlag buffer." },
+      { "emoji": "🧾", "title": "That $89 hotel is really $118", "body": "US prices exclude sales tax and resort fees. We show final prices with California tax included — no checkout surprises." },
+      { "emoji": "📏", "title": "Miles or kilometers? Yes.", "body": "One toggle switches every distance, temperature, and gallon-to-liter. Read your trip in what actually makes sense." }
     ]
   },
   "features": {
@@ -69,49 +88,14 @@
   "pricing": {
     "title": "Free forever. Upgrade only if you want to.",
     "subtitle": "No credit card to start. Cancel anytime.",
-    "free": {
-      "name": "Free",
-      "price": "$0",
-      "period": "forever",
-      "cta": "Start planning",
-      "features": [
-        "Up to 3 trips saved",
-        "AI itinerary starter",
-        "Real driving times & traffic",
-        "Metric/imperial + multi-currency",
-        "Share trip via public link"
-      ]
-    },
-    "pro": {
-      "name": "Pro",
-      "price": "$6.99",
-      "period": "per month",
-      "badge": "Most popular",
-      "cta": "Try Pro free 14 days",
-      "features": [
-        "Unlimited trips",
-        "Offline maps for national parks",
-        "AI regenerations without limits",
-        "Real-time collaboration",
-        "PDF export & booking manager",
-        "Priority support"
-      ]
-    }
+    "free": { "name": "Free", "price": "$0", "period": "forever", "cta": "Start planning", "features": ["Up to 3 trips saved", "AI itinerary starter", "Real driving times & traffic", "Metric/imperial + multi-currency", "Share trip via public link"] },
+    "pro": { "name": "Pro", "price": "$6.99", "period": "per month", "badge": "Most popular", "cta": "Try Pro free 14 days", "features": ["Unlimited trips", "Offline maps for national parks", "AI regenerations without limits", "Real-time collaboration", "PDF export & booking manager", "Priority support"] }
   },
   "footer": {
     "tagline": "The road trip planner built for people flying in — not driving there their whole lives.",
-    "product": "Product",
-    "features": "Features",
-    "pricing": "Pricing",
-    "changelog": "Changelog",
-    "company": "Company",
-    "about": "About",
-    "blog": "Blog",
-    "contact": "Contact",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "affiliate": "Affiliate disclosure",
+    "product": "Product", "features": "Features", "pricing": "Pricing", "changelog": "Changelog",
+    "company": "Company", "about": "About", "blog": "Blog", "contact": "Contact",
+    "legal": "Legal", "terms": "Terms", "privacy": "Privacy", "affiliate": "Affiliate disclosure",
     "copyright": "© {year} TripLoop. All rights reserved."
   }
 }
