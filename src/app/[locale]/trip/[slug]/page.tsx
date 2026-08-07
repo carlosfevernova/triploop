@@ -4,8 +4,9 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { TripMap } from '@/components/trip/TripMap';
 import { ItineraryPanel } from '@/components/trip/ItineraryPanel';
+import { AiSuggestionsPanel } from '@/components/trip/AiSuggestionsPanel';
 import { createClient } from '@/lib/supabase-browser';
-import type { RouteLeg, Trip, TripStop } from '@/lib/types';
+import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
 
 export default function TripPage(){
   const params = useParams<{ locale: string; slug: string }>();
@@ -24,6 +25,7 @@ export default function TripPage(){
   const [copiedShare, setCopiedShare] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [forking, setForking] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const routeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -122,6 +124,21 @@ export default function TripPage(){
   const isOwnerOrAnon = !trip?.owner_id || trip?.owner_id === userId;
   const canFork = userId && trip?.owner_id && trip.owner_id !== userId; // signed in + no soy owner
 
+  const handleAiAdd = (place: PlaceSuggestion & { duration_min?: number; category?: string }) => {
+    if(!trip) return;
+    const newStop: TripStop = {
+      id: crypto.randomUUID(),
+      name: place.name,
+      address: place.formatted_address,
+      lat: place.lat,
+      lng: place.lng,
+      place_id: place.place_id,
+      duration_min: place.duration_min,
+      category: (place.category as TripStop['category']) || 'other'
+    };
+    setTrip((t) => t ? { ...t, stops: [...t.stops, newStop] } : t);
+  };
+
   if(loading) return <FullscreenMessage>Cargando…</FullscreenMessage>;
   if(error || !trip) return <FullscreenMessage>{isEs ? 'Viaje no encontrado' : 'Trip not found'}</FullscreenMessage>;
 
@@ -136,6 +153,14 @@ export default function TripPage(){
           <span className="font-display text-lg font-semibold tracking-tight">TripLoop</span>
         </Link>
         <div className="flex items-center gap-2">
+          {isOwnerOrAnon && (
+            <button
+              onClick={() => setAiOpen(true)}
+              className="rounded-pill bg-gradient-to-r from-coral-500 to-coral-600 px-4 py-2 text-xs font-semibold text-white shadow-glow transition hover:from-coral-600 hover:to-coral-700"
+            >
+              ✨ {isEs ? 'IA' : 'AI'}
+            </button>
+          )}
           {canFork && (
             <button
               onClick={fork}
@@ -160,6 +185,17 @@ export default function TripPage(){
           </a>
         </div>
       </header>
+
+      {/* AI panel */}
+      {isOwnerOrAnon && (
+        <AiSuggestionsPanel
+          open={aiOpen}
+          onClose={() => setAiOpen(false)}
+          trip={trip}
+          onAdd={handleAiAdd}
+          isEs={isEs}
+        />
+      )}
 
       {/* Split view */}
       <div className="flex flex-1 overflow-hidden">
