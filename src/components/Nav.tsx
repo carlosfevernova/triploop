@@ -18,6 +18,10 @@ export function Nav({ locale }: { locale: Locale }){
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
           <Link href={`/${locale}/california`} className="text-sm font-medium text-ink-500 transition hover:text-ink-800">{locale === 'es' ? 'Rutas' : 'Trips'}</Link>
+          <Link href={`/${locale}/trip/new/ai`} className="inline-flex items-center gap-1 text-sm font-medium text-ocean-700 transition hover:text-ocean-900">
+            <span aria-hidden>✨</span>
+            {locale === 'es' ? 'IA Planner' : 'AI Planner'}
+          </Link>
           <Link href={`/${locale}/blog`} className="text-sm font-medium text-ink-500 transition hover:text-ink-800">Blog</Link>
           <a href="#pricing" className="text-sm font-medium text-ink-500 transition hover:text-ink-800">{t('pricing')}</a>
         </nav>

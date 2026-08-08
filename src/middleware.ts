@@ -19,6 +19,7 @@ const PUBLIC_SEO_PREFIXES = [
   '/en/blog', '/es/blog',
   '/en/whatsapp', '/es/whatsapp',
   '/en/utah', '/es/utah',
+  '/en/spain', '/es/spain',
   '/embed'
 ];
 

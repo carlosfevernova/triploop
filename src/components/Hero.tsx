@@ -1,9 +1,11 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import { WaitlistForm } from './WaitlistForm';
 
 // Server Component: only WaitlistForm es client
 export async function Hero(){
   const t = await getTranslations('hero');
+  const locale = await getLocale();
+  const isEs = locale === 'es';
 
   return (
     <section id="hero" className="relative overflow-hidden">
@@ -36,6 +38,17 @@ export async function Hero(){
             successLabel={t('emailSuccess')}
             errorLabel={t('emailError')}
           />
+
+          <div className="mt-5 flex flex-wrap items-center gap-3 text-sm">
+            <span className="text-ink-500">{isEs ? '¿Prefieres IA?' : 'Prefer AI?'}</span>
+            <a
+              href={`/${locale}/trip/new/ai`}
+              className="inline-flex items-center gap-1.5 rounded-pill border border-ocean-200 bg-ocean-50 px-4 py-2 font-semibold text-ocean-800 transition hover:border-ocean-400 hover:bg-white hover:shadow-card"
+            >
+              <span aria-hidden>✨</span>
+              {isEs ? 'Describe tu viaje con IA' : 'Describe your trip with AI'}
+            </a>
+          </div>
 
           <div className="mt-8 flex items-center gap-3">
             <div className="flex -space-x-2" aria-hidden>
