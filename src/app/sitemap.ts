@@ -9,7 +9,7 @@ export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const staticPaths = ['', '/california', '/nevada', '/arizona', '/southwest', '/blog', '/signin', '/signup', '/pricing/upgrade', '/affiliate-disclosure'];
+  const staticPaths = ['', '/california', '/nevada', '/arizona', '/southwest', '/blog', '/whatsapp', '/signin', '/signup', '/pricing/upgrade', '/affiliate-disclosure'];
 
   const staticEntries: MetadataRoute.Sitemap = LOCALES.flatMap((locale) =>
     staticPaths.map((p) => ({
