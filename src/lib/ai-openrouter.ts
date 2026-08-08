@@ -1,9 +1,13 @@
 // Helper compartido OpenRouter para todos los endpoints AI de TripLoop
 // Usa modelos free 2026-08 con timeout + fallback + JSON extract.
 
+// Ordenados por latencia benchmark 2026-08-08 (ms para 800 tokens JSON):
+// gemma-4-26b: 1.6s · gpt-oss-20b: 3s · gemma-4-31b: variable · nemotron-super: 30s+
 const OR_MODELS_FREE = [
-  'openrouter/free',
+  'google/gemma-4-26b-a4b-it:free',
+  'openai/gpt-oss-20b:free',
   'google/gemma-4-31b-it:free',
+  'openrouter/free',
   'nvidia/nemotron-3-super-120b-a12b:free'
 ];
 
