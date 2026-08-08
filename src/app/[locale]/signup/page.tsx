@@ -22,6 +22,14 @@ export default function SignUpPage(){
     const sb = createClient();
     const { error: err } = await sb.auth.signUp({ email, password });
     if(err){ setError(err.message); setLoading(false); return; }
+    // Fire-and-forget welcome email (Resend soft-fail si no configurado)
+    try {
+      fetch('/api/emails/welcome', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, locale })
+      }).catch(() => {});
+    } catch {}
     // Auto-confirm on (config), sesión ya activa
     router.push(`/${locale}/my-trips`);
     router.refresh();

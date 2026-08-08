@@ -43,5 +43,5 @@ export async function middleware(req: NextRequest){
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|_vercel|admin|offline|.*\\..*).*)']
+  matcher: ['/((?!api|_next|_vercel|admin|offline|unsubscribe|.*\\..*).*)']
 };

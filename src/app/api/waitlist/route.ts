@@ -18,9 +18,10 @@ export async function POST(req: Request){
       return NextResponse.json({ ok: true, mode: 'local_log' });
     }
 
+    const cleanEmail = email.toLowerCase().trim();
     const sb = createClient(url, key);
     const { error } = await sb.from('waitlist').upsert(
-      { email: email.toLowerCase().trim(), locale, referer: req.headers.get('referer') || null, user_agent: req.headers.get('user-agent')?.slice(0, 200) || null },
+      { email: cleanEmail, locale, referer: req.headers.get('referer') || null, user_agent: req.headers.get('user-agent')?.slice(0, 200) || null },
       { onConflict: 'email' }
     );
     if(error){
@@ -28,6 +29,15 @@ export async function POST(req: Request){
       console.error('[waitlist] supabase:', error.message);
       return NextResponse.json({ ok: true, mode: 'silent_fail' });
     }
+    // Fire-and-forget: envía welcome email (soft-fail si Resend no configurado)
+    try {
+      const origin = req.headers.get('origin') || 'https://triploop-six.vercel.app';
+      fetch(`${origin}/api/emails/waitlist`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: cleanEmail, locale })
+      }).catch(() => {});
+    } catch {}
     return NextResponse.json({ ok: true });
   } catch (e) {
     return NextResponse.json({ error: 'bad_request' }, { status: 400 });
