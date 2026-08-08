@@ -8,6 +8,7 @@ import { AiSuggestionsPanel } from '@/components/trip/AiSuggestionsPanel';
 import { NearbyPanel } from '@/components/trip/NearbyPanel';
 import { StaysAndActivitiesPanel } from '@/components/trip/StaysAndActivitiesPanel';
 import { SaveOfflineButton } from '@/components/trip/SaveOfflineButton';
+import { PdfExportButton } from '@/components/trip/PdfExportButton';
 import { createClient } from '@/lib/supabase-browser';
 import { getOfflineTrip, saveTripOffline } from '@/lib/offline-cache';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
@@ -233,6 +234,7 @@ export default function TripPage(){
         </Link>
         <div className="flex items-center gap-2">
           <SaveOfflineButton trip={trip} isEs={isEs} />
+          {trip.stops.length > 0 && <PdfExportButton slug={trip.slug} isEs={isEs} />}
           {trip.stops.length > 0 && (
             <button
               onClick={() => setStaysOpen(true)}
