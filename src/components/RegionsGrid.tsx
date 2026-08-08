@@ -62,6 +62,42 @@ const REGIONS = [
     subtitle_en: 'Glacier, Yellowstone, Grand Teton', subtitle_es: 'Glacier, Yellowstone, Grand Teton',
     image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&auto=format&fit=crop',
     trips: 2
+  },
+  {
+    slug: 'italy', name_en: 'Italy 🇮🇹', name_es: 'Italia 🇮🇹',
+    subtitle_en: 'Amalfi SS163, Cinque Terre, Tuscany', subtitle_es: 'Amalfi SS163, Cinque Terre, Toscana',
+    image: 'https://images.unsplash.com/photo-1533904333078-4c0d040e6c22?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'iceland', name_en: 'Iceland 🇮🇸', name_es: 'Islandia 🇮🇸',
+    subtitle_en: 'Ring Road 1,322 km, Jökulsárlón', subtitle_es: 'Ring Road 1,322 km, Jökulsárlón',
+    image: 'https://images.unsplash.com/photo-1490650034439-fd184c3c86a5?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'ireland', name_en: 'Ireland 🇮🇪', name_es: 'Irlanda 🇮🇪',
+    subtitle_en: 'Ring of Kerry N70, Cliffs of Moher', subtitle_es: 'Ring of Kerry N70, Cliffs of Moher',
+    image: 'https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'australia', name_en: 'Australia 🇦🇺', name_es: 'Australia 🇦🇺',
+    subtitle_en: 'Great Ocean Road B100', subtitle_es: 'Great Ocean Road B100',
+    image: 'https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'new-zealand', name_en: 'New Zealand 🇳🇿', name_es: 'Nueva Zelanda 🇳🇿',
+    subtitle_en: 'South Island Milford Sound', subtitle_es: 'Isla Sur Milford Sound',
+    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'germany', name_en: 'Germany 🇩🇪', name_es: 'Alemania 🇩🇪',
+    subtitle_en: 'Romantic Road B25, Neuschwanstein', subtitle_es: 'Ruta Romántica B25, Neuschwanstein',
+    image: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&auto=format&fit=crop',
+    trips: 1
   }
 ];
 
@@ -77,10 +113,10 @@ export function RegionsGrid(){
             {isEs ? 'Explora por región' : 'Explore by region'}
           </p>
           <h2 className="font-display text-display-lg text-ink-900 text-balance">
-            {isEs ? 'Road trips por USA y España' : 'Road trips across USA and Spain'}
+            {isEs ? 'Road trips icónicos del mundo' : 'Iconic road trips around the world'}
           </h2>
           <p className="mt-3 text-lg text-ink-500">
-            {isEs ? '32 rutas curadas · 10 regiones · listas para duplicar' : '32 curated itineraries · 10 regions · fork any in one click'}
+            {isEs ? '38 rutas curadas · 16 regiones · 5 continentes · listas para duplicar' : '38 curated itineraries · 16 regions · 5 continents · fork any in one click'}
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

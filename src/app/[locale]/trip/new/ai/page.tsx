@@ -80,7 +80,8 @@ export default function AiTripGeneratorPage(){
     }, 2200);
 
     try {
-      const r = await fetch('/api/ai/generate-trip', {
+      // S30 STREAMING: fetch SSE endpoint, parse chunks, live update map
+      const r = await fetch('/api/ai/generate-trip/stream', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -92,27 +93,61 @@ export default function AiTripGeneratorPage(){
         })
       });
       clearInterval(interval);
-      const data = await r.json();
-      if(!r.ok || !data.trip){
-        if(data.error === 'free_limit_reached'){
-          setError(isEs ? 'Alcanzaste el límite Free (3 viajes). Sube a Pro.' : 'Free limit reached (3 trips). Upgrade to Pro.');
-        } else if(data.error === 'ai_unavailable'){
-          setError(isEs ? 'IA no disponible en este momento. Intenta más tarde.' : 'AI temporarily unavailable. Try again later.');
-        } else {
-          setError(data.error || 'generation_failed');
-        }
+      if(!r.body){
+        setError('stream_unsupported');
         setLoading(false);
         return;
       }
-      // Reveal animation: preview stops en mapa, redirect después de stagger
-      const stops = (data.trip.stops || []) as PreviewStop[];
-      setPreviewStops(stops);
-      setRedirectingSlug(data.trip.slug);
-      // Delay redirect para que se vea la animación completa (350ms/stop + 500ms buffer)
-      const revealMs = Math.min(stops.length * 350 + 800, 5000);
-      setTimeout(() => {
-        router.push(`/${locale}/trip/${data.trip.slug}`);
-      }, revealMs);
+      const reader = r.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let finalSlug: string | null = null;
+      const accStops: PreviewStop[] = [];
+
+      // eslint-disable-next-line no-constant-condition
+      while(true){
+        const { done, value } = await reader.read();
+        if(done) break;
+        buffer += decoder.decode(value, { stream: true });
+        // Parse SSE chunks (event: X\ndata: Y\n\n)
+        const events = buffer.split('\n\n');
+        buffer = events.pop() || '';
+        for(const raw of events){
+          const lines = raw.split('\n');
+          const eventLine = lines.find(l => l.startsWith('event: '));
+          const dataLine = lines.find(l => l.startsWith('data: '));
+          if(!eventLine || !dataLine) continue;
+          const eventName = eventLine.slice(7).trim();
+          const payload = (() => { try { return JSON.parse(dataLine.slice(6)); } catch { return null; } })();
+          if(!payload) continue;
+
+          if(eventName === 'stop'){
+            accStops.push({ name: payload.name, lat: payload.lat, lng: payload.lng, category: payload.category });
+            setPreviewStops([...accStops]);
+          } else if(eventName === 'complete'){
+            finalSlug = payload.slug;
+            setRedirectingSlug(payload.slug);
+          } else if(eventName === 'error'){
+            if(payload.error === 'free_limit_reached'){
+              setError(isEs ? 'Alcanzaste el límite Free (3 viajes). Sube a Pro.' : 'Free limit reached (3 trips). Upgrade to Pro.');
+            } else if(payload.error === 'ai_unavailable'){
+              setError(isEs ? 'IA no disponible en este momento. Intenta más tarde.' : 'AI temporarily unavailable. Try again later.');
+            } else {
+              setError(payload.error || 'generation_failed');
+            }
+            setLoading(false);
+            return;
+          }
+        }
+      }
+
+      if(finalSlug){
+        // Small buffer para que se vea la animación final
+        setTimeout(() => router.push(`/${locale}/trip/${finalSlug}`), 800);
+      } else {
+        setError('incomplete_stream');
+        setLoading(false);
+      }
     } catch (e) {
       clearInterval(interval);
       setError((e as Error).message);

@@ -10,7 +10,7 @@ export interface SeedStop {
   category?: 'city' | 'attraction' | 'nature' | 'food' | 'hotel' | 'other';
 }
 
-export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain' | 'pacific-northwest' | 'northeast' | 'southeast' | 'rockies';
+export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain' | 'pacific-northwest' | 'northeast' | 'southeast' | 'rockies' | 'italy' | 'iceland' | 'ireland' | 'australia' | 'new-zealand' | 'germany';
 
 export interface SeedTemplate {
   slug: string;                // URL: /california/san-francisco-classic-5-days
@@ -90,6 +90,42 @@ export const REGION_META: Record<Region, {
     tagline_en: 'Glacier, Yellowstone, Grand Teton — going-to-the-sun on US-2 and I-90.',
     tagline_es: 'Glacier, Yellowstone, Grand Teton — going-to-the-sun por US-2 e I-90.',
     hero_image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80'
+  },
+  italy: {
+    slug: 'italy', name_en: 'Italy 🇮🇹', name_es: 'Italia 🇮🇹',
+    tagline_en: 'Amalfi Coast SS163, Tuscany hills, Cinque Terre — UNESCO scenic drives.',
+    tagline_es: 'Costa Amalfitana SS163, colinas de Toscana, Cinque Terre — drives UNESCO.',
+    hero_image: 'https://images.unsplash.com/photo-1533904333078-4c0d040e6c22?w=1200&q=80'
+  },
+  iceland: {
+    slug: 'iceland', name_en: 'Iceland 🇮🇸', name_es: 'Islandia 🇮🇸',
+    tagline_en: 'Ring Road (Route 1) — 1,322 km · glaciers, waterfalls, volcanoes, black sand.',
+    tagline_es: 'Ring Road (Ruta 1) — 1,322 km · glaciares, cascadas, volcanes, playa negra.',
+    hero_image: 'https://images.unsplash.com/photo-1490650034439-fd184c3c86a5?w=1200&q=80'
+  },
+  ireland: {
+    slug: 'ireland', name_en: 'Ireland 🇮🇪', name_es: 'Irlanda 🇮🇪',
+    tagline_en: 'Ring of Kerry N70 179 km · Wild Atlantic Way · Cliffs of Moher.',
+    tagline_es: 'Ring of Kerry N70 179 km · Wild Atlantic Way · Cliffs of Moher.',
+    hero_image: 'https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?w=1200&q=80'
+  },
+  australia: {
+    slug: 'australia', name_en: 'Australia 🇦🇺', name_es: 'Australia 🇦🇺',
+    tagline_en: 'Great Ocean Road B100 · Twelve Apostles · Sydney to Melbourne.',
+    tagline_es: 'Great Ocean Road B100 · Doce Apóstoles · Sydney a Melbourne.',
+    hero_image: 'https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=1200&q=80'
+  },
+  'new-zealand': {
+    slug: 'new-zealand', name_en: 'New Zealand 🇳🇿', name_es: 'Nueva Zelanda 🇳🇿',
+    tagline_en: 'South Island SH1/SH6 · Milford Sound · Franz Josef Glacier · Queenstown.',
+    tagline_es: 'Isla Sur SH1/SH6 · Milford Sound · Glaciar Franz Josef · Queenstown.',
+    hero_image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=80'
+  },
+  germany: {
+    slug: 'germany', name_en: 'Germany 🇩🇪', name_es: 'Alemania 🇩🇪',
+    tagline_en: 'Romantic Road B25 · Bavaria castles · Rothenburg · Neuschwanstein.',
+    tagline_es: 'Ruta Romántica B25 · castillos de Baviera · Rothenburg · Neuschwanstein.',
+    hero_image: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200&q=80'
   }
 };
 
@@ -763,6 +799,154 @@ export const ROCKIES_TEMPLATES: SeedTemplate[] = [
   }
 ];
 
+// S31: 6 templates iconic globales (Europe + Oceania + Iceland)
+export const ITALY_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'amalfi-coast-cinque-terre-7-days',
+    region: 'italy',
+    title: 'Amalfi Coast + Cinque Terre — 7 days',
+    seo_description: 'Costiera Amalfitana SS163 (UNESCO 50km) + Cinque Terre + Tuscan hills. Positano, Amalfi, Ravello, Vernazza, Siena in 7 days.',
+    seo_keywords: ['amalfi coast itinerary', 'cinque terre road trip', 'italy 7 days', 'costiera amalfitana ss163'],
+    origin_city: 'Naples',
+    destination_city: 'Florence',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1533904333078-4c0d040e6c22?w=1200&q=80',
+    highway_notes: ['SS163 Amalfitana (50km UNESCO)', 'A1/E45 Autostrada del Sole', 'SS1 Aurelia (Liguria coast)'],
+    stops: [
+      { name: 'Naples (Spaccanapoli)', lat: 40.8518, lng: 14.2681, duration_min: 240, category: 'city' },
+      { name: 'Positano', lat: 40.6280, lng: 14.4842, duration_min: 300, category: 'city' },
+      { name: 'Amalfi', lat: 40.6340, lng: 14.6028, duration_min: 240, category: 'city' },
+      { name: 'Ravello (Villa Cimbrone)', lat: 40.6497, lng: 14.6116, duration_min: 180, category: 'attraction' },
+      { name: 'Vernazza (Cinque Terre)', lat: 44.1354, lng: 9.6849, duration_min: 240, category: 'city' },
+      { name: 'Manarola (Cinque Terre)', lat: 44.1064, lng: 9.7275, duration_min: 180, category: 'city' },
+      { name: 'Florence (Ponte Vecchio)', lat: 43.7679, lng: 11.2531, duration_min: 480, category: 'city' }
+    ]
+  }
+];
+
+export const ICELAND_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'iceland-ring-road-10-days',
+    region: 'iceland',
+    title: 'Iceland Ring Road — 10 days',
+    seo_description: 'Route 1 completa (1,322 km): Golden Circle, Vík black sand beach, Jökulsárlón glacier lagoon, Mývatn, Akureyri, Snæfellsnes.',
+    seo_keywords: ['iceland ring road itinerary', 'route 1 iceland', 'iceland 10 days', 'golden circle jokulsarlon'],
+    origin_city: 'Reykjavik',
+    destination_city: 'Reykjavik',
+    days_count: 10,
+    hero_image_url: 'https://images.unsplash.com/photo-1490650034439-fd184c3c86a5?w=1200&q=80',
+    highway_notes: ['Route 1 Ring Road (1,322 km around whole country)', 'Route 36 Golden Circle', 'Route 54 Snæfellsnes Peninsula'],
+    stops: [
+      { name: 'Reykjavik (Hallgrímskirkja)', lat: 64.1466, lng: -21.9426, duration_min: 240, category: 'city' },
+      { name: 'Þingvellir National Park', lat: 64.2559, lng: -21.1295, duration_min: 180, category: 'nature' },
+      { name: 'Gullfoss Waterfall', lat: 64.3271, lng: -20.1201, duration_min: 90, category: 'nature' },
+      { name: 'Geysir Hot Springs', lat: 64.3141, lng: -20.3013, duration_min: 60, category: 'nature' },
+      { name: 'Reynisfjara Black Sand Beach (Vík)', lat: 63.4058, lng: -19.0446, duration_min: 120, category: 'nature' },
+      { name: 'Jökulsárlón Glacier Lagoon', lat: 64.0764, lng: -16.2306, duration_min: 240, category: 'nature' },
+      { name: 'Mývatn Nature Baths', lat: 65.6289, lng: -16.8477, duration_min: 180, category: 'nature' },
+      { name: 'Akureyri', lat: 65.6835, lng: -18.1105, duration_min: 240, category: 'city' },
+      { name: 'Snæfellsjökull National Park', lat: 64.8080, lng: -23.7772, duration_min: 300, category: 'nature' }
+    ]
+  }
+];
+
+export const IRELAND_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'ireland-ring-of-kerry-5-days',
+    region: 'ireland',
+    title: 'Ring of Kerry + Wild Atlantic Way — 5 days',
+    seo_description: 'Ring of Kerry N70 (179 km) + Cliffs of Moher + Killarney National Park. Charming Irish villages Kenmare, Sneem, Waterville.',
+    seo_keywords: ['ring of kerry itinerary', 'wild atlantic way', 'ireland 5 days', 'cliffs of moher road trip'],
+    origin_city: 'Killarney',
+    destination_city: 'Galway',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?w=1200&q=80',
+    highway_notes: ['N70 Ring of Kerry (179 km loop)', 'N71 Killarney to Kenmare', 'Wild Atlantic Way (2,500 km coastal)'],
+    stops: [
+      { name: 'Killarney National Park', lat: 52.0139, lng: -9.5030, duration_min: 480, category: 'nature' },
+      { name: 'Muckross House', lat: 52.0247, lng: -9.5044, duration_min: 180, category: 'attraction' },
+      { name: 'Kenmare', lat: 51.8807, lng: -9.5836, duration_min: 180, category: 'city' },
+      { name: 'Sneem', lat: 51.8371, lng: -9.9017, duration_min: 90, category: 'city' },
+      { name: 'Waterville', lat: 51.8262, lng: -10.1741, duration_min: 120, category: 'city' },
+      { name: 'Cliffs of Moher', lat: 52.9715, lng: -9.4309, duration_min: 240, category: 'nature' },
+      { name: 'Galway (Latin Quarter)', lat: 53.2707, lng: -9.0568, duration_min: 300, category: 'city' }
+    ]
+  }
+];
+
+export const AUSTRALIA_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'great-ocean-road-4-days',
+    region: 'australia',
+    title: 'Great Ocean Road — 4 days',
+    seo_description: 'B100 Great Ocean Road (243 km): Twelve Apostles, Loch Ard Gorge, Bells Beach, Otway Rainforest. Melbourne → Warrnambool.',
+    seo_keywords: ['great ocean road itinerary', 'twelve apostles road trip', 'australia 4 days', 'b100 melbourne warrnambool'],
+    origin_city: 'Melbourne',
+    destination_city: 'Warrnambool',
+    days_count: 4,
+    hero_image_url: 'https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=1200&q=80',
+    highway_notes: ['B100 Great Ocean Road (243 km)', 'A1 Princes Highway (parallel express)', 'C119 Otway scenic'],
+    stops: [
+      { name: 'Melbourne (Federation Square)', lat: -37.8180, lng: 144.9691, duration_min: 240, category: 'city' },
+      { name: 'Bells Beach', lat: -38.3705, lng: 144.2822, duration_min: 90, category: 'nature' },
+      { name: 'Lorne', lat: -38.5401, lng: 143.9767, duration_min: 240, category: 'city' },
+      { name: 'Great Otway National Park', lat: -38.7853, lng: 143.5000, duration_min: 300, category: 'nature' },
+      { name: 'Twelve Apostles', lat: -38.6633, lng: 143.1044, duration_min: 180, category: 'nature' },
+      { name: 'Loch Ard Gorge', lat: -38.6467, lng: 143.0733, duration_min: 120, category: 'nature' },
+      { name: 'Warrnambool', lat: -38.3823, lng: 142.4844, duration_min: 240, category: 'city' }
+    ]
+  }
+];
+
+export const NEW_ZEALAND_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'new-zealand-south-island-10-days',
+    region: 'new-zealand',
+    title: 'New Zealand South Island — 10 days',
+    seo_description: 'SH1/SH6 Christchurch → Queenstown → Milford Sound → Franz Josef → Nelson. Lord of the Rings landscapes.',
+    seo_keywords: ['new zealand south island itinerary', 'milford sound road trip', 'nz 10 days', 'queenstown franz josef'],
+    origin_city: 'Christchurch',
+    destination_city: 'Christchurch',
+    days_count: 10,
+    hero_image_url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=80',
+    highway_notes: ['SH1 South Island east coast', 'SH6 West Coast + Fiordland', 'SH94 Milford Road (only road to Milford Sound)'],
+    stops: [
+      { name: 'Christchurch (Botanic Gardens)', lat: -43.5321, lng: 172.6362, duration_min: 240, category: 'city' },
+      { name: 'Lake Tekapo (Church of the Good Shepherd)', lat: -44.0055, lng: 170.4805, duration_min: 180, category: 'nature' },
+      { name: 'Mount Cook National Park', lat: -43.7346, lng: 170.0955, duration_min: 300, category: 'nature' },
+      { name: 'Queenstown (Skyline Gondola)', lat: -45.0312, lng: 168.6626, duration_min: 480, category: 'city' },
+      { name: 'Milford Sound', lat: -44.6708, lng: 167.9265, duration_min: 480, category: 'nature' },
+      { name: 'Wanaka (That Wanaka Tree)', lat: -44.6976, lng: 169.1470, duration_min: 240, category: 'nature' },
+      { name: 'Franz Josef Glacier', lat: -43.4664, lng: 170.1856, duration_min: 300, category: 'nature' },
+      { name: 'Nelson (Abel Tasman)', lat: -41.2706, lng: 173.2840, duration_min: 480, category: 'nature' }
+    ]
+  }
+];
+
+export const GERMANY_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'germany-romantic-road-5-days',
+    region: 'germany',
+    title: 'Germany Romantic Road — 5 days',
+    seo_description: 'Romantische Straße (B25, 350 km): Würzburg → Rothenburg ob der Tauber → Nördlingen → Augsburg → Neuschwanstein → Füssen.',
+    seo_keywords: ['romantic road germany', 'rothenburg neuschwanstein road trip', 'germany 5 days', 'bavaria castles itinerary'],
+    origin_city: 'Würzburg',
+    destination_city: 'Füssen',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200&q=80',
+    highway_notes: ['B25 Romantic Road (350 km Würzburg → Füssen)', 'A7 Autobahn (parallel express)', 'B17 Fürstenweg (Alpine end)'],
+    stops: [
+      { name: 'Würzburg Residence (UNESCO)', lat: 49.7929, lng: 9.9394, duration_min: 240, category: 'attraction' },
+      { name: 'Rothenburg ob der Tauber', lat: 49.3777, lng: 10.1786, duration_min: 480, category: 'city' },
+      { name: 'Dinkelsbühl', lat: 49.0708, lng: 10.3167, duration_min: 180, category: 'city' },
+      { name: 'Nördlingen (Meteor crater town)', lat: 48.8517, lng: 10.4870, duration_min: 180, category: 'city' },
+      { name: 'Augsburg (Fuggerei)', lat: 48.3705, lng: 10.8978, duration_min: 240, category: 'city' },
+      { name: 'Neuschwanstein Castle', lat: 47.5576, lng: 10.7498, duration_min: 300, category: 'attraction' },
+      { name: 'Füssen Old Town', lat: 47.5720, lng: 10.7015, duration_min: 240, category: 'city' }
+    ]
+  }
+];
+
 // Unified export para el seed endpoint
 export const ALL_TEMPLATES: SeedTemplate[] = [
   ...CALIFORNIA_TEMPLATES,
@@ -774,5 +958,11 @@ export const ALL_TEMPLATES: SeedTemplate[] = [
   ...PACIFIC_NORTHWEST_TEMPLATES,
   ...NORTHEAST_TEMPLATES,
   ...SOUTHEAST_TEMPLATES,
-  ...ROCKIES_TEMPLATES
+  ...ROCKIES_TEMPLATES,
+  ...ITALY_TEMPLATES,
+  ...ICELAND_TEMPLATES,
+  ...IRELAND_TEMPLATES,
+  ...AUSTRALIA_TEMPLATES,
+  ...NEW_ZEALAND_TEMPLATES,
+  ...GERMANY_TEMPLATES
 ];

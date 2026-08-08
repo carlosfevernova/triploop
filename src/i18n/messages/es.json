@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "TripLoop — Planeador IA de road trips · 6 regiones · bilingüe EN+ES",
-    "description": "Describe tu viaje en una frase, obtén itinerario completo en 30 segundos. 24 templates curados: California, Nevada, Arizona, Utah, Southwest USA y España. Alertas IA, calculadora presupuestos, cargadores EV, reorganización por vuelo. Bilingüe nativo. Bot WhatsApp. PWA offline."
+    "title": "TripLoop — Planeador IA de road trips · 16 regiones mundiales · bilingüe EN+ES",
+    "description": "Describe tu viaje en una frase, obtén itinerario en 30 segundos. 38 rutas icónicas curadas en 5 continentes: USA (California PCH, Route 66, Blue Ridge), Europa (España, Italia Amalfi, Islandia Ring Road, Irlanda Kerry, Alemania Ruta Romántica), Oceanía (Great Ocean Road, NZ Isla Sur). Alertas IA, calculadora presupuesto, cargadores EV, bot WhatsApp, PWA offline."
   },
   "nav": {
     "features": "Funciones", "pricing": "Precios", "howItWorks": "Cómo funciona",
@@ -37,13 +37,13 @@
     "stops": "paradas"
   },
   "hero": {
-    "eyebrow": "Beta · 6 regiones · Ahora en España 🇪🇸",
+    "eyebrow": "Beta · 16 regiones mundiales · 5 continentes 🌍",
     "titlePart1": "El planeador IA de road trips",
-    "titlePart2": "que sí vas a usar.",
-    "subtitle": "Describe tu viaje en una frase — obtén itinerario completo con coordenadas reales en 30 segundos. Bilingüe EN+ES, precios con impuestos, bot WhatsApp, PWA offline. 24 templates curados: California, Nevada, Arizona, Utah, Southwest y España.",
+    "titlePart2": "para donde sea que manejes.",
+    "subtitle": "Describe tu viaje en una frase — mira las paradas aparecer en el mapa en tiempo real. 38 rutas icónicas curadas: PCH · Route 66 · Costa Amalfitana · Ring Road Islandia · Ring of Kerry · Great Ocean Road · NZ Isla Sur · Ruta Romántica. Bilingüe EN+ES · Bot WhatsApp · PWA offline.",
     "ctaPrimary": "Prueba AI Trip Generator",
     "ctaSecondary": "Ver un viaje de ejemplo",
-    "trustPill": "24 templates · 5 endpoints IA · bilingüe nativo",
+    "trustPill": "38 rutas icónicas · 16 regiones · 5 continentes",
     "emailPlaceholder": "tu@correo.com",
     "emailButton": "Avísame",
     "emailSuccess": "Listo. Te avisamos apenas abramos.",

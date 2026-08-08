@@ -129,6 +129,70 @@ export const CURATED_POIS: Record<Region, CuratedPOI[]> = {
     { name: 'Sun Studio (Memphis)', lat: 35.1385, lng: -90.0389, category: 'attraction', iconic: true, avg_visit_min: 120 },
     { name: 'St. Louis Gateway Arch', lat: 38.6247, lng: -90.1848, category: 'attraction', iconic: true, avg_visit_min: 180 }
   ],
+  italy: [
+    { name: 'Positano', lat: 40.6280, lng: 14.4842, category: 'city', iconic: true, best_time: 'shoulder season sep-oct', avg_visit_min: 300, tip: 'Steep streets — pack comfortable shoes' },
+    { name: 'Amalfi Cathedral', lat: 40.6340, lng: 14.6028, category: 'attraction', iconic: true, avg_visit_min: 120 },
+    { name: 'Ravello (Villa Cimbrone)', lat: 40.6497, lng: 14.6116, category: 'attraction', iconic: true, avg_visit_min: 180, tip: 'Terrace of Infinity — sunset unreal' },
+    { name: 'Vernazza (Cinque Terre)', lat: 44.1354, lng: 9.6849, category: 'city', iconic: true, avg_visit_min: 240 },
+    { name: 'Manarola (Cinque Terre)', lat: 44.1064, lng: 9.7275, category: 'city', iconic: true, best_time: 'sunset from Nessun Dorma', avg_visit_min: 180 },
+    { name: 'Florence (Ponte Vecchio)', lat: 43.7679, lng: 11.2531, category: 'city', iconic: true, avg_visit_min: 240 },
+    { name: 'Duomo di Firenze', lat: 43.7731, lng: 11.2560, category: 'attraction', iconic: true, avg_visit_min: 180, tip: 'Book Brunelleschi dome climb 2 weeks ahead' },
+    { name: 'Uffizi Gallery', lat: 43.7678, lng: 11.2554, category: 'attraction', iconic: true, avg_visit_min: 240, tip: 'Reserve ticket online — 3h queue walk-in' },
+    { name: 'Colosseum (Rome)', lat: 41.8902, lng: 12.4922, category: 'attraction', iconic: true, avg_visit_min: 180 },
+    { name: 'Vatican (St Peter\'s)', lat: 41.9022, lng: 12.4534, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Naples (Spaccanapoli)', lat: 40.8518, lng: 14.2681, category: 'food', avg_visit_min: 240, tip: 'Pizza at Da Michele or Sorbillo — the classics' }
+  ],
+  iceland: [
+    { name: 'Reykjavik (Hallgrímskirkja)', lat: 64.1466, lng: -21.9426, category: 'attraction', iconic: true, avg_visit_min: 180 },
+    { name: 'Blue Lagoon', lat: 63.8804, lng: -22.4495, category: 'attraction', iconic: true, avg_visit_min: 240, tip: 'Book weeks ahead — sold out' },
+    { name: 'Þingvellir National Park', lat: 64.2559, lng: -21.1295, category: 'nature', iconic: true, avg_visit_min: 180 },
+    { name: 'Gullfoss Waterfall', lat: 64.3271, lng: -20.1201, category: 'nature', iconic: true, avg_visit_min: 90 },
+    { name: 'Geysir Hot Springs', lat: 64.3141, lng: -20.3013, category: 'nature', iconic: true, avg_visit_min: 60 },
+    { name: 'Seljalandsfoss', lat: 63.6156, lng: -19.9884, category: 'nature', iconic: true, avg_visit_min: 90 },
+    { name: 'Skógafoss', lat: 63.5321, lng: -19.5114, category: 'nature', iconic: true, avg_visit_min: 60 },
+    { name: 'Reynisfjara Black Sand Beach', lat: 63.4058, lng: -19.0446, category: 'nature', iconic: true, avg_visit_min: 120 },
+    { name: 'Jökulsárlón Glacier Lagoon', lat: 64.0764, lng: -16.2306, category: 'nature', iconic: true, best_time: 'summer for iceberg cruise', avg_visit_min: 240 },
+    { name: 'Diamond Beach', lat: 64.0416, lng: -16.1795, category: 'nature', iconic: true, avg_visit_min: 90 }
+  ],
+  ireland: [
+    { name: 'Cliffs of Moher', lat: 52.9715, lng: -9.4309, category: 'nature', iconic: true, best_time: 'sunset', avg_visit_min: 240 },
+    { name: 'Killarney National Park', lat: 52.0139, lng: -9.5030, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Ring of Kerry (Molls Gap)', lat: 51.9317, lng: -9.6903, category: 'nature', iconic: true, avg_visit_min: 90 },
+    { name: 'Kenmare Stone Circle', lat: 51.8807, lng: -9.5836, category: 'attraction', avg_visit_min: 60 },
+    { name: 'Dingle Peninsula (Slea Head)', lat: 52.1128, lng: -10.4592, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Galway (Latin Quarter)', lat: 53.2707, lng: -9.0568, category: 'city', iconic: true, avg_visit_min: 240 },
+    { name: 'Dublin Trinity College (Book of Kells)', lat: 53.3441, lng: -6.2577, category: 'attraction', iconic: true, avg_visit_min: 180 }
+  ],
+  australia: [
+    { name: 'Twelve Apostles', lat: -38.6633, lng: 143.1044, category: 'nature', iconic: true, best_time: 'sunset', avg_visit_min: 180 },
+    { name: 'Loch Ard Gorge', lat: -38.6467, lng: 143.0733, category: 'nature', iconic: true, avg_visit_min: 120 },
+    { name: 'Bells Beach', lat: -38.3705, lng: 144.2822, category: 'nature', iconic: true, avg_visit_min: 90 },
+    { name: 'Great Otway National Park', lat: -38.7853, lng: 143.5000, category: 'nature', iconic: true, avg_visit_min: 300 },
+    { name: 'Lorne', lat: -38.5401, lng: 143.9767, category: 'city', avg_visit_min: 240 },
+    { name: 'Sydney Opera House', lat: -33.8568, lng: 151.2153, category: 'attraction', iconic: true, avg_visit_min: 180 },
+    { name: 'Bondi Beach', lat: -33.8908, lng: 151.2743, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Melbourne (Federation Square)', lat: -37.8180, lng: 144.9691, category: 'city', avg_visit_min: 240 }
+  ],
+  'new-zealand': [
+    { name: 'Milford Sound', lat: -44.6708, lng: 167.9265, category: 'nature', iconic: true, best_time: 'first cruise 9am', avg_visit_min: 480 },
+    { name: 'Mount Cook National Park', lat: -43.7346, lng: 170.0955, category: 'nature', iconic: true, avg_visit_min: 300 },
+    { name: 'Queenstown (Skyline)', lat: -45.0312, lng: 168.6626, category: 'city', iconic: true, avg_visit_min: 480 },
+    { name: 'Lake Tekapo (Church Good Shepherd)', lat: -44.0055, lng: 170.4805, category: 'nature', iconic: true, best_time: 'starry night dark-sky reserve', avg_visit_min: 180 },
+    { name: 'That Wanaka Tree', lat: -44.6976, lng: 169.1470, category: 'nature', iconic: true, best_time: 'sunrise', avg_visit_min: 60 },
+    { name: 'Franz Josef Glacier', lat: -43.4664, lng: 170.1856, category: 'nature', iconic: true, avg_visit_min: 300 },
+    { name: 'Abel Tasman National Park', lat: -40.9333, lng: 173.0000, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Hobbiton (North Island)', lat: -37.8721, lng: 175.6822, category: 'attraction', iconic: true, avg_visit_min: 180, tip: 'Book tour only entry' }
+  ],
+  germany: [
+    { name: 'Neuschwanstein Castle', lat: 47.5576, lng: 10.7498, category: 'attraction', iconic: true, best_time: 'first ticket 9am', avg_visit_min: 300, tip: 'Book weeks ahead — sold out summer' },
+    { name: 'Rothenburg ob der Tauber', lat: 49.3777, lng: 10.1786, category: 'city', iconic: true, avg_visit_min: 480, tip: 'Best walled town in Germany' },
+    { name: 'Würzburg Residence (UNESCO)', lat: 49.7929, lng: 9.9394, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Dinkelsbühl', lat: 49.0708, lng: 10.3167, category: 'city', avg_visit_min: 180 },
+    { name: 'Augsburg (Fuggerei)', lat: 48.3705, lng: 10.8978, category: 'attraction', avg_visit_min: 240 },
+    { name: 'Berlin Brandenburg Gate', lat: 52.5163, lng: 13.3777, category: 'attraction', iconic: true, avg_visit_min: 90 },
+    { name: 'Munich (Marienplatz)', lat: 48.1374, lng: 11.5755, category: 'city', iconic: true, avg_visit_min: 240 },
+    { name: 'Cologne Cathedral', lat: 50.9413, lng: 6.9583, category: 'attraction', iconic: true, avg_visit_min: 180 }
+  ],
   rockies: [
     { name: 'Lake McDonald (Glacier NP)', lat: 48.5820, lng: -113.9260, category: 'nature', iconic: true, avg_visit_min: 240 },
     { name: 'Going-to-the-Sun Road (Logan Pass)', lat: 48.6960, lng: -113.7180, category: 'nature', iconic: true, best_time: 'open jul-sep only', avg_visit_min: 480 },

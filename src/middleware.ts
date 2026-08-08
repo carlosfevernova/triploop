@@ -24,6 +24,12 @@ const PUBLIC_SEO_PREFIXES = [
   '/en/northeast', '/es/northeast',
   '/en/southeast', '/es/southeast',
   '/en/rockies', '/es/rockies',
+  '/en/italy', '/es/italy',
+  '/en/iceland', '/es/iceland',
+  '/en/ireland', '/es/ireland',
+  '/en/australia', '/es/australia',
+  '/en/new-zealand', '/es/new-zealand',
+  '/en/germany', '/es/germany',
   '/embed'
 ];
 

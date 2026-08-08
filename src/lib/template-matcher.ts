@@ -20,7 +20,13 @@ const REGION_KEYWORDS: Record<Region, string[]> = {
   'pacific-northwest': ['pacific northwest', 'pnw', 'seattle', 'portland', 'olympic', 'mt rainier', 'mount rainier', 'cascade', 'oregon coast', 'cannon beach'],
   northeast: ['northeast', 'new england', 'boston', 'vermont', 'maine', 'new hampshire', 'acadia', 'kancamagus', 'blue ridge', 'shenandoah', 'smoky mountain', 'appalachian', 'asheville', 'foliage', 'leaf peeping'],
   southeast: ['southeast', 'florida keys', 'key west', 'miami', 'overseas highway', 'seven mile bridge', 'mississippi', 'new orleans', 'memphis', 'blues', 'natchez', 'great river'],
-  rockies: ['rockies', 'rocky mountains', 'glacier', 'yellowstone', 'grand teton', 'jackson', 'aspen', 'denver', 'vail', 'montana', 'wyoming', 'colorado', 'going-to-the-sun']
+  rockies: ['rockies', 'rocky mountains', 'glacier', 'yellowstone', 'grand teton', 'jackson', 'aspen', 'denver', 'vail', 'montana', 'wyoming', 'colorado', 'going-to-the-sun'],
+  italy: ['italy', 'italia', 'amalfi', 'positano', 'cinque terre', 'florence', 'firenze', 'rome', 'roma', 'tuscany', 'toscana', 'naples', 'napoli', 'ravello', 'siena'],
+  iceland: ['iceland', 'islandia', 'reykjavik', 'ring road', 'golden circle', 'jökulsárlón', 'jokulsarlon', 'vik', 'akureyri', 'mývatn', 'myvatn', 'snæfellsnes'],
+  ireland: ['ireland', 'irlanda', 'kerry', 'killarney', 'kenmare', 'cliffs of moher', 'galway', 'dublin', 'wild atlantic', 'wicklow'],
+  australia: ['australia', 'great ocean road', 'twelve apostles', '12 apostles', 'melbourne', 'sydney', 'warrnambool', 'lorne', 'bells beach'],
+  'new-zealand': ['new zealand', 'nueva zelanda', 'queenstown', 'milford sound', 'christchurch', 'franz josef', 'wanaka', 'tekapo', 'south island', 'nelson', 'abel tasman'],
+  germany: ['germany', 'alemania', 'romantic road', 'neuschwanstein', 'rothenburg', 'würzburg', 'wurzburg', 'füssen', 'fussen', 'bavaria', 'baviera', 'augsburg', 'dinkelsbühl']
 };
 
 const INTEREST_KEYWORDS: Record<string, string[]> = {
