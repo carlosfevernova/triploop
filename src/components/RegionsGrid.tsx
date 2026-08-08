@@ -32,6 +32,12 @@ const REGIONS = [
     subtitle_en: 'Grand Circle, Route 66', subtitle_es: 'Grand Circle, Route 66',
     image: 'https://images.unsplash.com/photo-1544986581-efac024faf62?w=800&auto=format&fit=crop',
     trips: 2
+  },
+  {
+    slug: 'spain', name_en: 'Spain 🇪🇸', name_es: 'España 🇪🇸',
+    subtitle_en: 'Madrid, Barcelona, Andalucía', subtitle_es: 'Madrid, Barcelona, Andalucía',
+    image: 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=800&auto=format&fit=crop',
+    trips: 4
   }
 ];
 
