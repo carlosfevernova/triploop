@@ -53,6 +53,7 @@ export interface Trip {
   total_duration_s?: number;
   is_public: boolean;
   owner_id?: string;
+  region?: string;
   created_at: string;
   updated_at: string;
 }

@@ -13,6 +13,16 @@ interface Body {
   locale?: 'en' | 'es';
   currency?: string;
   unit_system?: 'metric' | 'imperial';
+  context?: {
+    budget?: 'low' | 'mid' | 'high';
+    travelers?: number;
+    tripType?: 'family' | 'couple' | 'friends' | 'solo' | 'business';
+    interests?: string[];
+    pace?: 'relaxed' | 'balanced' | 'packed';
+    hasKids?: boolean;
+    kidAges?: string;
+    accessibility?: boolean;
+  };
 }
 
 interface AiTripSpec {

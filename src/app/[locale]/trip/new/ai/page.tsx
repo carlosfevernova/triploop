@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { QuestionnaireWizard, type QuestionnaireAnswers } from '@/components/trip/QuestionnaireWizard';
 
 const EXAMPLES = {
   en: [
@@ -38,10 +39,12 @@ export default function AiTripGeneratorPage(){
   const locale = (params.locale === 'es' ? 'es' : 'en') as 'en' | 'es';
   const isEs = locale === 'es';
 
+  const [mode, setMode] = useState<'choose' | 'wizard' | 'free'>('choose');
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [phase, setPhase] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [wizardAnswers, setWizardAnswers] = useState<QuestionnaireAnswers | null>(null);
 
   const submit = async () => {
     if(prompt.trim().length < 10){
@@ -67,7 +70,8 @@ export default function AiTripGeneratorPage(){
           prompt: prompt.trim(),
           locale,
           currency: isEs ? 'EUR' : 'USD',
-          unit_system: isEs ? 'metric' : 'imperial'
+          unit_system: isEs ? 'metric' : 'imperial',
+          context: wizardAnswers ? { budget: wizardAnswers.budget, travelers: wizardAnswers.travelers, tripType: wizardAnswers.tripType, interests: wizardAnswers.interests, pace: wizardAnswers.pace, hasKids: wizardAnswers.hasKids, kidAges: wizardAnswers.kidAges, accessibility: wizardAnswers.accessibility } : undefined
         })
       });
       clearInterval(interval);
@@ -112,7 +116,65 @@ export default function AiTripGeneratorPage(){
           </p>
         </div>
 
+        {mode === 'choose' && (
+          <div className="mb-8 grid gap-4 md:grid-cols-2">
+            <button
+              onClick={() => setMode('wizard')}
+              className="group flex flex-col items-start gap-2 rounded-card border-2 border-ocean-200 bg-gradient-to-br from-ocean-50 to-white p-6 text-left transition hover:border-ocean-500 hover:shadow-glow"
+            >
+              <span className="inline-flex items-center gap-2 rounded-pill bg-ocean-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-ocean-800">
+                {isEs ? '⭐ Recomendado' : '⭐ Recommended'}
+              </span>
+              <h3 className="font-display text-lg font-semibold text-ink-900">
+                {isEs ? '🧭 Modo guiado (4 preguntas)' : '🧭 Guided mode (4 questions)'}
+              </h3>
+              <p className="text-sm text-ink-600">
+                {isEs ? 'Cuestionario rápido: tipo, viajeros, presupuesto, intereses. Genera itinerario más preciso.' : 'Quick wizard: type, travelers, budget, interests. Generates more accurate itinerary.'}
+              </p>
+            </button>
+            <button
+              onClick={() => setMode('free')}
+              className="group flex flex-col items-start gap-2 rounded-card border-2 border-ink-100 bg-white p-6 text-left transition hover:border-coral-500 hover:shadow-card-hover"
+            >
+              <span className="inline-flex items-center gap-2 rounded-pill bg-ink-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-ink-600">
+                {isEs ? 'Rápido' : 'Fast'}
+              </span>
+              <h3 className="font-display text-lg font-semibold text-ink-900">
+                {isEs ? '✏️ Modo libre (texto)' : '✏️ Free mode (text)'}
+              </h3>
+              <p className="text-sm text-ink-600">
+                {isEs ? 'Escribe tu viaje en tus propias palabras. Ideal si ya sabes qué quieres.' : 'Type your trip in your own words. Ideal if you know what you want.'}
+              </p>
+            </button>
+          </div>
+        )}
+
+        {mode === 'wizard' && (
+          <QuestionnaireWizard
+            locale={locale}
+            onSkip={() => setMode('free')}
+            onComplete={(answers, suffix) => {
+              setWizardAnswers(answers);
+              const base = isEs
+                ? `Viaje personalizado usando el cuestionario`
+                : `Personalized trip based on questionnaire`;
+              setPrompt(base + suffix);
+              setMode('free');
+            }}
+          />
+        )}
+
+        {mode === 'free' && (
         <div className="rounded-card border border-ink-100 bg-white p-6 shadow-card md:p-8">
+          {wizardAnswers && (
+            <div className="mb-4 flex items-center gap-2 rounded-pill bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">
+              <span aria-hidden>✅</span>
+              {isEs ? 'Contexto del cuestionario cargado' : 'Questionnaire context loaded'}
+              <button onClick={() => { setWizardAnswers(null); setPrompt(''); setMode('choose'); }} className="ml-auto text-emerald-600 hover:text-emerald-900 underline">
+                {isEs ? 'Reiniciar' : 'Reset'}
+              </button>
+            </div>
+          )}
           <label htmlFor="ai-prompt" className="mb-2 block text-xs font-semibold uppercase tracking-wider text-ink-500">
             {isEs ? 'Describe tu viaje ideal' : 'Describe your ideal trip'}
           </label>
@@ -151,6 +213,7 @@ export default function AiTripGeneratorPage(){
             </button>
           )}
         </div>
+        )}
 
         <div className="mt-10">
           <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-ink-500">

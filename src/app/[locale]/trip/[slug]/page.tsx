@@ -21,6 +21,7 @@ const TripMap = dynamic(() => import('@/components/trip/TripMap').then(m => ({ d
 const AiSuggestionsPanel = dynamic(() => import('@/components/trip/AiSuggestionsPanel').then(m => ({ default: m.AiSuggestionsPanel })), { ssr: false });
 const NearbyPanel = dynamic(() => import('@/components/trip/NearbyPanel').then(m => ({ default: m.NearbyPanel })), { ssr: false });
 const StaysAndActivitiesPanel = dynamic(() => import('@/components/trip/StaysAndActivitiesPanel').then(m => ({ default: m.StaysAndActivitiesPanel })), { ssr: false });
+const TripSidePanel = dynamic(() => import('@/components/trip/TripSidePanel').then(m => ({ default: m.TripSidePanel })), { ssr: false });
 
 export default function TripPage(){
   const params = useParams<{ locale: string; slug: string }>();
@@ -43,6 +44,7 @@ export default function TripPage(){
   const [aiOpen, setAiOpen] = useState(false);
   const [nearbyAnchor, setNearbyAnchor] = useState<TripStop | null>(null);
   const [staysOpen, setStaysOpen] = useState(false);
+  const [sidePanel, setSidePanel] = useState<null | 'budget' | 'insights'>(null);
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const routeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -299,6 +301,20 @@ export default function TripPage(){
               🎫 {isEs ? 'Reservar' : 'Book'}
             </button>
           )}
+          {trip.stops.length > 0 && (
+            <button
+              onClick={() => setSidePanel('budget')}
+              className="rounded-pill border border-emerald-300 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-500 hover:text-white"
+              title={isEs ? 'Presupuesto estimado' : 'Estimated budget'}
+            >💰 {isEs ? 'Presupuesto' : 'Budget'}</button>
+          )}
+          {trip.stops.length > 1 && (
+            <button
+              onClick={() => setSidePanel('insights')}
+              className="rounded-pill border border-red-300 bg-red-50 px-4 py-2 text-xs font-semibold text-red-800 transition hover:bg-red-500 hover:text-white"
+              title={isEs ? 'Alertas y consejos locales' : 'Warnings & local tips'}
+            >🚨 {isEs ? 'Consejos' : 'Tips'}</button>
+          )}
           {isOwnerOrAnon && (
             <button
               onClick={() => setAiOpen(true)}
@@ -362,6 +378,17 @@ export default function TripPage(){
         isEs={isEs}
         locale={locale}
       />
+
+      {/* Side panel: Budget + Insights */}
+      {sidePanel && (
+        <TripSidePanel
+          open={!!sidePanel}
+          onClose={() => setSidePanel(null)}
+          view={sidePanel}
+          trip={trip}
+          locale={locale as 'en' | 'es'}
+        />
+      )}
 
       {/* Collaborative editing toast */}
       <CollabToast change={lastRemoteChange} isEs={isEs} />
