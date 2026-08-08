@@ -36,23 +36,23 @@ function currentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
   return 'winter';
 }
 
-const SYSTEM_ES = `Eres un experto en viajes. Genera CHECKLIST de qué llevar personalizada al destino + temporada + tipo de viaje + si hay niños.
+const SYSTEM_ES = `Experto viajes. Genera CHECKLIST breve de qué llevar personalizada al destino.
 
 REGLAS:
-- 5-6 categorías: essentials (chargers/adaptadores/passport), clothing (por clima), gear (específico al destino), docs (reservas, seguros), health (medicinas región), kids (si aplica).
-- 4-8 items por categoría. Marcar essential=true solo lo IMPRESCINDIBLE.
-- Específicos al destino: "protector solar 50+ (Grand Canyon UV alto)", "chaqueta impermeable (fog Big Sur)", "adaptador enchufe europeo tipo F (España)".
-- Bilingüe: labels en español neutral. context_note 1 oración con razón principal ("Julio en Utah = 40°C, hidratación crítica").
-- JSON válido, sin markdown.`;
+- 4 categorías: essentials, clothing, gear, docs (+ kids si aplica).
+- 4-5 items por categoría. essential=true solo IMPRESCINDIBLE.
+- Destino-específico ("protector 50+ Grand Canyon", "chaqueta fog Big Sur").
+- context_note 1 oración con razón principal.
+- SOLO JSON válido, sin markdown, sin explicación.`;
 
-const SYSTEM_EN = `You are a travel expert. Generate personalized packing CHECKLIST tailored to destination + season + trip type + kids if applicable.
+const SYSTEM_EN = `Travel expert. Generate brief packing CHECKLIST tailored to destination.
 
 RULES:
-- 5-6 categories: essentials (chargers/adapters/passport), clothing (by climate), gear (destination-specific), docs (reservations, insurance), health (region-specific meds), kids (if applicable).
-- 4-8 items per category. Mark essential=true only ABSOLUTE must-haves.
-- Destination-specific: "sunscreen 50+ (Grand Canyon high UV)", "waterproof jacket (Big Sur fog)", "European plug adapter type F (Spain)".
-- context_note 1 sentence with main reason ("July in Utah = 40°C, hydration critical").
-- Valid JSON, no markdown.`;
+- 4 categories: essentials, clothing, gear, docs (+ kids if applicable).
+- 4-5 items per category. essential=true only MUST-haves.
+- Destination-specific ("sunscreen 50+ Grand Canyon", "waterproof jacket Big Sur fog").
+- context_note 1 sentence with main reason.
+- JSON ONLY, no markdown, no explanation.`;
 
 function schema(locale: 'en' | 'es'){
   return `{
@@ -102,7 +102,7 @@ ${schema(locale)}`;
       categories: ChecklistCategory[];
       context_note: string;
       season: string;
-    }>(system, userPrompt, { maxTokens: 1500, title: 'TripLoop Checklist', timeoutMs: 30000 });
+    }>(system, userPrompt, { maxTokens: 1200, title: 'TripLoop Checklist', timeoutMs: 45000 });
 
     if(!result) return NextResponse.json({ error: 'ai_unavailable' }, { status: 503 });
 
