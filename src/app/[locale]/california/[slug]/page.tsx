@@ -1,0 +1,216 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import { createPublicClient } from '@/lib/supabase-admin';
+import { ForkButton } from './ForkButton';
+
+interface PageProps {
+  params: Promise<{ locale: string; slug: string }>;
+}
+
+interface TemplateRow {
+  id: string; slug: string; title: string; seo_description?: string;
+  seo_keywords?: string[]; days_count: number; travelers_count?: number;
+  origin_city?: string; destination_city?: string; hero_image_url?: string;
+  stops: Array<{ id?: string; name: string; address?: string; lat: number; lng: number; duration_min?: number; category?: string }>;
+  total_distance_m?: number; total_duration_s?: number;
+  is_template?: boolean;
+}
+
+async function getTemplate(slug: string): Promise<TemplateRow | null> {
+  const sb = createPublicClient();
+  const { data } = await sb.from('trips')
+    .select('id, slug, title, seo_description, seo_keywords, days_count, travelers_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, is_template')
+    .eq('slug', slug)
+    .eq('is_template', true)
+    .maybeSingle();
+  return (data as TemplateRow) || null;
+}
+
+export async function generateStaticParams(){
+  const sb = createPublicClient();
+  const { data } = await sb.from('trips').select('slug').eq('is_template', true).eq('is_public', true);
+  const slugs = (data || []).map((r: { slug: string }) => r.slug);
+  return ['en', 'es'].flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
+}
+
+export const revalidate = 3600;
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const tpl = await getTemplate(slug);
+  if(!tpl){
+    return { title: 'Not found', robots: { index: false } };
+  }
+  const title = `${tpl.title} — TripLoop`;
+  const description = tpl.seo_description || `Discover ${tpl.title} — a ${tpl.days_count}-day California itinerary you can fork and customize.`;
+  const ogImage = tpl.hero_image_url || `https://triploop-six.vercel.app/api/og?title=${encodeURIComponent(tpl.title)}`;
+  return {
+    title,
+    description,
+    keywords: tpl.seo_keywords,
+    alternates: {
+      canonical: `/${locale}/california/${slug}`,
+      languages: {
+        en: `/en/california/${slug}`,
+        es: `/es/california/${slug}`
+      }
+    },
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      images: [{ url: ogImage, width: 1200, height: 630 }]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage]
+    }
+  };
+}
+
+export default async function CaliforniaTemplatePage({ params }: PageProps){
+  const { locale, slug } = await params;
+  const isEs = locale === 'es';
+  const tpl = await getTemplate(slug);
+  if(!tpl) notFound();
+
+  const stops = tpl.stops || [];
+  const totalDurationHours = tpl.total_duration_s ? Math.round(tpl.total_duration_s / 3600) : null;
+  const totalKm = tpl.total_distance_m ? Math.round(tpl.total_distance_m / 1000) : null;
+
+  // Structured data schema.org/TouristTrip
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: tpl.title,
+    description: tpl.seo_description,
+    duration: `P${tpl.days_count}D`,
+    touristType: 'International travelers',
+    itinerary: {
+      '@type': 'ItemList',
+      itemListElement: stops.map((s, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'TouristAttraction',
+          name: s.name,
+          address: s.address,
+          geo: { '@type': 'GeoCoordinates', latitude: s.lat, longitude: s.lng }
+        }
+      }))
+    }
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <main className="min-h-screen bg-white">
+        {/* Hero */}
+        <section className="relative isolate overflow-hidden bg-ink-900 text-white">
+          {tpl.hero_image_url && (
+            <>
+              <img
+                src={tpl.hero_image_url}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover opacity-60"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-ink-900/40 via-ink-900/50 to-ink-900/90" />
+            </>
+          )}
+          <div className="relative z-10 mx-auto max-w-5xl px-6 py-24 md:py-32">
+            <Link href={`/${locale}/california`} className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white">
+              ← {isEs ? 'Todas las rutas de California' : 'All California trips'}
+            </Link>
+            <h1 className="font-display text-display-lg tracking-tight md:text-display-xl">{tpl.title}</h1>
+            {tpl.seo_description && (
+              <p className="mt-4 max-w-3xl text-lg text-white/90">{tpl.seo_description}</p>
+            )}
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <span className="rounded-pill bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider backdrop-blur">
+                {tpl.days_count} {isEs ? 'días' : 'days'}
+              </span>
+              <span className="rounded-pill bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider backdrop-blur">
+                {stops.length} {isEs ? 'paradas' : 'stops'}
+              </span>
+              {totalKm && (
+                <span className="rounded-pill bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider backdrop-blur">
+                  ~{totalKm} km
+                </span>
+              )}
+              {totalDurationHours && (
+                <span className="rounded-pill bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider backdrop-blur">
+                  ~{totalDurationHours}h {isEs ? 'de manejo' : 'drive'}
+                </span>
+              )}
+            </div>
+            <div className="mt-8">
+              <ForkButton slug={tpl.slug} locale={locale} isEs={isEs} />
+            </div>
+          </div>
+        </section>
+
+        {/* Timeline */}
+        <section className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+          <h2 className="mb-8 font-display text-display-md tracking-tight text-ink-900">
+            {isEs ? 'Itinerario' : 'The itinerary'}
+          </h2>
+          <ol className="space-y-4">
+            {stops.map((s, i) => (
+              <li key={i} className="flex gap-4 rounded-card border border-ink-100 bg-white p-5 shadow-card">
+                <div className="flex-shrink-0">
+                  <div className="grid h-10 w-10 place-items-center rounded-full bg-coral-500 font-semibold text-white">{i + 1}</div>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-display text-lg font-semibold text-ink-900">{s.name}</h3>
+                  {s.address && <p className="text-sm text-ink-500">{s.address}</p>}
+                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-ink-500">
+                    {s.duration_min ? <span>⏱ {formatMin(s.duration_min, isEs)}</span> : null}
+                    {s.category ? <span className="rounded-pill bg-ink-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider">{s.category}</span> : null}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-12 rounded-card border border-coral-200 bg-gradient-to-br from-coral-50 to-white p-8 text-center">
+            <p className="mb-4 text-ink-700">
+              {isEs
+                ? '¿Te gustó esta ruta? Duplícala en 1 clic y personalízala con tus fechas y paradas.'
+                : 'Love this trip? Fork it in one click and customize with your own dates and stops.'}
+            </p>
+            <ForkButton slug={tpl.slug} locale={locale} isEs={isEs} big />
+          </div>
+        </section>
+
+        {/* Related */}
+        <section className="border-t border-ink-100 bg-ink-50/40 py-16">
+          <div className="mx-auto max-w-6xl px-6 text-center">
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink-500">
+              {isEs ? 'Más rutas' : 'More trips'}
+            </p>
+            <Link
+              href={`/${locale}/california`}
+              className="mt-3 inline-block font-display text-display-sm text-ink-900 hover:text-coral-600"
+            >
+              {isEs ? 'Explorar todas las rutas de California →' : 'Explore all California trips →'}
+            </Link>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}
+
+function formatMin(min: number, isEs?: boolean){
+  if(min < 60) return `${min} min`;
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  return m ? `${h}h ${m}m` : `${h}h`;
+}
