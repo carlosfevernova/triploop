@@ -3,7 +3,8 @@ import { createAdminClient } from '@/lib/supabase-admin';
 import { ALL_TEMPLATES } from '@/lib/templates-seed';
 import { TEMPLATE_TRANSLATIONS_ES } from '@/lib/templates-seed-es';
 
-export const runtime = 'edge';
+// Node runtime: evita problemas de tree-shaking de imports en edge bundle
+export const runtime = 'nodejs';
 
 // One-shot seed endpoint. Idempotent: upserts por slug.
 // Protegido con SEED_TOKEN env var (setear en Vercel + llamar con header X-Seed-Token).
@@ -15,7 +16,8 @@ export async function POST(req: Request){
   }
 
   const sb = createAdminClient();
-  const results: Array<{ slug: string; ok: boolean; error?: string }> = [];
+  const results: Array<{ slug: string; ok: boolean; error?: string; translated?: boolean }> = [];
+  const translationsKeysCount = Object.keys(TEMPLATE_TRANSLATIONS_ES || {}).length;
 
   for(const tpl of ALL_TEMPLATES){
     const stops = tpl.stops.map((s, i) => ({
@@ -49,10 +51,10 @@ export async function POST(req: Request){
       is_public: true,
       owner_id: null
     }, { onConflict: 'slug' });
-    results.push({ slug: tpl.slug, ok: !error, error: error?.message });
+    results.push({ slug: tpl.slug, ok: !error, error: error?.message, translated: !!esTranslation });
   }
 
-  return NextResponse.json({ seeded: results.length, results });
+  return NextResponse.json({ seeded: results.length, translations_keys: translationsKeysCount, results });
 }
 
 // GET para verificar cuántos templates existen
