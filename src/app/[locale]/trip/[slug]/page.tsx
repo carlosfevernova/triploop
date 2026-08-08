@@ -7,7 +7,9 @@ import { ItineraryPanel } from '@/components/trip/ItineraryPanel';
 import { AiSuggestionsPanel } from '@/components/trip/AiSuggestionsPanel';
 import { NearbyPanel } from '@/components/trip/NearbyPanel';
 import { StaysAndActivitiesPanel } from '@/components/trip/StaysAndActivitiesPanel';
+import { SaveOfflineButton } from '@/components/trip/SaveOfflineButton';
 import { createClient } from '@/lib/supabase-browser';
+import { getOfflineTrip, saveTripOffline } from '@/lib/offline-cache';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
 
 export default function TripPage(){
@@ -40,7 +42,7 @@ export default function TripPage(){
     createClient().auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
   }, []);
 
-  // Initial load
+  // Initial load con fallback offline (IDB)
   useEffect(() => {
     (async () => {
       try {
@@ -50,7 +52,24 @@ export default function TripPage(){
         setTrip(data.trip);
         if(data.trip.route_geometry?.legs) setLegs(data.trip.route_geometry.legs);
         lastSavedRef.current = JSON.stringify({ stops: data.trip.stops, ...settingsOf(data.trip) });
-      } catch (e) { setError((e as Error).message); }
+        // Refresh copia offline si ya existe (mantenerla actualizada silenciosamente)
+        try {
+          const existing = await getOfflineTrip(slug);
+          if(existing) await saveTripOffline(data.trip);
+        } catch { /* ignore */ }
+      } catch (e) {
+        // Fallback offline: intentar IDB
+        try {
+          const offline = await getOfflineTrip(slug);
+          if(offline){
+            setTrip(offline);
+            if(offline.route_geometry?.legs) setLegs(offline.route_geometry.legs);
+            lastSavedRef.current = JSON.stringify({ stops: offline.stops, ...settingsOf(offline) });
+            return;
+          }
+        } catch { /* ignore */ }
+        setError((e as Error).message);
+      }
       finally { setLoading(false); }
     })();
   }, [slug]);
@@ -213,6 +232,7 @@ export default function TripPage(){
           <span className="font-display text-lg font-semibold tracking-tight">TripLoop</span>
         </Link>
         <div className="flex items-center gap-2">
+          <SaveOfflineButton trip={trip} isEs={isEs} />
           {trip.stops.length > 0 && (
             <button
               onClick={() => setStaysOpen(true)}
