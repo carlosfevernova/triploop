@@ -180,25 +180,54 @@ ${existing_stops.length ? `Already added — DO NOT REPEAT: ${existing_stops.map
 Coordinates must be real and precise (5 decimals). Prioritize logical geographic clustering.`;
 
     const providersTried: Array<{ provider: Provider; error?: string }> = [];
+    const TIMEOUT_MS = 8000;
 
-    for(const call of [callFireworks, callGroq, callAnthropic]){
-      const result = await call(system, user);
-      providersTried.push({ provider: result.provider, error: result.ok ? undefined : result.error });
-      if(!result.ok) continue;
-      const items = extractJsonArray(result.raw || '');
-      if(items.length === 0){
-        providersTried[providersTried.length - 1].error = 'empty_or_invalid_json';
-        continue;
-      }
+    // Fase 1: Fireworks + Groq en PARALELO (los 2 open-source rápidos).
+    // Promise.race → first non-empty parseable response wins.
+    const openSourceCallers = [callFireworks, callGroq];
+    const parallelPromises = openSourceCallers.map((call) =>
+      Promise.race<ProviderResult>([
+        call(system, user),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), TIMEOUT_MS))
+      ]).then((result) => {
+        if(!result.ok) throw new Error(`${result.provider}: ${result.error}`);
+        const items = extractJsonArray(result.raw || '');
+        if(items.length === 0) throw new Error(`${result.provider}: empty_json`);
+        return { result, items };
+      })
+    );
+
+    try {
+      const winner = await Promise.any(parallelPromises);
+      providersTried.push({ provider: winner.result.provider });
       const existing = new Set(existing_stops.map((s) => s.name.toLowerCase()));
-      const filtered = items.filter((s) => !existing.has((s.name || '').toLowerCase()));
+      const filtered = winner.items.filter((s) => !existing.has((s.name || '').toLowerCase()));
       return NextResponse.json({
-        suggestions: toSuggestions(filtered, result.provider),
+        suggestions: toSuggestions(filtered, winner.result.provider),
         mode: 'ai',
-        provider: result.provider,
-        model: result.model,
-        providers_tried: providersTried
+        provider: winner.result.provider,
+        model: winner.result.model,
+        providers_tried: providersTried,
+        strategy: 'parallel_race'
       });
+    } catch (e) {
+      // Ambos open-source fallaron/timeout → last-resort Anthropic secuencial
+      providersTried.push({ provider: 'fireworks', error: 'race_lost_or_failed' });
+      providersTried.push({ provider: 'groq', error: 'race_lost_or_failed' });
+      const anth = await callAnthropic(system, user);
+      providersTried.push({ provider: anth.provider, error: anth.ok ? undefined : anth.error });
+      if(anth.ok){
+        const items = extractJsonArray(anth.raw || '');
+        if(items.length > 0){
+          const existing = new Set(existing_stops.map((s) => s.name.toLowerCase()));
+          const filtered = items.filter((s) => !existing.has((s.name || '').toLowerCase()));
+          return NextResponse.json({
+            suggestions: toSuggestions(filtered, anth.provider),
+            mode: 'ai', provider: anth.provider, model: anth.model,
+            providers_tried: providersTried, strategy: 'anthropic_fallback'
+          });
+        }
+      }
     }
 
     // All providers unavailable → curated fallback

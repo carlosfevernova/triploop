@@ -1,14 +1,14 @@
-'use client';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 
-export function Pricing(){
-  const t = useTranslations('pricing');
-  const params = useParams<{ locale: string }>();
-  const locale = params?.locale || 'en';
+interface Props { locale: string }
+
+// Server Component — cero JS al bundle inicial (era +8KB useTranslations client)
+export async function Pricing({ locale }: Props){
+  const t = await getTranslations('pricing');
   const free = t.raw('free') as { name: string; price: string; period: string; cta: string; features: string[] };
   const pro = t.raw('pro') as { name: string; price: string; period: string; badge: string; cta: string; features: string[] };
+
   return (
     <section id="pricing" className="py-28">
       <div className="mx-auto max-w-7xl px-6">
@@ -17,7 +17,6 @@ export function Pricing(){
           <p className="mt-4 text-lg text-ink-500 text-balance">{t('subtitle')}</p>
         </div>
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-          {/* Free */}
           <div className="rounded-card border border-ink-100 bg-white p-10">
             <h3 className="font-display text-xl font-semibold text-ink-900">{free.name}</h3>
             <div className="mt-4 flex items-baseline gap-2">
@@ -27,7 +26,7 @@ export function Pricing(){
             <ul className="mt-8 space-y-3">
               {free.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-ink-700">
-                  <span className="mt-0.5 text-emerald-500">✓</span>
+                  <span className="mt-0.5 text-emerald-500" aria-hidden>✓</span>
                   <span>{f}</span>
                 </li>
               ))}
@@ -37,7 +36,6 @@ export function Pricing(){
             </Link>
           </div>
 
-          {/* Pro */}
           <div className="relative rounded-card border-2 border-coral-500 bg-white p-10 shadow-card-hover">
             <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-pill bg-coral-500 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
               {pro.badge}
@@ -50,7 +48,7 @@ export function Pricing(){
             <ul className="mt-8 space-y-3">
               {pro.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-ink-700">
-                  <span className="mt-0.5 text-coral-500">✦</span>
+                  <span className="mt-0.5 text-coral-500" aria-hidden>✦</span>
                   <span>{f}</span>
                 </li>
               ))}

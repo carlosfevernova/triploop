@@ -34,7 +34,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <RegionsGrid />
         <CitiesGrid />
         <Comparison isEs={isEs} />
-        <Pricing />
+        <Pricing locale={locale} />
         <FAQ isEs={isEs} />
       </main>
       <Footer />

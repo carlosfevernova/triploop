@@ -1,17 +1,23 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { TripMap } from '@/components/trip/TripMap';
 import { ItineraryPanel } from '@/components/trip/ItineraryPanel';
-import { AiSuggestionsPanel } from '@/components/trip/AiSuggestionsPanel';
-import { NearbyPanel } from '@/components/trip/NearbyPanel';
-import { StaysAndActivitiesPanel } from '@/components/trip/StaysAndActivitiesPanel';
 import { SaveOfflineButton } from '@/components/trip/SaveOfflineButton';
 import { PdfExportButton } from '@/components/trip/PdfExportButton';
 import { createClient } from '@/lib/supabase-browser';
 import { getOfflineTrip, saveTripOffline } from '@/lib/offline-cache';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
+
+// Dynamic imports: MapLibre (~85KB) + panels (~30KB) lazy-loaded solo al necesitarse
+const TripMap = dynamic(() => import('@/components/trip/TripMap').then(m => ({ default: m.TripMap })), {
+  ssr: false,
+  loading: () => <div className="h-full w-full animate-pulse bg-ink-100" />
+});
+const AiSuggestionsPanel = dynamic(() => import('@/components/trip/AiSuggestionsPanel').then(m => ({ default: m.AiSuggestionsPanel })), { ssr: false });
+const NearbyPanel = dynamic(() => import('@/components/trip/NearbyPanel').then(m => ({ default: m.NearbyPanel })), { ssr: false });
+const StaysAndActivitiesPanel = dynamic(() => import('@/components/trip/StaysAndActivitiesPanel').then(m => ({ default: m.StaysAndActivitiesPanel })), { ssr: false });
 
 export default function TripPage(){
   const params = useParams<{ locale: string; slug: string }>();

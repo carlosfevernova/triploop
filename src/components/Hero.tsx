@@ -1,30 +1,12 @@
-'use client';
-import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { getTranslations } from 'next-intl/server';
+import { WaitlistForm } from './WaitlistForm';
 
-export function Hero(){
-  const t = useTranslations('hero');
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle'|'loading'|'success'|'error'>('idle');
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
-    setStatus('loading');
-    try {
-      const r = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-      setStatus(r.ok ? 'success' : 'error');
-      if(r.ok) setEmail('');
-    } catch { setStatus('error'); }
-  };
+// Server Component: only WaitlistForm es client
+export async function Hero(){
+  const t = await getTranslations('hero');
 
   return (
     <section id="hero" className="relative overflow-hidden">
-      {/* Background: warm gradient + subtle grain */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-coral-50 via-white to-ocean-400/10" />
       <div className="grain absolute inset-0 -z-10" />
 
@@ -48,34 +30,15 @@ export function Hero(){
             {t('subtitle')}
           </p>
 
-          {/* Email capture */}
-          <form onSubmit={submit} className="mt-10 flex max-w-lg flex-col gap-3 sm:flex-row">
-            <input
-              type="email"
-              required
-              placeholder={t('emailPlaceholder')}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={status === 'loading' || status === 'success'}
-              className="flex-1 rounded-pill border border-ink-200 bg-white px-5 py-3.5 text-sm text-ink-800 placeholder-ink-400 outline-none transition focus:border-coral-500 focus:ring-4 focus:ring-coral-100 disabled:opacity-60"
-            />
-            <button
-              type="submit"
-              disabled={status === 'loading' || status === 'success'}
-              className="rounded-pill bg-coral-500 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-coral-600 hover:shadow-glow disabled:opacity-60"
-            >
-              {status === 'loading' ? '…' : status === 'success' ? '✓' : t('emailButton')}
-            </button>
-          </form>
-          {status === 'success' && (
-            <p className="mt-3 text-sm text-emerald-600">{t('emailSuccess')}</p>
-          )}
-          {status === 'error' && (
-            <p className="mt-3 text-sm text-coral-600">{t('emailError')}</p>
-          )}
+          <WaitlistForm
+            placeholder={t('emailPlaceholder')}
+            buttonLabel={t('emailButton')}
+            successLabel={t('emailSuccess')}
+            errorLabel={t('emailError')}
+          />
 
           <div className="mt-8 flex items-center gap-3">
-            <div className="flex -space-x-2">
+            <div className="flex -space-x-2" aria-hidden>
               {['bg-coral-400','bg-ocean-500','bg-emerald-400','bg-amber-400'].map((c, i) => (
                 <div key={i} className={`h-8 w-8 rounded-full border-2 border-white ${c}`} />
               ))}
@@ -84,10 +47,9 @@ export function Hero(){
           </div>
         </div>
 
-        {/* RIGHT: Visual mockup */}
+        {/* RIGHT: Visual mockup — pure server-rendered, cero JS */}
         <div className="relative">
           <div className="relative rounded-card border border-ink-100 bg-white p-6 shadow-card-hover">
-            {/* Faux map header */}
             <div className="mb-4 flex items-center justify-between border-b border-ink-100 pb-3">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-coral-500" />
@@ -96,7 +58,6 @@ export function Hero(){
               <span className="rounded-pill bg-ink-50 px-2 py-0.5 text-[10px] font-semibold uppercase text-ink-500">14 days</span>
             </div>
 
-            {/* Faux itinerary */}
             <div className="space-y-3">
               {[
                 { day: 1, from: 'LAX', to: 'Santa Monica', dist: '25 km / 15 mi', time: '45 min' },
@@ -118,7 +79,6 @@ export function Hero(){
               ))}
             </div>
 
-            {/* Faux total */}
             <div className="mt-5 flex items-center justify-between border-t border-ink-100 pt-4">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">Total (with tax)</div>
@@ -131,7 +91,6 @@ export function Hero(){
             </div>
           </div>
 
-          {/* Floating decorations */}
           <div className="absolute -right-6 -top-6 rounded-pill border border-ink-100 bg-white px-4 py-2 text-xs font-semibold text-ink-700 shadow-card">
             🚗 Optimized · saves 4h vs Google
           </div>
