@@ -141,17 +141,20 @@ async function callAnthropic(system: string, user: string): Promise<AiTripSpec |
 async function callOpenRouter(system: string, user: string): Promise<AiTripSpec | null> {
   const key = process.env.OPENROUTER_API_KEY;
   if(!key) return null;
-  // Modelos free actualizados 2026-08 (OpenRouter removió llama/deepseek free tier)
+  // Modelos free 2026-08. openrouter/free routea a proveedores rápidos (nvidia, gemma).
+  // Timeout 20s por modelo — evita bloquear producción si un provider rate-limita.
   const models = [
     'openrouter/free',
-    'nvidia/nemotron-3-super-120b-a12b:free',
     'google/gemma-4-31b-it:free',
-    'nvidia/nemotron-3-ultra-550b-a55b:free'
+    'nvidia/nemotron-3-super-120b-a12b:free'
   ];
   for(const model of models){
     try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 20000);
       const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
+        signal: controller.signal,
         headers: {
           'authorization': `Bearer ${key}`,
           'content-type': 'application/json',
@@ -160,7 +163,7 @@ async function callOpenRouter(system: string, user: string): Promise<AiTripSpec 
         },
         body: JSON.stringify({
           model,
-          max_tokens: 3000,
+          max_tokens: 2000,
           response_format: { type: 'json_object' },
           messages: [
             { role: 'system', content: system },
@@ -168,6 +171,7 @@ async function callOpenRouter(system: string, user: string): Promise<AiTripSpec 
           ]
         })
       });
+      clearTimeout(timeout);
       if(!r.ok) continue;
       const data = await r.json();
       const raw = data?.choices?.[0]?.message?.content || '';
