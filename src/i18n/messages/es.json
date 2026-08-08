@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "TripLoop — Planeador inteligente de viajes por California",
-    "description": "Deja de pelearte con Google Maps. Arma tu road trip por California en minutos con tiempos reales de manejo, precios con impuestos incluidos y kilómetros de verdad. Hecho para turistas internacionales."
+    "title": "TripLoop — Planeador IA de road trips · 6 regiones · bilingüe EN+ES",
+    "description": "Describe tu viaje en una frase, obtén itinerario completo en 30 segundos. 24 templates curados: California, Nevada, Arizona, Utah, Southwest USA y España. Alertas IA, calculadora presupuestos, cargadores EV, reorganización por vuelo. Bilingüe nativo. Bot WhatsApp. PWA offline."
   },
   "nav": {
     "features": "Funciones", "pricing": "Precios", "howItWorks": "Cómo funciona",
