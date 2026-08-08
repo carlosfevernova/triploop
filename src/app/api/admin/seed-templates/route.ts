@@ -31,7 +31,8 @@ export async function POST(req: Request){
     }));
     const esTranslation = TEMPLATE_TRANSLATIONS_ES[tpl.slug];
     const translations = esTranslation ? { es: esTranslation } : {};
-    const { error } = await sb.from('trips').upsert({
+    // Soft-fail highway_notes column (migration 015 puede no estar aplicada aún)
+    const upsertPayload: Record<string, unknown> = {
       slug: tpl.slug,
       region: tpl.region,
       title: tpl.title,
@@ -50,7 +51,15 @@ export async function POST(req: Request){
       is_template: true,
       is_public: true,
       owner_id: null
-    }, { onConflict: 'slug' });
+    };
+    if(tpl.highway_notes) upsertPayload.highway_notes = tpl.highway_notes;
+    let { error } = await sb.from('trips').upsert(upsertPayload, { onConflict: 'slug' });
+    if(error && error.message.includes('highway_notes')){
+      // Retry sin highway_notes (columna aún no existe)
+      delete upsertPayload.highway_notes;
+      const retry = await sb.from('trips').upsert(upsertPayload, { onConflict: 'slug' });
+      error = retry.error;
+    }
     results.push({ slug: tpl.slug, ok: !error, error: error?.message, translated: !!esTranslation });
   }
 

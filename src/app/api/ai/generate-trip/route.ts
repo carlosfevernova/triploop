@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase-admin';
 import { createClientFromRequest } from '@/lib/supabase-server';
 import { isProSubscription } from '@/lib/stripe-config';
 import { isAdminAuthed } from '@/lib/admin-guard';
+import { matchTemplate } from '@/lib/template-matcher';
 import type { TripStop } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -245,6 +246,34 @@ export async function POST(req: Request){
     }
 
     const locale = body.locale || 'en';
+
+    // === S28 CURATED-FIRST ===
+    // Antes de gastar tiempo/tokens con AI, intentar match con templates verificados.
+    // Match hit → return en <100ms sin llamar AI.
+    const curatedMatch = matchTemplate(body.prompt);
+    let curatedTripSpec: AiTripSpec | null = null;
+    let curatedProviderTag: string | null = null;
+    if(curatedMatch.matched && curatedMatch.template){
+      const t = curatedMatch.template;
+      const translations = locale === 'es' ? null : null; // el endpoint devuelve English base; frontend applyLocale hará ES si aplica
+      curatedTripSpec = {
+        title: t.title,
+        region_hint: t.region as AiTripSpec['region_hint'],
+        origin_city: t.origin_city,
+        destination_city: t.destination_city,
+        days_count: t.days_count,
+        travelers_count: 2,
+        stops: t.stops.map(s => ({
+          name: s.name, lat: s.lat, lng: s.lng,
+          category: (s.category as 'city'|'attraction'|'nature'|'food'|'hotel'|'other') || 'other',
+          duration_min: s.duration_min,
+          notes: undefined
+        }))
+      };
+      curatedProviderTag = `curated:${t.slug}`;
+      void translations; // usage guard
+    }
+
     const system = locale === 'es' ? SYSTEM_PROMPT_ES : SYSTEM_PROMPT_EN;
     const user = `${locale === 'es' ? 'Descripción del viaje del usuario' : 'User trip description'}: "${body.prompt.slice(0, 800)}"
 
@@ -253,9 +282,11 @@ ${jsonSchema(locale)}`;
 
     // Cadena de fallback: OpenRouter free → Cloudflare free → Fireworks → Groq → Anthropic
     // Estrategia: providers 100% gratuitos primero, luego paid
-    type Provider = 'openrouter' | 'cloudflare' | 'fireworks' | 'groq' | 'anthropic' | 'none';
-    let spec = await callOpenRouter(system, user);
-    let provider: Provider = spec ? 'openrouter' : 'none';
+    type Provider = 'openrouter' | 'cloudflare' | 'fireworks' | 'groq' | 'anthropic' | 'none' | 'curated';
+    let spec: AiTripSpec | null = curatedTripSpec;
+    let provider: Provider = curatedTripSpec ? 'curated' : 'none';
+    if(!spec) spec = await callOpenRouter(system, user);
+    if(!provider || provider === 'none') provider = spec ? 'openrouter' : 'none';
     if(!spec){
       spec = await callCloudflareAI(system, user);
       provider = spec ? 'cloudflare' : 'none';
@@ -343,6 +374,10 @@ ${jsonSchema(locale)}`;
     return NextResponse.json({
       trip,
       ai_provider: provider,
+      source: provider === 'curated' ? 'curated' : 'ai',
+      curated_template_slug: curatedProviderTag,
+      match_confidence: curatedMatch.confidence,
+      match_reasons: curatedMatch.reasons,
       stops_count: tripStops.length,
       region_hint: spec.region_hint || 'other'
     });

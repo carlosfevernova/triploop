@@ -10,7 +10,7 @@ export interface SeedStop {
   category?: 'city' | 'attraction' | 'nature' | 'food' | 'hotel' | 'other';
 }
 
-export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain';
+export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain' | 'pacific-northwest' | 'northeast' | 'southeast' | 'rockies';
 
 export interface SeedTemplate {
   slug: string;                // URL: /california/san-francisco-classic-5-days
@@ -23,6 +23,7 @@ export interface SeedTemplate {
   days_count: number;
   hero_image_url: string;      // Unsplash direct URLs (comercial OK)
   stops: SeedStop[];
+  highway_notes?: string[];    // "I-90", "US-101", "PCH (Highway 1)" — S27
 }
 
 export const REGION_META: Record<Region, {
@@ -65,6 +66,30 @@ export const REGION_META: Record<Region, {
     tagline_en: 'Madrid, Barcelona, Andalucía, and the Camino de Santiago — tapas + history + coast.',
     tagline_es: 'Madrid, Barcelona, Andalucía y el Camino de Santiago — tapas, historia y costa.',
     hero_image: 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=1200&q=80'
+  },
+  'pacific-northwest': {
+    slug: 'pacific-northwest', name_en: 'Pacific Northwest', name_es: 'Pacific Northwest',
+    tagline_en: 'Seattle, Portland, Olympic + Mt. Rainier — evergreen coast on I-5 and US-101.',
+    tagline_es: 'Seattle, Portland, Olympic y Mt. Rainier — costa siempreverde por I-5 y US-101.',
+    hero_image: 'https://images.unsplash.com/photo-1502175353174-a7a1a03b1b7e?w=1200&q=80'
+  },
+  northeast: {
+    slug: 'northeast', name_en: 'Northeast USA', name_es: 'Noreste USA',
+    tagline_en: 'New England fall foliage, Boston to Acadia on I-93 and Kancamagus Highway.',
+    tagline_es: 'Otoño en New England, Boston a Acadia por I-93 y Kancamagus Highway.',
+    hero_image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80'
+  },
+  southeast: {
+    slug: 'southeast', name_en: 'Southeast USA', name_es: 'Sureste USA',
+    tagline_en: 'Florida Keys Overseas Highway, Blue Ridge Parkway — beaches + mountains.',
+    tagline_es: 'Overseas Highway de los Florida Keys, Blue Ridge Parkway — playas y montañas.',
+    hero_image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80'
+  },
+  rockies: {
+    slug: 'rockies', name_en: 'Rocky Mountains', name_es: 'Montañas Rocosas',
+    tagline_en: 'Glacier, Yellowstone, Grand Teton — going-to-the-sun on US-2 and I-90.',
+    tagline_es: 'Glacier, Yellowstone, Grand Teton — going-to-the-sun por US-2 e I-90.',
+    hero_image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80'
   }
 };
 
@@ -563,6 +588,181 @@ export const SPAIN_TEMPLATES: SeedTemplate[] = [
   }
 ];
 
+// S27: 8 nuevas iconic USA routes (post-market-research 2026-08)
+export const PACIFIC_NORTHWEST_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'pacific-northwest-loop-7-days',
+    region: 'pacific-northwest',
+    title: 'Pacific Northwest Loop — 7 days',
+    seo_description: 'Seattle, Olympic National Park, Portland and Mt. Rainier — the definitive PNW road trip. I-5 spine + US-101 coast + Mt. Rainier scenic byways.',
+    seo_keywords: ['pacific northwest road trip', 'seattle portland itinerary', 'olympic national park route', 'mt rainier trip 7 days'],
+    origin_city: 'Seattle',
+    destination_city: 'Portland',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1502175353174-a7a1a03b1b7e?w=1200&q=80',
+    highway_notes: ['I-5 (Seattle → Portland spine)', 'US-101 (Olympic Peninsula loop)', 'WA-410 (Mt. Rainier scenic byway)'],
+    stops: [
+      { name: 'Pike Place Market (Seattle)', lat: 47.6089, lng: -122.3406, duration_min: 180, category: 'food' },
+      { name: 'Space Needle', lat: 47.6205, lng: -122.3493, duration_min: 120, category: 'attraction' },
+      { name: 'Olympic National Park (Hurricane Ridge)', lat: 47.9689, lng: -123.4989, duration_min: 480, category: 'nature' },
+      { name: 'Hoh Rainforest', lat: 47.8600, lng: -123.9349, duration_min: 240, category: 'nature' },
+      { name: 'Mt. Rainier National Park', lat: 46.8523, lng: -121.7603, duration_min: 480, category: 'nature' },
+      { name: 'Portland Pearl District', lat: 45.5289, lng: -122.6846, duration_min: 240, category: 'city' },
+      { name: 'Multnomah Falls', lat: 45.5762, lng: -122.1158, duration_min: 90, category: 'nature' }
+    ]
+  },
+  {
+    slug: 'oregon-coast-highway-5-days',
+    region: 'pacific-northwest',
+    title: 'Oregon Coast Highway — 5 days',
+    seo_description: 'US-101 from Astoria to Brookings — 363 miles of Oregon coastline. Cannon Beach, Cape Kiwanda, Thors Well and the Oregon Dunes.',
+    seo_keywords: ['oregon coast highway', 'us 101 oregon road trip', 'cannon beach itinerary', 'oregon dunes trip'],
+    origin_city: 'Astoria',
+    destination_city: 'Brookings',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1523592121529-f6dde35f079e?w=1200&q=80',
+    highway_notes: ['US-101 (Oregon Coast Highway — 363 miles)', 'OR-6 (Astoria to Tillamook)'],
+    stops: [
+      { name: 'Astoria Column', lat: 46.1830, lng: -123.8207, duration_min: 90, category: 'attraction' },
+      { name: 'Cannon Beach (Haystack Rock)', lat: 45.8918, lng: -123.9615, duration_min: 180, category: 'nature' },
+      { name: 'Cape Kiwanda (Pacific City)', lat: 45.2153, lng: -123.9791, duration_min: 120, category: 'nature' },
+      { name: 'Oregon Dunes National Recreation Area', lat: 43.7025, lng: -124.1067, duration_min: 180, category: 'nature' },
+      { name: 'Thor\'s Well (Cape Perpetua)', lat: 44.2810, lng: -124.1085, duration_min: 90, category: 'nature' },
+      { name: 'Brookings (Samuel H. Boardman)', lat: 42.0526, lng: -124.2843, duration_min: 240, category: 'nature' }
+    ]
+  }
+];
+
+export const NORTHEAST_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'new-england-fall-foliage-7-days',
+    region: 'northeast',
+    title: 'New England Fall Foliage — 7 days',
+    seo_description: 'Peak leaf-peeping route: Boston → Vermont → New Hampshire → Maine. I-93 + Kancamagus Highway + Route 100. Best late Sep to mid Oct.',
+    seo_keywords: ['new england fall foliage', 'leaf peeping road trip', 'kancamagus highway', 'vermont fall itinerary'],
+    origin_city: 'Boston',
+    destination_city: 'Acadia National Park',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80',
+    highway_notes: ['I-93 (Boston → White Mountains)', 'NH-112 Kancamagus Highway (34.5 mi scenic byway)', 'VT-100 (Vermont spine)', 'US-1 (Maine coast)'],
+    stops: [
+      { name: 'Boston Common', lat: 42.3554, lng: -71.0656, duration_min: 180, category: 'attraction' },
+      { name: 'Woodstock Vermont', lat: 43.6242, lng: -72.5187, duration_min: 240, category: 'city' },
+      { name: 'Kancamagus Highway (Sabbaday Falls)', lat: 43.9925, lng: -71.4034, duration_min: 240, category: 'nature' },
+      { name: 'Franconia Notch State Park', lat: 44.1585, lng: -71.6811, duration_min: 240, category: 'nature' },
+      { name: 'Portland Maine (Old Port)', lat: 43.6591, lng: -70.2568, duration_min: 240, category: 'city' },
+      { name: 'Acadia National Park (Cadillac Mountain)', lat: 44.3520, lng: -68.2247, duration_min: 480, category: 'nature' }
+    ]
+  },
+  {
+    slug: 'blue-ridge-parkway-5-days',
+    region: 'northeast',
+    title: 'Blue Ridge Parkway — 5 days',
+    seo_description: '469 miles of America\'s favorite drive: Shenandoah NP → Blue Ridge Parkway → Great Smoky Mountains. Speed limit 45mph, no commercial traffic.',
+    seo_keywords: ['blue ridge parkway itinerary', 'shenandoah great smokies road trip', 'appalachian scenic drive', 'blue ridge 5 days'],
+    origin_city: 'Waynesboro VA',
+    destination_city: 'Cherokee NC',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1519566335946-e6f65f0f4fdf?w=1200&q=80',
+    highway_notes: ['Blue Ridge Parkway (469 mi, 45mph max)', 'Skyline Drive (Shenandoah NP)', 'US-441 (Great Smokies)'],
+    stops: [
+      { name: 'Shenandoah National Park (Skyline Drive)', lat: 38.5312, lng: -78.3487, duration_min: 480, category: 'nature' },
+      { name: 'Peaks of Otter', lat: 37.4477, lng: -79.6039, duration_min: 180, category: 'nature' },
+      { name: 'Mabry Mill (Milepost 176)', lat: 36.7521, lng: -80.4028, duration_min: 90, category: 'attraction' },
+      { name: 'Asheville NC', lat: 35.5951, lng: -82.5515, duration_min: 480, category: 'city' },
+      { name: 'Great Smoky Mountains (Clingmans Dome)', lat: 35.5628, lng: -83.4986, duration_min: 240, category: 'nature' }
+    ]
+  }
+];
+
+export const SOUTHEAST_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'florida-keys-overseas-highway-4-days',
+    region: 'southeast',
+    title: 'Florida Keys Overseas Highway — 4 days',
+    seo_description: 'US-1 from Key Largo to Key West — 113 miles over 42 bridges including the iconic Seven Mile Bridge. Snorkel John Pennekamp, kayak Bahia Honda.',
+    seo_keywords: ['florida keys road trip', 'overseas highway itinerary', 'seven mile bridge', 'key west 4 days'],
+    origin_city: 'Miami',
+    destination_city: 'Key West',
+    days_count: 4,
+    hero_image_url: 'https://images.unsplash.com/photo-1580541631950-7282082b53fe?w=1200&q=80',
+    highway_notes: ['US-1 Overseas Highway (113 mi, 42 bridges)', 'Seven Mile Bridge (iconic)', 'MM 0 in Key West'],
+    stops: [
+      { name: 'John Pennekamp Coral Reef State Park (Key Largo)', lat: 25.1263, lng: -80.4028, duration_min: 240, category: 'nature' },
+      { name: 'Islamorada (Robbie\'s Tarpon)', lat: 24.8779, lng: -80.6989, duration_min: 180, category: 'attraction' },
+      { name: 'Bahia Honda State Park', lat: 24.6564, lng: -81.2792, duration_min: 240, category: 'nature' },
+      { name: 'Seven Mile Bridge', lat: 24.7011, lng: -81.1610, duration_min: 30, category: 'attraction' },
+      { name: 'Key West (Mallory Square)', lat: 24.5601, lng: -81.8071, duration_min: 240, category: 'city' },
+      { name: 'Ernest Hemingway Home', lat: 24.5510, lng: -81.8009, duration_min: 90, category: 'attraction' }
+    ]
+  },
+  {
+    slug: 'great-river-road-mississippi-10-days',
+    region: 'southeast',
+    title: 'Great River Road — 10 days',
+    seo_description: 'Following the Mississippi from Minneapolis to New Orleans. 3,000 miles across 10 states — blues, jazz, BBQ and paddleboats.',
+    seo_keywords: ['great river road', 'mississippi river road trip', 'minneapolis to new orleans', 'blues trail itinerary'],
+    origin_city: 'Minneapolis',
+    destination_city: 'New Orleans',
+    days_count: 10,
+    hero_image_url: 'https://images.unsplash.com/photo-1571893544028-06b07af6dade?w=1200&q=80',
+    highway_notes: ['Great River Road (National Scenic Byway 3,000 mi)', 'US-61 Blues Highway', 'I-55 (parallel express)'],
+    stops: [
+      { name: 'Minneapolis (Stone Arch Bridge)', lat: 44.9799, lng: -93.2571, duration_min: 240, category: 'city' },
+      { name: 'La Crosse Wisconsin', lat: 43.8014, lng: -91.2396, duration_min: 180, category: 'city' },
+      { name: 'St. Louis (Gateway Arch)', lat: 38.6247, lng: -90.1848, duration_min: 240, category: 'attraction' },
+      { name: 'Memphis (Beale Street + Sun Studio)', lat: 35.1387, lng: -90.0504, duration_min: 480, category: 'city' },
+      { name: 'Vicksburg National Military Park', lat: 32.3517, lng: -90.8479, duration_min: 180, category: 'attraction' },
+      { name: 'Natchez Mississippi', lat: 31.5604, lng: -91.4032, duration_min: 240, category: 'city' },
+      { name: 'New Orleans French Quarter', lat: 29.9584, lng: -90.0644, duration_min: 480, category: 'city' }
+    ]
+  }
+];
+
+export const ROCKIES_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'glacier-yellowstone-teton-8-days',
+    region: 'rockies',
+    title: 'Glacier · Yellowstone · Grand Teton — 8 days',
+    seo_description: 'The 3 crown jewels of the Rockies: Going-to-the-Sun Road in Glacier, Old Faithful in Yellowstone, and the Tetons. US-2 + US-89 + US-191.',
+    seo_keywords: ['glacier yellowstone road trip', 'grand teton itinerary', 'going to the sun road', 'rocky mountains 8 days'],
+    origin_city: 'Kalispell MT',
+    destination_city: 'Jackson WY',
+    days_count: 8,
+    hero_image_url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80',
+    highway_notes: ['Going-to-the-Sun Road (Glacier NP, closed Nov-May)', 'US-89 (Yellowstone north entrance)', 'US-191 (Yellowstone to Teton)', 'US-2 (Montana east-west)'],
+    stops: [
+      { name: 'Lake McDonald (Glacier NP)', lat: 48.5820, lng: -113.9260, duration_min: 240, category: 'nature' },
+      { name: 'Going-to-the-Sun Road (Logan Pass)', lat: 48.6960, lng: -113.7180, duration_min: 480, category: 'nature' },
+      { name: 'Mammoth Hot Springs (Yellowstone)', lat: 44.9776, lng: -110.7008, duration_min: 240, category: 'nature' },
+      { name: 'Old Faithful Geyser', lat: 44.4605, lng: -110.8281, duration_min: 180, category: 'nature' },
+      { name: 'Grand Canyon of the Yellowstone', lat: 44.7205, lng: -110.4972, duration_min: 240, category: 'nature' },
+      { name: 'Grand Teton National Park (Jenny Lake)', lat: 43.7508, lng: -110.7250, duration_min: 480, category: 'nature' },
+      { name: 'Jackson WY (Town Square)', lat: 43.4799, lng: -110.7624, duration_min: 240, category: 'city' }
+    ]
+  },
+  {
+    slug: 'colorado-rockies-loop-6-days',
+    region: 'rockies',
+    title: 'Colorado Rockies Loop — 6 days',
+    seo_description: 'Denver → Rocky Mountain NP → Aspen → Great Sand Dunes → Colorado Springs. I-70 mountain corridor + US-24 Independence Pass.',
+    seo_keywords: ['colorado road trip', 'rocky mountain national park itinerary', 'aspen independence pass', 'great sand dunes trip'],
+    origin_city: 'Denver',
+    destination_city: 'Colorado Springs',
+    days_count: 6,
+    hero_image_url: 'https://images.unsplash.com/photo-1503328427499-d92d1ac3d174?w=1200&q=80',
+    highway_notes: ['I-70 (Denver → Vail mountain corridor)', 'US-24 Independence Pass (Aspen, closed winter)', 'Trail Ridge Road (Rocky Mountain NP)', 'US-160 (Great Sand Dunes)'],
+    stops: [
+      { name: 'Denver Union Station', lat: 39.7527, lng: -105.0011, duration_min: 180, category: 'city' },
+      { name: 'Rocky Mountain National Park (Trail Ridge Road)', lat: 40.3856, lng: -105.6836, duration_min: 480, category: 'nature' },
+      { name: 'Vail Village', lat: 39.6403, lng: -106.3742, duration_min: 240, category: 'city' },
+      { name: 'Aspen (Maroon Bells)', lat: 39.0708, lng: -106.9890, duration_min: 240, category: 'nature' },
+      { name: 'Great Sand Dunes National Park', lat: 37.7326, lng: -105.5124, duration_min: 300, category: 'nature' },
+      { name: 'Garden of the Gods (Colorado Springs)', lat: 38.8783, lng: -104.8698, duration_min: 180, category: 'nature' }
+    ]
+  }
+];
+
 // Unified export para el seed endpoint
 export const ALL_TEMPLATES: SeedTemplate[] = [
   ...CALIFORNIA_TEMPLATES,
@@ -570,5 +770,9 @@ export const ALL_TEMPLATES: SeedTemplate[] = [
   ...ARIZONA_TEMPLATES,
   ...SOUTHWEST_TEMPLATES,
   ...UTAH_TEMPLATES,
-  ...SPAIN_TEMPLATES
+  ...SPAIN_TEMPLATES,
+  ...PACIFIC_NORTHWEST_TEMPLATES,
+  ...NORTHEAST_TEMPLATES,
+  ...SOUTHEAST_TEMPLATES,
+  ...ROCKIES_TEMPLATES
 ];

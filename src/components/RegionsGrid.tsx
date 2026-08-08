@@ -38,6 +38,30 @@ const REGIONS = [
     subtitle_en: 'Madrid, Barcelona, Andalucía', subtitle_es: 'Madrid, Barcelona, Andalucía',
     image: 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=800&auto=format&fit=crop',
     trips: 4
+  },
+  {
+    slug: 'pacific-northwest', name_en: 'Pacific Northwest', name_es: 'Pacific Northwest',
+    subtitle_en: 'Seattle, Portland, Olympic', subtitle_es: 'Seattle, Portland, Olympic',
+    image: 'https://images.unsplash.com/photo-1502175353174-a7a1a03b1b7e?w=800&auto=format&fit=crop',
+    trips: 2
+  },
+  {
+    slug: 'northeast', name_en: 'Northeast USA', name_es: 'Noreste USA',
+    subtitle_en: 'New England foliage, Blue Ridge', subtitle_es: 'Otoño New England, Blue Ridge',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop',
+    trips: 2
+  },
+  {
+    slug: 'southeast', name_en: 'Southeast USA', name_es: 'Sureste USA',
+    subtitle_en: 'Florida Keys, Mississippi River', subtitle_es: 'Florida Keys, Mississippi',
+    image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop',
+    trips: 2
+  },
+  {
+    slug: 'rockies', name_en: 'Rocky Mountains', name_es: 'Rocosas',
+    subtitle_en: 'Glacier, Yellowstone, Grand Teton', subtitle_es: 'Glacier, Yellowstone, Grand Teton',
+    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&auto=format&fit=crop',
+    trips: 2
   }
 ];
 
@@ -53,10 +77,10 @@ export function RegionsGrid(){
             {isEs ? 'Explora por región' : 'Explore by region'}
           </p>
           <h2 className="font-display text-display-lg text-ink-900 text-balance">
-            {isEs ? 'Road trips por todo el suroeste' : 'Road trips across the US Southwest'}
+            {isEs ? 'Road trips por USA y España' : 'Road trips across USA and Spain'}
           </h2>
           <p className="mt-3 text-lg text-ink-500">
-            {isEs ? '16 rutas curadas · 4 regiones · listas para duplicar' : '16 curated itineraries · 4 regions · fork any in one click'}
+            {isEs ? '32 rutas curadas · 10 regiones · listas para duplicar' : '32 curated itineraries · 10 regions · fork any in one click'}
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

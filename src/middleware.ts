@@ -20,6 +20,10 @@ const PUBLIC_SEO_PREFIXES = [
   '/en/whatsapp', '/es/whatsapp',
   '/en/utah', '/es/utah',
   '/en/spain', '/es/spain',
+  '/en/pacific-northwest', '/es/pacific-northwest',
+  '/en/northeast', '/es/northeast',
+  '/en/southeast', '/es/southeast',
+  '/en/rockies', '/es/rockies',
   '/embed'
 ];
 
