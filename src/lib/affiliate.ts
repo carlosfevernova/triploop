@@ -54,24 +54,34 @@ export function gygActivityUrl(activityId: string | number, opts: { locale?: str
  * @param checkout YYYY-MM-DD
  * @param guests default 2
  */
+export type HotelTier = 'low' | 'mid' | 'high';
+
 export function bookingSearchUrl(destination: string, opts: {
   checkin?: string;
   checkout?: string;
   guests?: number;
   locale?: string;
   source?: string;
+  tier?: HotelTier;
+  centralOnly?: boolean;
 } = {}){
-  const { checkin, checkout, guests = 2, locale = 'en', source = 'trip' } = opts;
+  const { checkin, checkout, guests = 2, locale = 'en', source = 'trip', tier, centralOnly } = opts;
   const langMap: Record<string, string> = { en: 'en-us', es: 'es' };
   const url = new URL('https://www.booking.com/searchresults.html');
-  url.searchParams.set('ss', destination);
+  const destQuery = centralOnly ? `${destination} downtown` : destination;
+  url.searchParams.set('ss', destQuery);
   url.searchParams.set('lang', langMap[locale] || 'en-us');
   url.searchParams.set('group_adults', String(guests));
   url.searchParams.set('no_rooms', '1');
   if(checkin) url.searchParams.set('checkin', checkin);
   if(checkout) url.searchParams.set('checkout', checkout);
+  if(tier){
+    const classMap: Record<HotelTier, string> = { low: 'class=2', mid: 'class=3', high: 'class=4;class=5' };
+    url.searchParams.set('nflt', classMap[tier]);
+  }
+  if(centralOnly) url.searchParams.set('order', 'distance_from_landmark');
   if(BOOKING_AID) url.searchParams.set('aid', BOOKING_AID);
-  url.searchParams.set('label', `${CAMPAIGN}-${source}`);
+  url.searchParams.set('label', `${CAMPAIGN}-${source}${tier ? `-${tier}` : ''}${centralOnly ? '-central' : ''}`);
   return url.toString();
 }
 

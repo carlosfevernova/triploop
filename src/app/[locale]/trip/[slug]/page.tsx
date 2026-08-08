@@ -22,6 +22,7 @@ const AiSuggestionsPanel = dynamic(() => import('@/components/trip/AiSuggestions
 const NearbyPanel = dynamic(() => import('@/components/trip/NearbyPanel').then(m => ({ default: m.NearbyPanel })), { ssr: false });
 const StaysAndActivitiesPanel = dynamic(() => import('@/components/trip/StaysAndActivitiesPanel').then(m => ({ default: m.StaysAndActivitiesPanel })), { ssr: false });
 const TripSidePanel = dynamic(() => import('@/components/trip/TripSidePanel').then(m => ({ default: m.TripSidePanel })), { ssr: false });
+const ReshuffleWizard = dynamic(() => import('@/components/trip/ReshuffleWizard').then(m => ({ default: m.ReshuffleWizard })), { ssr: false });
 
 export default function TripPage(){
   const params = useParams<{ locale: string; slug: string }>();
@@ -44,7 +45,8 @@ export default function TripPage(){
   const [aiOpen, setAiOpen] = useState(false);
   const [nearbyAnchor, setNearbyAnchor] = useState<TripStop | null>(null);
   const [staysOpen, setStaysOpen] = useState(false);
-  const [sidePanel, setSidePanel] = useState<null | 'budget' | 'insights'>(null);
+  const [sidePanel, setSidePanel] = useState<null | 'budget' | 'insights' | 'checklist' | 'photos' | 'ev'>(null);
+  const [reshuffleOpen, setReshuffleOpen] = useState(false);
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const routeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -315,6 +317,34 @@ export default function TripPage(){
               title={isEs ? 'Alertas y consejos locales' : 'Warnings & local tips'}
             >🚨 {isEs ? 'Consejos' : 'Tips'}</button>
           )}
+          {trip.stops.length > 0 && (
+            <button
+              onClick={() => setSidePanel('checklist')}
+              className="rounded-pill border border-amber-300 bg-amber-50 px-4 py-2 text-xs font-semibold text-amber-800 transition hover:bg-amber-500 hover:text-white"
+              title={isEs ? 'Checklist qué llevar' : 'Packing checklist'}
+            >📋 {isEs ? 'Empacar' : 'Pack'}</button>
+          )}
+          {trip.stops.length > 1 && (
+            <button
+              onClick={() => setSidePanel('photos')}
+              className="rounded-pill border border-purple-300 bg-purple-50 px-4 py-2 text-xs font-semibold text-purple-800 transition hover:bg-purple-500 hover:text-white"
+              title={isEs ? 'Spots de foto que valen la pena' : 'Photo spots worth it'}
+            >📸 {isEs ? 'Fotos' : 'Photos'}</button>
+          )}
+          {trip.stops.length > 0 && (
+            <button
+              onClick={() => setSidePanel('ev')}
+              className="rounded-pill border border-lime-300 bg-lime-50 px-4 py-2 text-xs font-semibold text-lime-800 transition hover:bg-lime-500 hover:text-white"
+              title={isEs ? 'Cargadores para vehículo eléctrico' : 'Electric vehicle chargers'}
+            >⚡ {isEs ? 'EV' : 'EV'}</button>
+          )}
+          {isOwnerOrAnon && trip.stops.length > 1 && (
+            <button
+              onClick={() => setReshuffleOpen(true)}
+              className="rounded-pill border border-fuchsia-300 bg-gradient-to-r from-fuchsia-500 to-purple-500 px-4 py-2 text-xs font-semibold text-white transition hover:brightness-110"
+              title={isEs ? 'Reorganizar si algo cambió' : 'Reshuffle if things changed'}
+            >🔄 {isEs ? 'Reorganizar' : 'Reshuffle'}</button>
+          )}
           {isOwnerOrAnon && (
             <button
               onClick={() => setAiOpen(true)}
@@ -387,6 +417,20 @@ export default function TripPage(){
           view={sidePanel}
           trip={trip}
           locale={locale as 'en' | 'es'}
+        />
+      )}
+
+      {/* Reshuffle wizard */}
+      {reshuffleOpen && isOwnerOrAnon && (
+        <ReshuffleWizard
+          slug={trip.slug}
+          currentStops={trip.stops}
+          locale={locale as 'en' | 'es'}
+          onApply={(newStops) => {
+            setTrip((t) => t ? { ...t, stops: newStops } : t);
+            broadcastChange('add', isEs ? 'Reorganizado con IA' : 'Reshuffled with AI');
+          }}
+          onClose={() => setReshuffleOpen(false)}
         />
       )}
 

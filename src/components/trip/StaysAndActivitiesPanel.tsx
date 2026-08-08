@@ -1,7 +1,7 @@
 'use client';
 import { useMemo, useState } from 'react';
 import type { Trip, TripStop } from '@/lib/types';
-import { bookingSearchUrl, gygSearchUrl, estimateStayDates, isAffiliateActive } from '@/lib/affiliate';
+import { bookingSearchUrl, gygSearchUrl, estimateStayDates, isAffiliateActive, type HotelTier } from '@/lib/affiliate';
 
 interface Props {
   open: boolean;
@@ -16,6 +16,8 @@ type Tab = 'stays' | 'activities';
 export function StaysAndActivitiesPanel({ open, onClose, trip, isEs, locale = 'en' }: Props){
   const [tab, setTab] = useState<Tab>('stays');
   const [selectedStopId, setSelectedStopId] = useState<string>(trip.stops[0]?.id || '');
+  const [tier, setTier] = useState<HotelTier | 'any'>('any');
+  const [centralOnly, setCentralOnly] = useState(false);
 
   // Unique cities: usa el nombre del stop, deduplicated
   const cities = useMemo(() => {
@@ -124,7 +126,34 @@ export function StaysAndActivitiesPanel({ open, onClose, trip, isEs, locale = 'e
               {isEs ? 'Agrega paradas al viaje para buscar aquí.' : 'Add stops to your trip to search here.'}
             </p>
           ) : tab === 'stays' ? (
-            <StaysCard stop={selectedStop} checkin={checkin} checkout={checkout} guests={trip.travelers_count || 2} isEs={isEs} locale={locale} onTrack={track} />
+            <>
+              {/* Tier + central filters */}
+              <div className="mb-3 space-y-2 rounded-card border border-ink-100 bg-ink-50/30 p-3">
+                <div>
+                  <label className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-ink-500">
+                    {isEs ? 'Tarifa' : 'Tier'}
+                  </label>
+                  <div className="flex flex-wrap gap-1">
+                    {[
+                      { k: 'any' as const, label: isEs ? 'Todas' : 'All' },
+                      { k: 'low' as const, label: isEs ? '💵 Econ (1-2★)' : '💵 Budget (1-2★)' },
+                      { k: 'mid' as const, label: isEs ? '💰 Medio (3★)' : '💰 Mid (3★)' },
+                      { k: 'high' as const, label: isEs ? '💎 Alto (4-5★)' : '💎 High (4-5★)' }
+                    ].map(t => (
+                      <button
+                        key={t.k} onClick={() => setTier(t.k)}
+                        className={`rounded-pill px-2.5 py-1 text-[11px] font-semibold transition ${tier === t.k ? 'bg-ink-900 text-white' : 'bg-white text-ink-600 border border-ink-200 hover:border-ink-500'}`}
+                      >{t.label}</button>
+                    ))}
+                  </div>
+                </div>
+                <label className="flex items-center gap-2 text-xs text-ink-700">
+                  <input type="checkbox" checked={centralOnly} onChange={(e) => setCentralOnly(e.target.checked)} className="h-4 w-4" />
+                  {isEs ? '📍 Solo hoteles céntricos (downtown, cerca de puntos icónicos)' : '📍 Central hotels only (downtown, near landmarks)'}
+                </label>
+              </div>
+              <StaysCard stop={selectedStop} checkin={checkin} checkout={checkout} guests={trip.travelers_count || 2} isEs={isEs} locale={locale} onTrack={track} tier={tier === 'any' ? undefined : tier} centralOnly={centralOnly} />
+            </>
           ) : (
             <ActivitiesCard stop={selectedStop} isEs={isEs} locale={locale} onTrack={track} />
           )}
@@ -170,11 +199,12 @@ export function StaysAndActivitiesPanel({ open, onClose, trip, isEs, locale = 'e
   );
 }
 
-function StaysCard({ stop, checkin, checkout, guests, isEs, locale, onTrack }: {
+function StaysCard({ stop, checkin, checkout, guests, isEs, locale, onTrack, tier, centralOnly }: {
   stop: TripStop; checkin: string; checkout: string; guests: number;
   isEs?: boolean; locale: string; onTrack: (dest: string, p: 'gyg' | 'booking') => void;
+  tier?: HotelTier; centralOnly?: boolean;
 }){
-  const url = bookingSearchUrl(stop.name, { checkin, checkout, guests, locale, source: 'panel' });
+  const url = bookingSearchUrl(stop.name, { checkin, checkout, guests, locale, source: 'panel', tier, centralOnly });
   return (
     <div className="overflow-hidden rounded-card border border-ink-100 bg-white shadow-card">
       {stop.photo_url ? (
@@ -187,6 +217,18 @@ function StaysCard({ stop, checkin, checkout, guests, isEs, locale, onTrack }: {
           <h3 className="font-display text-lg font-semibold text-ink-900">
             {isEs ? 'Hoteles en' : 'Hotels near'} {stop.name}
           </h3>
+          <div className="flex gap-1">
+            {tier && (
+              <span className="rounded-pill bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
+                {tier === 'low' ? '1-2★' : tier === 'mid' ? '3★' : '4-5★'}
+              </span>
+            )}
+            {centralOnly && (
+              <span className="rounded-pill bg-ocean-100 px-2 py-0.5 text-[10px] font-bold text-ocean-800">
+                📍 {isEs ? 'Céntrico' : 'Central'}
+              </span>
+            )}
+          </div>
         </div>
         <div className="mt-2 grid grid-cols-3 gap-2 text-[11px] text-ink-500">
           <div>
