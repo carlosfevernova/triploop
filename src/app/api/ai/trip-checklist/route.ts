@@ -84,7 +84,10 @@ export async function POST(req: Request){
       `checklist_${locale}_${season}_${body.tripType || 'any'}_${body.hasKids ? 'kids' : 'nokids'}`
     );
     if(!trip) return NextResponse.json({ error: 'trip_not_found' }, { status: 404 });
-    if(cached) return NextResponse.json({ checklist: cached, source: 'cache' });
+    // Cache hit validado: struct debe tener categories:Array. Si no, ignora cache y regenera.
+    if(cached && Array.isArray((cached as TripChecklist).categories) && (cached as TripChecklist).categories.length > 0){
+      return NextResponse.json({ checklist: cached, source: 'cache' });
+    }
 
     const stops = (Array.isArray(trip.stops) ? trip.stops : []) as Array<{ name: string }>;
     const system = locale === 'es' ? SYSTEM_ES : SYSTEM_EN;
