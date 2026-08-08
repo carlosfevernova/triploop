@@ -92,5 +92,47 @@ export const TEMPLATE_TRANSLATIONS_ES: Record<string, TranslationEntry> = {
     title: 'Route 66 Clásica — 14 días',
     seo_description: 'El road trip clásico de 14 días por Route 66 de Chicago a Santa Monica cruzando 8 estados: Cadillac Ranch, Meteor Crater, Painted Desert, Petrified Forest y termina en el PCH.',
     seo_keywords: ['route 66 road trip 14 dias', 'chicago a santa monica', 'cadillac ranch meteor crater', 'historic route 66 itinerario']
+  },
+  // Utah
+  'zion-national-park-3-days': {
+    title: 'Parque Nacional Zion — 3 días',
+    seo_description: 'Viaje de 3 días por Zion desde Las Vegas: Angels Landing (requiere permiso 2026), The Narrows caminando por el río, Emerald Pools + atardecer Watchman. Hospedaje Springdale + logística shuttle.',
+    seo_keywords: ['zion 3 dias itinerario', 'zion parque nacional fin de semana', 'angels landing narrows', 'zion desde vegas']
+  },
+  'bryce-canyon-weekend-3-days': {
+    title: 'Bryce Canyon Fin de Semana — 3 días',
+    seo_description: '3 días en Bryce Canyon: amanecer Bryce Point (esencial), Navajo/Queens Garden Loop, drive Rainbow Point y observación de estrellas (Dark Sky Park). Mejor mayo-octubre.',
+    seo_keywords: ['bryce canyon 3 dias', 'bryce canyon amanecer', 'navajo queens garden loop', 'bryce canyon estrellas']
+  },
+  'utah-mighty-5-national-parks-10-days': {
+    title: 'Utah Mighty 5 — 10 días',
+    seo_description: 'El road trip definitivo de 10 días por los parques nacionales de Utah: Zion → Bryce → Capitol Reef → Arches → Canyonlands. Los 5 parques mighty con tiempos reales de manejo.',
+    seo_keywords: ['utah mighty 5 road trip', 'utah parques nacionales 10 dias', 'zion bryce arches canyonlands capitol reef', 'utah parques itinerario']
+  },
+  'salt-lake-park-city-weekend-3-days': {
+    title: 'Salt Lake + Park City Fin de Semana — 3 días',
+    seo_description: 'Escapada de ciudad de 3 días: Temple Square, drive por Bonneville Salt Flats, Park City Main Street, y drive escénico Deer Valley/Empire Pass. Perfecto add-on ski invierno.',
+    seo_keywords: ['salt lake city 3 dias', 'park city fin de semana', 'temple square bonneville salt flats', 'utah city break']
+  },
+  // España
+  'madrid-escapada-fin-de-semana-3-days': {
+    title: 'Madrid Escapada de Fin de Semana — 3 días',
+    seo_description: '3 días desde Madrid con day trips a Toledo y Segovia: Prado, Plaza Mayor, Retiro, casco histórico Toledo + Alcázar Segovia. Práctico para primerizos.',
+    seo_keywords: ['madrid 3 dias itinerario', 'madrid fin de semana', 'madrid toledo segovia day trip', 'primera vez madrid']
+  },
+  'barcelona-modernista-3-days': {
+    title: 'Barcelona Modernista — 3 días',
+    seo_description: '3 días en Barcelona: Sagrada Família (reserva semanas antes), Park Güell, tapas Barrio Gótico, montaña Montserrat y escapada costera Sitges. Perfecto para amantes de Gaudí.',
+    seo_keywords: ['barcelona 3 dias itinerario', 'barcelona sagrada familia park guell', 'gaudi barcelona fin de semana', 'barcelona montserrat sitges']
+  },
+  'andalucia-grand-tour-7-days': {
+    title: 'Andalucía Gran Tour — 7 días',
+    seo_description: 'Road trip de 7 días por Andalucía: flamenco + Alcázar Sevilla, Mezquita Córdoba, Alhambra Granada (reserva 3 meses antes), puente colgante Ronda, final playa Málaga.',
+    seo_keywords: ['andalucia 7 dias road trip', 'sevilla cordoba granada malaga', 'alhambra granada itinerario', 'andalucia sur españa viaje']
+  },
+  'camino-santiago-highlights-10-days': {
+    title: 'Camino de Santiago Imperdibles — 10 días',
+    seo_description: 'Drive de 10 días por el Camino Francés de Pamplona a Santiago: catedral Burgos, León gótica, vino El Bierzo, Portomarín y final en Santiago. Introducción perfecta al Camino.',
+    seo_keywords: ['camino de santiago 10 dias road trip', 'camino frances manejando itinerario', 'pamplona a santiago compostela', 'camino santiago imperdibles']
   }
 };
