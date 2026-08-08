@@ -4,7 +4,7 @@ import { createAdminClient } from '@/lib/supabase-admin';
 import { callOpenRouterJson, readTripCache, contentHash } from '@/lib/ai-openrouter';
 
 export const runtime = 'nodejs';
-export const maxDuration = 45;
+export const maxDuration = 60;
 
 interface Body { slug: string; locale?: 'en' | 'es'; }
 
@@ -79,7 +79,7 @@ ${locale === 'es' ? 'Paradas' : 'Stops'}: ${stops.map(s => s.name).join(', ')}
 ${locale === 'es' ? 'Devuelve JSON schema' : 'Return JSON schema'}:
 ${schema()}`;
 
-    const result = await callOpenRouterJson<{ spots: PhotoSpot[] }>(system, userPrompt, { maxTokens: 2000, title: 'TripLoop Photo Spots' });
+    const result = await callOpenRouterJson<{ spots: PhotoSpot[] }>(system, userPrompt, { maxTokens: 1500, title: 'TripLoop Photo Spots', timeoutMs: 30000 });
     if(!result) return NextResponse.json({ error: 'ai_unavailable' }, { status: 503 });
 
     const photoSpots: PhotoSpotsResult & { hash: string } = {
