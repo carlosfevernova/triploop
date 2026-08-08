@@ -49,6 +49,8 @@ export function Footer(){
         </div>
         <div className="mt-12 border-t border-ink-100 pt-6 text-center text-xs text-ink-400">
           {t('copyright', { year })}
+          <span className="mx-2 text-ink-200">·</span>
+          <a href="/admin/login" className="text-ink-400 transition hover:text-ink-800">Admin</a>
         </div>
       </div>
     </footer>
