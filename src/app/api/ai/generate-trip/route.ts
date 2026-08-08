@@ -141,10 +141,12 @@ async function callAnthropic(system: string, user: string): Promise<AiTripSpec |
 async function callOpenRouter(system: string, user: string): Promise<AiTripSpec | null> {
   const key = process.env.OPENROUTER_API_KEY;
   if(!key) return null;
+  // Modelos free actualizados 2026-08 (OpenRouter removió llama/deepseek free tier)
   const models = [
-    'deepseek/deepseek-chat-v3-0324:free',
-    'meta-llama/llama-3.3-70b-instruct:free',
-    'google/gemini-2.0-flash-exp:free'
+    'openrouter/free',
+    'nvidia/nemotron-3-super-120b-a12b:free',
+    'google/gemma-4-31b-it:free',
+    'nvidia/nemotron-3-ultra-550b-a55b:free'
   ];
   for(const model of models){
     try {
