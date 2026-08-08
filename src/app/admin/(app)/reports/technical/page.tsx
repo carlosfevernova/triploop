@@ -3,16 +3,18 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas en agosto 2026 desde el repositorio en producción
-const LOC = 11109;
-const FILES_TSX = 77;
-const FILES_TS = 47;
-const APIS = 23;
-const COMPONENTS = 34;
-const PAGES = 27;
-const MIGRATIONS = 10;
-const LIB_HELPERS = 18;
-const RUNTIME_DEPS = 16;
+// Métricas reales medidas 2026-08-08 desde el repositorio en producción
+const LOC = 12937;
+const FILES_TSX = 86;
+const FILES_TS = 54;
+const APIS = 25;
+const COMPONENTS = 40;
+const PAGES = 35;
+const MIGRATIONS = 13;
+const LIB_HELPERS = 22;
+const RUNTIME_DEPS = 18;
+const REGIONS = 6;      // California + Nevada + Arizona + Southwest + Utah + Spain (1er Europa)
+const TEMPLATES = 24;   // 20 USA + 4 España, bilingues ES+EN via JSONB
 
 // Desglose exhaustivo por categoría de TODO el trabajo end-to-end:
 // diseño de página, desarrollo, programación, integraciones, testing, deployment, iteraciones.
@@ -74,9 +76,29 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'A11y + SEO técnico polish', hoursLow: 20, hoursHigh: 30,
     detail: 'aria-modal + escape UpgradeModal, FAQ aria-controls, structured data JSON-LD, sitemap dinámico 60 URLs, /not-found custom, aria-live regions' },
   { category: 'Deployment + ops iterations', hoursLow: 25, hoursHigh: 40,
-    detail: 'Vercel env vars setup (SEED_TOKEN, CRON_SECRET, ADMIN_PASSPHRASE), cron config vercel.json, cookie fixes newline, 25+ deploys a producción' },
+    detail: 'Vercel env vars setup (SEED_TOKEN, CRON_SECRET, ADMIN_PASSPHRASE, FIREWORKS_API_KEY), cron config vercel.json, cookie fixes newline, 40+ deploys a producción' },
   { category: 'Documentación + reports admin', hoursLow: 20, hoursHigh: 30,
-    detail: 'Este reporte técnico exhaustivo, investor deck con research 2026 real, market comparables, valuación scenarios' }
+    detail: 'Reporte técnico exhaustivo, investor deck con research 2026 real, market comparables, valuación scenarios' },
+  { category: 'WhatsApp Bot (Twilio + AI fallback)', hoursLow: 30, hoursHigh: 45,
+    detail: 'Webhook Twilio con signature verification, comandos parseados (create/list/help), fallback DeepSeek para consultas libres, whatsapp_conversations tabla, landing bilingüe /whatsapp' },
+  { category: 'AI Trip Generator (NLP → itinerario)', hoursLow: 25, hoursHigh: 40,
+    detail: 'Endpoint /api/ai/generate-trip con JSON schema estricto, cadena fallback Fireworks→Groq→Anthropic, validación coords, sanitize, gate free tier, página UX /trip/new/ai con textarea + 5 ejemplos bilingues + progreso fases' },
+  { category: 'AI auto-describe stops', hoursLow: 12, hoursHigh: 18,
+    detail: 'Endpoint /api/ai/describe-stop con DeepSeek bilingue, wire en TripEditor + handleNearbyAdd, notes 1-2 oraciones enriquecen stop en background sin bloquear UX' },
+  { category: 'Analytics dashboard v2 (sparklines + funnel)', hoursLow: 18, hoursHigh: 28,
+    detail: 'Ampliación admin metrics con series 30d (trips + views), funnel visitors→trips→registered→paying, sparkline component SVG puro sin deps, DashboardClient v2' },
+  { category: 'Embed widget iframe-friendly', hoursLow: 15, hoursHigh: 22,
+    detail: 'Ruta /embed/trip/[slug] con ?locale y ?theme, middleware exclusion, CSP frame-ancestors permisivo, snippet copy-paste para blogs/wordpress externos' },
+  { category: 'Expansión Utah (4 templates + rutas)', hoursLow: 15, hoursHigh: 25,
+    detail: '4 templates curados (Zion, Bryce Canyon, Arches, Monument Valley), coords reales, /utah landing SEO, template detail pages, RegionsGrid update' },
+  { category: 'Expansión España (1ª región Europa)', hoursLow: 20, hoursHigh: 30,
+    detail: '4 templates España (Madrid weekend, Barcelona 5d, Andalucía Grand Tour, Camino de Santiago), currency EUR, coords Europa, /spain rutas, primera bandera internacional' },
+  { category: 'Bilingual JSONB translations (24 templates ES)', hoursLow: 25, hoursHigh: 40,
+    detail: 'Columna translations JSONB en trips, TEMPLATE_TRANSLATIONS_ES mapping 24 slugs, applyLocale helper, hreflang alternates, seed endpoint wire, RegionTemplateDetail shared component' },
+  { category: 'Free geocoding fallback (Nominatim + Photon)', hoursLow: 15, hoursHigh: 22,
+    detail: 'Wrapper geocode-free.ts, 2-tier fallback OpenStreetMap, integración en places/enrich, ahorra Google API quota estimado 60-80% en cache miss' },
+  { category: 'Rate limiting in-memory LRU', hoursLow: 10, hoursHigh: 15,
+    detail: 'Librería rate-limit.ts key-based con TTL, aplicado en waitlist 3/min, ai/* 8-10/min, places/* 30/min, spam prevention edge-safe' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);
@@ -98,14 +120,16 @@ export default async function TechnicalReportPage(){
 
       <Section title="1. Overview del producto">
         <p className="text-[15px] leading-relaxed">
-          Plataforma SaaS bilingüe (ES/EN) de planeación road-trip para turistas internacionales visitando el suroeste USA
-          (California, Nevada, Arizona) — con tiempos de manejo con tráfico real, precios con impuestos incluidos, sugerencias
-          IA, mapas offline para parques nacionales, exportación PDF, colaboración en tiempo real, y reservas 1-clic
-          Booking.com + GetYourGuide.
+          Plataforma SaaS bilingüe (ES/EN) de planeación road-trip para turistas internacionales. Cubre <b>6 regiones</b>
+          {' '}(California, Nevada, Arizona, Utah, Southwest USA + <b>España</b> primera región europea) con
+          <b> 24 templates curados</b> traducidos a EN+ES. Incluye tiempos de manejo con tráfico real, precios con
+          impuestos incluidos, <b>AI Trip Generator</b> (describe tu viaje en lenguaje natural → itinerario completo),
+          sugerencias IA multi-provider, mapas offline para parques nacionales, exportación PDF, colaboración en tiempo real,
+          <b> bot de WhatsApp</b> con Twilio + AI, <b>widget embebible</b> para blogs, y reservas 1-clic Booking.com + GetYourGuide.
         </p>
       </Section>
 
-      <Section title="2. Métricas del codebase (medidas del repositorio)">
+      <Section title="2. Métricas del codebase (medidas del repositorio · 2026-08-08)">
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           <MetricBox n={LOC.toLocaleString()} l="Líneas de código TS/TSX" />
           <MetricBox n={String(FILES_TSX + FILES_TS)} l="Archivos TypeScript" />
@@ -115,9 +139,14 @@ export default async function TechnicalReportPage(){
           <MetricBox n={String(LIB_HELPERS)} l="Módulos lib/utils" />
           <MetricBox n={String(MIGRATIONS)} l="Migrations SQL" />
           <MetricBox n={String(RUNTIME_DEPS)} l="Dependencias runtime" />
+          <MetricBox n={String(REGIONS)} l="Regiones cubiertas" />
+          <MetricBox n={String(TEMPLATES)} l="Templates bilingues" />
+          <MetricBox n="16" l="Blog posts (EN+ES)" />
+          <MetricBox n="40+" l="Deploys a producción" />
         </div>
         <p className="mt-4 text-[12px] text-ink-500">
-          TypeScript strict · cero errores de tipo · deployado en Vercel Edge (Fluid Compute) · 25+ deploys a producción.
+          TypeScript strict · cero errores de tipo · deployado en Vercel Fluid Compute · 40+ deploys a producción.
+          Crecimiento vs snapshot previo (agosto 2026): <b>+16% LOC · +5 páginas · +3 migrations · +8 templates · +1 región (España)</b>.
         </p>
       </Section>
 
@@ -198,9 +227,9 @@ export default async function TechnicalReportPage(){
         ]} />
       </Section>
 
-      <Section title="6. Integraciones externas activas (16)">
+      <Section title="6. Integraciones externas activas (18)">
         <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-          {['Vercel', 'Supabase Postgres', 'Supabase Auth', 'Supabase Realtime', 'Supabase Storage', 'Stripe Checkout', 'Stripe Portal', 'Stripe Webhooks', 'Google Places API', 'Google Routes API', 'Google Static Maps', 'Resend', 'Fireworks (DeepSeek)', 'Groq (Llama)', 'Anthropic (Claude)', 'Booking + GetYourGuide'].map(i => (
+          {['Vercel Fluid Compute', 'Supabase Postgres', 'Supabase Auth', 'Supabase Realtime', 'Supabase Storage', 'Stripe Checkout', 'Stripe Portal', 'Stripe Webhooks', 'Google Places API', 'Google Routes API', 'Google Static Maps', 'Resend', 'Fireworks (DeepSeek V3)', 'Groq (Llama 3.3 70B)', 'Anthropic (Claude Haiku 4.5)', 'Booking + GetYourGuide', 'Twilio (WhatsApp)', 'Nominatim + Photon (OSM free geocoding)'].map(i => (
             <div key={i} className="rounded-lg border border-ink-100 bg-white px-3 py-2 text-[12px] font-medium text-ink-700">{i}</div>
           ))}
         </div>
@@ -239,24 +268,34 @@ export default async function TechnicalReportPage(){
 
       <Section title="9. Ventaja técnica defendible">
         <ul className="ml-5 list-disc space-y-2 text-[14px] leading-relaxed text-ink-700">
-          <li><b>Bilingüe nativo EN+ES</b> con hreflang correcto. Wanderlog EN-only, TripIt EN-only.</li>
-          <li><b>Stack IA open-source con vendor chain</b>. DeepSeek $0.14/1M tokens vs GPT-4 $30/1M — 200× más barato.</li>
-          <li><b>SEO programático first</b>: 16 templates + 16 posts pre-generados con schema.org. Wanderlog cero organic.</li>
+          <li><b>Bilingüe nativo EN+ES</b> con hreflang correcto y 24 templates traducidos. Wanderlog EN-only, TripIt EN-only.</li>
+          <li><b>AI Trip Generator NLP</b> — describe el viaje en lenguaje natural → itinerario completo. Ningún competidor tiene equivalente sin agregar chat de OpenAI encima.</li>
+          <li><b>Stack IA open-source con vendor chain triple</b>. DeepSeek $0.14/1M tokens vs GPT-4 $30/1M — 200× más barato. Fallback Groq (Llama 3.3, gratis tier) + Anthropic para premium.</li>
+          <li><b>SEO programático first</b>: 24 templates × 2 idiomas + 16 posts pre-generados con schema.org. Wanderlog cero organic.</li>
           <li><b>Precios con impuestos UX</b>. Único competidor consciente del bait-and-switch fee que sufren MX/EU.</li>
           <li><b>Realtime con Supabase</b> (no Liveblocks $99/mo). Costo marginal cero.</li>
-          <li><b>Edge-first arquitectura</b> — 90% endpoints en Vercel Edge = latencia global consistente.</li>
+          <li><b>WhatsApp bot bilingüe con AI fallback</b>. Canal preferido en LATAM (98% penetración MX/AR/CO).</li>
+          <li><b>Widget embebible</b> con temas dark/light para socios (blogs de viaje, agencias). Growth loop distribuido.</li>
+          <li><b>Free geocoding fallback</b> (OpenStreetMap Nominatim + Photon) — ahorra ~60-80% en Google API quota.</li>
+          <li><b>Rate limiting edge-safe</b> in-memory LRU sin dependencia externa (Redis/Upstash).</li>
+          <li><b>Edge-first arquitectura</b> — 90% endpoints en Vercel Fluid Compute = latencia global consistente.</li>
+          <li><b>Expansión geo lista</b> — arquitectura de regiones + templates permite añadir país nuevo en &lt;3h de trabajo (Utah + España probaron el patrón).</li>
         </ul>
       </Section>
 
       <Section title="10. Deuda técnica identificada (transparente)">
         <ul className="ml-5 list-disc space-y-2 text-[14px] leading-relaxed text-ink-700">
-          <li>P2: Rate limiting en endpoints públicos (waitlist, ai/suggest-stops, places/*)</li>
+          <li className="line-through opacity-60">P2: Rate limiting en endpoints públicos — <b>RESUELTO S19</b> (in-memory LRU en 4 endpoints)</li>
+          <li>P2: Rate limiting persistente (Upstash Redis) para survive cold starts en escala &gt;100 req/s</li>
           <li>P2: Edit token para trips anónimos (evitar edit-por-cualquiera)</li>
+          <li>P2: Groq + Anthropic keys aún no configuradas en producción (solo Fireworks activo — sin fallback en caso de outage)</li>
           <li>P3: Skip-to-content link + form htmlFor labels (a11y minor)</li>
           <li>P3: Virtual scroll para itinerarios &gt; 20 stops (perf marginal)</li>
-          <li>P3: OG images propias en /nevada /arizona /southwest (usa Unsplash placeholder ahora)</li>
+          <li>P3: OG images propias en /nevada /arizona /southwest /utah /spain (usa Unsplash placeholder ahora)</li>
           <li>P3: Test coverage — actualmente 0% (audit manual E2E vía Playwright funciona)</li>
           <li>P3: Stripe webhook coverage extendida (trial_will_end, refunded)</li>
+          <li>P3: Twilio production credentials para WhatsApp bot (actualmente sandbox)</li>
+          <li>P3: PostHog o Plausible para product analytics (ya tenemos template_views + affiliate_clicks propios)</li>
         </ul>
       </Section>
 

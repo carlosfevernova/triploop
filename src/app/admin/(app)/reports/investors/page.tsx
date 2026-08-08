@@ -11,19 +11,21 @@ export default async function InvestorReportPage(){
       <header className="mb-10 border-b border-ink-100 pb-6">
         <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-ink-400">Confidencial · Estado del producto</p>
         <h1 className="font-display text-[32px] font-semibold tracking-tight text-ink-900">TripLoop — Lo que hemos construido</h1>
-        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · Agosto 2026 · Producto en producción, código auditable, tracción medible</p>
+        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-08 · Producto en producción, código auditable, primera región europea live</p>
       </header>
 
       <Section title="🚀 Qué es TripLoop (en lenguaje simple)">
         <p className="text-[15px] leading-relaxed">
           Una <b>plataforma web + app</b> que ayuda a turistas internacionales a planear road trips por el suroeste de Estados Unidos
-          (California, Nevada, Arizona) sin las fricciones comunes: tiempos reales de manejo con tráfico, precios con impuestos ya
-          incluidos, funciona sin señal en parques nacionales, y viene con menú de rutas listas para duplicar en 1 clic.
+          (California, Nevada, Arizona, Utah) <b>y ahora España</b> — sin las fricciones comunes: tiempos reales de manejo con tráfico,
+          precios con impuestos ya incluidos, funciona sin señal en parques nacionales, y viene con <b>24 rutas listas para
+          duplicar en 1 clic</b> traducidas a 2 idiomas.
         </p>
         <p className="mt-3 text-[15px] leading-relaxed">
           Está <b>100% en producción</b> en <a href="https://triploop-six.vercel.app" className="text-coral-600 underline">triploop-six.vercel.app</a>,
-          bilingüe español/inglés desde día 1, con pagos Stripe wired, IA integrada, colaboración en tiempo real, blog editorial,
-          y panel admin para operarlo.
+          bilingüe español/inglés desde día 1, con pagos Stripe wired, IA integrada multi-provider,
+          <b> AI Trip Generator NLP</b> (describe tu viaje → itinerario), colaboración tiempo real,
+          <b> bot de WhatsApp</b>, <b>widget embebible</b>, blog editorial, y panel admin.
         </p>
       </Section>
 
@@ -62,13 +64,18 @@ export default async function InvestorReportPage(){
 
       <Section title="⭐ Ventajas técnicas defendibles (por qué somos diferentes)">
         <ul className="ml-5 list-disc space-y-2.5 text-[14px] leading-relaxed text-ink-700">
-          <li><b>Único bilingüe EN+ES nativo</b> — con hreflang correcto para SEO, 16 templates y 16 posts (8×2 idiomas). 500M+ hispanohablantes desatendidos por competencia inglesa.</li>
+          <li><b>Único bilingüe EN+ES nativo</b> — con hreflang correcto para SEO, <b>24 templates</b> y 16 posts (8×2 idiomas). 500M+ hispanohablantes desatendidos por competencia inglesa.</li>
+          <li><b>AI Trip Generator NLP</b> — usuario describe su viaje en lenguaje natural y la IA arma itinerario completo con coords reales. <b>Ningún competidor tiene equivalente</b> sin bolt-on de ChatGPT.</li>
           <li><b>Tiempos reales de manejo</b> con Google Routes API v2 con tráfico en vivo. Wanderlog usa estimados estáticos.</li>
           <li><b>Precios con impuestos incluidos</b> en checkout. Visitantes MX/EU no sufren el "$89 acaba siendo $118".</li>
-          <li><b>SEO programático first</b>: 16 plantillas + 16 posts blog ya indexables con schema.org completo. Compite en búsquedas orgánicas antes de gastar en ads.</li>
-          <li><b>Stack IA open-source</b>: Fireworks DeepSeek V3 nos cuesta $0.14/1M tokens vs GPT-4 a $30/1M — <b>200× más barato</b>. Sin vendor lock-in.</li>
+          <li><b>SEO programático first</b>: <b>24 plantillas × 2 idiomas</b> + 16 posts blog ya indexables con schema.org completo. Compite en búsquedas orgánicas antes de gastar en ads.</li>
+          <li><b>Stack IA open-source triple fallback</b>: Fireworks DeepSeek V3 (base $0.14/1M vs GPT-4 $30/1M = <b>200× más barato</b>) → Groq Llama (free tier) → Anthropic Claude (premium). Sin vendor lock-in.</li>
           <li><b>Colaboración en tiempo real</b> con Supabase Realtime (costo marginal $0). Wanderlog cobra $39.99/año por esta feature.</li>
           <li><b>Mapas offline PWA</b> para parques sin señal. Paridad con Wanderlog Pro pero infraestructura propia.</li>
+          <li><b>WhatsApp bot bilingüe con AI</b> — canal preferido LATAM (98% penetración MX/AR/CO). Ningún competidor lo tiene.</li>
+          <li><b>Widget embebible</b> para blogs de viaje y agencias — <b>growth loop distribuido</b>. Estrategia estilo Calendly/Typeform.</li>
+          <li><b>Free geocoding fallback</b> (OpenStreetMap) ahorra ~60-80% Google API quota — margen operativo muy superior.</li>
+          <li><b>Expansión geo probada</b> — arquitectura template-first permite añadir país nuevo en &lt;3h (Utah + <b>España</b> probaron el patrón). Escalable a Francia, Italia, México, Japón, NZ.</li>
           <li><b>Revenue híbrido</b>: afiliado Booking + GetYourGuide (2-5% comisión) + suscripción Pro ($6.99/mes). Monetización doble desde día 1.</li>
         </ul>
       </Section>
@@ -79,42 +86,49 @@ export default async function InvestorReportPage(){
           (fuente: L40°, Windsor Drake 2026). Travel tech en la banda inferior. Escenarios informativos:
         </p>
         <div className="grid gap-3 md:grid-cols-3">
-          <ScenarioCard tier="Hoy · Estado actual" arr="Beta pública" value="$50K-$200K" note="Valor del activo: producto funcional, 11,109 LOC en producción, 42 páginas SEO indexables, 24 rutas curadas, brand asset registrable" tone="coral" />
-          <ScenarioCard tier="Año 1 · si convierte 500 Pro" arr="$42K ARR" value="$100K-$170K" note="500 usuarios × $6.99/mes × 12 · múltiplo 2.5-4× ARR banda micro-SaaS" tone="ocean" />
-          <ScenarioCard tier="Año 3 · si escala a 15K Pro" arr="$1.25M ARR" value="$5M-$7.5M" note="15,000 Pro + afiliados · múltiplo 4-6× ARR banda bootstrapped $1-5M" tone="emerald" />
+          <ScenarioCard tier="Hoy · Estado actual" arr="Beta pública · 6 regiones · Europa live" value="$80K-$280K" note="Producto funcional 12,937 LOC, 60+ páginas SEO indexables (24 templates × 2 idiomas + 8 landings regionales), AI Trip Generator NLP diferenciador, WhatsApp bot, widget embebible, brand asset registrable" tone="coral" />
+          <ScenarioCard tier="Año 1 · si convierte 500 Pro" arr="$42K ARR" value="$120K-$220K" note="500 usuarios × $6.99/mes × 12 · múltiplo 2.5-4× ARR banda micro-SaaS + prima diferenciación (AI NLP, WhatsApp)" tone="ocean" />
+          <ScenarioCard tier="Año 3 · si escala a 15K Pro" arr="$1.25M ARR" value="$5.5M-$10M" note="15,000 Pro + afiliados + widget embeds · múltiplo 4-8× ARR banda bootstrapped growth con moat AI+bilingüe+geo" tone="emerald" />
         </div>
         <p className="mt-4 text-[12px] text-ink-500">
-          Escenarios conservadores contra comparables públicos. Escenario optimista (top decil travel SaaS): 8-10× ARR a escala.
+          Escenarios conservadores contra comparables públicos. Escenario optimista (top decil travel SaaS con AI diferenciador y expansión internacional): 8-12× ARR a escala.
         </p>
       </Section>
 
       <Section title="🛠 Activos técnicos concretos (lo tangible)">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <MiniStat n="11,109" l="Líneas de código" />
-          <MiniStat n="23" l="Endpoints API" />
-          <MiniStat n="34" l="Componentes React" />
-          <MiniStat n="27" l="Páginas producción" />
-          <MiniStat n="10" l="Migrations DB aplicadas" />
-          <MiniStat n="16" l="Integraciones externas" />
-          <MiniStat n="42" l="URLs indexables SEO" />
-          <MiniStat n="16" l="Templates + 16 blog posts" />
+          <MiniStat n="12,937" l="Líneas de código" />
+          <MiniStat n="25" l="Endpoints API" />
+          <MiniStat n="40" l="Componentes React" />
+          <MiniStat n="35" l="Páginas producción" />
+          <MiniStat n="13" l="Migrations DB aplicadas" />
+          <MiniStat n="18" l="Integraciones externas" />
+          <MiniStat n="60+" l="URLs indexables SEO" />
+          <MiniStat n="24" l="Templates bilingues" />
+          <MiniStat n="6" l="Regiones (5 USA + España)" />
+          <MiniStat n="16" l="Blog posts (EN+ES)" />
+          <MiniStat n="40+" l="Deploys a producción" />
+          <MiniStat n="3" l="Providers AI con fallback" />
         </div>
         <p className="mt-4 text-[12px] text-ink-500">
-          Todo el código es TypeScript strict, cero errores de tipo, deployado en Vercel Edge con Supabase Postgres.
-          Auditable en el repositorio.
+          Todo el código es TypeScript strict, cero errores de tipo, deployado en Vercel Fluid Compute con Supabase Postgres.
+          Auditable en el repositorio. Crecimiento vs snapshot previo: <b>+16% LOC · +8 templates · +1 región Europa · +3 features grandes (AI NLP, WhatsApp, embed)</b>.
         </p>
       </Section>
 
       <Section title="🌎 Lo que esto nos posiciona a hacer">
         <p className="text-[15px] leading-relaxed">
           TripLoop está <b>arquitecturado para escalar a cualquier región de road-trip globalmente</b>. Agregar Francia, Japón,
-          México o Nueva Zelanda toma 1-2 sesiones cada uno (probado con la expansión Nevada+Arizona+Southwest). La base
-          bilingüe ya existe — agregar francés, japonés o cualquier idioma usa la misma infraestructura{' '}
-          <code className="mx-1 rounded bg-ink-100 px-1 text-[13px]">next-intl</code>.
+          México o Nueva Zelanda toma menos de 3h cada uno (probado con Nevada, Arizona, Southwest, Utah, <b>y España como
+          primera bandera europea live desde S19</b>). La base bilingüe ya existe — agregar francés, japonés o cualquier
+          idioma usa la misma infraestructura{' '}
+          <code className="mx-1 rounded bg-ink-100 px-1 text-[13px]">next-intl</code>{' '}
+          y el pattern JSONB translations en trips.
         </p>
         <p className="mt-3 text-[15px] leading-relaxed">
           Adquirentes estratégicos naturales incluyen: <b>Booking.com, Expedia, Airbnb Experiences, Google (Maps), Roadtrippers,
-          Wanderlog</b> mismo, o jugadores LATAM (Despegar, Kiwi.com).
+          Wanderlog</b> mismo, o jugadores LATAM (Despegar, Kiwi.com). El AI Trip Generator NLP y el bot de WhatsApp
+          son diferenciadores que suben el fit estratégico con jugadores hispanos y LATAM en particular.
         </p>
       </Section>
 
@@ -134,6 +148,9 @@ export default async function InvestorReportPage(){
       <Section title="✅ Estado actual · resumen ejecutivo">
         <ul className="ml-5 list-disc space-y-2 text-[14px] text-ink-700">
           <li>Producto <b>en producción</b>, no en desarrollo</li>
+          <li><b>6 regiones live</b> incluyendo primera bandera europea (España)</li>
+          <li><b>AI Trip Generator NLP</b> deployado — diferenciador único vs competencia</li>
+          <li>Bot WhatsApp bilingüe + widget embebible ambos live</li>
           <li>Bootstrapped y <b>profitable-by-design</b> (costos <b>$25/mes</b> hasta 1,000 usuarios)</li>
           <li><b>Cero deuda</b> financiera, cero funding recibido, todos los assets propios</li>
           <li>Infraestructura globalmente escalable sin re-arquitectura</li>

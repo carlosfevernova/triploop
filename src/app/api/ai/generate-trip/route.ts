@@ -91,6 +91,30 @@ async function callFireworks(system: string, user: string): Promise<AiTripSpec |
   } catch { return null; }
 }
 
+async function callGroq(system: string, user: string): Promise<AiTripSpec | null> {
+  const key = process.env.GROQ_API_KEY;
+  if(!key) return null;
+  try {
+    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'authorization': `Bearer ${key}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 3000,
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: user }
+        ]
+      })
+    });
+    if(!r.ok) return null;
+    const data = await r.json();
+    const raw = data?.choices?.[0]?.message?.content || '';
+    return extractSpec(raw);
+  } catch { return null; }
+}
+
 async function callAnthropic(system: string, user: string): Promise<AiTripSpec | null> {
   const key = process.env.ANTHROPIC_API_KEY;
   if(!key) return null;
@@ -145,9 +169,13 @@ export async function POST(req: Request){
 ${locale === 'es' ? 'Devuelve JSON con este schema exacto' : 'Return JSON matching this exact schema'}:
 ${jsonSchema(locale)}`;
 
-    // Fireworks primero (más barato), Anthropic fallback
+    // Cadena de fallback: Fireworks (barato) → Groq (rápido) → Anthropic (premium)
     let spec = await callFireworks(system, user);
-    let provider: 'fireworks' | 'anthropic' | 'none' = spec ? 'fireworks' : 'none';
+    let provider: 'fireworks' | 'groq' | 'anthropic' | 'none' = spec ? 'fireworks' : 'none';
+    if(!spec){
+      spec = await callGroq(system, user);
+      provider = spec ? 'groq' : 'none';
+    }
     if(!spec){
       spec = await callAnthropic(system, user);
       provider = spec ? 'anthropic' : 'none';
@@ -156,7 +184,7 @@ ${jsonSchema(locale)}`;
     if(!spec){
       return NextResponse.json({
         error: 'ai_unavailable',
-        hint: 'AI providers not configured. Set FIREWORKS_API_KEY or ANTHROPIC_API_KEY.'
+        hint: 'AI providers not configured. Set FIREWORKS_API_KEY, GROQ_API_KEY, or ANTHROPIC_API_KEY.'
       }, { status: 503 });
     }
 
