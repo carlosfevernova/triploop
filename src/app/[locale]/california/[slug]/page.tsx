@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase-admin';
 import { ForkButton } from './ForkButton';
+import { bookingSearchUrl, gygSearchUrl, estimateStayDates } from '@/lib/affiliate';
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -189,6 +190,9 @@ export default async function CaliforniaTemplatePage({ params }: PageProps){
           </div>
         </section>
 
+        {/* Stays & activities CTA para SEO conversion sin necesidad de fork */}
+        <BookingSection tpl={tpl} locale={locale} isEs={isEs} />
+
         {/* Related */}
         <section className="border-t border-ink-100 bg-ink-50/40 py-16">
           <div className="mx-auto max-w-6xl px-6 text-center">
@@ -205,6 +209,49 @@ export default async function CaliforniaTemplatePage({ params }: PageProps){
         </section>
       </main>
     </>
+  );
+}
+
+function BookingSection({ tpl, locale, isEs }: { tpl: TemplateRow; locale: string; isEs: boolean }){
+  const stops = tpl.stops || [];
+  const uniqCities = Array.from(new Map(stops.map((s) => [s.name.split(',')[0], s])).values()).slice(0, 6);
+  const { checkin, checkout } = estimateStayDates(undefined, tpl.days_count);
+  const guests = tpl.travelers_count || 2;
+  return (
+    <section className="border-t border-ink-100 bg-white py-16 md:py-20">
+      <div className="mx-auto max-w-3xl px-6">
+        <h2 className="mb-2 font-display text-display-md text-ink-900">
+          {isEs ? 'Reserva mientras planeas' : 'Book stays & activities'}
+        </h2>
+        <p className="mb-6 text-sm text-ink-500">
+          {isEs
+            ? 'Hoteles con impuestos incluidos y actividades con cancelación gratis. TripLoop recibe una pequeña comisión, tú nunca pagas de más.'
+            : 'Tax-included hotels and activities with free cancellation. TripLoop earns a small commission — you never pay extra.'}
+          {' '}
+          <a href={`/${locale}/affiliate-disclosure`} className="underline hover:text-ink-900">
+            {isEs ? 'Ver aviso' : 'Learn more'}
+          </a>
+        </p>
+        <ul className="space-y-2">
+          {uniqCities.map((s, i) => (
+            <li key={i} className="flex items-center gap-2 rounded-card border border-ink-100 bg-white p-4">
+              <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-ink-100 text-xs font-semibold text-ink-700">{i + 1}</span>
+              <span className="flex-1 truncate text-sm font-semibold text-ink-900">{s.name}</span>
+              <a
+                href={bookingSearchUrl(s.name, { checkin, checkout, guests, locale, source: 'template' })}
+                target="_blank" rel="noreferrer sponsored nofollow"
+                className="rounded-pill bg-ocean-400 px-3 py-1.5 text-[11px] font-semibold text-white transition hover:brightness-110"
+              >🏨 {isEs ? 'Hoteles' : 'Hotels'}</a>
+              <a
+                href={gygSearchUrl(s.name, { locale, source: 'template' })}
+                target="_blank" rel="noreferrer sponsored nofollow"
+                className="rounded-pill bg-coral-500 px-3 py-1.5 text-[11px] font-semibold text-white transition hover:bg-coral-600"
+              >🎭 {isEs ? 'Tours' : 'Tours'}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
 

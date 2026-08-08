@@ -6,6 +6,7 @@ import { TripMap } from '@/components/trip/TripMap';
 import { ItineraryPanel } from '@/components/trip/ItineraryPanel';
 import { AiSuggestionsPanel } from '@/components/trip/AiSuggestionsPanel';
 import { NearbyPanel } from '@/components/trip/NearbyPanel';
+import { StaysAndActivitiesPanel } from '@/components/trip/StaysAndActivitiesPanel';
 import { createClient } from '@/lib/supabase-browser';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
 
@@ -28,6 +29,7 @@ export default function TripPage(){
   const [forking, setForking] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [nearbyAnchor, setNearbyAnchor] = useState<TripStop | null>(null);
+  const [staysOpen, setStaysOpen] = useState(false);
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const routeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -211,6 +213,14 @@ export default function TripPage(){
           <span className="font-display text-lg font-semibold tracking-tight">TripLoop</span>
         </Link>
         <div className="flex items-center gap-2">
+          {trip.stops.length > 0 && (
+            <button
+              onClick={() => setStaysOpen(true)}
+              className="rounded-pill border border-ocean-400/40 bg-ocean-400/10 px-4 py-2 text-xs font-semibold text-ocean-400 transition hover:bg-ocean-400 hover:text-white"
+            >
+              🎫 {isEs ? 'Reservar' : 'Book'}
+            </button>
+          )}
           {isOwnerOrAnon && (
             <button
               onClick={() => setAiOpen(true)}
@@ -265,6 +275,15 @@ export default function TripPage(){
           isEs={isEs}
         />
       )}
+
+      {/* Stays & activities panel (visible a todos, incluye fork/anon) */}
+      <StaysAndActivitiesPanel
+        open={staysOpen}
+        onClose={() => setStaysOpen(false)}
+        trip={trip}
+        isEs={isEs}
+        locale={locale}
+      />
 
       {/* Split view */}
       <div className="flex flex-1 overflow-hidden">

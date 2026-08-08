@@ -1,8 +1,11 @@
 'use client';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 
 export function Footer(){
   const t = useTranslations('footer');
+  const params = useParams<{ locale: string }>();
+  const locale = params?.locale || 'en';
   const year = new Date().getFullYear();
   return (
     <footer className="border-t border-ink-100 bg-white py-16">
@@ -40,7 +43,7 @@ export function Footer(){
             <ul className="space-y-2 text-sm text-ink-600">
               <li><a href="#" className="hover:text-ink-900">{t('terms')}</a></li>
               <li><a href="#" className="hover:text-ink-900">{t('privacy')}</a></li>
-              <li><a href="#" className="hover:text-ink-900">{t('affiliate')}</a></li>
+              <li><a href={`/${locale}/affiliate-disclosure`} className="hover:text-ink-900">{t('affiliate')}</a></li>
             </ul>
           </div>
         </div>
