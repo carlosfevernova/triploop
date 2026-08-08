@@ -7,10 +7,10 @@ export const runtime = 'edge';
 // One-shot seed endpoint. Idempotent: upserts por slug.
 // Protegido con SEED_TOKEN env var (setear en Vercel + llamar con header X-Seed-Token).
 export async function POST(req: Request){
-  const token = req.headers.get('x-seed-token');
-  const expected = process.env.SEED_TOKEN;
+  const token = (req.headers.get('x-seed-token') || '').trim();
+  const expected = (process.env.SEED_TOKEN || '').trim();
   if(!expected || token !== expected){
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'unauthorized', hint_len_expected: expected.length, hint_len_got: token.length }, { status: 401 });
   }
 
   const sb = createAdminClient();
