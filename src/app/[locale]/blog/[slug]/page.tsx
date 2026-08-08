@@ -24,13 +24,9 @@ async function getPost(locale: string, slug: string): Promise<Post | null> {
   return (data as Post) || null;
 }
 
-export async function generateStaticParams(){
-  const sb = createPublicClient();
-  const { data } = await sb.from('blog_posts').select('slug, locale').eq('published', true);
-  return (data || []).map((p: { slug: string; locale: string }) => ({ locale: p.locale, slug: p.slug }));
-}
-
+// ISR on-demand sin generateStaticParams para permitir posts seedados post-build
 export const revalidate = 3600;
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
