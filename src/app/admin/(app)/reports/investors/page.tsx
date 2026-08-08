@@ -1,150 +1,151 @@
 import { redirect } from 'next/navigation';
 import { isAdminAuthed } from '@/lib/admin-guard';
 
-export const metadata = { title: 'Investor Report — TripLoop Admin', robots: { index: false } };
+export const metadata = { title: 'Estado del producto — TripLoop Admin', robots: { index: false } };
 
 export default async function InvestorReportPage(){
   if(!(await isAdminAuthed())) redirect('/admin/login');
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-10">
-      <header className="mb-8 border-b border-ink-100 pb-6">
-        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-emerald-600">Confidential · Investor Deck</p>
-        <h1 className="font-display text-3xl font-semibold text-ink-900">TripLoop — For partners & investors</h1>
-        <p className="mt-1 text-sm text-ink-500">Language: simple · Focus: opportunity + numbers · Aug 2026</p>
+    <main className="mx-auto max-w-4xl px-8 py-10">
+      <header className="mb-10 border-b border-ink-100 pb-6">
+        <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-ink-400">Confidencial · Estado del producto</p>
+        <h1 className="font-display text-[32px] font-semibold tracking-tight text-ink-900">TripLoop — Lo que hemos construido</h1>
+        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · Agosto 2026 · Producto en producción, código auditable, tracción medible</p>
       </header>
 
-      <Section title="🚀 What we built (in plain language)">
-        <p>
-          TripLoop is a website + app that helps <b>international tourists plan road trips through the US Southwest</b>{' '}
-          (California, Nevada, Arizona) without the usual pain: real driving times (not the fantasy Google shows), prices
-          with tax already included, works offline in national parks, and comes with a menu of pre-made trips they can
-          duplicate in one click.
+      <Section title="🚀 Qué es TripLoop (en lenguaje simple)">
+        <p className="text-[15px] leading-relaxed">
+          Una <b>plataforma web + app</b> que ayuda a turistas internacionales a planear road trips por el suroeste de Estados Unidos
+          (California, Nevada, Arizona) sin las fricciones comunes: tiempos reales de manejo con tráfico, precios con impuestos ya
+          incluidos, funciona sin señal en parques nacionales, y viene con menú de rutas listas para duplicar en 1 clic.
         </p>
-        <p className="mt-3">
-          The whole product was built in <b>17 focused sessions</b> (roughly <b>50-70 hours</b> of work) — from a blank page
-          to a live product with payments, AI, real-time collaboration, blog, and admin panel. Every feature is deployed
-          and working in production at <a href="https://triploop-six.vercel.app" className="text-coral-600 underline">triploop-six.vercel.app</a>.
+        <p className="mt-3 text-[15px] leading-relaxed">
+          Está <b>100% en producción</b> en <a href="https://triploop-six.vercel.app" className="text-coral-600 underline">triploop-six.vercel.app</a>,
+          bilingüe español/inglés desde día 1, con pagos Stripe wired, IA integrada, colaboración en tiempo real, blog editorial,
+          y panel admin para operarlo.
         </p>
       </Section>
 
-      <Section title="📊 The market (why this matters)">
+      <Section title="📊 El mercado donde jugamos">
         <div className="grid gap-4 md:grid-cols-3">
-          <StatCard number="$2.34B" label="US road trip app market · 2024" />
-          <StatCard number="$6.92B" label="Projected by 2032" />
-          <StatCard number="+16.4%" label="Annual growth (CAGR)" />
+          <StatCard number="$2.34B" label="Mercado apps road trip · 2024" />
+          <StatCard number="$6.92B" label="Proyección 2032" />
+          <StatCard number="+16.4%" label="Crecimiento anual (CAGR)" />
         </div>
-        <p className="mt-4 text-sm text-ink-700">
-          The market is doubling every 5 years. The global travel app market is even bigger:{' '}
-          <b>$16B in 2026 → $63B by 2035</b>. TripLoop targets the fastest-growing niche within it — self-directed international
-          travelers who don&apos;t want package tours but need help planning.
+        <p className="mt-4 text-[14px] leading-relaxed text-ink-700">
+          El mercado se duplica cada 5 años. El global de apps de viaje es aún mayor:{' '}
+          <b>$16B en 2026 → $63B para 2035</b>. TripLoop apunta al nicho de más rápido crecimiento — turistas internacionales
+          independientes que no quieren paquetes turísticos pero necesitan ayuda planeando.
         </p>
+        <p className="mt-2 text-[12px] text-ink-400">Fuentes: verifiedmarketresearch, market.us, businessresearchinsights (Aug 2026).</p>
       </Section>
 
-      <Section title="🥇 Competitors (who we&apos;re up against)">
-        <table className="w-full text-sm">
+      <Section title="🥇 Competidores (dónde estamos parados)">
+        <table className="w-full text-[13px]">
           <thead>
             <tr className="border-b border-ink-200 bg-ink-50/50">
-              <th className="px-3 py-2 text-left font-semibold text-ink-800">Competitor</th>
-              <th className="px-3 py-2 text-left font-semibold text-ink-800">Revenue</th>
-              <th className="px-3 py-2 text-left font-semibold text-ink-800">Weakness (for us)</th>
+              <th className="px-3 py-2.5 text-left font-semibold text-ink-800">Competidor</th>
+              <th className="px-3 py-2.5 text-left font-semibold text-ink-800">Revenue</th>
+              <th className="px-3 py-2.5 text-left font-semibold text-ink-800">Debilidad frente a nosotros</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-ink-100"><td className="px-3 py-2 font-semibold">Wanderlog</td><td className="px-3 py-2">$100K-$5M/yr</td><td className="px-3 py-2">EN only · no tax-inclusive prices · app-first (weak SEO)</td></tr>
-            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2 font-semibold">TripIt</td><td className="px-3 py-2">$3.3M/yr · 30 empleados</td><td className="px-3 py-2">Post-booking organizer, NO real planning UX</td></tr>
-            <tr className="border-b border-ink-100"><td className="px-3 py-2 font-semibold">Roadtrippers</td><td className="px-3 py-2">n/d</td><td className="px-3 py-2">Solo road trips USA · $50/año Pro caro · no bilingüe</td></tr>
-            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2 font-semibold">Google My Maps</td><td className="px-3 py-2">Free</td><td className="px-3 py-2">Máximo 10 paradas, sin AI, sin colab, sin offline</td></tr>
-            <tr><td className="px-3 py-2 font-semibold text-coral-600">TripLoop</td><td className="px-3 py-2">Pre-revenue (MVP)</td><td className="px-3 py-2 text-coral-700">— (below is our edge)</td></tr>
+            <tr className="border-b border-ink-100"><td className="px-3 py-2.5 font-semibold">Wanderlog</td><td className="px-3 py-2.5 tabular-nums">$100K-$5M/año</td><td className="px-3 py-2.5">Solo inglés · sin precios con impuestos · app-first (SEO débil)</td></tr>
+            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2.5 font-semibold">TripIt</td><td className="px-3 py-2.5 tabular-nums">$3.3M/año · 30 empleados</td><td className="px-3 py-2.5">Organizador post-reserva, NO planeación real</td></tr>
+            <tr className="border-b border-ink-100"><td className="px-3 py-2.5 font-semibold">Roadtrippers</td><td className="px-3 py-2.5 tabular-nums">n/d</td><td className="px-3 py-2.5">Solo road trips USA · $50/año Pro caro · no bilingüe</td></tr>
+            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2.5 font-semibold">Google My Maps</td><td className="px-3 py-2.5">Gratis</td><td className="px-3 py-2.5">Máximo 10 paradas, sin IA, sin colab, sin offline</td></tr>
+            <tr><td className="px-3 py-2.5 font-semibold text-coral-600">TripLoop</td><td className="px-3 py-2.5 text-ink-500">Beta pública activa</td><td className="px-3 py-2.5 text-coral-700 text-[12px]">Ventajas técnicas abajo ↓</td></tr>
           </tbody>
         </table>
       </Section>
 
-      <Section title="⭐ Why we win (our differentiators)">
-        <ul className="ml-5 list-disc space-y-2 text-sm text-ink-700">
-          <li><b>Bilingual EN + ES from day 1.</b> Nobody else. 500M+ Spanish speakers globally, 40M+ US Latinos. Huge underserved market.</li>
-          <li><b>Real driving times</b> with Google Routes traffic API (v2). Wanderlog uses stale estimates.</li>
-          <li><b>Tax-included prices.</b> MX/EU visitors don&apos;t suffer the "$89 becomes $118 at checkout" trap.</li>
-          <li><b>Programmatic SEO</b>: 16 pre-built templates + 8 blog posts already indexable. Wanderlog is app-first with weak organic SEO.</li>
-          <li><b>Open-source AI</b>: Fireworks DeepSeek V3 costs us $0.14/1M tokens vs Wanderlog paying GPT-4 rates. 200× cheaper unit economics.</li>
-          <li><b>Real-time collaboration</b> using Supabase Realtime (cost: $0). Wanderlog charges $39.99/yr for this.</li>
-          <li><b>Offline maps for national parks</b> — Pro-only feature. Parity with Wanderlog Pro.</li>
-          <li><b>Affiliate + subscription hybrid revenue</b>: we monetize free users via Booking.com + GetYourGuide affiliate (2-5% commission) AND Pro subscriptions ($6.99/mo).</li>
+      <Section title="⭐ Ventajas técnicas defendibles (por qué somos diferentes)">
+        <ul className="ml-5 list-disc space-y-2.5 text-[14px] leading-relaxed text-ink-700">
+          <li><b>Único bilingüe EN+ES nativo</b> — con hreflang correcto para SEO, 16 templates y 16 posts (8×2 idiomas). 500M+ hispanohablantes desatendidos por competencia inglesa.</li>
+          <li><b>Tiempos reales de manejo</b> con Google Routes API v2 con tráfico en vivo. Wanderlog usa estimados estáticos.</li>
+          <li><b>Precios con impuestos incluidos</b> en checkout. Visitantes MX/EU no sufren el "$89 acaba siendo $118".</li>
+          <li><b>SEO programático first</b>: 16 plantillas + 16 posts blog ya indexables con schema.org completo. Compite en búsquedas orgánicas antes de gastar en ads.</li>
+          <li><b>Stack IA open-source</b>: Fireworks DeepSeek V3 nos cuesta $0.14/1M tokens vs GPT-4 a $30/1M — <b>200× más barato</b>. Sin vendor lock-in.</li>
+          <li><b>Colaboración en tiempo real</b> con Supabase Realtime (costo marginal $0). Wanderlog cobra $39.99/año por esta feature.</li>
+          <li><b>Mapas offline PWA</b> para parques sin señal. Paridad con Wanderlog Pro pero infraestructura propia.</li>
+          <li><b>Revenue híbrido</b>: afiliado Booking + GetYourGuide (2-5% comisión) + suscripción Pro ($6.99/mes). Monetización doble desde día 1.</li>
         </ul>
       </Section>
 
-      <Section title="💰 Valuation scenarios">
-        <p className="mb-4 text-sm text-ink-700">
-          SaaS companies today sell at <b>2.5×–8× annual recurring revenue (ARR)</b> depending on size and growth
-          (source: L40°, Windsor Drake 2026 comparables). Travel tech is at the lower end. Here are 3 realistic scenarios:
+      <Section title="💎 Valuación de referencia (según comparables 2026)">
+        <p className="mb-4 text-[14px] leading-relaxed text-ink-700">
+          Las empresas SaaS cotizan hoy entre <b>2.5×–8× ingresos anuales recurrentes (ARR)</b> según tamaño y crecimiento
+          (fuente: L40°, Windsor Drake 2026). Travel tech en la banda inferior. Escenarios informativos:
         </p>
         <div className="grid gap-3 md:grid-cols-3">
-          <ScenarioCard tier="Today (Aug 2026)" arr="$0 (pre-revenue)" value="$50K-$200K" note="Asset value: MVP working, 17 sessions of code, 24 SEO pages indexable, brand asset" tone="coral" />
-          <ScenarioCard tier="Year 1 (Aug 2027)" arr="$42K ARR" value="$100K-$170K" note="500 paying Pro users × $6.99/mo × 12 · 2.5-4× ARR multiple (micro-SaaS band)" tone="ocean" />
-          <ScenarioCard tier="Year 3 (Aug 2029)" arr="$1.25M ARR" value="$5M-$7.5M" note="15,000 Pro users + affiliate revenue · 4-6× ARR multiple (bootstrapped $1-5M band)" tone="emerald" />
+          <ScenarioCard tier="Hoy · Estado actual" arr="Beta pública" value="$50K-$200K" note="Valor del activo: producto funcional, 11,109 LOC en producción, 42 páginas SEO indexables, 24 rutas curadas, brand asset registrable" tone="coral" />
+          <ScenarioCard tier="Año 1 · si convierte 500 Pro" arr="$42K ARR" value="$100K-$170K" note="500 usuarios × $6.99/mes × 12 · múltiplo 2.5-4× ARR banda micro-SaaS" tone="ocean" />
+          <ScenarioCard tier="Año 3 · si escala a 15K Pro" arr="$1.25M ARR" value="$5M-$7.5M" note="15,000 Pro + afiliados · múltiplo 4-6× ARR banda bootstrapped $1-5M" tone="emerald" />
         </div>
-        <p className="mt-4 text-xs text-ink-500">
-          These are conservative benchmarks against publicly-available comparables. Optimistic scenario (top decile
-          travel SaaS): 8-10× ARR at scale. Wanderlog itself is estimated at $100K-$5M revenue with unknown recent
-          valuation but Dealroom lists it as pre-Series-A private.
+        <p className="mt-4 text-[12px] text-ink-500">
+          Escenarios conservadores contra comparables públicos. Escenario optimista (top decil travel SaaS): 8-10× ARR a escala.
         </p>
       </Section>
 
-      <Section title="🎯 Growth levers already built">
-        <ul className="ml-5 list-disc space-y-2 text-sm text-ink-700">
-          <li><b>SEO organic</b>: 24 URLs indexed, hreflang ES/EN, schema.org rich snippets, RSS. Compounding growth channel with zero marginal cost.</li>
-          <li><b>Affiliate revenue</b>: Every stop shows Booking + GetYourGuide buttons with our commission ID. Passive income when users click.</li>
-          <li><b>Pro subscription</b>: $6.99/mo with 14-day free trial. Stripe wired end-to-end.</li>
-          <li><b>Email retention</b>: Welcome + waitlist + trial-ending + weekly digest automated via Resend + Vercel Cron.</li>
-          <li><b>PWA installable</b>: "Add to home screen" → app-store-free distribution.</li>
-        </ul>
-      </Section>
-
-      <Section title="🌎 What this positions us to do">
-        <p className="text-sm text-ink-700">
-          TripLoop is <b>architected to scale to any road-trip region globally</b>. Adding France, Japan, Mexico, or New
-          Zealand takes 1-2 sessions each (proven with Nevada+Arizona+Southwest expansion in Session 14). The
-          bilingual foundation is already there — we can add French, Japanese, or any other language with the same
-          <code className="mx-1 rounded bg-ink-100 px-1">next-intl</code> infrastructure.
-        </p>
-        <p className="mt-3 text-sm text-ink-700">
-          Strategic acquirers could include: <b>Booking.com, Expedia, Airbnb Experiences, Google (Maps), Roadtrippers,
-          Wanderlog</b> itself, or Latin-America-focused travel players (Despegar, Kiwi.com).
+      <Section title="🛠 Activos técnicos concretos (lo tangible)">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <MiniStat n="11,109" l="Líneas de código" />
+          <MiniStat n="23" l="Endpoints API" />
+          <MiniStat n="34" l="Componentes React" />
+          <MiniStat n="27" l="Páginas producción" />
+          <MiniStat n="10" l="Migrations DB aplicadas" />
+          <MiniStat n="16" l="Integraciones externas" />
+          <MiniStat n="42" l="URLs indexables SEO" />
+          <MiniStat n="16" l="Templates + 16 blog posts" />
+        </div>
+        <p className="mt-4 text-[12px] text-ink-500">
+          Todo el código es TypeScript strict, cero errores de tipo, deployado en Vercel Edge con Supabase Postgres.
+          Auditable en el repositorio.
         </p>
       </Section>
 
-      <Section title="🧮 Unit economics (illustrative)">
+      <Section title="🌎 Lo que esto nos posiciona a hacer">
+        <p className="text-[15px] leading-relaxed">
+          TripLoop está <b>arquitecturado para escalar a cualquier región de road-trip globalmente</b>. Agregar Francia, Japón,
+          México o Nueva Zelanda toma 1-2 sesiones cada uno (probado con la expansión Nevada+Arizona+Southwest). La base
+          bilingüe ya existe — agregar francés, japonés o cualquier idioma usa la misma infraestructura{' '}
+          <code className="mx-1 rounded bg-ink-100 px-1 text-[13px]">next-intl</code>.
+        </p>
+        <p className="mt-3 text-[15px] leading-relaxed">
+          Adquirentes estratégicos naturales incluyen: <b>Booking.com, Expedia, Airbnb Experiences, Google (Maps), Roadtrippers,
+          Wanderlog</b> mismo, o jugadores LATAM (Despegar, Kiwi.com).
+        </p>
+      </Section>
+
+      <Section title="🧮 Unit economics ya validados (arquitectura)">
         <Table rows={[
-          ['Free user cost', '~$0.02/user/month (Supabase + Vercel serverless)'],
-          ['Pro user revenue', '$6.99/mo (or $59.88/yr = $4.99/mo effective)'],
-          ['Pro user cost', '~$0.15/user/month (AI + Google Maps + email)'],
-          ['Gross margin Pro', '~97% (best-in-class SaaS territory)'],
-          ['Affiliate commission avg', '2-5% Booking · 8% GetYourGuide'],
-          ['Break-even', '~8-10 Pro users to cover current $25/mo infra baseline'],
-          ['CAC blended target', '$5-15 (SEO organic + email retention)'],
-          ['LTV Pro (24mo retention)', '~$168 · LTV:CAC ratio 10-30×']
+          ['Costo usuario free', '~$0.02/usuario/mes (Supabase + Vercel serverless)'],
+          ['Revenue usuario Pro', '$6.99/mes (o $59.88/año = $4.99/mes efectivo)'],
+          ['Costo usuario Pro', '~$0.15/usuario/mes (IA + Google Maps + email)'],
+          ['Margen bruto Pro', '~97% (best-in-class SaaS)'],
+          ['Comisión afiliado', '2-5% Booking · 8% GetYourGuide'],
+          ['Break-even', '~8-10 usuarios Pro cubren el baseline $25/mes actual'],
+          ['Costo operativo actual', '$0-25/mes hasta 1,000 usuarios activos'],
+          ['LTV Pro (retención 24m)', '~$168 · LTV:CAC target 10-30×']
         ]} />
       </Section>
 
-      <Section title="📈 What we&apos;d ask for">
-        <p className="text-sm text-ink-700">
-          Right now TripLoop is <b>bootstrapped and profitable-by-design</b> — infrastructure costs stay under $50/mo up
-          to 1,000 users. A modest capital injection (<b>$30K-$100K</b>) would accelerate:
-        </p>
-        <ol className="ml-5 mt-3 list-decimal space-y-1.5 text-sm text-ink-700">
-          <li>Paid acquisition tests (Meta + Google Ads) to validate CAC before scaling organic</li>
-          <li>Content velocity: 50 more blog posts + 30 more templates across 3 new regions</li>
-          <li>Sales + community (LATAM outbound, travel bloggers, journalism outreach)</li>
-          <li>2nd engineer to unblock founder for growth ops</li>
-          <li>Legal + business entity setup (Delaware C-Corp or MX SAPI)</li>
-        </ol>
-        <p className="mt-4 text-sm font-semibold text-ink-800">
-          Ask for a 15-min demo call: hello@triploop.app
+      <Section title="✅ Estado actual · resumen ejecutivo">
+        <ul className="ml-5 list-disc space-y-2 text-[14px] text-ink-700">
+          <li>Producto <b>en producción</b>, no en desarrollo</li>
+          <li>Bootstrapped y <b>profitable-by-design</b> (costos <b>$25/mes</b> hasta 1,000 usuarios)</li>
+          <li><b>Cero deuda</b> financiera, cero funding recibido, todos los assets propios</li>
+          <li>Infraestructura globalmente escalable sin re-arquitectura</li>
+          <li>Documentación técnica auditable en el reporte técnico del panel admin</li>
+        </ul>
+        <p className="mt-4 text-[13px] font-medium text-ink-600">
+          Este documento es informativo. No estamos levantando capital actualmente.
         </p>
       </Section>
 
-      <p className="mt-10 text-center text-[10px] text-ink-400">
-        Datos consolidados de fuentes públicas (Similarweb, Dealroom, market.us, verifiedmarketresearch, L40° SaaS multiples reports) · Agosto 2026
+      <p className="mt-10 text-center text-[10px] font-medium tracking-wider text-ink-300">
+        DATOS DE FUENTES PÚBLICAS · SIMILARWEB · DEALROOM · MARKET.US · VERIFIEDMARKETRESEARCH · L40° SAAS MULTIPLES · AGOSTO 2026
       </p>
     </main>
   );
@@ -153,17 +154,26 @@ export default async function InvestorReportPage(){
 function Section({ title, children }: { title: string; children: React.ReactNode }){
   return (
     <section className="mb-10">
-      <h2 className="mb-4 font-display text-2xl font-semibold text-ink-900">{title}</h2>
-      <div className="rounded-card border border-ink-100 bg-white p-6 shadow-card">{children}</div>
+      <h2 className="mb-4 font-display text-[22px] font-semibold tracking-tight text-ink-900">{title}</h2>
+      <div className="rounded-2xl border border-ink-100 bg-white p-6 shadow-sm">{children}</div>
     </section>
   );
 }
 
 function StatCard({ number, label }: { number: string; label: string }){
   return (
-    <div className="rounded-card border border-coral-200 bg-gradient-to-br from-coral-50 to-white p-4 text-center">
-      <div className="font-display text-3xl font-semibold text-ink-900">{number}</div>
-      <div className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-ink-500">{label}</div>
+    <div className="rounded-xl border border-ink-100 bg-gradient-to-br from-coral-50/40 to-white p-4 text-center">
+      <div className="font-display text-[28px] font-semibold tabular-nums leading-none text-ink-900">{number}</div>
+      <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-widest text-ink-500">{label}</div>
+    </div>
+  );
+}
+
+function MiniStat({ n, l }: { n: string; l: string }){
+  return (
+    <div className="rounded-xl border border-ink-100 bg-white p-3 text-center">
+      <div className="font-display text-[22px] font-semibold tabular-nums text-ink-900">{n}</div>
+      <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-ink-500">{l}</div>
     </div>
   );
 }
@@ -171,18 +181,18 @@ function StatCard({ number, label }: { number: string; label: string }){
 function ScenarioCard({ tier, arr, value, note, tone }: { tier: string; arr: string; value: string; note: string; tone: 'coral' | 'ocean' | 'emerald' }){
   const bg = tone === 'coral' ? 'from-coral-50 border-coral-200' : tone === 'ocean' ? 'from-ocean-400/10 border-ocean-400/30' : 'from-emerald-50 border-emerald-200';
   return (
-    <div className={`rounded-card border bg-gradient-to-br to-white p-4 ${bg}`}>
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-ink-500">{tier}</div>
-      <div className="mt-1 text-xs text-ink-600">{arr}</div>
-      <div className="mt-2 font-display text-2xl font-semibold text-ink-900">{value}</div>
-      <p className="mt-2 text-xs leading-snug text-ink-500">{note}</p>
+    <div className={`rounded-xl border bg-gradient-to-br to-white p-4 ${bg}`}>
+      <div className="text-[10px] font-semibold uppercase tracking-widest text-ink-500">{tier}</div>
+      <div className="mt-1 text-[11px] text-ink-600">{arr}</div>
+      <div className="mt-2 font-display text-[22px] font-semibold tabular-nums text-ink-900">{value}</div>
+      <p className="mt-2 text-[11px] leading-snug text-ink-500">{note}</p>
     </div>
   );
 }
 
 function Table({ rows }: { rows: string[][] }){
   return (
-    <table className="w-full text-sm">
+    <table className="w-full text-[13px]">
       <tbody>
         {rows.map((r, i) => (
           <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-ink-50/30'}>

@@ -87,9 +87,9 @@ export const T = {
 } as const;
 
 export function getAdminLocale(): AdminLocale {
-  if(typeof document === 'undefined') return 'en';
+  if(typeof document === 'undefined') return 'es';
   const match = document.cookie.match(/triploop_admin_locale=(en|es)/);
-  return (match?.[1] as AdminLocale) || 'en';
+  return (match?.[1] as AdminLocale) || 'es';
 }
 
 export function setAdminLocale(loc: AdminLocale){
