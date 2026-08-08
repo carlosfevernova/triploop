@@ -1,6 +1,25 @@
 'use client';
 import { useEffect, useState } from 'react';
 import type { PlaceSuggestion, Trip } from '@/lib/types';
+import { usePro } from '@/lib/use-pro';
+import { UpgradeModal } from '@/components/UpgradeModal';
+
+const AI_FREE_DAILY_LIMIT = 3;
+const AI_USAGE_KEY = 'triploop_ai_daily_v1';
+
+function todayKey(){ return new Date().toISOString().slice(0, 10); }
+function getDailyCount(){
+  if(typeof localStorage === 'undefined') return 0;
+  try {
+    const raw = JSON.parse(localStorage.getItem(AI_USAGE_KEY) || '{}');
+    return raw.date === todayKey() ? (raw.count || 0) : 0;
+  } catch { return 0; }
+}
+function incrementDailyCount(){
+  const next = getDailyCount() + 1;
+  try { localStorage.setItem(AI_USAGE_KEY, JSON.stringify({ date: todayKey(), count: next })); } catch {}
+  return next;
+}
 
 interface AiSuggestion extends PlaceSuggestion {
   _ai?: {
@@ -30,12 +49,22 @@ export function AiSuggestionsPanel({ open, onClose, trip, onAdd, isEs }: Props){
   const [interests, setInterests] = useState<string[]>(['nature', 'food', 'iconic']);
   const [error, setError] = useState<string | null>(null);
   const [added, setAdded] = useState<Set<string>>(new Set());
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [dailyCount, setDailyCount] = useState(0);
+  const { isPro } = usePro();
+
+  useEffect(() => { setDailyCount(getDailyCount()); }, [open]);
 
   const INTEREST_OPTIONS = isEs
     ? ['naturaleza', 'comida', 'iconos', 'joyas ocultas', 'playas', 'ciudad', 'aventura', 'romance']
     : ['nature', 'food', 'iconic', 'hidden gems', 'beaches', 'city', 'adventure', 'romance'];
 
   const generate = async () => {
+    // Gate: free tier max 3 generaciones/día
+    if(!isPro && getDailyCount() >= AI_FREE_DAILY_LIMIT){
+      setUpgradeOpen(true);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -55,6 +84,7 @@ export function AiSuggestionsPanel({ open, onClose, trip, onAdd, isEs }: Props){
       if(!r.ok) throw new Error(data.detail || 'error');
       setSuggestions(data.suggestions || []);
       setMeta({ provider: data.provider, mode: data.mode, model: data.model, message: data.message });
+      if(!isPro) setDailyCount(incrementDailyCount());
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -86,6 +116,7 @@ export function AiSuggestionsPanel({ open, onClose, trip, onAdd, isEs }: Props){
   };
 
   if(!open) return null;
+  const remaining = Math.max(0, AI_FREE_DAILY_LIMIT - dailyCount);
 
   const providerLabel = meta.provider === 'fireworks'
     ? 'DeepSeek V3 · Fireworks'
@@ -167,6 +198,13 @@ export function AiSuggestionsPanel({ open, onClose, trip, onAdd, isEs }: Props){
               ? (isEs ? 'Generando…' : 'Generating…')
               : (isEs ? '🔄 Regenerar sugerencias' : '🔄 Regenerate suggestions')}
           </button>
+          {!isPro && (
+            <p className="mt-2 text-center text-[10px] text-ink-400">
+              {isEs
+                ? `${remaining} de ${AI_FREE_DAILY_LIMIT} generaciones IA gratis hoy · Pro ilimitado`
+                : `${remaining} of ${AI_FREE_DAILY_LIMIT} free AI generations today · Pro unlimited`}
+            </p>
+          )}
         </div>
 
         {/* Suggestions list */}
@@ -248,6 +286,7 @@ export function AiSuggestionsPanel({ open, onClose, trip, onAdd, isEs }: Props){
           )}
         </div>
       </aside>
+      <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} reason="ai" isEs={isEs} />
     </>
   );
 }

@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase-admin';
 import { createClientFromRequest } from '@/lib/supabase-server';
+import { isProSubscription } from '@/lib/stripe-config';
 import type { Trip } from '@/lib/types';
 
 export const runtime = 'edge';
+
+const FREE_TRIP_LIMIT = 3;
 
 // POST /api/trips — crear nuevo trip (opcionalmente asigna owner_id si hay sesión)
 export async function POST(req: Request){
@@ -36,6 +39,21 @@ export async function POST(req: Request){
     } catch { /* trip anónimo */ }
 
     const sb = createAdminClient();
+
+    // Gate free tier: usuarios logeados sin Pro → max 3 trips
+    if(owner_id){
+      const { data: sub } = await sb.from('subscriptions').select('status').eq('user_id', owner_id).maybeSingle();
+      if(!isProSubscription(sub ? { user_id: owner_id, status: sub.status } : null)){
+        const { count } = await sb.from('trips').select('id', { count: 'exact', head: true }).eq('owner_id', owner_id);
+        if((count || 0) >= FREE_TRIP_LIMIT){
+          return NextResponse.json({
+            error: 'free_limit_reached',
+            limit: FREE_TRIP_LIMIT,
+            hint: 'Delete an old trip or upgrade to TripLoop Pro.'
+          }, { status: 402 });
+        }
+      }
+    }
     const { data: slugRow, error: slugErr } = await sb.rpc('gen_trip_slug');
     if(slugErr) return NextResponse.json({ error: 'slug_gen_failed', detail: slugErr.message }, { status: 500 });
     const slug = slugRow as string;

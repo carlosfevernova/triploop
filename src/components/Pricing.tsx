@@ -1,8 +1,12 @@
 'use client';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 export function Pricing(){
   const t = useTranslations('pricing');
+  const params = useParams<{ locale: string }>();
+  const locale = params?.locale || 'en';
   const free = t.raw('free') as { name: string; price: string; period: string; cta: string; features: string[] };
   const pro = t.raw('pro') as { name: string; price: string; period: string; badge: string; cta: string; features: string[] };
   return (
@@ -28,9 +32,9 @@ export function Pricing(){
                 </li>
               ))}
             </ul>
-            <button className="mt-10 w-full rounded-pill border border-ink-200 bg-white py-3 text-sm font-semibold text-ink-800 transition hover:border-ink-800">
+            <Link href={`/${locale}/trip/new`} className="mt-10 block w-full rounded-pill border border-ink-200 bg-white py-3 text-center text-sm font-semibold text-ink-800 transition hover:border-ink-800">
               {free.cta}
-            </button>
+            </Link>
           </div>
 
           {/* Pro */}
@@ -51,9 +55,9 @@ export function Pricing(){
                 </li>
               ))}
             </ul>
-            <button className="mt-10 w-full rounded-pill bg-coral-500 py-3 text-sm font-semibold text-white transition hover:bg-coral-600 hover:shadow-glow">
+            <Link href={`/${locale}/pricing/upgrade`} className="mt-10 block w-full rounded-pill bg-coral-500 py-3 text-center text-sm font-semibold text-white transition hover:bg-coral-600 hover:shadow-glow">
               {pro.cta}
-            </button>
+            </Link>
           </div>
         </div>
       </div>
