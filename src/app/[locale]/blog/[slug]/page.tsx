@@ -40,7 +40,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     keywords: post.seo_keywords,
     authors: [{ name: post.author_name || 'TripLoop Editorial' }],
     alternates: {
-      canonical: `/${locale}/blog/${slug}`
+      canonical: `/${locale}/blog/${slug}`,
+      languages: { en: `/en/blog/${slug}`, es: `/es/blog/${slug}` }
     },
     openGraph: {
       title, description, type: 'article',

@@ -1,52 +1,92 @@
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { T, getAdminLocale, setAdminLocale, type AdminLocale } from '@/lib/admin-i18n';
 
-const NAV = [
-  { href: '/admin', label: 'Dashboard', icon: '📊' },
-  { href: '/admin/blog', label: 'Blog Editor', icon: '📝' },
-  { href: '/admin/reports/technical', label: 'Technical Report', icon: '🔧' },
-  { href: '/admin/reports/investors', label: 'Investor Deck', icon: '💼' }
+type NavKey = 'dashboard' | 'blogEditor' | 'technicalReport' | 'investorDeck';
+
+const NAV: Array<{ href: string; key: NavKey; icon: React.ReactNode }> = [
+  { href: '/admin', key: 'dashboard',        icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M3 3h6v8H3zM11 3h6v4h-6zM11 9h6v8h-6zM3 13h6v4H3z" /></svg> },
+  { href: '/admin/blog', key: 'blogEditor',  icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M14.586 2.586a2 2 0 112.828 2.828l-9.9 9.9L4 17l1.686-3.514 9.9-9.9z" /></svg> },
+  { href: '/admin/reports/technical', key: 'technicalReport', icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M12 2l2 5 5 .8-3.6 3.5.8 5.2L12 14l-4.2 2.5.8-5.2L5 7.8 10 7l2-5z" /></svg> },
+  { href: '/admin/reports/investors',  key: 'investorDeck',    icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path fillRule="evenodd" d="M6 5V3a2 2 0 012-2h4a2 2 0 012 2v2h3a1 1 0 011 1v10a2 2 0 01-2 2H3a2 2 0 01-2-2V6a1 1 0 011-1h3zM8 3h4v2H8V3z" clipRule="evenodd" /></svg> }
 ];
 
 export function AdminSidebar(){
   const pathname = usePathname();
+  const router = useRouter();
+  const [locale, setLocale] = useState<AdminLocale>('en');
+  useEffect(() => { setLocale(getAdminLocale()); }, []);
+  const t = T[locale];
+
+  const switchLocale = (loc: AdminLocale) => {
+    setAdminLocale(loc);
+    setLocale(loc);
+    router.refresh();
+  };
+
   return (
-    <aside className="hidden w-56 flex-shrink-0 border-r border-ink-100 bg-white p-4 md:block">
-      <div className="mb-6 flex items-center gap-2 px-2">
-        <div className="grid h-7 w-7 place-items-center rounded-lg bg-coral-500 text-xs font-semibold text-white">t</div>
-        <span className="font-display text-sm font-semibold text-ink-900">Admin</span>
+    <aside className="hidden w-60 flex-shrink-0 border-r border-ink-100 bg-white md:flex md:flex-col">
+      {/* Brand */}
+      <div className="border-b border-ink-100 px-5 py-5">
+        <div className="flex items-center gap-2.5">
+          <div className="grid h-8 w-8 place-items-center rounded-[10px] bg-ink-900 text-[13px] font-semibold text-white">t</div>
+          <div>
+            <div className="font-display text-[15px] font-semibold leading-tight tracking-tight text-ink-900">TripLoop</div>
+            <div className="text-[10px] font-medium uppercase tracking-widest text-ink-400">{t.admin}</div>
+          </div>
+        </div>
       </div>
-      <nav>
-        <ul className="space-y-1">
+
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-4">
+        <ul className="space-y-0.5">
           {NAV.map((item) => {
             const active = pathname === item.href || (item.href !== '/admin' && pathname?.startsWith(item.href));
             return (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition ${
-                    active ? 'bg-coral-50 font-semibold text-coral-700' : 'text-ink-600 hover:bg-ink-50'
+                  className={`group flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition ${
+                    active ? 'bg-ink-900 text-white shadow-sm' : 'text-ink-600 hover:bg-ink-50 hover:text-ink-900'
                   }`}
                 >
-                  <span aria-hidden>{item.icon}</span>
-                  <span>{item.label}</span>
+                  <span className={active ? 'text-white' : 'text-ink-400 group-hover:text-ink-700'}>{item.icon}</span>
+                  <span>{t[item.key]}</span>
                 </Link>
               </li>
             );
           })}
         </ul>
       </nav>
-      <form action="/api/admin/login" method="POST" className="mt-8 px-2">
-        <button
-          type="submit"
-          formMethod="DELETE"
-          formAction="/api/admin/login"
-          className="text-xs font-semibold text-ink-400 hover:text-coral-600"
-        >
-          Sign out
-        </button>
-      </form>
+
+      {/* Footer: locale switch + sign out */}
+      <div className="border-t border-ink-100 px-3 py-4">
+        <div className="mb-3 flex gap-1 rounded-pill bg-ink-100 p-0.5 text-[11px]">
+          {(['en', 'es'] as AdminLocale[]).map((loc) => (
+            <button
+              key={loc}
+              onClick={() => switchLocale(loc)}
+              className={`flex-1 rounded-pill py-1 font-semibold uppercase tracking-wider transition ${
+                locale === loc ? 'bg-white text-ink-900 shadow-sm' : 'text-ink-500 hover:text-ink-800'
+              }`}
+            >
+              {loc}
+            </button>
+          ))}
+        </div>
+        <form action="/api/admin/login" method="POST" className="px-1">
+          <button
+            type="submit"
+            formMethod="DELETE"
+            formAction="/api/admin/login"
+            className="w-full text-left text-[11px] font-medium text-ink-400 transition hover:text-coral-600"
+          >
+            {t.signOut}
+          </button>
+        </form>
+      </div>
     </aside>
   );
 }

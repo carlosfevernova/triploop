@@ -5,10 +5,10 @@ import { useTranslations } from 'next-intl';
 
 const heroImages: Record<string, string> = {
   'San Francisco': 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=800&auto=format&fit=crop',
-  'Los Angeles': 'https://images.unsplash.com/photo-1544413164-5f1b361f5ee5?w=800&auto=format&fit=crop',
+  'Los Angeles': 'https://images.unsplash.com/photo-1541959833400-049d37f98ccd?w=800&auto=format&fit=crop',
   'San Diego': 'https://images.unsplash.com/photo-1566288623394-377af472d81b?w=800&auto=format&fit=crop',
   'Yosemite': 'https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=800&auto=format&fit=crop',
-  'Big Sur': 'https://images.unsplash.com/photo-1548783094-f92388978a25?w=800&auto=format&fit=crop',
+  'Big Sur': 'https://images.unsplash.com/photo-1477346611705-65d1883cee1e?w=800&auto=format&fit=crop',
   'The Grand Loop': 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&auto=format&fit=crop',
   'El Loop Grande': 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&auto=format&fit=crop'
 };

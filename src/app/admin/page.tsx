@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { isAdminAuthed } from '@/lib/admin-guard';
 import { createAdminClient } from '@/lib/supabase-admin';
+import { DashboardClient } from '@/components/admin/DashboardClient';
 
 export const dynamic = 'force-dynamic';
 
@@ -99,11 +100,20 @@ async function loadMetrics(): Promise<Metrics> {
 export default async function AdminDashboard(){
   const ok = await isAdminAuthed();
   if(!ok) redirect('/admin/login');
-
   const m = await loadMetrics();
+  return <DashboardClient metrics={m} />;
+}
 
+// Legacy inline UI kept below (unused) for reference — safe to remove in next cleanup
+function _LegacyUI(){
+  return null;
+}
+
+// unused legacy JSX (never rendered):
+function _unusedLegacyMain(){
+  const m = { trips_total: 0, trips_7d: 0, trips_owned: 0, trips_anon: 0, templates: 0, users_total: 0, users_7d: 0, subs_by_status: {} as Record<string, number>, mrr_usd: 0, arr_usd: 0, affiliate_7d: 0, affiliate_by_provider: {} as Record<string, number>, template_views_7d: 0, template_top: [] as Array<{ slug: string; views: number }> };
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
+    <main className="mx-auto max-w-6xl px-6 py-10" hidden>
       <header className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="font-display text-3xl font-semibold text-ink-900">TripLoop Admin</h1>

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase-admin';
 import { BLOG_POSTS } from '@/lib/blog-seed';
+import { BLOG_POSTS_ES } from '@/lib/blog-seed-es';
 import { estimateReadMinutes } from '@/lib/markdown';
 
 export const runtime = 'edge';
@@ -13,8 +14,9 @@ export async function POST(req: Request){
   }
 
   const sb = createAdminClient();
-  const results: Array<{ slug: string; ok: boolean; error?: string }> = [];
-  for(const post of BLOG_POSTS){
+  const results: Array<{ slug: string; locale: string; ok: boolean; error?: string }> = [];
+  const all = [...BLOG_POSTS, ...BLOG_POSTS_ES];
+  for(const post of all){
     const { error } = await sb.from('blog_posts').upsert({
       slug: post.slug,
       locale: post.locale,
@@ -27,8 +29,8 @@ export async function POST(req: Request){
       published: true,
       read_minutes: estimateReadMinutes(post.body_md),
       updated_at: new Date().toISOString()
-    }, { onConflict: 'slug' });
-    results.push({ slug: post.slug, ok: !error, error: error?.message });
+    }, { onConflict: 'slug,locale' });
+    results.push({ slug: post.slug, locale: post.locale, ok: !error, error: error?.message });
   }
   return NextResponse.json({ seeded: results.length, results });
 }

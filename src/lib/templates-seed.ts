@@ -52,7 +52,7 @@ export const REGION_META: Record<Region, {
     slug: 'southwest', name_en: 'US Southwest', name_es: 'Suroeste USA',
     tagline_en: 'Multi-state Grand Circle: 5 states, 8 national parks, one epic loop.',
     tagline_es: 'Gran Circuito multi-estado: 5 estados, 8 parques nacionales, un solo viaje épico.',
-    hero_image: 'https://images.unsplash.com/photo-1547750385-c50c65ff8267?w=1200&q=80'
+    hero_image: 'https://images.unsplash.com/photo-1544986581-efac024faf62?w=1200&q=80'
   }
 };
 
@@ -122,7 +122,7 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
     origin_city: 'San Francisco',
     destination_city: 'Los Angeles',
     days_count: 5,
-    hero_image_url: 'https://images.unsplash.com/photo-1590093060686-e7c2f00e35c1?w=1200&q=80',
+    hero_image_url: 'https://images.unsplash.com/photo-1512813498716-3e640fed3f39?w=1200&q=80',
     stops: [
       { name: 'San Francisco', lat: 37.7749, lng: -122.4194, duration_min: 300, category: 'city' },
       { name: 'Monterey Bay Aquarium', lat: 36.6182, lng: -121.9017, duration_min: 240, category: 'attraction' },
@@ -307,7 +307,7 @@ export const ARIZONA_TEMPLATES: SeedTemplate[] = [
     origin_city: 'Sedona',
     destination_city: 'Flagstaff',
     days_count: 4,
-    hero_image_url: 'https://images.unsplash.com/photo-1547750385-c50c65ff8267?w=1200&q=80',
+    hero_image_url: 'https://images.unsplash.com/photo-1544986581-efac024faf62?w=1200&q=80',
     stops: [
       { name: 'Cathedral Rock (Sedona)', lat: 34.8225, lng: -111.7908, duration_min: 180, category: 'nature' },
       { name: "Devil's Bridge Trail", lat: 34.9017, lng: -111.8115, duration_min: 240, category: 'nature' },
@@ -349,7 +349,7 @@ export const SOUTHWEST_TEMPLATES: SeedTemplate[] = [
     origin_city: 'Las Vegas',
     destination_city: 'Las Vegas',
     days_count: 10,
-    hero_image_url: 'https://images.unsplash.com/photo-1547750385-c50c65ff8267?w=1200&q=80',
+    hero_image_url: 'https://images.unsplash.com/photo-1544986581-efac024faf62?w=1200&q=80',
     stops: [
       { name: 'Las Vegas', lat: 36.1147, lng: -115.1728, duration_min: 480, category: 'city' },
       { name: 'Zion National Park', lat: 37.2982, lng: -113.0263, duration_min: 720, category: 'nature' },

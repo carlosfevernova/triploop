@@ -25,31 +25,44 @@ export default function AdminLoginPage(){
   };
 
   return (
-    <main className="grid min-h-screen place-items-center bg-ink-900 px-6 text-white">
-      <form onSubmit={submit} className="w-full max-w-sm space-y-4 rounded-card bg-ink-800 p-8">
-        <div className="mb-2 flex items-center gap-2">
-          <div className="grid h-8 w-8 place-items-center rounded-lg bg-coral-500 text-sm font-semibold text-white">t</div>
-          <span className="font-display text-lg font-semibold">TripLoop Admin</span>
+    <main className="grid min-h-screen place-items-center bg-white px-6">
+      <div className="w-full max-w-[380px]">
+        <div className="mb-10 flex items-center justify-center gap-2.5">
+          <div className="grid h-9 w-9 place-items-center rounded-[10px] bg-ink-900 text-[14px] font-semibold text-white">t</div>
+          <div className="text-center">
+            <div className="font-display text-[16px] font-semibold leading-tight tracking-tight text-ink-900">TripLoop</div>
+            <div className="text-[10px] font-medium uppercase tracking-widest text-ink-400">Admin</div>
+          </div>
         </div>
-        <label className="block">
-          <span className="mb-1 block text-xs font-semibold uppercase tracking-wider text-white/60">Passphrase</span>
-          <input
-            type="password"
-            autoFocus
-            value={passphrase}
-            onChange={(e) => setPassphrase(e.target.value)}
-            className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white focus:border-coral-400 focus:outline-none"
-          />
-        </label>
-        {error && <div className="rounded-lg bg-coral-500/20 px-3 py-2 text-xs text-coral-300">{error}</div>}
-        <button
-          type="submit"
-          disabled={loading || !passphrase}
-          className="w-full rounded-pill bg-coral-500 py-3 text-sm font-semibold text-white transition hover:bg-coral-600 disabled:opacity-60"
-        >
-          {loading ? '…' : 'Enter dashboard'}
-        </button>
-      </form>
+        <form onSubmit={submit} className="rounded-2xl border border-ink-100 bg-white p-8 shadow-sm">
+          <label className="block">
+            <span className="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-ink-500">Passphrase</span>
+            <input
+              type="password"
+              autoFocus
+              value={passphrase}
+              onChange={(e) => setPassphrase(e.target.value)}
+              className="w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[14px] text-ink-900 outline-none transition focus:border-ink-900 focus:ring-2 focus:ring-ink-100"
+              placeholder="••••••••"
+            />
+          </label>
+          {error && (
+            <div role="alert" className="mt-3 rounded-lg bg-coral-50 px-3 py-2 text-[12px] text-coral-700">
+              {error}
+            </div>
+          )}
+          <button
+            type="submit"
+            disabled={loading || !passphrase}
+            className="mt-6 w-full rounded-xl bg-ink-900 py-3 text-[13px] font-semibold text-white transition hover:bg-ink-800 disabled:opacity-40"
+          >
+            {loading ? '…' : 'Continue →'}
+          </button>
+        </form>
+        <p className="mt-6 text-center text-[11px] text-ink-400">
+          <a href="/en" className="hover:text-ink-800">← Back to site</a>
+        </p>
+      </div>
     </main>
   );
 }
