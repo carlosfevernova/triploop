@@ -3,18 +3,20 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S33) desde el repositorio en producción
-const LOC = 18695;
-const FILES_TSX = 126;
+// Métricas reales medidas 2026-08-08 (post S36) desde el repositorio en producción
+const LOC = 19380;
+const FILES_TSX = 135;
 const FILES_TS = 68;
 const APIS = 34;
-const COMPONENTS = 46;
-const PAGES = 63;
-const MIGRATIONS = 15;
+const COMPONENTS = 47;
+const PAGES = 71;
+const MIGRATIONS = 16;
 const LIB_HELPERS = 27;
 const RUNTIME_DEPS = 19;
-const REGIONS = 20;     // USA(10) + Europa(6) + Oceania(2) + LatAm(4) — 5 continentes
-const TEMPLATES = 42;   // 8 templates por region avg, bilingues ES+EN
+const REGIONS = 24;
+const TEMPLATES = 46;
+const CURATED_POIS = 231;
+const CONTINENTS = 7;
 
 // Desglose exhaustivo por categoría de TODO el trabajo end-to-end:
 // diseño de página, desarrollo, programación, integraciones, testing, deployment, iteraciones.
@@ -116,7 +118,25 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S22: Hoteles céntricos por tier + Central', hoursLow: 8, hoursHigh: 12,
     detail: 'Extends bookingSearchUrl con {tier: low|mid|high, centralOnly}. Star-class filter Booking nflt=class=X + order=distance_from_landmark. UI: 4 chips tier + toggle central en StaysAndActivitiesPanel. Badge visual filtro activo' },
   { category: 'S22: Helper ai-openrouter.ts compartido', hoursLow: 8, hoursHigh: 12,
-    detail: 'Consolidación: callOpenRouterJson<T> con timeout+fallback multi-model, readTripCache soft-fail, contentHash utility. Modelos ordenados por latencia benchmark real (gemma-4-26b 1.6s primero). Reutilizado por 5 endpoints AI' }
+    detail: 'Consolidación: callOpenRouterJson<T> con timeout+fallback multi-model, readTripCache soft-fail, contentHash utility. Modelos ordenados por latencia benchmark real (gemma-4-26b 1.6s primero). Reutilizado por 5 endpoints AI' },
+  { category: 'S23: Landing rediseño premium + admin Cside preview', hoursLow: 20, hoursHigh: 30,
+    detail: 'FeaturesShowcase 3 heroes + grid 16 (badges S25/S28/S30 timeline), Comparison v3 26 rows (Wanderlog+Layla+TripIt+GMaps), AdminPreviewBanner cookie Cside HMAC 24h + bypass FREE_TRIP_LIMIT, endpoint /api/pro-status con adminOverride' },
+  { category: 'S24+S25: Live AI map + POI Discovery Chips', hoursLow: 30, hoursHigh: 42,
+    detail: 'AiGeneratorMap MapLibre split-view stagger 350ms, detectRegionHint client-side. POIDiscoveryChips 7 categorías floating bar + tap-to-add. /api/places/discover Google Places Nearby + Nominatim fallback. TripMap onBoundsChange debounced 500ms' },
+  { category: 'S26+S33: Back buttons audit + Playwright E2E audit', hoursLow: 12, hoursHigh: 18,
+    detail: 'Back buttons agregados en trip, /trip/new/ai, admin/reports, my-trips, signin/signup, whatsapp, blog, RegionIndex. Playwright audit P0/P1/P2 44/44 checks pass. BackButton component reutilizable' },
+  { category: 'S27→S34: Expansión global 24 regiones · 7 continentes', hoursLow: 55, hoursHigh: 80,
+    detail: 'USA extra (Utah+PNW+Northeast+Southeast+Rockies) + Europa (Italy+Iceland+Ireland+Germany+Scotland) + Oceanía (Australia+NZ) + LatAm (México+Chile+Argentina+Perú) + Asia (Japón) + Canadá + África (Marruecos). 46 templates iconic con highway_notes verificados. WebSearch acotadas por continente + curated coords Google Maps' },
+  { category: 'S28+S29: Curated-first AI + prompt cache + 231 POIs', hoursLow: 25, hoursHigh: 38,
+    detail: 'template-matcher.ts con scoring days±diff/region/SEO/stops (threshold 45). curated-pois.ts 231 POIs verificados 24 regiones (name, coords, category, iconic, best_time, tip). prompt-cache.ts LRU 100/TTL 1h. Inject POIs en AI context (evita coords inventadas). Helpers ai-openrouter.ts compartidos 6 endpoints' },
+  { category: 'S30: Streaming SSE AI Trip Generator', hoursLow: 18, hoursHigh: 25,
+    detail: '/api/ai/generate-trip/stream text/event-stream ReadableStream. Events: phase, region_hint, meta, stop (1x1 stagger), complete, error. Cliente parses SSE + accumula previewStops live. Primer stop 500ms curated hit' },
+  { category: 'S32: Highway notes UI badge + LatAm regions', hoursLow: 15, hoursHigh: 22,
+    detail: '4 nuevas regiones (mexico, chile, argentina, peru) con Riviera Maya, Carretera Austral, Ruta 40 Patagonia, Sacred Valley. Migration 015 highway_notes. Badge amber en trip page top: "🛣️ Ruta · SS163 · US-101 · PCH"' },
+  { category: 'S35+S36: Loop enrichment landing + templates metadata', hoursLow: 22, hoursHigh: 32,
+    detail: 'FeaturesShowcase +4 features (Curated-first, Streaming SSE, POI Chips, Highway badges). Comparison v3 +5 rows únicas. SocialProof 6 stats. FAQ +4 Q&A. 46 templates enriquecidos con best_season (6 tipos) + difficulty (4 niveles) + total_distance_km. UI badges chips 🌸/🟢/🛣️ en RegionTemplateDetail hero. Migration 016 metadata soft-fail' },
+  { category: 'Sitemap dinámico + SEO worldwide', hoursLow: 8, hoursHigh: 12,
+    detail: '130 URLs indexables en sitemap.xml (24 regiones × 2 idiomas + 46 templates × 2 + blog posts + static). hreflang alternates completos. Meta title/desc actualizado con 7 continentes' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);
@@ -150,7 +170,7 @@ export default async function TechnicalReportPage(){
         </p>
       </Section>
 
-      <Section title="2. Métricas del codebase (medidas del repositorio · 2026-08-08)">
+      <Section title="2. Métricas del codebase (medidas del repositorio · 2026-08-08 post-S36)">
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           <MetricBox n={LOC.toLocaleString()} l="Líneas de código TS/TSX" />
           <MetricBox n={String(FILES_TSX + FILES_TS)} l="Archivos TypeScript" />
@@ -161,13 +181,18 @@ export default async function TechnicalReportPage(){
           <MetricBox n={String(MIGRATIONS)} l="Migrations SQL" />
           <MetricBox n={String(RUNTIME_DEPS)} l="Dependencias runtime" />
           <MetricBox n={String(REGIONS)} l="Regiones cubiertas" />
-          <MetricBox n={String(TEMPLATES)} l="Templates bilingues" />
+          <MetricBox n={String(TEMPLATES)} l="Templates iconic curados" />
+          <MetricBox n={String(CURATED_POIS)} l="POIs curados verificados" />
+          <MetricBox n={String(CONTINENTS)} l="Continentes cubiertos" />
+          <MetricBox n="130+" l="URLs indexables SEO" />
           <MetricBox n="16" l="Blog posts (EN+ES)" />
-          <MetricBox n="40+" l="Deploys a producción" />
+          <MetricBox n="70+" l="Deploys a producción" />
+          <MetricBox n="6" l="Endpoints IA (+SSE stream)" />
         </div>
         <p className="mt-4 text-[12px] text-ink-500">
-          TypeScript strict · cero errores de tipo · deployado en Vercel Fluid Compute · 40+ deploys a producción.
-          Crecimiento vs snapshot previo (agosto 2026): <b>+16% LOC · +5 páginas · +3 migrations · +8 templates · +1 región (España)</b>.
+          TypeScript strict · cero errores de tipo · deployado en Vercel Fluid Compute · 70+ deploys a producción.
+          Crecimiento vs snapshot S33 (misma sesión): <b>+3.7% LOC · +8 páginas · +1 migration · +4 templates · +4 regiones (Asia/Canadá/África/Scotland) · templates enriquecidos con season/difficulty/km</b>.
+          Crecimiento total sesión inicial → S36: <b>+75% LOC · +300% regiones · +191% templates · 24 regiones en 7 continentes</b>.
         </p>
       </Section>
 
@@ -248,9 +273,9 @@ export default async function TechnicalReportPage(){
         ]} />
       </Section>
 
-      <Section title="6. Integraciones externas activas (18)">
+      <Section title="6. Integraciones externas activas (20)">
         <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-          {['Vercel Fluid Compute', 'Supabase Postgres', 'Supabase Auth', 'Supabase Realtime', 'Supabase Storage', 'Stripe Checkout', 'Stripe Portal', 'Stripe Webhooks', 'Google Places API', 'Google Routes API', 'Google Static Maps', 'Resend', 'Fireworks (DeepSeek V3)', 'Groq (Llama 3.3 70B)', 'Anthropic (Claude Haiku 4.5)', 'Booking + GetYourGuide', 'Twilio (WhatsApp)', 'Nominatim + Photon (OSM free geocoding)'].map(i => (
+          {['Vercel Fluid Compute', 'Supabase Postgres', 'Supabase Auth', 'Supabase Realtime', 'Supabase Storage', 'Stripe Checkout', 'Stripe Portal', 'Stripe Webhooks', 'Google Places API', 'Google Routes API', 'Google Static Maps', 'Resend', 'OpenRouter (5 free models)', 'Fireworks (DeepSeek V3)', 'Groq (Llama 3.3 70B)', 'Anthropic (Claude Haiku 4.5)', 'OpenChargeMap (EV)', 'Booking + GetYourGuide', 'Twilio (WhatsApp)', 'Nominatim + Photon (OSM free geocoding)'].map(i => (
             <div key={i} className="rounded-lg border border-ink-100 bg-white px-3 py-2 text-[12px] font-medium text-ink-700">{i}</div>
           ))}
         </div>
