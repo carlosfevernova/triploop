@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "TripLoop — Planeador IA de road trips · 20 regiones mundiales · bilingüe EN+ES",
-    "description": "Describe tu viaje en una frase, obtén itinerario en 30 segundos. 42 rutas icónicas curadas en 5 continentes: USA (PCH, Route 66, Blue Ridge), Europa (España, Italia Amalfi, Islandia Ring Road, Irlanda Kerry, Alemania Ruta Romántica), Oceanía (Great Ocean Road, NZ), América Latina (México Riviera Maya, Chile Carretera Austral, Argentina Ruta 40, Perú Machu Picchu). Alertas IA, cálculo presupuesto, cargadores EV, bot WhatsApp, PWA offline."
+    "title": "TripLoop — Planeador IA road trips · 24 regiones · 7 continentes · bilingüe EN+ES",
+    "description": "Describe tu viaje en una frase, obtén itinerario en 30 segundos. 46 rutas icónicas curadas en 7 continentes: USA (PCH, Route 66), Europa (España, Italia Amalfi, Islandia Ring Road, Irlanda, Alemania Ruta Romántica, Escocia NC500), Asia (Japón Ruta Dorada), Oceanía (Great Ocean Road, NZ), América Latina (Riviera Maya, Carretera Austral, Ruta 40, Machu Picchu), Canadá (Icefields Parkway), África (Marruecos Sahara). IA, cálculo presupuesto, EV chargers, streaming, WhatsApp bot, PWA offline."
   },
   "nav": {
     "features": "Funciones", "pricing": "Precios", "howItWorks": "Cómo funciona",
@@ -37,13 +37,13 @@
     "stops": "paradas"
   },
   "hero": {
-    "eyebrow": "Beta · 20 regiones · 5 continentes · LatAm ya disponible 🌎",
+    "eyebrow": "Beta · 24 regiones · 7 continentes 🌏 Japón · Marruecos · Canadá · Escocia live",
     "titlePart1": "El planeador IA de road trips",
-    "titlePart2": "para donde sea que manejes.",
-    "subtitle": "Describe tu viaje en una frase — mira las paradas aparecer en el mapa en tiempo real. 42 rutas icónicas curadas mundialmente: PCH · Route 66 · Costa Amalfitana · Ring Road Islandia · Great Ocean Road · Ruta 40 Patagonia · Machu Picchu · Riviera Maya. Bilingüe nativo EN+ES · Bot WhatsApp · PWA offline.",
+    "titlePart2": "para cualquier rincón del planeta.",
+    "subtitle": "Describe tu viaje en una frase — mira las paradas aparecer en el mapa en tiempo real. 46 rutas icónicas en 7 continentes: PCH · Route 66 · Amalfi · Ring Road Islandia · Great Ocean Road · Ruta 40 · Machu Picchu · Riviera Maya · Ruta Dorada Japón · NC500 Escocia · Icefields Parkway Canadá · Sahara Marruecos. Bilingüe nativo EN+ES · Bot WhatsApp · PWA offline.",
     "ctaPrimary": "Prueba AI Trip Generator",
     "ctaSecondary": "Ver un viaje de ejemplo",
-    "trustPill": "42 rutas icónicas · 20 regiones · 5 continentes",
+    "trustPill": "46 rutas icónicas · 24 regiones · 7 continentes",
     "emailPlaceholder": "tu@correo.com",
     "emailButton": "Avísame",
     "emailSuccess": "Listo. Te avisamos apenas abramos.",

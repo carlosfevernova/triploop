@@ -10,7 +10,7 @@ export interface SeedStop {
   category?: 'city' | 'attraction' | 'nature' | 'food' | 'hotel' | 'other';
 }
 
-export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain' | 'pacific-northwest' | 'northeast' | 'southeast' | 'rockies' | 'italy' | 'iceland' | 'ireland' | 'australia' | 'new-zealand' | 'germany' | 'mexico' | 'chile' | 'argentina' | 'peru';
+export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain' | 'pacific-northwest' | 'northeast' | 'southeast' | 'rockies' | 'italy' | 'iceland' | 'ireland' | 'australia' | 'new-zealand' | 'germany' | 'mexico' | 'chile' | 'argentina' | 'peru' | 'japan' | 'canada' | 'scotland' | 'morocco';
 
 export interface SeedTemplate {
   slug: string;                // URL: /california/san-francisco-classic-5-days
@@ -150,6 +150,30 @@ export const REGION_META: Record<Region, {
     tagline_en: 'Sacred Valley + Machu Picchu · Cusco Andes loop 320 km.',
     tagline_es: 'Valle Sagrado + Machu Picchu · Cusco Andes loop 320 km.',
     hero_image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1200&q=80'
+  },
+  japan: {
+    slug: 'japan', name_en: 'Japan 🇯🇵', name_es: 'Japón 🇯🇵',
+    tagline_en: 'Golden Route · Tokyo → Mt. Fuji → Kyoto → Osaka on Tokaido corridor.',
+    tagline_es: 'Ruta Dorada · Tokio → Monte Fuji → Kioto → Osaka por corredor Tokaido.',
+    hero_image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1200&q=80'
+  },
+  canada: {
+    slug: 'canada', name_en: 'Canada 🇨🇦', name_es: 'Canadá 🇨🇦',
+    tagline_en: 'Icefields Parkway Hwy 93 · 233 km glaciers · Jasper to Lake Louise.',
+    tagline_es: 'Icefields Parkway Hwy 93 · 233 km glaciares · Jasper a Lake Louise.',
+    hero_image: 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=1200&q=80'
+  },
+  scotland: {
+    slug: 'scotland', name_en: 'Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿', name_es: 'Escocia 🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    tagline_en: 'North Coast 500 (NC500) · 516 miles Inverness loop · Highlands · lochs.',
+    tagline_es: 'North Coast 500 (NC500) · 516 millas loop Inverness · Highlands · lochs.',
+    hero_image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80'
+  },
+  morocco: {
+    slug: 'morocco', name_en: 'Morocco 🇲🇦', name_es: 'Marruecos 🇲🇦',
+    tagline_en: 'Marrakech → Atlas Mountains → Sahara Merzouga · N9 + N10 · camels + kasbahs.',
+    tagline_es: 'Marrakech → Atlas → Sahara Merzouga · N9 + N10 · camellos + kasbahs.',
+    hero_image: 'https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=1200&q=80'
   }
 };
 
@@ -1073,6 +1097,109 @@ export const PERU_TEMPLATES: SeedTemplate[] = [
   }
 ];
 
+// S34: 4 iconic routes Asia + Africa + Canada + Scotland (7 continents coverage)
+export const JAPAN_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'japan-golden-route-7-days',
+    region: 'japan',
+    title: 'Japan Golden Route — 7 days',
+    seo_description: 'Tokyo → Hakone (Mt. Fuji) → Kyoto → Nara → Osaka. Tokaido corridor 500 km. Bullet train + rental car mix.',
+    seo_keywords: ['japan golden route', 'tokyo kyoto itinerary', 'mt fuji hakone road trip', 'japan 7 days'],
+    origin_city: 'Tokyo',
+    destination_city: 'Osaka',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1200&q=80',
+    highway_notes: ['Tokaido corridor (Tokyo → Osaka 500 km)', 'National Route 1 (scenic drive)', 'Tomei + Meishin Expressway (fast route)', 'Shinkansen bullet train alternative'],
+    stops: [
+      { name: 'Shibuya Crossing (Tokyo)', lat: 35.6595, lng: 139.7005, duration_min: 300, category: 'city' },
+      { name: 'Senso-ji Temple (Asakusa)', lat: 35.7148, lng: 139.7967, duration_min: 180, category: 'attraction' },
+      { name: 'Mt. Fuji (Chureito Pagoda view)', lat: 35.4004, lng: 138.7998, duration_min: 240, category: 'nature' },
+      { name: 'Hakone Ropeway', lat: 35.2453, lng: 139.0181, duration_min: 240, category: 'nature' },
+      { name: 'Kyoto (Fushimi Inari Shrine)', lat: 34.9671, lng: 135.7727, duration_min: 240, category: 'attraction' },
+      { name: 'Kinkaku-ji (Golden Pavilion)', lat: 35.0394, lng: 135.7292, duration_min: 120, category: 'attraction' },
+      { name: 'Arashiyama Bamboo Grove', lat: 35.0170, lng: 135.6712, duration_min: 180, category: 'nature' },
+      { name: 'Nara Park (deer)', lat: 34.6851, lng: 135.8043, duration_min: 240, category: 'attraction' },
+      { name: 'Osaka (Dotonbori + Osaka Castle)', lat: 34.6687, lng: 135.5023, duration_min: 300, category: 'city' }
+    ]
+  }
+];
+
+export const CANADA_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'canada-icefields-parkway-5-days',
+    region: 'canada',
+    title: 'Canada Icefields Parkway — 5 days',
+    seo_description: 'Highway 93 Jasper → Lake Louise → Banff. 233 km de glaciares, Athabasca Falls, Peyto Lake, Moraine Lake.',
+    seo_keywords: ['icefields parkway itinerary', 'canada rockies road trip', 'jasper banff lake louise', 'hwy 93 canada'],
+    origin_city: 'Jasper',
+    destination_city: 'Banff',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=1200&q=80',
+    highway_notes: ['Icefields Parkway Highway 93 (233 km Jasper → Lake Louise)', 'Trans-Canada Highway 1 (Banff → Calgary)', 'Bow Valley Parkway 1A (scenic alternative)'],
+    stops: [
+      { name: 'Jasper Town (Old Fort Point)', lat: 52.8734, lng: -118.0808, duration_min: 240, category: 'city' },
+      { name: 'Maligne Lake + Spirit Island', lat: 52.6996, lng: -117.6428, duration_min: 300, category: 'nature' },
+      { name: 'Athabasca Falls', lat: 52.6660, lng: -117.8836, duration_min: 90, category: 'nature' },
+      { name: 'Columbia Icefield (Athabasca Glacier)', lat: 52.2153, lng: -117.2340, duration_min: 240, category: 'nature' },
+      { name: 'Peyto Lake Viewpoint', lat: 51.7189, lng: -116.5153, duration_min: 90, category: 'nature' },
+      { name: 'Bow Lake', lat: 51.6779, lng: -116.4497, duration_min: 90, category: 'nature' },
+      { name: 'Lake Louise', lat: 51.4254, lng: -116.1773, duration_min: 240, category: 'nature' },
+      { name: 'Moraine Lake', lat: 51.3217, lng: -116.1858, duration_min: 180, category: 'nature' },
+      { name: 'Banff Town (Sulphur Mountain)', lat: 51.1784, lng: -115.5708, duration_min: 300, category: 'city' }
+    ]
+  }
+];
+
+export const SCOTLAND_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'scotland-north-coast-500-6-days',
+    region: 'scotland',
+    title: 'Scotland North Coast 500 — 6 days',
+    seo_description: 'NC500 loop 516 millas desde Inverness: Applecross Pass, Bealach na Bà, Ullapool, Durness, John O\'Groats. Highlands + lochs.',
+    seo_keywords: ['north coast 500 itinerary', 'nc500 scotland road trip', 'scotland highlands 6 days', 'inverness loop'],
+    origin_city: 'Inverness',
+    destination_city: 'Inverness',
+    days_count: 6,
+    hero_image_url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80',
+    highway_notes: ['North Coast 500 (NC500 - 516 mi loop)', 'A835 Ullapool → Durness west coast', 'A836 north coast', 'Bealach na Bà mountain pass (steep single-track)'],
+    stops: [
+      { name: 'Inverness Castle', lat: 57.4770, lng: -4.2255, duration_min: 180, category: 'attraction' },
+      { name: 'Applecross Pass (Bealach na Bà)', lat: 57.4211, lng: -5.7192, duration_min: 240, category: 'nature' },
+      { name: 'Ullapool (Loch Broom)', lat: 57.8977, lng: -5.1610, duration_min: 240, category: 'city' },
+      { name: 'Achmelvich Beach', lat: 58.1758, lng: -5.3040, duration_min: 180, category: 'nature' },
+      { name: 'Smoo Cave (Durness)', lat: 58.5665, lng: -4.7108, duration_min: 120, category: 'nature' },
+      { name: 'John O\'Groats (northern tip)', lat: 58.6373, lng: -3.0700, duration_min: 90, category: 'attraction' },
+      { name: 'Dunrobin Castle', lat: 57.9819, lng: -3.9464, duration_min: 180, category: 'attraction' },
+      { name: 'Loch Ness (Urquhart Castle)', lat: 57.3241, lng: -4.4425, duration_min: 240, category: 'attraction' }
+    ]
+  }
+];
+
+export const MOROCCO_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'morocco-marrakech-sahara-7-days',
+    region: 'morocco',
+    title: 'Morocco Marrakech to Sahara — 7 days',
+    seo_description: 'Marrakech → Ait Ben Haddou → Ouarzazate → Todra Gorge → Merzouga Sahara → Fes. N9 Atlas Mountains + N10 Draa Valley.',
+    seo_keywords: ['morocco road trip', 'sahara desert marrakech', 'atlas mountains itinerary', 'merzouga dunes 7 days'],
+    origin_city: 'Marrakech',
+    destination_city: 'Fes',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=1200&q=80',
+    highway_notes: ['N9 Marrakech → Ouarzazate (Tizi n\'Tichka pass 2,260m)', 'N10 Ouarzazate → Errachidia (Draa Valley + Dades Gorge)', 'R702 to Merzouga desert entry', 'N13 Erfoud → Fes'],
+    stops: [
+      { name: 'Marrakech Jemaa el-Fnaa', lat: 31.6258, lng: -7.9891, duration_min: 300, category: 'city' },
+      { name: 'Ait Ben Haddou (UNESCO Kasbah)', lat: 31.0472, lng: -7.1319, duration_min: 240, category: 'attraction' },
+      { name: 'Ouarzazate (Atlas Studios)', lat: 30.9189, lng: -6.8933, duration_min: 180, category: 'city' },
+      { name: 'Dades Gorge', lat: 31.5225, lng: -5.9800, duration_min: 240, category: 'nature' },
+      { name: 'Todra Gorge (Tinerhir)', lat: 31.5883, lng: -5.5893, duration_min: 180, category: 'nature' },
+      { name: 'Erg Chebbi (Merzouga Dunes)', lat: 31.1000, lng: -3.9800, duration_min: 480, category: 'nature' },
+      { name: 'Ifrane (Middle Atlas)', lat: 33.5228, lng: -5.1099, duration_min: 180, category: 'city' },
+      { name: 'Fes el-Bali (medina UNESCO)', lat: 34.0605, lng: -4.9825, duration_min: 480, category: 'city' }
+    ]
+  }
+];
+
 // Unified export para el seed endpoint
 export const ALL_TEMPLATES: SeedTemplate[] = [
   ...CALIFORNIA_TEMPLATES,
@@ -1094,5 +1221,9 @@ export const ALL_TEMPLATES: SeedTemplate[] = [
   ...MEXICO_TEMPLATES,
   ...CHILE_TEMPLATES,
   ...ARGENTINA_TEMPLATES,
-  ...PERU_TEMPLATES
+  ...PERU_TEMPLATES,
+  ...JAPAN_TEMPLATES,
+  ...CANADA_TEMPLATES,
+  ...SCOTLAND_TEMPLATES,
+  ...MOROCCO_TEMPLATES
 ];

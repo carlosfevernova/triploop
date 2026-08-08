@@ -30,7 +30,11 @@ const REGION_KEYWORDS: Record<Region, string[]> = {
   mexico: ['mexico', 'méxico', 'riviera maya', 'cancun', 'cancún', 'tulum', 'chichen itza', 'chichén itzá', 'merida', 'mérida', 'yucatan', 'yucatán', 'playa del carmen', 'cozumel', 'cenote', 'coba', 'cobá', 'uxmal'],
   chile: ['chile', 'carretera austral', 'patagonia chilena', 'puerto montt', 'coyhaique', 'villa o\'higgins', 'ruta 7', 'chaitén', 'puyuhuapi', 'aysen'],
   argentina: ['argentina', 'ruta 40', 'bariloche', 'el chaltén', 'el chalten', 'el calafate', 'perito moreno', 'fitz roy', 'patagonia argentina', 'ushuaia', 'mendoza', 'los glaciares'],
-  peru: ['peru', 'perú', 'sacred valley', 'valle sagrado', 'cusco', 'cuzco', 'machu picchu', 'ollantaytambo', 'pisac', 'aguas calientes', 'inca', 'maras', 'moray']
+  peru: ['peru', 'perú', 'sacred valley', 'valle sagrado', 'cusco', 'cuzco', 'machu picchu', 'ollantaytambo', 'pisac', 'aguas calientes', 'inca', 'maras', 'moray'],
+  japan: ['japan', 'japón', 'japon', 'tokyo', 'tokio', 'kyoto', 'kioto', 'osaka', 'mt fuji', 'monte fuji', 'hakone', 'nara', 'shibuya', 'senso', 'fushimi inari', 'kinkaku', 'arashiyama', 'golden route', 'tokaido', 'shinkansen'],
+  canada: ['canada', 'canadá', 'icefields parkway', 'banff', 'jasper', 'lake louise', 'moraine lake', 'peyto', 'athabasca', 'hwy 93', 'rockies canada', 'canadian rockies', 'alberta'],
+  scotland: ['scotland', 'escocia', 'nc500', 'north coast 500', 'inverness', 'highlands', 'loch ness', 'skye', 'ullapool', 'durness', 'applecross', 'bealach', 'john o\'groats', 'edinburgh'],
+  morocco: ['morocco', 'marruecos', 'marrakech', 'marrakesh', 'sahara', 'merzouga', 'ait ben haddou', 'ouarzazate', 'atlas mountains', 'atlas mountains morocco', 'todra', 'dades', 'fes', 'fez', 'chefchaouen', 'kasbah']
 };
 
 const INTEREST_KEYWORDS: Record<string, string[]> = {

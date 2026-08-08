@@ -7,7 +7,8 @@ const REGIONS = [
   'california', 'nevada', 'arizona', 'southwest', 'utah', 'spain',
   'pacific-northwest', 'northeast', 'southeast', 'rockies',
   'italy', 'iceland', 'ireland', 'australia', 'new-zealand', 'germany',
-  'mexico', 'chile', 'argentina', 'peru'
+  'mexico', 'chile', 'argentina', 'peru',
+  'japan', 'canada', 'scotland', 'morocco'
 ] as const;
 
 export const revalidate = 3600;

@@ -122,6 +122,30 @@ const REGIONS = [
     subtitle_en: 'Sacred Valley, Machu Picchu', subtitle_es: 'Valle Sagrado, Machu Picchu',
     image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800&auto=format&fit=crop',
     trips: 1
+  },
+  {
+    slug: 'japan', name_en: 'Japan 🇯🇵', name_es: 'Japón 🇯🇵',
+    subtitle_en: 'Golden Route Tokyo→Kyoto→Osaka', subtitle_es: 'Ruta Dorada Tokio→Kioto→Osaka',
+    image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'canada', name_en: 'Canada 🇨🇦', name_es: 'Canadá 🇨🇦',
+    subtitle_en: 'Icefields Parkway Hwy 93', subtitle_es: 'Icefields Parkway Hwy 93',
+    image: 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'scotland', name_en: 'Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿', name_es: 'Escocia 🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    subtitle_en: 'North Coast 500 (NC500) Highlands', subtitle_es: 'North Coast 500 (NC500) Highlands',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'morocco', name_en: 'Morocco 🇲🇦', name_es: 'Marruecos 🇲🇦',
+    subtitle_en: 'Marrakech Atlas Sahara Merzouga', subtitle_es: 'Marrakech Atlas Sahara Merzouga',
+    image: 'https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=800&auto=format&fit=crop',
+    trips: 1
   }
 ];
 
@@ -140,7 +164,7 @@ export function RegionsGrid(){
             {isEs ? 'Road trips icónicos del mundo' : 'Iconic road trips around the world'}
           </h2>
           <p className="mt-3 text-lg text-ink-500">
-            {isEs ? '42 rutas curadas · 20 regiones · 5 continentes · América Latina incluida' : '42 curated itineraries · 20 regions · 5 continents · Latin America included'}
+            {isEs ? '46 rutas curadas · 24 regiones · 7 continentes · desde Alaska hasta Sahara' : '46 curated itineraries · 24 regions · 7 continents · from Alaska to Sahara'}
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

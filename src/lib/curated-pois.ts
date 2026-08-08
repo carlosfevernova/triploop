@@ -236,6 +236,52 @@ export const CURATED_POIS: Record<Region, CuratedPOI[]> = {
     { name: 'Cusco Plaza de Armas', lat: -13.5164, lng: -71.9787, category: 'city', iconic: true, avg_visit_min: 300 },
     { name: 'Lake Titicaca (Puno)', lat: -15.8402, lng: -70.0219, category: 'nature', iconic: true, avg_visit_min: 480 }
   ],
+  japan: [
+    { name: 'Mt. Fuji (Chureito Pagoda view)', lat: 35.4004, lng: 138.7998, category: 'nature', iconic: true, best_time: 'sunrise cherry blossom april', avg_visit_min: 240 },
+    { name: 'Fushimi Inari Shrine (Kyoto)', lat: 34.9671, lng: 135.7727, category: 'attraction', iconic: true, best_time: 'early 6am avoid crowds', avg_visit_min: 240 },
+    { name: 'Kinkaku-ji Golden Pavilion', lat: 35.0394, lng: 135.7292, category: 'attraction', iconic: true, avg_visit_min: 120 },
+    { name: 'Arashiyama Bamboo Grove', lat: 35.0170, lng: 135.6712, category: 'nature', iconic: true, best_time: 'early morning', avg_visit_min: 180 },
+    { name: 'Shibuya Crossing (Tokyo)', lat: 35.6595, lng: 139.7005, category: 'city', iconic: true, avg_visit_min: 180 },
+    { name: 'Senso-ji Temple (Asakusa)', lat: 35.7148, lng: 139.7967, category: 'attraction', iconic: true, avg_visit_min: 180 },
+    { name: 'Nara Park (bowing deer)', lat: 34.6851, lng: 135.8043, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Osaka Dotonbori', lat: 34.6687, lng: 135.5023, category: 'food', iconic: true, avg_visit_min: 300 },
+    { name: 'Hiroshima Peace Memorial', lat: 34.3955, lng: 132.4536, category: 'attraction', iconic: true, avg_visit_min: 180 },
+    { name: 'Miyajima Torii Gate', lat: 34.2957, lng: 132.3168, category: 'attraction', iconic: true, avg_visit_min: 180 }
+  ],
+  canada: [
+    { name: 'Moraine Lake', lat: 51.3217, lng: -116.1858, category: 'nature', iconic: true, best_time: 'jun-aug sunrise', avg_visit_min: 180, tip: 'Shuttle only since 2023 — book ahead' },
+    { name: 'Lake Louise', lat: 51.4254, lng: -116.1773, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Peyto Lake Viewpoint', lat: 51.7189, lng: -116.5153, category: 'nature', iconic: true, avg_visit_min: 90 },
+    { name: 'Bow Lake', lat: 51.6779, lng: -116.4497, category: 'nature', iconic: true, avg_visit_min: 90 },
+    { name: 'Athabasca Falls', lat: 52.6660, lng: -117.8836, category: 'nature', iconic: true, avg_visit_min: 90 },
+    { name: 'Columbia Icefield', lat: 52.2153, lng: -117.2340, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Maligne Lake + Spirit Island', lat: 52.6996, lng: -117.6428, category: 'nature', iconic: true, avg_visit_min: 300 },
+    { name: 'Banff Sulphur Mountain', lat: 51.1784, lng: -115.5708, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Niagara Falls', lat: 43.0962, lng: -79.0377, category: 'nature', iconic: true, avg_visit_min: 300 },
+    { name: 'Old Quebec (UNESCO)', lat: 46.8123, lng: -71.2078, category: 'city', iconic: true, avg_visit_min: 300 }
+  ],
+  scotland: [
+    { name: 'Edinburgh Castle', lat: 55.9486, lng: -3.2007, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Loch Ness (Urquhart Castle)', lat: 57.3241, lng: -4.4425, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Isle of Skye (Old Man of Storr)', lat: 57.5061, lng: -6.1836, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Fairy Pools (Skye)', lat: 57.2497, lng: -6.2645, category: 'nature', iconic: true, avg_visit_min: 180 },
+    { name: 'Bealach na Bà (Applecross)', lat: 57.4211, lng: -5.7192, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Ullapool', lat: 57.8977, lng: -5.1610, category: 'city', avg_visit_min: 240 },
+    { name: 'Glencoe Valley', lat: 56.6784, lng: -5.0972, category: 'nature', iconic: true, avg_visit_min: 240 },
+    { name: 'Eilean Donan Castle', lat: 57.2740, lng: -5.5162, category: 'attraction', iconic: true, avg_visit_min: 180 },
+    { name: 'Cairngorms National Park', lat: 57.0800, lng: -3.6683, category: 'nature', iconic: true, avg_visit_min: 480 }
+  ],
+  morocco: [
+    { name: 'Marrakech Jemaa el-Fnaa', lat: 31.6258, lng: -7.9891, category: 'city', iconic: true, best_time: 'sunset for storytellers', avg_visit_min: 300, tip: 'Watch fake henna scams' },
+    { name: 'Bahia Palace (Marrakech)', lat: 31.6217, lng: -7.9822, category: 'attraction', iconic: true, avg_visit_min: 120 },
+    { name: 'Jardin Majorelle', lat: 31.6416, lng: -8.0032, category: 'attraction', iconic: true, avg_visit_min: 180, tip: 'Book online — long walk-in queue' },
+    { name: 'Ait Ben Haddou (UNESCO)', lat: 31.0472, lng: -7.1319, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Erg Chebbi Merzouga Dunes', lat: 31.1000, lng: -3.9800, category: 'nature', iconic: true, best_time: 'sunrise camel ride', avg_visit_min: 480 },
+    { name: 'Todra Gorge', lat: 31.5883, lng: -5.5893, category: 'nature', iconic: true, avg_visit_min: 180 },
+    { name: 'Chefchaouen Blue City', lat: 35.1688, lng: -5.2637, category: 'city', iconic: true, avg_visit_min: 300 },
+    { name: 'Fes el-Bali medina', lat: 34.0605, lng: -4.9825, category: 'city', iconic: true, avg_visit_min: 480, tip: 'Hire local guide — medina laberinto' },
+    { name: 'Essaouira medina + beach', lat: 31.5085, lng: -9.7595, category: 'city', iconic: true, avg_visit_min: 300 }
+  ],
   rockies: [
     { name: 'Lake McDonald (Glacier NP)', lat: 48.5820, lng: -113.9260, category: 'nature', iconic: true, avg_visit_min: 240 },
     { name: 'Going-to-the-Sun Road (Logan Pass)', lat: 48.6960, lng: -113.7180, category: 'nature', iconic: true, best_time: 'open jul-sep only', avg_visit_min: 480 },

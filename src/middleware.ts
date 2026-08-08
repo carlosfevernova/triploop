@@ -34,6 +34,10 @@ const PUBLIC_SEO_PREFIXES = [
   '/en/chile', '/es/chile',
   '/en/argentina', '/es/argentina',
   '/en/peru', '/es/peru',
+  '/en/japan', '/es/japan',
+  '/en/canada', '/es/canada',
+  '/en/scotland', '/es/scotland',
+  '/en/morocco', '/es/morocco',
   '/embed'
 ];
 
