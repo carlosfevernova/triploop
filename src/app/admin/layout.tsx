@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }){
   return (
-    <html lang="en">
+    <html lang="es">
       <body className="min-h-screen bg-white antialiased">{children}</body>
     </html>
   );

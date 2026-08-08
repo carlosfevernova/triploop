@@ -13,7 +13,7 @@ interface Metrics {
 }
 
 export function DashboardClient({ metrics }: { metrics: Metrics }){
-  const [locale, setLocale] = useState<AdminLocale>('en');
+  const [locale, setLocale] = useState<AdminLocale>('es');
   useEffect(() => { setLocale(getAdminLocale()); }, []);
   const t = T[locale];
 

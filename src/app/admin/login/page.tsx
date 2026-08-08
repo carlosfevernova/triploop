@@ -18,7 +18,7 @@ export default function AdminLoginPage(){
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ passphrase })
       });
-      if(!r.ok){ setError('Wrong passphrase.'); return; }
+      if(!r.ok){ setError('Contraseña incorrecta.'); return; }
       router.replace('/admin');
       router.refresh();
     } finally { setLoading(false); }
@@ -36,7 +36,7 @@ export default function AdminLoginPage(){
         </div>
         <form onSubmit={submit} className="rounded-2xl border border-ink-100 bg-white p-8 shadow-sm">
           <label className="block">
-            <span className="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-ink-500">Passphrase</span>
+            <span className="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-ink-500">Contraseña</span>
             <input
               type="password"
               autoFocus
@@ -56,11 +56,11 @@ export default function AdminLoginPage(){
             disabled={loading || !passphrase}
             className="mt-6 w-full rounded-xl bg-ink-900 py-3 text-[13px] font-semibold text-white transition hover:bg-ink-800 disabled:opacity-40"
           >
-            {loading ? '…' : 'Continue →'}
+            {loading ? '…' : 'Entrar →'}
           </button>
         </form>
         <p className="mt-6 text-center text-[11px] text-ink-400">
-          <a href="/en" className="hover:text-ink-800">← Back to site</a>
+          <a href="/es" className="hover:text-ink-800">← Volver al sitio</a>
         </p>
       </div>
     </main>

@@ -16,7 +16,7 @@ const NAV: Array<{ href: string; key: NavKey; icon: React.ReactNode }> = [
 export function AdminSidebar(){
   const pathname = usePathname();
   const router = useRouter();
-  const [locale, setLocale] = useState<AdminLocale>('en');
+  const [locale, setLocale] = useState<AdminLocale>('es');
   useEffect(() => { setLocale(getAdminLocale()); }, []);
   const t = T[locale];
 
