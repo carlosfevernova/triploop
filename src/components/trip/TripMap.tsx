@@ -3,13 +3,37 @@ import { useEffect, useRef } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { TripStop } from '@/lib/types';
+import type { DiscoveryPOI } from '@/app/api/places/discover/route';
 
 interface Props {
   stops: TripStop[];
   polyline?: string;
   hoveredStopId?: string | null;
   onMarkerClick?: (stopId: string) => void;
+  discoveryPois?: DiscoveryPOI[];
+  onPoiClick?: (poi: DiscoveryPOI) => void;
+  onBoundsChange?: (bbox: [number, number, number, number]) => void;
 }
+
+const POI_CATEGORY_COLOR: Record<string, string> = {
+  food: '#ec4899',
+  attraction: '#f59e0b',
+  nature: '#059669',
+  gas: '#0ea5e9',
+  hotel: '#8b5cf6',
+  ev: '#84cc16',
+  shopping: '#f43f5e'
+};
+
+const POI_CATEGORY_EMOJI: Record<string, string> = {
+  food: '🍴',
+  attraction: '🎨',
+  nature: '🏞️',
+  gas: '⛽',
+  hotel: '🏨',
+  ev: '⚡',
+  shopping: '🛍️'
+};
 
 // Basemap tiles gratis (Carto Voyager, sin API key requerida)
 const STYLE = {
@@ -45,10 +69,12 @@ function decodePolyline(encoded: string): [number, number][] {
   return points;
 }
 
-export function TripMap({ stops, polyline, hoveredStopId, onMarkerClick }: Props){
+export function TripMap({ stops, polyline, hoveredStopId, onMarkerClick, discoveryPois, onPoiClick, onBoundsChange }: Props){
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<Map<string, maplibregl.Marker>>(new Map());
+  const poiMarkersRef = useRef<Map<string, maplibregl.Marker>>(new Map());
+  const boundsChangeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Init map once
   useEffect(() => {
@@ -61,8 +87,56 @@ export function TripMap({ stops, polyline, hoveredStopId, onMarkerClick }: Props
     });
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     mapRef.current = map;
-    return () => { map.remove(); mapRef.current = null; };
+
+    // Debounced bounds change → callback
+    const handleMoveEnd = () => {
+      if(boundsChangeTimerRef.current) clearTimeout(boundsChangeTimerRef.current);
+      boundsChangeTimerRef.current = setTimeout(() => {
+        if(!mapRef.current) return;
+        const b = mapRef.current.getBounds();
+        onBoundsChange?.([b.getWest(), b.getSouth(), b.getEast(), b.getNorth()]);
+      }, 500);
+    };
+    map.on('moveend', handleMoveEnd);
+
+    return () => {
+      map.off('moveend', handleMoveEnd);
+      if(boundsChangeTimerRef.current) clearTimeout(boundsChangeTimerRef.current);
+      map.remove();
+      mapRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Sync discovery POI markers
+  useEffect(() => {
+    const map = mapRef.current;
+    if(!map) return;
+    const currentIds = new Set((discoveryPois || []).map(p => p.id));
+    poiMarkersRef.current.forEach((m, id) => {
+      if(!currentIds.has(id)){ m.remove(); poiMarkersRef.current.delete(id); }
+    });
+    (discoveryPois || []).forEach((p) => {
+      if(poiMarkersRef.current.has(p.id)) return;
+      const color = POI_CATEGORY_COLOR[p.category] || '#64748b';
+      const emoji = POI_CATEGORY_EMOJI[p.category] || '📍';
+      const el = document.createElement('div');
+      el.style.cssText = `
+        width: 30px; height: 30px; border-radius: 50%;
+        background: ${color}; border: 2px solid white;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        display: grid; place-items: center; font-size: 14px;
+        cursor: pointer; transition: transform 150ms ease;
+      `;
+      el.textContent = emoji;
+      el.title = p.name;
+      el.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.2)'; });
+      el.addEventListener('mouseleave', () => { el.style.transform = 'scale(1)'; });
+      el.addEventListener('click', (e) => { e.stopPropagation(); onPoiClick?.(p); });
+      const marker = new maplibregl.Marker({ element: el }).setLngLat([p.lng, p.lat]).addTo(map);
+      poiMarkersRef.current.set(p.id, marker);
+    });
+  }, [discoveryPois, onPoiClick]);
 
   // Sync markers with stops
   useEffect(() => {

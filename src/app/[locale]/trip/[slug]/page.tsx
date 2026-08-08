@@ -12,6 +12,8 @@ import { createClient } from '@/lib/supabase-browser';
 import { getOfflineTrip, saveTripOffline } from '@/lib/offline-cache';
 import { useTripRealtime } from '@/lib/use-trip-realtime';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
+import type { POICategory, DiscoveryPOI } from '@/app/api/places/discover/route';
+import { POIDiscoveryChips } from '@/components/trip/POIDiscoveryChips';
 
 // Dynamic imports: MapLibre (~85KB) + panels (~30KB) lazy-loaded solo al necesitarse
 const TripMap = dynamic(() => import('@/components/trip/TripMap').then(m => ({ default: m.TripMap })), {
@@ -47,6 +49,13 @@ export default function TripPage(){
   const [staysOpen, setStaysOpen] = useState(false);
   const [sidePanel, setSidePanel] = useState<null | 'budget' | 'insights' | 'checklist' | 'photos' | 'ev'>(null);
   const [reshuffleOpen, setReshuffleOpen] = useState(false);
+  // Discovery layer state
+  const [discoveryCategory, setDiscoveryCategory] = useState<POICategory | null>(null);
+  const [discoveryPois, setDiscoveryPois] = useState<DiscoveryPOI[]>([]);
+  const [discoveryLoading, setDiscoveryLoading] = useState(false);
+  const [selectedPoi, setSelectedPoi] = useState<DiscoveryPOI | null>(null);
+  const [mapBounds, setMapBounds] = useState<[number, number, number, number] | null>(null);
+  const discoveryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const routeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -258,6 +267,46 @@ export default function TripPage(){
     autoDescribeStop(newStop.id, newStop.name, newStop.lat, newStop.lng);
   };
 
+  // Fetch POIs cuando cambia category o bounds (debounced 400ms)
+  useEffect(() => {
+    if(!discoveryCategory || !mapBounds){ setDiscoveryPois([]); return; }
+    if(discoveryTimerRef.current) clearTimeout(discoveryTimerRef.current);
+    discoveryTimerRef.current = setTimeout(async () => {
+      setDiscoveryLoading(true);
+      try {
+        const r = await fetch('/api/places/discover', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ bbox: mapBounds, category: discoveryCategory, maxResults: 20 })
+        });
+        const data = await r.json();
+        if(r.ok && Array.isArray(data.pois)) setDiscoveryPois(data.pois);
+      } finally { setDiscoveryLoading(false); }
+    }, 400);
+    return () => { if(discoveryTimerRef.current) clearTimeout(discoveryTimerRef.current); };
+  }, [discoveryCategory, mapBounds]);
+
+  const handlePoiAdd = (poi: DiscoveryPOI) => {
+    if(!trip) return;
+    const newStop: TripStop = {
+      id: crypto.randomUUID(),
+      name: poi.name,
+      address: poi.address,
+      lat: poi.lat,
+      lng: poi.lng,
+      place_id: poi.google_place_id,
+      photo_url: poi.photo_url,
+      rating: poi.rating,
+      user_ratings_total: poi.user_ratings_total,
+      price_level: poi.price_level,
+      category: mapPoiCatToStopCat(poi.category)
+    };
+    setTrip((t) => t ? { ...t, stops: [...t.stops, newStop] } : t);
+    broadcastChange('add', newStop.name);
+    autoDescribeStop(newStop.id, newStop.name, newStop.lat, newStop.lng);
+    setSelectedPoi(null);
+  };
+
   const handleNearbyAdd = (place: PlaceSuggestion) => {
     if(!trip) return;
     const newStop: TripStop = {
@@ -439,13 +488,28 @@ export default function TripPage(){
 
       {/* Split view */}
       <div className="flex flex-1 overflow-hidden">
-        <div className="flex-1">
+        <div className="relative flex-1">
           <TripMap
             stops={trip.stops}
             polyline={routePolyline}
             hoveredStopId={hoveredStopId}
             onMarkerClick={(id) => setHoveredStopId(id)}
+            discoveryPois={discoveryPois}
+            onPoiClick={(p) => setSelectedPoi(p)}
+            onBoundsChange={setMapBounds}
           />
+          {isOwnerOrAnon && (
+            <POIDiscoveryChips
+              selected={discoveryCategory}
+              onSelect={(c) => { setDiscoveryCategory(c); setSelectedPoi(null); }}
+              loading={discoveryLoading}
+              count={discoveryPois.length}
+              isEs={isEs}
+              selectedPoi={selectedPoi}
+              onAddPoi={handlePoiAdd}
+              onDismissPoi={() => setSelectedPoi(null)}
+            />
+          )}
         </div>
         <div className="w-full max-w-md">
           <ItineraryPanel
@@ -470,6 +534,14 @@ function FullscreenMessage({ children }: { children: React.ReactNode }){
 
 function settingsOf(t: Trip){
   return { title: t.title, unit_system: t.unit_system, currency: t.currency };
+}
+
+function mapPoiCatToStopCat(cat: POICategory): TripStop['category'] {
+  if(cat === 'food') return 'food';
+  if(cat === 'hotel') return 'hotel';
+  if(cat === 'nature') return 'nature';
+  if(cat === 'attraction') return 'attraction';
+  return 'other';
 }
 
 function mapTypeToCategory(types?: string[]): TripStop['category'] {

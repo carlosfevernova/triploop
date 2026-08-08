@@ -1,7 +1,15 @@
 'use client';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter, useParams } from 'next/navigation';
 import { QuestionnaireWizard, type QuestionnaireAnswers } from '@/components/trip/QuestionnaireWizard';
+import { detectRegionHint } from '@/components/trip/AiGeneratorMap';
+
+// Live map lazy-loaded (~85KB MapLibre) — cargar solo cuando el user llega a esta ruta.
+const AiGeneratorMap = dynamic(() => import('@/components/trip/AiGeneratorMap').then(m => ({ default: m.AiGeneratorMap })), {
+  ssr: false,
+  loading: () => <div className="h-full w-full animate-pulse rounded-card bg-gradient-to-br from-ocean-100 via-ink-100 to-coral-100" />
+});
 
 const EXAMPLES = {
   en: [
@@ -33,6 +41,8 @@ const PHASES_ES = [
   'Casi listo — armando tu viaje…'
 ];
 
+interface PreviewStop { name: string; lat: number; lng: number; category?: string; }
+
 export default function AiTripGeneratorPage(){
   const router = useRouter();
   const params = useParams<{ locale: string }>();
@@ -45,6 +55,12 @@ export default function AiTripGeneratorPage(){
   const [phase, setPhase] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [wizardAnswers, setWizardAnswers] = useState<QuestionnaireAnswers | null>(null);
+  const [previewStops, setPreviewStops] = useState<PreviewStop[]>([]);
+  const [redirectingSlug, setRedirectingSlug] = useState<string | null>(null);
+
+  // Región detectada en vivo por keywords (fly-to hint mientras el user escribe)
+  const regionHint = useMemo(() => detectRegionHint(prompt), [prompt]);
+  const mapPhase = redirectingSlug ? 'complete' : loading ? 'streaming' : (prompt.length > 5 ? 'thinking' : 'idle');
 
   const submit = async () => {
     if(prompt.trim().length < 10){
@@ -54,6 +70,7 @@ export default function AiTripGeneratorPage(){
     setError(null);
     setLoading(true);
     setPhase(0);
+    setPreviewStops([]);
 
     const phases = isEs ? PHASES_ES : PHASES_EN;
     let idx = 0;
@@ -87,7 +104,15 @@ export default function AiTripGeneratorPage(){
         setLoading(false);
         return;
       }
-      router.push(`/${locale}/trip/${data.trip.slug}`);
+      // Reveal animation: preview stops en mapa, redirect después de stagger
+      const stops = (data.trip.stops || []) as PreviewStop[];
+      setPreviewStops(stops);
+      setRedirectingSlug(data.trip.slug);
+      // Delay redirect para que se vea la animación completa (350ms/stop + 500ms buffer)
+      const revealMs = Math.min(stops.length * 350 + 800, 5000);
+      setTimeout(() => {
+        router.push(`/${locale}/trip/${data.trip.slug}`);
+      }, revealMs);
     } catch (e) {
       clearInterval(interval);
       setError((e as Error).message);
@@ -99,146 +124,169 @@ export default function AiTripGeneratorPage(){
   const phaseText = (isEs ? PHASES_ES : PHASES_EN)[phase];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-ocean-400/10 via-white to-coral-50">
-      <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-        <div className="mb-10 text-center">
+    <main className="min-h-screen bg-gradient-to-br from-ocean-400/5 via-white to-coral-50">
+      <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
+        {/* Header */}
+        <div className="mb-8 text-center">
           <span className="mb-4 inline-flex items-center gap-2 rounded-pill border border-ocean-200 bg-ocean-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-ocean-700">
             <span aria-hidden>✨</span>
-            {isEs ? 'IA Trip Generator · Beta' : 'AI Trip Generator · Beta'}
+            {isEs ? 'IA Trip Generator · con mapa en vivo' : 'AI Trip Generator · with live map'}
           </span>
           <h1 className="font-display text-display-md text-balance text-ink-900 md:text-display-lg">
-            {isEs ? 'Describe tu viaje. La IA lo arma.' : 'Describe your trip. AI plans it.'}
+            {isEs ? 'Describe tu viaje. Míralo en el mapa.' : 'Describe your trip. Watch it appear.'}
           </h1>
-          <p className="mt-3 text-lg text-ink-500 text-balance">
+          <p className="mx-auto mt-3 max-w-2xl text-base text-ink-500 text-balance">
             {isEs
-              ? 'Cuéntanos qué te gusta, cuántos días y a dónde. Generamos itinerario con paradas reales y coordenadas.'
-              : 'Tell us what you like, how many days and where. We build an itinerary with real stops and coordinates.'}
+              ? 'La IA arma tu itinerario y las paradas aparecen en el mapa en tiempo real. Con coordenadas verificadas.'
+              : 'AI plans your itinerary and stops appear on the map in realtime. Verified coordinates.'}
           </p>
         </div>
 
-        {mode === 'choose' && (
-          <div className="mb-8 grid gap-4 md:grid-cols-2">
-            <button
-              onClick={() => setMode('wizard')}
-              className="group flex flex-col items-start gap-2 rounded-card border-2 border-ocean-200 bg-gradient-to-br from-ocean-50 to-white p-6 text-left transition hover:border-ocean-500 hover:shadow-glow"
-            >
-              <span className="inline-flex items-center gap-2 rounded-pill bg-ocean-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-ocean-800">
-                {isEs ? '⭐ Recomendado' : '⭐ Recommended'}
-              </span>
-              <h3 className="font-display text-lg font-semibold text-ink-900">
-                {isEs ? '🧭 Modo guiado (4 preguntas)' : '🧭 Guided mode (4 questions)'}
-              </h3>
-              <p className="text-sm text-ink-600">
-                {isEs ? 'Cuestionario rápido: tipo, viajeros, presupuesto, intereses. Genera itinerario más preciso.' : 'Quick wizard: type, travelers, budget, interests. Generates more accurate itinerary.'}
-              </p>
-            </button>
-            <button
-              onClick={() => setMode('free')}
-              className="group flex flex-col items-start gap-2 rounded-card border-2 border-ink-100 bg-white p-6 text-left transition hover:border-coral-500 hover:shadow-card-hover"
-            >
-              <span className="inline-flex items-center gap-2 rounded-pill bg-ink-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-ink-600">
-                {isEs ? 'Rápido' : 'Fast'}
-              </span>
-              <h3 className="font-display text-lg font-semibold text-ink-900">
-                {isEs ? '✏️ Modo libre (texto)' : '✏️ Free mode (text)'}
-              </h3>
-              <p className="text-sm text-ink-600">
-                {isEs ? 'Escribe tu viaje en tus propias palabras. Ideal si ya sabes qué quieres.' : 'Type your trip in your own words. Ideal if you know what you want.'}
-              </p>
-            </button>
-          </div>
-        )}
+        {/* Split view: form (izq) + map live (der) */}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+          {/* LEFT — Form */}
+          <div className="flex flex-col">
+            {mode === 'choose' && (
+              <div className="mb-6 grid gap-3 sm:grid-cols-2">
+                <button
+                  onClick={() => setMode('wizard')}
+                  className="group flex flex-col items-start gap-2 rounded-card border-2 border-ocean-200 bg-gradient-to-br from-ocean-50 to-white p-5 text-left transition hover:-translate-y-0.5 hover:border-ocean-500 hover:shadow-glow"
+                >
+                  <span className="inline-flex items-center gap-2 rounded-pill bg-ocean-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-ocean-800">
+                    {isEs ? '⭐ Recomendado' : '⭐ Recommended'}
+                  </span>
+                  <h3 className="font-display text-base font-semibold text-ink-900">
+                    {isEs ? '🧭 Guiado (4 preguntas)' : '🧭 Guided (4 questions)'}
+                  </h3>
+                  <p className="text-xs text-ink-600">
+                    {isEs ? 'Tipo, viajeros, presupuesto, intereses.' : 'Type, travelers, budget, interests.'}
+                  </p>
+                </button>
+                <button
+                  onClick={() => setMode('free')}
+                  className="group flex flex-col items-start gap-2 rounded-card border-2 border-ink-100 bg-white p-5 text-left transition hover:-translate-y-0.5 hover:border-coral-500 hover:shadow-card-hover"
+                >
+                  <span className="inline-flex items-center gap-2 rounded-pill bg-ink-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-ink-600">
+                    {isEs ? 'Rápido' : 'Fast'}
+                  </span>
+                  <h3 className="font-display text-base font-semibold text-ink-900">
+                    {isEs ? '✏️ Libre (texto)' : '✏️ Free (text)'}
+                  </h3>
+                  <p className="text-xs text-ink-600">
+                    {isEs ? 'Escribe en tus palabras.' : 'Type in your words.'}
+                  </p>
+                </button>
+              </div>
+            )}
 
-        {mode === 'wizard' && (
-          <QuestionnaireWizard
-            locale={locale}
-            onSkip={() => setMode('free')}
-            onComplete={(answers, suffix) => {
-              setWizardAnswers(answers);
-              const base = isEs
-                ? `Viaje personalizado usando el cuestionario`
-                : `Personalized trip based on questionnaire`;
-              setPrompt(base + suffix);
-              setMode('free');
-            }}
-          />
-        )}
+            {mode === 'wizard' && (
+              <QuestionnaireWizard
+                locale={locale}
+                onSkip={() => setMode('free')}
+                onComplete={(answers, suffix) => {
+                  setWizardAnswers(answers);
+                  const base = isEs
+                    ? `Viaje personalizado usando el cuestionario`
+                    : `Personalized trip based on questionnaire`;
+                  setPrompt(base + suffix);
+                  setMode('free');
+                }}
+              />
+            )}
 
-        {mode === 'free' && (
-        <div className="rounded-card border border-ink-100 bg-white p-6 shadow-card md:p-8">
-          {wizardAnswers && (
-            <div className="mb-4 flex items-center gap-2 rounded-pill bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">
-              <span aria-hidden>✅</span>
-              {isEs ? 'Contexto del cuestionario cargado' : 'Questionnaire context loaded'}
-              <button onClick={() => { setWizardAnswers(null); setPrompt(''); setMode('choose'); }} className="ml-auto text-emerald-600 hover:text-emerald-900 underline">
-                {isEs ? 'Reiniciar' : 'Reset'}
-              </button>
+            {mode === 'free' && (
+              <div className="rounded-card border border-ink-100 bg-white p-5 shadow-card md:p-6">
+                {wizardAnswers && (
+                  <div className="mb-3 flex items-center gap-2 rounded-pill bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">
+                    <span aria-hidden>✅</span>
+                    {isEs ? 'Cuestionario cargado' : 'Questionnaire loaded'}
+                    <button onClick={() => { setWizardAnswers(null); setPrompt(''); setMode('choose'); }} className="ml-auto text-emerald-600 hover:text-emerald-900 underline">
+                      {isEs ? 'Reiniciar' : 'Reset'}
+                    </button>
+                  </div>
+                )}
+                <label htmlFor="ai-prompt" className="mb-2 block text-xs font-semibold uppercase tracking-wider text-ink-500">
+                  {isEs ? 'Describe tu viaje ideal' : 'Describe your ideal trip'}
+                </label>
+                <textarea
+                  id="ai-prompt"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value.slice(0, 800))}
+                  placeholder={isEs
+                    ? 'Ej. 7 días por Andalucía con mi pareja, tapas y arquitectura, empezar en Sevilla y terminar en Granada.'
+                    : 'e.g. 7 days through Andalucía with my partner, tapas and architecture, start in Seville end in Granada.'}
+                  rows={5}
+                  disabled={loading || !!redirectingSlug}
+                  className="w-full resize-none rounded-card border border-ink-200 bg-white p-3.5 text-sm leading-relaxed text-ink-800 outline-none transition focus:border-coral-500 focus:ring-4 focus:ring-coral-100 disabled:bg-ink-50"
+                />
+                <div className="mt-1 flex items-center justify-between text-[11px] text-ink-400">
+                  <span>{regionHint && <span className="text-ocean-700 font-semibold">📍 {regionHint.label}</span>}</span>
+                  <span>{prompt.length}/800</span>
+                </div>
+
+                {error && (
+                  <div className="mt-3 rounded-lg bg-coral-50 px-4 py-3 text-sm text-coral-700">{error}</div>
+                )}
+
+                {loading ? (
+                  <div className="mt-5 flex items-center gap-3 rounded-pill bg-ocean-50 px-4 py-3">
+                    <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-ocean-300 border-t-ocean-700" />
+                    <span className="text-sm font-medium text-ocean-800">{phaseText}</span>
+                  </div>
+                ) : redirectingSlug ? (
+                  <div className="mt-5 flex items-center gap-3 rounded-pill bg-emerald-50 px-4 py-3">
+                    <span aria-hidden>🎉</span>
+                    <span className="text-sm font-medium text-emerald-800">
+                      {isEs ? 'Listo! Redirigiendo a tu viaje…' : 'Done! Redirecting to your trip…'}
+                    </span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={submit}
+                    disabled={prompt.trim().length < 10}
+                    className="mt-5 w-full rounded-pill bg-ink-900 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-ink-800 hover:shadow-glow active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {isEs ? '✨ Generar mi viaje con IA' : '✨ Generate my trip with AI'}
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Examples */}
+            <div className="mt-6">
+              <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink-500">
+                {isEs ? 'Prueba con un ejemplo' : 'Try an example'}
+              </div>
+              <div className="grid gap-1.5">
+                {examples.map((ex, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    disabled={loading || !!redirectingSlug}
+                    onClick={() => { setPrompt(ex.text); setMode('free'); }}
+                    className="group flex items-start gap-2 rounded-lg border border-ink-100 bg-white/70 px-3 py-2 text-left text-xs text-ink-700 transition hover:border-coral-200 hover:bg-white hover:shadow-card disabled:opacity-50"
+                  >
+                    <span className="text-base" aria-hidden>{ex.emoji}</span>
+                    <span className="leading-relaxed">{ex.text}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-          )}
-          <label htmlFor="ai-prompt" className="mb-2 block text-xs font-semibold uppercase tracking-wider text-ink-500">
-            {isEs ? 'Describe tu viaje ideal' : 'Describe your ideal trip'}
-          </label>
-          <textarea
-            id="ai-prompt"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value.slice(0, 800))}
-            placeholder={isEs
-              ? 'Ej. 7 días por Andalucía con mi pareja, nos gustan tapas y arquitectura, empezar en Sevilla y terminar en Granada, presupuesto medio-alto.'
-              : 'e.g. 7 days through Andalucía with my partner, we love tapas and architecture, start in Seville and end in Granada, mid-high budget.'}
-            rows={5}
-            disabled={loading}
-            className="w-full resize-none rounded-card border border-ink-200 bg-white p-4 text-sm leading-relaxed text-ink-800 outline-none transition focus:border-coral-500 focus:ring-4 focus:ring-coral-100 disabled:bg-ink-50"
-          />
-          <div className="mt-1 flex items-center justify-between text-[11px] text-ink-400">
-            <span>{isEs ? 'Mínimo 10 caracteres · Máximo 800' : 'Min 10 chars · Max 800'}</span>
-            <span>{prompt.length}/800</span>
           </div>
 
-          {error && (
-            <div className="mt-4 rounded-lg bg-coral-50 px-4 py-3 text-sm text-coral-700">{error}</div>
-          )}
-
-          {loading ? (
-            <div className="mt-6 flex items-center gap-3 rounded-pill bg-ocean-50 px-5 py-4">
-              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-ocean-300 border-t-ocean-700" />
-              <span className="text-sm font-medium text-ocean-800">{phaseText}</span>
-            </div>
-          ) : (
-            <button
-              onClick={submit}
-              disabled={prompt.trim().length < 10}
-              className="mt-6 w-full rounded-pill bg-ink-900 py-4 text-sm font-semibold text-white transition hover:bg-ink-800 hover:shadow-glow disabled:opacity-40"
-            >
-              {isEs ? '✨ Generar mi viaje con IA' : '✨ Generate my trip with AI'}
-            </button>
-          )}
-        </div>
-        )}
-
-        <div className="mt-10">
-          <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-ink-500">
-            {isEs ? 'Prueba con un ejemplo' : 'Try an example'}
-          </div>
-          <div className="grid gap-2">
-            {examples.map((ex, i) => (
-              <button
-                key={i}
-                type="button"
-                disabled={loading}
-                onClick={() => setPrompt(ex.text)}
-                className="group flex items-start gap-3 rounded-card border border-ink-100 bg-white/70 px-4 py-3 text-left text-sm text-ink-700 transition hover:border-coral-200 hover:bg-white hover:shadow-card disabled:opacity-50"
-              >
-                <span className="text-lg" aria-hidden>{ex.emoji}</span>
-                <span className="leading-relaxed">{ex.text}</span>
-              </button>
-            ))}
+          {/* RIGHT — Live map */}
+          <div className="sticky top-4 h-[calc(100vh-8rem)] min-h-[500px] overflow-hidden rounded-card border border-ink-100 bg-ink-50 shadow-card-hover">
+            <AiGeneratorMap
+              stops={previewStops}
+              hint={regionHint}
+              locale={locale}
+              phase={mapPhase}
+            />
           </div>
         </div>
 
         <p className="mt-8 text-center text-xs text-ink-400">
-          {isEs
-            ? '¿Prefieres armarlo manualmente? '
-            : 'Prefer to build it manually? '}
+          {isEs ? '¿Prefieres armarlo manualmente? ' : 'Prefer to build it manually? '}
           <a href={`/${locale}/trip/new`} className="font-semibold text-ink-700 underline underline-offset-2 hover:text-coral-600">
             {isEs ? 'Planeador clásico' : 'Classic planner'}
           </a>
