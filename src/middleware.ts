@@ -15,7 +15,8 @@ const PUBLIC_SEO_PREFIXES = [
   '/en/california', '/es/california',
   '/en/nevada', '/es/nevada',
   '/en/arizona', '/es/arizona',
-  '/en/southwest', '/es/southwest'
+  '/en/southwest', '/es/southwest',
+  '/en/blog', '/es/blog'
 ];
 
 export async function middleware(req: NextRequest){

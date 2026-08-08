@@ -34,8 +34,8 @@ export function Footer(){
             <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-ink-400">{t('company')}</h4>
             <ul className="space-y-2 text-sm text-ink-600">
               <li><a href="#" className="hover:text-ink-900">{t('about')}</a></li>
-              <li><a href="#" className="hover:text-ink-900">{t('blog')}</a></li>
-              <li><a href="#" className="hover:text-ink-900">{t('contact')}</a></li>
+              <li><a href={`/${locale}/blog`} className="hover:text-ink-900">{t('blog')}</a></li>
+              <li><a href="mailto:hello@triploop.app" className="hover:text-ink-900">{t('contact')}</a></li>
             </ul>
           </div>
           <div>

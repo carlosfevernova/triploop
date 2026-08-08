@@ -17,9 +17,9 @@ export function Nav({ locale }: { locale: Locale }){
           <span className="font-display text-xl font-semibold tracking-tight">TripLoop</span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
-          <a href="#features" className="text-sm font-medium text-ink-500 transition hover:text-ink-800">{t('features')}</a>
+          <Link href={`/${locale}/california`} className="text-sm font-medium text-ink-500 transition hover:text-ink-800">{locale === 'es' ? 'Rutas' : 'Trips'}</Link>
+          <Link href={`/${locale}/blog`} className="text-sm font-medium text-ink-500 transition hover:text-ink-800">Blog</Link>
           <a href="#pricing" className="text-sm font-medium text-ink-500 transition hover:text-ink-800">{t('pricing')}</a>
-          <a href="#how" className="text-sm font-medium text-ink-500 transition hover:text-ink-800">{t('howItWorks')}</a>
         </nav>
         <div className="flex items-center gap-3">
           <LocaleSwitcher currentLocale={locale} />
