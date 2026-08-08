@@ -3,15 +3,15 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 desde el repositorio en producción
-const LOC = 12937;
-const FILES_TSX = 86;
-const FILES_TS = 54;
-const APIS = 25;
-const COMPONENTS = 40;
+// Métricas reales medidas 2026-08-08 (post S21) desde el repositorio en producción
+const LOC = 13850;
+const FILES_TSX = 90;
+const FILES_TS = 56;
+const APIS = 26;
+const COMPONENTS = 44;
 const PAGES = 35;
-const MIGRATIONS = 13;
-const LIB_HELPERS = 22;
+const MIGRATIONS = 14;
+const LIB_HELPERS = 23;
 const RUNTIME_DEPS = 18;
 const REGIONS = 6;      // California + Nevada + Arizona + Southwest + Utah + Spain (1er Europa)
 const TEMPLATES = 24;   // 20 USA + 4 España, bilingues ES+EN via JSONB
@@ -98,7 +98,13 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'Free geocoding fallback (Nominatim + Photon)', hoursLow: 15, hoursHigh: 22,
     detail: 'Wrapper geocode-free.ts, 2-tier fallback OpenStreetMap, integración en places/enrich, ahorra Google API quota estimado 60-80% en cache miss' },
   { category: 'Rate limiting in-memory LRU', hoursLow: 10, hoursHigh: 15,
-    detail: 'Librería rate-limit.ts key-based con TTL, aplicado en waitlist 3/min, ai/* 8-10/min, places/* 30/min, spam prevention edge-safe' }
+    detail: 'Librería rate-limit.ts key-based con TTL, aplicado en waitlist 3/min, ai/* 8-10/min, places/* 30/min, spam prevention edge-safe' },
+  { category: 'S21: Onboarding Questionnaire Wizard', hoursLow: 18, hoursHigh: 28,
+    detail: '4-step bilingüe (tipo viaje, viajeros+kid-ages+accesibilidad estilo Mindtrip, 10 intereses, presupuesto+ritmo). Contexto se pasa a AI Trip Generator para itinerario más preciso. Modo choose guiado vs libre-texto' },
+  { category: 'S21: Budget Calculator (datos 2026 verificados)', hoursLow: 15, hoursHigh: 22,
+    detail: 'Datos reales WebSearch 2026: gas $4.50 US avg (Cali $6.15, Spain €1.65/L), hoteles tier $75/$125/$225 US · $65/$110/$200 Spain, food per person/día $40/$80/$150. Multi-currency 6, buffer 10%. Panel drawer estética match AiSuggestions' },
+  { category: 'S21: AI Trip Insights (warnings + local tips)', hoursLow: 22, hoursHigh: 32,
+    detail: 'Endpoint /api/ai/trip-insights: warnings severity high/mid/low (booking, seasonal, safety), tips categorías booking/timing/local/safety. OpenRouter free + timeout 20s + cache trips.metadata JSONB hasheado por contenido. Migration 014 soft-fail. Bilingüe con schema estricto' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);

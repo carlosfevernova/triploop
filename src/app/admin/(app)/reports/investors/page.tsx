@@ -65,7 +65,9 @@ export default async function InvestorReportPage(){
       <Section title="⭐ Ventajas técnicas defendibles (por qué somos diferentes)">
         <ul className="ml-5 list-disc space-y-2.5 text-[14px] leading-relaxed text-ink-700">
           <li><b>Único bilingüe EN+ES nativo</b> — con hreflang correcto para SEO, <b>24 templates</b> y 16 posts (8×2 idiomas). 500M+ hispanohablantes desatendidos por competencia inglesa.</li>
-          <li><b>AI Trip Generator NLP</b> — usuario describe su viaje en lenguaje natural y la IA arma itinerario completo con coords reales. <b>Ningún competidor tiene equivalente</b> sin bolt-on de ChatGPT.</li>
+          <li><b>AI Trip Generator NLP + Onboarding Wizard</b> — usuario describe su viaje en lenguaje natural, o completa cuestionario 4-pasos guiado (tipo viaje, viajeros+edades niños estilo Mindtrip, intereses, presupuesto+ritmo). La IA arma itinerario completo con coords reales. <b>Ningún competidor tiene equivalente</b> sin bolt-on de ChatGPT.</li>
+          <li><b>Budget Calculator con datos 2026 reales</b> — gas por región USA/Spain, hoteles/food/attractions tier low/mid/high, multi-currency 6. Wanderlog NO tiene calculadora integrada; Layla solo hoteles.</li>
+          <li><b>AI Insights por viaje</b> — warnings críticos (booking Alcatraz 3 meses antes, closures PCH Caltrans) + tips insider ('no vayas a X, ve a Y'). Cache por hash. Genera desde OpenRouter free.</li>
           <li><b>Tiempos reales de manejo</b> con Google Routes API v2 con tráfico en vivo. Wanderlog usa estimados estáticos.</li>
           <li><b>Precios con impuestos incluidos</b> en checkout. Visitantes MX/EU no sufren el "$89 acaba siendo $118".</li>
           <li><b>SEO programático first</b>: <b>24 plantillas × 2 idiomas</b> + 16 posts blog ya indexables con schema.org completo. Compite en búsquedas orgánicas antes de gastar en ads.</li>
@@ -86,7 +88,7 @@ export default async function InvestorReportPage(){
           (fuente: L40°, Windsor Drake 2026). Travel tech en la banda inferior. Escenarios informativos:
         </p>
         <div className="grid gap-3 md:grid-cols-3">
-          <ScenarioCard tier="Hoy · Estado actual" arr="Beta pública · 6 regiones · Europa live" value="$80K-$280K" note="Producto funcional 12,937 LOC, 60+ páginas SEO indexables (24 templates × 2 idiomas + 8 landings regionales), AI Trip Generator NLP diferenciador, WhatsApp bot, widget embebible, brand asset registrable" tone="coral" />
+          <ScenarioCard tier="Hoy · Estado actual" arr="Beta pública · 6 regiones · Europa live · IA multi-provider" value="$100K-$320K" note="Producto funcional 13,850 LOC, 60+ páginas SEO indexables (24 templates × 2 idiomas), AI Trip Generator NLP con onboarding wizard, Budget Calculator con datos 2026 reales, AI Insights (warnings+tips locales), WhatsApp bot, widget embebible, brand asset registrable" tone="coral" />
           <ScenarioCard tier="Año 1 · si convierte 500 Pro" arr="$42K ARR" value="$120K-$220K" note="500 usuarios × $6.99/mes × 12 · múltiplo 2.5-4× ARR banda micro-SaaS + prima diferenciación (AI NLP, WhatsApp)" tone="ocean" />
           <ScenarioCard tier="Año 3 · si escala a 15K Pro" arr="$1.25M ARR" value="$5.5M-$10M" note="15,000 Pro + afiliados + widget embeds · múltiplo 4-8× ARR banda bootstrapped growth con moat AI+bilingüe+geo" tone="emerald" />
         </div>
@@ -97,18 +99,18 @@ export default async function InvestorReportPage(){
 
       <Section title="🛠 Activos técnicos concretos (lo tangible)">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <MiniStat n="12,937" l="Líneas de código" />
-          <MiniStat n="25" l="Endpoints API" />
-          <MiniStat n="40" l="Componentes React" />
+          <MiniStat n="13,850" l="Líneas de código" />
+          <MiniStat n="26" l="Endpoints API" />
+          <MiniStat n="44" l="Componentes React" />
           <MiniStat n="35" l="Páginas producción" />
-          <MiniStat n="13" l="Migrations DB aplicadas" />
+          <MiniStat n="14" l="Migrations DB aplicadas" />
           <MiniStat n="18" l="Integraciones externas" />
           <MiniStat n="60+" l="URLs indexables SEO" />
           <MiniStat n="24" l="Templates bilingues" />
           <MiniStat n="6" l="Regiones (5 USA + España)" />
           <MiniStat n="16" l="Blog posts (EN+ES)" />
-          <MiniStat n="40+" l="Deploys a producción" />
-          <MiniStat n="3" l="Providers AI con fallback" />
+          <MiniStat n="45+" l="Deploys a producción" />
+          <MiniStat n="5" l="Providers AI con fallback" />
         </div>
         <p className="mt-4 text-[12px] text-ink-500">
           Todo el código es TypeScript strict, cero errores de tipo, deployado en Vercel Fluid Compute con Supabase Postgres.
