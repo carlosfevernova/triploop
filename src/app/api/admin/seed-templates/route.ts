@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase-admin';
-import { CALIFORNIA_TEMPLATES } from '@/lib/templates-seed';
+import { ALL_TEMPLATES } from '@/lib/templates-seed';
 
 export const runtime = 'edge';
 
@@ -16,7 +16,7 @@ export async function POST(req: Request){
   const sb = createAdminClient();
   const results: Array<{ slug: string; ok: boolean; error?: string }> = [];
 
-  for(const tpl of CALIFORNIA_TEMPLATES){
+  for(const tpl of ALL_TEMPLATES){
     const stops = tpl.stops.map((s, i) => ({
       id: `tpl-${tpl.slug}-${i}`,
       name: s.name,
@@ -28,6 +28,7 @@ export async function POST(req: Request){
     }));
     const { error } = await sb.from('trips').upsert({
       slug: tpl.slug,
+      region: tpl.region,
       title: tpl.title,
       seo_description: tpl.seo_description,
       seo_keywords: tpl.seo_keywords,

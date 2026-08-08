@@ -1,0 +1,200 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import { createPublicClient } from '@/lib/supabase-admin';
+import { ForkButton } from '@/app/[locale]/california/[slug]/ForkButton';
+import { ViewTracker } from '@/app/[locale]/california/[slug]/ViewTracker';
+import { bookingSearchUrl, gygSearchUrl, estimateStayDates } from '@/lib/affiliate';
+import { REGION_META, type Region } from '@/lib/templates-seed';
+
+export interface TemplateRow {
+  id: string; slug: string; title: string; seo_description?: string;
+  seo_keywords?: string[]; days_count: number; travelers_count?: number;
+  origin_city?: string; destination_city?: string; hero_image_url?: string;
+  region?: string;
+  stops: Array<{ id?: string; name: string; address?: string; lat: number; lng: number; duration_min?: number; category?: string }>;
+  total_distance_m?: number; total_duration_s?: number;
+  is_template?: boolean;
+}
+
+export async function getTemplateByRegion(region: Region, slug: string): Promise<TemplateRow | null> {
+  const sb = createPublicClient();
+  const { data } = await sb.from('trips')
+    .select('id, slug, region, title, seo_description, seo_keywords, days_count, travelers_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, is_template')
+    .eq('slug', slug)
+    .eq('is_template', true)
+    .eq('region', region)
+    .maybeSingle();
+  return (data as TemplateRow) || null;
+}
+
+export async function generateRegionMetadata(region: Region, slug: string, locale: string): Promise<Metadata> {
+  const tpl = await getTemplateByRegion(region, slug);
+  if(!tpl) return { title: 'Not found', robots: { index: false } };
+  const title = `${tpl.title} — TripLoop`;
+  const description = tpl.seo_description || `Discover ${tpl.title} — a ${tpl.days_count}-day road trip you can fork and customize.`;
+  const ogImage = tpl.hero_image_url || `https://triploop-six.vercel.app/api/og?title=${encodeURIComponent(tpl.title)}`;
+  return {
+    title, description, keywords: tpl.seo_keywords,
+    alternates: {
+      canonical: `/${locale}/${region}/${slug}`,
+      languages: { en: `/en/${region}/${slug}`, es: `/es/${region}/${slug}` }
+    },
+    openGraph: { title, description, type: 'article', images: [{ url: ogImage, width: 1200, height: 630 }] },
+    twitter: { card: 'summary_large_image', title, description, images: [ogImage] }
+  };
+}
+
+export async function RegionTemplateDetail({ region, slug, locale }: { region: Region; slug: string; locale: string }){
+  const isEs = locale === 'es';
+  const tpl = await getTemplateByRegion(region, slug);
+  if(!tpl) notFound();
+
+  const stops = tpl.stops || [];
+  const totalDurationHours = tpl.total_duration_s ? Math.round(tpl.total_duration_s / 3600) : null;
+  const totalKm = tpl.total_distance_m ? Math.round(tpl.total_distance_m / 1000) : null;
+  const meta = REGION_META[region];
+  const regionName = isEs ? meta.name_es : meta.name_en;
+
+  const jsonLd = {
+    '@context': 'https://schema.org', '@type': 'TouristTrip',
+    name: tpl.title, description: tpl.seo_description,
+    duration: `P${tpl.days_count}D`, touristType: 'International travelers',
+    itinerary: {
+      '@type': 'ItemList',
+      itemListElement: stops.map((s, i) => ({
+        '@type': 'ListItem', position: i + 1,
+        item: { '@type': 'TouristAttraction', name: s.name, address: s.address, geo: { '@type': 'GeoCoordinates', latitude: s.lat, longitude: s.lng } }
+      }))
+    }
+  };
+
+  return (
+    <>
+      <ViewTracker slug={slug} locale={locale} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <main className="min-h-screen bg-white">
+        <section className="relative isolate overflow-hidden bg-ink-900 text-white">
+          {tpl.hero_image_url && (
+            <>
+              <img src={tpl.hero_image_url} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-b from-ink-900/40 via-ink-900/50 to-ink-900/90" />
+            </>
+          )}
+          <div className="relative z-10 mx-auto max-w-5xl px-6 py-24 md:py-32">
+            <Link href={`/${locale}/${region}`} className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white">
+              ← {isEs ? `Todas las rutas de ${regionName}` : `All ${regionName} trips`}
+            </Link>
+            <h1 className="font-display text-display-lg tracking-tight md:text-display-xl">{tpl.title}</h1>
+            {tpl.seo_description && <p className="mt-4 max-w-3xl text-lg text-white/90">{tpl.seo_description}</p>}
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Chip>{tpl.days_count} {isEs ? 'días' : 'days'}</Chip>
+              <Chip>{stops.length} {isEs ? 'paradas' : 'stops'}</Chip>
+              {totalKm && <Chip>~{totalKm} km</Chip>}
+              {totalDurationHours && <Chip>~{totalDurationHours}h {isEs ? 'de manejo' : 'drive'}</Chip>}
+            </div>
+            <div className="mt-8"><ForkButton slug={tpl.slug} locale={locale} isEs={isEs} /></div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+          <h2 className="mb-8 font-display text-display-md tracking-tight text-ink-900">
+            {isEs ? 'Itinerario' : 'The itinerary'}
+          </h2>
+          <ol className="space-y-4">
+            {stops.map((s, i) => (
+              <li key={i} className="flex gap-4 rounded-card border border-ink-100 bg-white p-5 shadow-card">
+                <div className="flex-shrink-0">
+                  <div className="grid h-10 w-10 place-items-center rounded-full bg-coral-500 font-semibold text-white">{i + 1}</div>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-display text-lg font-semibold text-ink-900">{s.name}</h3>
+                  {s.address && <p className="text-sm text-ink-500">{s.address}</p>}
+                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-ink-500">
+                    {s.duration_min ? <span>⏱ {formatMin(s.duration_min, isEs)}</span> : null}
+                    {s.category ? <span className="rounded-pill bg-ink-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider">{s.category}</span> : null}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-12 rounded-card border border-coral-200 bg-gradient-to-br from-coral-50 to-white p-8 text-center">
+            <p className="mb-4 text-ink-700">
+              {isEs ? '¿Te gustó esta ruta? Duplícala en 1 clic y personalízala con tus fechas y paradas.' : 'Love this trip? Fork it in one click and customize with your own dates and stops.'}
+            </p>
+            <ForkButton slug={tpl.slug} locale={locale} isEs={isEs} big />
+          </div>
+        </section>
+
+        <BookingSection tpl={tpl} locale={locale} isEs={isEs} />
+
+        <section className="border-t border-ink-100 bg-ink-50/40 py-16">
+          <div className="mx-auto max-w-6xl px-6 text-center">
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink-500">
+              {isEs ? 'Más rutas' : 'More trips'}
+            </p>
+            <Link href={`/${locale}/${region}`} className="mt-3 inline-block font-display text-display-sm text-ink-900 hover:text-coral-600">
+              {isEs ? `Explorar todas las rutas de ${regionName} →` : `Explore all ${regionName} trips →`}
+            </Link>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}
+
+function Chip({ children }: { children: React.ReactNode }){
+  return (
+    <span className="rounded-pill bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider backdrop-blur">
+      {children}
+    </span>
+  );
+}
+
+function BookingSection({ tpl, locale, isEs }: { tpl: TemplateRow; locale: string; isEs: boolean }){
+  const stops = tpl.stops || [];
+  const uniqCities = Array.from(new Map(stops.map((s) => [s.name.split(',')[0], s])).values()).slice(0, 6);
+  const { checkin, checkout } = estimateStayDates(undefined, tpl.days_count);
+  const guests = tpl.travelers_count || 2;
+  return (
+    <section className="border-t border-ink-100 bg-white py-16 md:py-20">
+      <div className="mx-auto max-w-3xl px-6">
+        <h2 className="mb-2 font-display text-display-md text-ink-900">
+          {isEs ? 'Reserva mientras planeas' : 'Book stays & activities'}
+        </h2>
+        <p className="mb-6 text-sm text-ink-500">
+          {isEs ? 'Hoteles con impuestos incluidos y actividades con cancelación gratis. TripLoop recibe una pequeña comisión, tú nunca pagas de más.' : 'Tax-included hotels and activities with free cancellation. TripLoop earns a small commission — you never pay extra.'} {' '}
+          <a href={`/${locale}/affiliate-disclosure`} className="underline hover:text-ink-900">
+            {isEs ? 'Ver aviso' : 'Learn more'}
+          </a>
+        </p>
+        <ul className="space-y-2">
+          {uniqCities.map((s, i) => (
+            <li key={i} className="flex items-center gap-2 rounded-card border border-ink-100 bg-white p-4">
+              <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-ink-100 text-xs font-semibold text-ink-700">{i + 1}</span>
+              <span className="flex-1 truncate text-sm font-semibold text-ink-900">{s.name}</span>
+              <a href={bookingSearchUrl(s.name, { checkin, checkout, guests, locale, source: 'template' })}
+                target="_blank" rel="noreferrer sponsored nofollow"
+                className="rounded-pill bg-ocean-400 px-3 py-1.5 text-[11px] font-semibold text-white transition hover:brightness-110">
+                🏨 {isEs ? 'Hoteles' : 'Hotels'}
+              </a>
+              <a href={gygSearchUrl(s.name, { locale, source: 'template' })}
+                target="_blank" rel="noreferrer sponsored nofollow"
+                className="rounded-pill bg-coral-500 px-3 py-1.5 text-[11px] font-semibold text-white transition hover:bg-coral-600">
+                🎭 {isEs ? 'Tours' : 'Tours'}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function formatMin(min: number, isEs?: boolean){
+  if(min < 60) return `${min} min`;
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  return m ? `${h}h ${m}m` : (isEs ? `${h}h` : `${h}h`);
+}

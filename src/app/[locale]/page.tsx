@@ -6,6 +6,7 @@ import { SocialProofStrip } from '@/components/SocialProofStrip';
 import { ProblemSection } from '@/components/ProblemSection';
 import { FeaturesGrid } from '@/components/FeaturesGrid';
 import { TrustBadges } from '@/components/TrustBadges';
+import { RegionsGrid } from '@/components/RegionsGrid';
 import { CitiesGrid } from '@/components/CitiesGrid';
 import { Comparison } from '@/components/Comparison';
 import { Pricing } from '@/components/Pricing';
@@ -30,6 +31,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <ProblemSection />
         <FeaturesGrid />
         <TrustBadges isEs={isEs} />
+        <RegionsGrid />
         <CitiesGrid />
         <Comparison isEs={isEs} />
         <Pricing />

@@ -10,8 +10,11 @@ export interface SeedStop {
   category?: 'city' | 'attraction' | 'nature' | 'food' | 'hotel' | 'other';
 }
 
+export type Region = 'california' | 'nevada' | 'arizona' | 'southwest';
+
 export interface SeedTemplate {
   slug: string;                // URL: /california/san-francisco-classic-5-days
+  region: Region;
   title: string;
   seo_description: string;
   seo_keywords: string[];
@@ -22,9 +25,41 @@ export interface SeedTemplate {
   stops: SeedStop[];
 }
 
+export const REGION_META: Record<Region, {
+  slug: string; name_en: string; name_es: string;
+  tagline_en: string; tagline_es: string;
+  hero_image: string;
+}> = {
+  california: {
+    slug: 'california', name_en: 'California', name_es: 'California',
+    tagline_en: 'PCH, Yosemite, Napa and everything in between.',
+    tagline_es: 'PCH, Yosemite, Napa y todo lo demás.',
+    hero_image: 'https://images.unsplash.com/photo-1580655653885-65763b2597d0?w=1200&q=80'
+  },
+  nevada: {
+    slug: 'nevada', name_en: 'Nevada', name_es: 'Nevada',
+    tagline_en: 'Las Vegas, Lake Tahoe, Reno and the loneliest highway in America.',
+    tagline_es: 'Las Vegas, Lake Tahoe, Reno y la carretera más solitaria de USA.',
+    hero_image: 'https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?w=1200&q=80'
+  },
+  arizona: {
+    slug: 'arizona', name_en: 'Arizona', name_es: 'Arizona',
+    tagline_en: 'Grand Canyon, Sedona, Antelope Canyon and the Sonoran desert.',
+    tagline_es: 'Grand Canyon, Sedona, Antelope Canyon y el desierto de Sonora.',
+    hero_image: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200&q=80'
+  },
+  southwest: {
+    slug: 'southwest', name_en: 'US Southwest', name_es: 'Suroeste USA',
+    tagline_en: 'Multi-state Grand Circle: 5 states, 8 national parks, one epic loop.',
+    tagline_es: 'Gran Circuito multi-estado: 5 estados, 8 parques nacionales, un solo viaje épico.',
+    hero_image: 'https://images.unsplash.com/photo-1547750385-c50c65ff8267?w=1200&q=80'
+  }
+};
+
 export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
   {
     slug: 'san-francisco-classic-5-days',
+    region: 'california',
     title: 'San Francisco Classic — 5 days',
     seo_description: 'The definitive 5-day San Francisco road trip: Golden Gate, Alcatraz, Muir Woods, Napa Valley and Sausalito. Real driving times, tax-included prices, works in metric or imperial.',
     seo_keywords: ['san francisco itinerary 5 days', 'sf road trip', 'california bay area trip', 'muir woods napa itinerary'],
@@ -43,6 +78,7 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
   },
   {
     slug: 'los-angeles-highlights-4-days',
+    region: 'california',
     title: 'Los Angeles Highlights — 4 days',
     seo_description: '4 days in LA the local way: Griffith at sunset, Venice boardwalk, Santa Monica pier, Hollywood, and Beverly Hills. Drive times factor in real traffic (not the Maps lie).',
     seo_keywords: ['los angeles itinerary 4 days', 'la road trip', 'hollywood venice santa monica', 'griffith observatory sunset'],
@@ -61,6 +97,7 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
   },
   {
     slug: 'san-diego-sunny-3-days',
+    region: 'california',
     title: 'San Diego Sunny — 3 days',
     seo_description: 'A sun-first 3-day San Diego trip: La Jolla Cove seals, Balboa Park museums, Coronado Beach and Old Town tacos. Perfect for families and first-time visitors.',
     seo_keywords: ['san diego itinerary 3 days', 'la jolla balboa park', 'coronado old town san diego', 'family trip san diego'],
@@ -78,6 +115,7 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
   },
   {
     slug: 'pacific-coast-highway-5-days',
+    region: 'california',
     title: 'Pacific Coast Highway — 5 days',
     seo_description: 'The definitive PCH road trip: San Francisco to Los Angeles via Monterey, Big Sur, Hearst Castle and Santa Barbara. 5 days of the most photographed coastline in America.',
     seo_keywords: ['pacific coast highway road trip', 'pch itinerary 5 days', 'big sur monterey santa barbara', 'california coast drive'],
@@ -97,6 +135,7 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
   },
   {
     slug: 'yosemite-weekend-3-days',
+    region: 'california',
     title: 'Yosemite Weekend — 3 days',
     seo_description: 'Yosemite Valley in 3 days: Tunnel View sunrise, Glacier Point sunset, Half Dome basin walk and the Mist Trail. Includes booking tips and offline map coverage.',
     seo_keywords: ['yosemite 3 days itinerary', 'yosemite weekend trip', 'glacier point tunnel view', 'yosemite mist trail'],
@@ -114,6 +153,7 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
   },
   {
     slug: 'death-valley-vegas-4-days',
+    region: 'california',
     title: 'Death Valley + Las Vegas — 4 days',
     seo_description: 'Otherworldly 4-day loop: Zabriskie Point sunrise, Badwater salt flats, Artist Palette drive, then unwind on the Las Vegas Strip. Avoid summer (>50°C).',
     seo_keywords: ['death valley itinerary 4 days', 'death valley las vegas trip', 'zabriskie badwater artist palette', 'california nevada road trip'],
@@ -131,6 +171,7 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
   },
   {
     slug: 'grand-california-loop-14-days',
+    region: 'california',
     title: 'The Grand California Loop — 14 days',
     seo_description: 'The ultimate 14-day California road trip: LA → San Diego → Joshua Tree → Vegas → Yosemite → San Francisco → Big Sur → back to LA. The trip you actually flew here for.',
     seo_keywords: ['california 14 day road trip', 'grand california loop', 'ultimate california itinerary', 'california 2 week trip'],
@@ -156,6 +197,7 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
   },
   {
     slug: 'napa-sonoma-wine-weekend',
+    region: 'california',
     title: 'Napa & Sonoma Wine Weekend — 3 days',
     seo_description: 'A romantic 3-day wine country escape from San Francisco: 3 Napa wineries, Sonoma Plaza, Muir Woods redwoods and Silverado Trail sunset drive.',
     seo_keywords: ['napa sonoma weekend', 'wine country 3 days', 'san francisco to napa itinerary', 'silverado trail scenic route'],
@@ -171,4 +213,184 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Sonoma Plaza', lat: 38.2913, lng: -122.4581, duration_min: 240, category: 'food' }
     ]
   }
+];
+
+// ══════════════════════════════════════════
+// NEVADA
+// ══════════════════════════════════════════
+export const NEVADA_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'las-vegas-weekend-3-days',
+    region: 'nevada',
+    title: 'Las Vegas Weekend — 3 days',
+    seo_description: 'The definitive 3-day Vegas trip: Strip icons at night, Fremont Street Old Vegas, Red Rock Canyon morning drive and a day at Hoover Dam. Practical for first-timers.',
+    seo_keywords: ['las vegas 3 day itinerary', 'vegas weekend trip', 'red rock canyon hoover dam', 'first time las vegas'],
+    origin_city: 'Las Vegas',
+    destination_city: 'Hoover Dam',
+    days_count: 3,
+    hero_image_url: 'https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?w=1200&q=80',
+    stops: [
+      { name: 'Las Vegas Strip (Bellagio)', lat: 36.1129, lng: -115.1767, duration_min: 240, category: 'city' },
+      { name: 'Fremont Street Experience', lat: 36.1707, lng: -115.1443, duration_min: 180, category: 'attraction' },
+      { name: 'Red Rock Canyon Scenic Loop', lat: 36.1358, lng: -115.4270, duration_min: 240, category: 'nature' },
+      { name: 'Hoover Dam', lat: 36.0161, lng: -114.7377, duration_min: 180, category: 'attraction' },
+      { name: 'Neon Museum (Boneyard)', lat: 36.1830, lng: -115.1330, duration_min: 90, category: 'attraction' }
+    ]
+  },
+  {
+    slug: 'lake-tahoe-weekend-4-days',
+    region: 'nevada',
+    title: 'Lake Tahoe — 4 days',
+    seo_description: 'A 4-day Lake Tahoe getaway on both sides of the border: Emerald Bay overlook, Sand Harbor beach, Heavenly Gondola and a scenic drive around the lake.',
+    seo_keywords: ['lake tahoe 4 days itinerary', 'tahoe road trip', 'emerald bay sand harbor', 'heavenly gondola south lake'],
+    origin_city: 'South Lake Tahoe',
+    destination_city: 'Incline Village',
+    days_count: 4,
+    hero_image_url: 'https://images.unsplash.com/photo-1523057530100-383d7fbc77a1?w=1200&q=80',
+    stops: [
+      { name: 'Emerald Bay State Park', lat: 38.9539, lng: -120.1055, duration_min: 180, category: 'nature' },
+      { name: 'Heavenly Gondola', lat: 38.9548, lng: -119.9407, duration_min: 240, category: 'attraction' },
+      { name: 'Sand Harbor Beach', lat: 39.1978, lng: -119.9317, duration_min: 240, category: 'nature' },
+      { name: 'Cave Rock', lat: 39.0526, lng: -119.9491, duration_min: 60, category: 'nature' },
+      { name: 'Incline Village', lat: 39.2508, lng: -119.9718, duration_min: 240, category: 'city' }
+    ]
+  },
+  {
+    slug: 'nevada-loop-vegas-reno-7-days',
+    region: 'nevada',
+    title: 'Nevada Loop: Vegas → Reno — 7 days',
+    seo_description: 'A 7-day Nevada road trip covering Vegas, the loneliest highway in America (Highway 50), Great Basin National Park, Virginia City ghost mining town and Reno.',
+    seo_keywords: ['nevada road trip 7 days', 'highway 50 loneliest road', 'great basin national park', 'reno virginia city'],
+    origin_city: 'Las Vegas',
+    destination_city: 'Reno',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?w=1200&q=80',
+    stops: [
+      { name: 'Las Vegas', lat: 36.1147, lng: -115.1728, duration_min: 480, category: 'city' },
+      { name: 'Valley of Fire State Park', lat: 36.4297, lng: -114.5230, duration_min: 240, category: 'nature' },
+      { name: 'Great Basin National Park', lat: 38.9833, lng: -114.3000, duration_min: 480, category: 'nature' },
+      { name: 'Highway 50 (Loneliest Road)', lat: 39.4600, lng: -117.4600, duration_min: 300, category: 'attraction' },
+      { name: 'Virginia City', lat: 39.3097, lng: -119.6494, duration_min: 240, category: 'attraction' },
+      { name: 'Reno', lat: 39.5296, lng: -119.8138, duration_min: 300, category: 'city' }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════
+// ARIZONA
+// ══════════════════════════════════════════
+export const ARIZONA_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'grand-canyon-weekend-3-days',
+    region: 'arizona',
+    title: 'Grand Canyon Weekend — 3 days',
+    seo_description: 'A perfectly-paced 3-day Grand Canyon trip: South Rim highlights, sunset at Hopi Point, Bright Angel Trail (rim), and a day trip to Sedona red rocks.',
+    seo_keywords: ['grand canyon 3 day itinerary', 'grand canyon south rim weekend', 'bright angel trail hopi point', 'first time grand canyon'],
+    origin_city: 'Grand Canyon Village',
+    destination_city: 'Sedona',
+    days_count: 3,
+    hero_image_url: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200&q=80',
+    stops: [
+      { name: 'Grand Canyon Village (South Rim)', lat: 36.0544, lng: -112.1401, duration_min: 300, category: 'nature' },
+      { name: 'Hopi Point (sunset)', lat: 36.0700, lng: -112.1478, duration_min: 90, category: 'nature' },
+      { name: 'Desert View Watchtower', lat: 36.0439, lng: -111.8256, duration_min: 90, category: 'attraction' },
+      { name: 'Bright Angel Trail (rim walk)', lat: 36.0570, lng: -112.1428, duration_min: 180, category: 'nature' },
+      { name: 'Sedona (Cathedral Rock)', lat: 34.8225, lng: -111.7908, duration_min: 240, category: 'nature' }
+    ]
+  },
+  {
+    slug: 'sedona-flagstaff-4-days',
+    region: 'arizona',
+    title: 'Sedona & Flagstaff — 4 days',
+    seo_description: 'A 4-day Northern Arizona escape: Sedona red rock hikes, Devil\'s Bridge, Slide Rock State Park, Oak Creek Canyon scenic drive and Flagstaff historic downtown.',
+    seo_keywords: ['sedona flagstaff 4 days', 'sedona red rocks itinerary', 'devils bridge oak creek', 'flagstaff arizona weekend'],
+    origin_city: 'Sedona',
+    destination_city: 'Flagstaff',
+    days_count: 4,
+    hero_image_url: 'https://images.unsplash.com/photo-1547750385-c50c65ff8267?w=1200&q=80',
+    stops: [
+      { name: 'Cathedral Rock (Sedona)', lat: 34.8225, lng: -111.7908, duration_min: 180, category: 'nature' },
+      { name: "Devil's Bridge Trail", lat: 34.9017, lng: -111.8115, duration_min: 240, category: 'nature' },
+      { name: 'Slide Rock State Park', lat: 34.9451, lng: -111.7529, duration_min: 180, category: 'nature' },
+      { name: 'Oak Creek Canyon Scenic Drive', lat: 35.0300, lng: -111.7300, duration_min: 120, category: 'nature' },
+      { name: 'Flagstaff Historic Downtown', lat: 35.1983, lng: -111.6513, duration_min: 240, category: 'city' }
+    ]
+  },
+  {
+    slug: 'arizona-highlights-5-days',
+    region: 'arizona',
+    title: 'Arizona Highlights — 5 days',
+    seo_description: '5 days across Arizona\'s greatest hits: Antelope Canyon, Horseshoe Bend, Monument Valley, Grand Canyon and Sedona. Includes Navajo Nation booking tips.',
+    seo_keywords: ['arizona 5 day road trip', 'antelope canyon horseshoe bend', 'monument valley grand canyon sedona', 'northern arizona itinerary'],
+    origin_city: 'Page',
+    destination_city: 'Sedona',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200&q=80',
+    stops: [
+      { name: 'Antelope Canyon (Upper)', lat: 36.8619, lng: -111.3743, duration_min: 90, category: 'nature' },
+      { name: 'Horseshoe Bend', lat: 36.8791, lng: -111.5104, duration_min: 90, category: 'nature' },
+      { name: 'Monument Valley', lat: 36.9980, lng: -110.0985, duration_min: 300, category: 'nature' },
+      { name: 'Grand Canyon (South Rim)', lat: 36.0544, lng: -112.1401, duration_min: 480, category: 'nature' },
+      { name: 'Sedona (Cathedral Rock)', lat: 34.8225, lng: -111.7908, duration_min: 300, category: 'nature' }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════
+// SOUTHWEST MULTI-STATE (Grand Circle)
+// ══════════════════════════════════════════
+export const SOUTHWEST_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'us-southwest-grand-circle-10-days',
+    region: 'southwest',
+    title: 'US Southwest Grand Circle — 10 days',
+    seo_description: 'The legendary 10-day Grand Circle loop from Las Vegas: Zion, Bryce, Antelope Canyon, Monument Valley, Grand Canyon, Sedona. 5 states, 8 national parks, one road trip.',
+    seo_keywords: ['grand circle 10 day itinerary', 'southwest usa road trip', 'zion bryce grand canyon loop', '5 states national parks'],
+    origin_city: 'Las Vegas',
+    destination_city: 'Las Vegas',
+    days_count: 10,
+    hero_image_url: 'https://images.unsplash.com/photo-1547750385-c50c65ff8267?w=1200&q=80',
+    stops: [
+      { name: 'Las Vegas', lat: 36.1147, lng: -115.1728, duration_min: 480, category: 'city' },
+      { name: 'Zion National Park', lat: 37.2982, lng: -113.0263, duration_min: 720, category: 'nature' },
+      { name: 'Bryce Canyon National Park', lat: 37.5930, lng: -112.1871, duration_min: 480, category: 'nature' },
+      { name: 'Antelope Canyon (Page, AZ)', lat: 36.8619, lng: -111.3743, duration_min: 180, category: 'nature' },
+      { name: 'Horseshoe Bend', lat: 36.8791, lng: -111.5104, duration_min: 90, category: 'nature' },
+      { name: 'Monument Valley', lat: 36.9980, lng: -110.0985, duration_min: 480, category: 'nature' },
+      { name: 'Grand Canyon (South Rim)', lat: 36.0544, lng: -112.1401, duration_min: 720, category: 'nature' },
+      { name: 'Sedona', lat: 34.8697, lng: -111.7610, duration_min: 480, category: 'nature' },
+      { name: 'Las Vegas (return)', lat: 36.1147, lng: -115.1728, duration_min: 240, category: 'city' }
+    ]
+  },
+  {
+    slug: 'route-66-classic-14-days',
+    region: 'southwest',
+    title: 'Route 66 Classic — 14 days',
+    seo_description: 'The classic 14-day Route 66 road trip Chicago to Santa Monica across 8 states: Cadillac Ranch, Meteor Crater, Painted Desert, Petrified Forest and ends at the PCH.',
+    seo_keywords: ['route 66 road trip 14 days', 'chicago to santa monica', 'cadillac ranch meteor crater', 'historic route 66 itinerary'],
+    origin_city: 'Chicago',
+    destination_city: 'Santa Monica',
+    days_count: 14,
+    hero_image_url: 'https://images.unsplash.com/photo-1508361727343-ca787442dcd7?w=1200&q=80',
+    stops: [
+      { name: 'Chicago (Route 66 Sign)', lat: 41.8781, lng: -87.6298, duration_min: 480, category: 'city' },
+      { name: 'St. Louis (Gateway Arch)', lat: 38.6247, lng: -90.1848, duration_min: 300, category: 'attraction' },
+      { name: 'Oklahoma City', lat: 35.4676, lng: -97.5164, duration_min: 300, category: 'city' },
+      { name: 'Cadillac Ranch (Amarillo TX)', lat: 35.1872, lng: -101.9871, duration_min: 60, category: 'attraction' },
+      { name: 'Santa Fe (NM)', lat: 35.6870, lng: -105.9378, duration_min: 480, category: 'city' },
+      { name: 'Petrified Forest National Park', lat: 34.9099, lng: -109.8068, duration_min: 240, category: 'nature' },
+      { name: 'Meteor Crater (AZ)', lat: 35.0273, lng: -111.0225, duration_min: 90, category: 'attraction' },
+      { name: 'Grand Canyon (South Rim)', lat: 36.0544, lng: -112.1401, duration_min: 480, category: 'nature' },
+      { name: 'Las Vegas', lat: 36.1147, lng: -115.1728, duration_min: 480, category: 'city' },
+      { name: 'Santa Monica Pier', lat: 34.0100, lng: -118.4962, duration_min: 240, category: 'attraction' }
+    ]
+  }
+];
+
+// Unified export para el seed endpoint
+export const ALL_TEMPLATES: SeedTemplate[] = [
+  ...CALIFORNIA_TEMPLATES,
+  ...NEVADA_TEMPLATES,
+  ...ARIZONA_TEMPLATES,
+  ...SOUTHWEST_TEMPLATES
 ];
