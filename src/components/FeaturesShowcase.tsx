@@ -189,6 +189,42 @@ const SMALL_FEATURES: SmallFeature[] = [
       en: 'No more $89 hotel that becomes $118. All prices show final with tax, so MX/EU visitors are never surprised.',
       es: 'No más hotel $89 que se vuelve $118. Todos los precios finales con impuestos, sin sorpresas para turistas MX/EU.'
     }
+  },
+  {
+    emoji: '⚡',
+    title: { en: 'Curated-first Instant Response', es: 'Respuesta Instantánea Curada' },
+    body: {
+      en: '229 verified POIs + 46 templates. Prompts matching iconic routes return in <100ms with 0 AI tokens.',
+      es: '229 POIs verificados + 46 templates. Prompts que matchean rutas icónicas responden <100ms con 0 tokens IA.'
+    },
+    badge: { en: 'S28', es: 'S28' }
+  },
+  {
+    emoji: '🌊',
+    title: { en: 'Streaming SSE Live Map', es: 'Streaming SSE Mapa Vivo' },
+    body: {
+      en: 'Server-Sent Events: stops appear on map 1-by-1 as AI generates. First stop visible in 500ms curated hit.',
+      es: 'Server-Sent Events: paradas aparecen en mapa 1-por-1 mientras la IA genera. Primer stop en 500ms hit curado.'
+    },
+    badge: { en: 'S30', es: 'S30' }
+  },
+  {
+    emoji: '🔍',
+    title: { en: 'POI Discovery Chips', es: 'POI Discovery Chips' },
+    body: {
+      en: '7 categories floating chip-bar (Food · Nature · Hotels · Gas · EV · Attractions · Shopping). Tap POI → add to trip.',
+      es: '7 categorías chip-bar flotante (Comida · Naturaleza · Hoteles · Gasolina · EV · Atracciones · Tiendas). Tap POI → agregar al viaje.'
+    },
+    badge: { en: 'S25', es: 'S25' }
+  },
+  {
+    emoji: '🛣️',
+    title: { en: 'Highway Route Badges', es: 'Badges de Highway' },
+    body: {
+      en: 'Every template shows highway names (US-101, I-90, PCH, SS163 Amalfi, NC500). No competitor does this.',
+      es: 'Cada template muestra nombres de highway (US-101, I-90, PCH, SS163 Amalfi, NC500). Ningún competidor lo hace.'
+    },
+    badge: { en: 'S27', es: 'S27' }
   }
 ];
 
@@ -222,17 +258,17 @@ export async function FeaturesShowcase(){
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 text-center">
           <span className="mb-4 inline-block rounded-pill border border-coral-200 bg-coral-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-coral-700">
-            {isEs ? '27+ features · 5 endpoints IA · bilingüe nativo' : '27+ features · 5 AI endpoints · native bilingual'}
+            {isEs ? '35+ features · 6 endpoints IA + SSE · 24 regiones · 7 continentes' : '35+ features · 6 AI endpoints + SSE · 24 regions · 7 continents'}
           </span>
           <h2 className="mx-auto max-w-3xl font-display text-display-md text-ink-900 text-balance md:text-display-lg">
             {isEs
-              ? 'Lo que ningún competidor combina'
-              : 'What no competitor combines'}
+              ? 'Todo lo que Wanderlog no tiene'
+              : "Everything Wanderlog doesn't have"}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-500 text-balance">
             {isEs
-              ? 'Wanderlog es visual pero solo inglés. Layla es AI-first pero paywall. TripIt organiza pero no planea. TripLoop es todo en uno, bilingüe y con IA gratis.'
-              : "Wanderlog is visual but English-only. Layla is AI-first but paywalled. TripIt organizes but doesn't plan. TripLoop is all-in-one, bilingual, with free AI."}
+              ? 'Wanderlog es visual pero solo EN y Norteamérica. Layla es AI-first pero paywall $49/año. TripIt organiza pero no planea. TripLoop es todo-en-uno: bilingüe nativo · 24 regiones · IA gratis · streaming · 229 POIs curados · WhatsApp bot.'
+              : "Wanderlog is visual but EN-only and North America. Layla is AI-first but paywalled $49/yr. TripIt organizes but doesn't plan. TripLoop is all-in-one: native bilingual · 24 regions · free AI · streaming · 229 curated POIs · WhatsApp bot."}
           </p>
         </div>
 

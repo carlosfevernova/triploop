@@ -11,9 +11,14 @@ interface Row {
 }
 
 const ROWS: Row[] = [
-  { feature: { en: 'AI Trip Generator (natural language)', es: 'AI Trip Generator (lenguaje natural)' }, triploop: 'Free · 5 providers', wanderlog: false, layla: '$49/yr', tripit: false, google_my_maps: false, highlight: true },
+  { feature: { en: 'AI Trip Generator (natural language)', es: 'AI Trip Generator (lenguaje natural)' }, triploop: 'Free · 6 providers + SSE stream', wanderlog: false, layla: '$49/yr', tripit: false, google_my_maps: false, highlight: true },
+  { feature: { en: 'Streaming SSE (stops appear live on map)', es: 'Streaming SSE (stops en vivo en mapa)' }, triploop: 'Server-Sent Events', wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
+  { feature: { en: 'Curated-first matcher (0 tokens if match)', es: 'Curated-first matcher (0 tokens si match)' }, triploop: '229 POIs + 46 templates', wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
+  { feature: { en: 'Regions covered (worldwide)', es: 'Regiones cubiertas (mundial)' }, triploop: '24 · 7 continents', wanderlog: 'Global (unstructured)', layla: 'Global (AI-generated)', tripit: 'Global', google_my_maps: 'Global', highlight: true },
+  { feature: { en: 'Iconic route templates verified', es: 'Templates rutas icónicas verificadas' }, triploop: '46 curated', wanderlog: 'Community-crowd', layla: 'AI-generated', tripit: false, google_my_maps: false, highlight: true },
+  { feature: { en: 'Highway names visible (US-101, PCH, NC500)', es: 'Nombres highway visible (US-101, PCH, NC500)' }, triploop: true, wanderlog: false, layla: false, tripit: false, google_my_maps: 'Auto-map', highlight: true },
   { feature: { en: 'Flight-Delay Reshuffle (AI)', es: 'Reorganización por vuelo (IA)' }, triploop: true, wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
-  { feature: { en: 'Bilingual EN + ES (native)', es: 'Bilingüe EN + ES (nativo)' }, triploop: true, wanderlog: 'EN only', layla: 'EN only', tripit: 'EN only', google_my_maps: true, highlight: true },
+  { feature: { en: 'Bilingual EN + ES (native SEO)', es: 'Bilingüe EN + ES (SEO nativo)' }, triploop: true, wanderlog: 'EN only', layla: 'EN only', tripit: 'EN only', google_my_maps: true, highlight: true },
   { feature: { en: 'WhatsApp bot', es: 'Bot WhatsApp' }, triploop: 'Twilio + AI', wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
   { feature: { en: 'Embeddable widget', es: 'Widget embebible' }, triploop: true, wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
   { feature: { en: 'Budget calculator (real 2026 data)', es: 'Calculadora presupuestos (datos 2026)' }, triploop: true, wanderlog: false, layla: 'Hotels only', tripit: false, google_my_maps: false },
