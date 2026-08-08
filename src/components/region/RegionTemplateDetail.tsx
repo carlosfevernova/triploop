@@ -15,12 +15,29 @@ export interface TemplateRow {
   stops: Array<{ id?: string; name: string; address?: string; lat: number; lng: number; duration_min?: number; category?: string }>;
   total_distance_m?: number; total_duration_s?: number;
   is_template?: boolean;
+  translations?: Record<string, { title?: string; seo_description?: string; seo_keywords?: string[]; stops?: Array<{ name: string }> }>;
+}
+
+// Aplica traducción según locale — si no existe traducción, usa original (fallback EN)
+export function applyLocale(tpl: TemplateRow, locale: string): TemplateRow {
+  if(!tpl.translations || locale === 'en') return tpl;
+  const t = tpl.translations[locale];
+  if(!t) return tpl;
+  return {
+    ...tpl,
+    title: t.title || tpl.title,
+    seo_description: t.seo_description || tpl.seo_description,
+    seo_keywords: t.seo_keywords || tpl.seo_keywords,
+    stops: t.stops
+      ? tpl.stops.map((s, i) => ({ ...s, name: t.stops![i]?.name || s.name }))
+      : tpl.stops
+  };
 }
 
 export async function getTemplateByRegion(region: Region, slug: string): Promise<TemplateRow | null> {
   const sb = createPublicClient();
   const { data } = await sb.from('trips')
-    .select('id, slug, region, title, seo_description, seo_keywords, days_count, travelers_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, is_template')
+    .select('id, slug, region, title, seo_description, seo_keywords, days_count, travelers_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, is_template, translations')
     .eq('slug', slug)
     .eq('is_template', true)
     .eq('region', region)
@@ -29,8 +46,9 @@ export async function getTemplateByRegion(region: Region, slug: string): Promise
 }
 
 export async function generateRegionMetadata(region: Region, slug: string, locale: string): Promise<Metadata> {
-  const tpl = await getTemplateByRegion(region, slug);
-  if(!tpl) return { title: 'Not found', robots: { index: false } };
+  const raw = await getTemplateByRegion(region, slug);
+  if(!raw) return { title: 'Not found', robots: { index: false } };
+  const tpl = applyLocale(raw, locale);
   const title = `${tpl.title} — TripLoop`;
   const description = tpl.seo_description || `Discover ${tpl.title} — a ${tpl.days_count}-day road trip you can fork and customize.`;
   const ogImage = tpl.hero_image_url || `https://triploop-six.vercel.app/api/og?title=${encodeURIComponent(tpl.title)}`;
@@ -47,8 +65,9 @@ export async function generateRegionMetadata(region: Region, slug: string, local
 
 export async function RegionTemplateDetail({ region, slug, locale }: { region: Region; slug: string; locale: string }){
   const isEs = locale === 'es';
-  const tpl = await getTemplateByRegion(region, slug);
-  if(!tpl) notFound();
+  const raw = await getTemplateByRegion(region, slug);
+  if(!raw) notFound();
+  const tpl = applyLocale(raw, locale);
 
   const stops = tpl.stops || [];
   const totalDurationHours = tpl.total_duration_s ? Math.round(tpl.total_duration_s / 3600) : null;
