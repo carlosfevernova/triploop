@@ -5,7 +5,8 @@ import { createClientFromRequest } from '@/lib/supabase-server';
 import { isProSubscription } from '@/lib/stripe-config';
 import type { TripStop } from '@/lib/types';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 interface Body {
   prompt: string;              // "5 días por California, me gusta la naturaleza y comida"
