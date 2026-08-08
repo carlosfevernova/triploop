@@ -130,6 +130,9 @@ export default async function TechnicalReportPage(){
 
   return (
     <main className="mx-auto max-w-5xl px-8 py-10">
+      <a href="/admin" className="mb-6 inline-flex items-center gap-1.5 rounded-pill border border-ink-200 bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-800">
+        <span aria-hidden>←</span> Volver al dashboard
+      </a>
       <header className="mb-10 border-b border-ink-100 pb-6">
         <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-ink-400">Confidencial · Reporte técnico</p>
         <h1 className="font-display text-[32px] font-semibold tracking-tight text-ink-900">TripLoop — Auditoría técnica</h1>

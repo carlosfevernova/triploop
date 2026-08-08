@@ -334,12 +334,20 @@ export default function TripPage(){
     <div className="flex h-screen flex-col overflow-hidden bg-white">
       {/* Top bar */}
       <header className="flex items-center justify-between border-b border-ink-100 bg-white px-6 py-3">
-        <Link href={`/${locale}`} className="flex items-center gap-2 text-ink-800">
-          <div className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-coral-500 to-coral-600 text-white">
-            <span className="font-display text-sm font-semibold">t</span>
-          </div>
-          <span className="font-display text-lg font-semibold tracking-tight">TripLoop</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => history.length > 1 ? router.back() : router.push(`/${locale}`)}
+            className="grid h-9 w-9 place-items-center rounded-full border border-ink-200 bg-white text-ink-600 transition hover:border-ink-800 hover:text-ink-900"
+            aria-label={isEs ? 'Volver' : 'Back'}
+            title={isEs ? 'Volver' : 'Back'}
+          >←</button>
+          <Link href={`/${locale}`} className="flex items-center gap-2 text-ink-800">
+            <div className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-coral-500 to-coral-600 text-white">
+              <span className="font-display text-sm font-semibold">t</span>
+            </div>
+            <span className="font-display text-lg font-semibold tracking-tight">TripLoop</span>
+          </Link>
+        </div>
         <div className="flex items-center gap-2">
           <CollabPresence users={presence} isEs={isEs} />
           <SaveOfflineButton trip={trip} isEs={isEs} />

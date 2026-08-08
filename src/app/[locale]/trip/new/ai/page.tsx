@@ -126,6 +126,17 @@ export default function AiTripGeneratorPage(){
   return (
     <main className="min-h-screen bg-gradient-to-br from-ocean-400/5 via-white to-coral-50">
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
+        {/* Back button */}
+        <div className="mb-4">
+          <a
+            href={`/${locale}`}
+            className="inline-flex items-center gap-1.5 rounded-pill border border-ink-200 bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-800 hover:shadow-card"
+          >
+            <span aria-hidden>←</span>
+            {isEs ? 'Volver' : 'Back'}
+          </a>
+        </div>
+
         {/* Header */}
         <div className="mb-8 text-center">
           <span className="mb-4 inline-flex items-center gap-2 rounded-pill border border-ocean-200 bg-ocean-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-ocean-700">
