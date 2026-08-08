@@ -14,21 +14,30 @@ export default async function InvestorReportPage(){
       <header className="mb-10 border-b border-ink-100 pb-6">
         <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-ink-400">Confidencial · Estado del producto</p>
         <h1 className="font-display text-[32px] font-semibold tracking-tight text-ink-900">TripLoop — Lo que hemos construido</h1>
-        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-08 · Producto en producción, código auditable, primera región europea live</p>
+        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-08 · Producto en producción · <b>24 regiones · 7 continentes · Streaming SSE live</b></p>
       </header>
 
       <Section title="🚀 Qué es TripLoop (en lenguaje simple)">
         <p className="text-[15px] leading-relaxed">
-          Una <b>plataforma web + app</b> que ayuda a turistas internacionales a planear road trips por el suroeste de Estados Unidos
-          (California, Nevada, Arizona, Utah) <b>y ahora España</b> — sin las fricciones comunes: tiempos reales de manejo con tráfico,
-          precios con impuestos ya incluidos, funciona sin señal en parques nacionales, y viene con <b>24 rutas listas para
-          duplicar en 1 clic</b> traducidas a 2 idiomas.
+          Una <b>plataforma web + app</b> que ayuda a turistas a planear road trips <b>por todo el mundo</b> — desde California PCH
+          hasta Sahara Morocco, desde Japón Golden Route hasta Patagonia Ruta 40. Sin fricciones comunes: tiempos reales de manejo con
+          tráfico, precios con impuestos incluidos, funciona sin señal, viene con <b>46 rutas icónicas verificadas</b> con nombres de
+          highway (US-101, PCH, NC500, SS163 Amalfi) y stops con coordenadas reales — todo traducido a 2 idiomas.
         </p>
         <p className="mt-3 text-[15px] leading-relaxed">
-          Está <b>100% en producción</b> en <a href="https://triploop-six.vercel.app" className="text-coral-600 underline">triploop-six.vercel.app</a>,
-          bilingüe español/inglés desde día 1, con pagos Stripe wired, IA integrada multi-provider,
-          <b> AI Trip Generator NLP</b> (describe tu viaje → itinerario), colaboración tiempo real,
-          <b> bot de WhatsApp</b>, <b>widget embebible</b>, blog editorial, y panel admin.
+          <b>100% en producción</b> en <a href="https://triploop-six.vercel.app" className="text-coral-600 underline">triploop-six.vercel.app</a>.
+          Diferenciadores clave: <b>AI Trip Generator con streaming SSE</b> (paradas aparecen en el mapa en tiempo real mientras la IA genera),
+          <b> curated-first matcher</b> (respuesta &lt; 200ms con 0 tokens si hay match), <b>231 POIs curados verificados</b>,
+          <b>bot WhatsApp bilingüe</b>, <b>widget embebible</b> para partners, y <b>bilingüe nativo EN+ES</b> — moat único vs
+          Wanderlog (solo EN), Layla ($49/año paywall) y TripIt (solo post-booking).
+        </p>
+        <p className="mt-3 text-[13px] leading-relaxed text-ink-500">
+          <b>Cobertura mundial actual (24 regiones · 7 continentes):</b>
+          Norteamérica (California PCH, Route 66, Southwest Grand Circle, Utah Mighty 5, Southeast Florida Keys, Rockies Yellowstone,
+          Pacific Northwest, Northeast Blue Ridge) · Canadá (Icefields Parkway) · Latinoamérica (México Riviera Maya,
+          Chile Carretera Austral, Argentina Ruta 40 Patagonia, Perú Machu Picchu) · Europa (España Andalucía, Italia Amalfi,
+          Islandia Ring Road, Irlanda Ring of Kerry, Alemania Ruta Romántica, Escocia NC500) · Asia (Japón Golden Route) ·
+          Oceanía (Australia Great Ocean Road, Nueva Zelanda Isla Sur) · África (Marruecos Sahara).
         </p>
       </Section>
 
@@ -43,7 +52,19 @@ export default async function InvestorReportPage(){
           <b>$16B en 2026 → $63B para 2035</b>. TripLoop apunta al nicho de más rápido crecimiento — turistas internacionales
           independientes que no quieren paquetes turísticos pero necesitan ayuda planeando.
         </p>
-        <p className="mt-2 text-[12px] text-ink-400">Fuentes: verifiedmarketresearch, market.us, businessresearchinsights (Aug 2026).</p>
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          <div className="rounded-card border border-emerald-200 bg-emerald-50/40 p-4">
+            <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-800">TAM primario</div>
+            <p className="mt-1 text-[13px] text-ink-800"><b>500M+ hispanohablantes</b> desatendidos por competidores EN-only (Wanderlog, Layla, TripIt).
+              Somos el único player con SEO nativo bilingüe + hreflang correcto.</p>
+          </div>
+          <div className="rounded-card border border-ocean-400/40 bg-ocean-400/5 p-4">
+            <div className="text-[10px] font-bold uppercase tracking-widest text-ocean-800">Beachhead geo</div>
+            <p className="mt-1 text-[13px] text-ink-800"><b>USA road trippers hispanohablantes</b> (~50M en USA + turistas MX/AR/CO
+              visitando USA) — mercado con demanda real, sin producto competitivo local.</p>
+          </div>
+        </div>
+        <p className="mt-3 text-[12px] text-ink-400">Fuentes: verifiedmarketresearch, market.us, businessresearchinsights, US Census (Aug 2026).</p>
       </Section>
 
       <Section title="🥇 Competidores (dónde estamos parados)">
@@ -56,11 +77,13 @@ export default async function InvestorReportPage(){
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-ink-100"><td className="px-3 py-2.5 font-semibold">Wanderlog</td><td className="px-3 py-2.5 tabular-nums">$100K-$5M/año</td><td className="px-3 py-2.5">Solo inglés · sin precios con impuestos · app-first (SEO débil)</td></tr>
-            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2.5 font-semibold">TripIt</td><td className="px-3 py-2.5 tabular-nums">$3.3M/año · 30 empleados</td><td className="px-3 py-2.5">Organizador post-reserva, NO planeación real</td></tr>
-            <tr className="border-b border-ink-100"><td className="px-3 py-2.5 font-semibold">Roadtrippers</td><td className="px-3 py-2.5 tabular-nums">n/d</td><td className="px-3 py-2.5">Solo road trips USA · $50/año Pro caro · no bilingüe</td></tr>
-            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2.5 font-semibold">Google My Maps</td><td className="px-3 py-2.5">Gratis</td><td className="px-3 py-2.5">Máximo 10 paradas, sin IA, sin colab, sin offline</td></tr>
-            <tr><td className="px-3 py-2.5 font-semibold text-coral-600">TripLoop</td><td className="px-3 py-2.5 text-ink-500">Beta pública activa</td><td className="px-3 py-2.5 text-coral-700 text-[12px]">Ventajas técnicas abajo ↓</td></tr>
+            <tr className="border-b border-ink-100"><td className="px-3 py-2.5 font-semibold">Wanderlog</td><td className="px-3 py-2.5 tabular-nums">$100K-$5M/año</td><td className="px-3 py-2.5">Solo inglés · sin precios con impuestos · sin streaming AI · SEO débil</td></tr>
+            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2.5 font-semibold">Layla</td><td className="px-3 py-2.5 tabular-nums">$49/año paywall</td><td className="px-3 py-2.5">Paywall duro · AI-generated stops no verificados · sin curated content</td></tr>
+            <tr className="border-b border-ink-100"><td className="px-3 py-2.5 font-semibold">TripIt</td><td className="px-3 py-2.5 tabular-nums">$3.3M/año · 30 empleados</td><td className="px-3 py-2.5">Organizador post-reserva, NO planeación real, no IA</td></tr>
+            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2.5 font-semibold">Roadtrippers</td><td className="px-3 py-2.5 tabular-nums">n/d</td><td className="px-3 py-2.5">Solo USA · $50/año Pro caro · no bilingüe · sin IA moderna</td></tr>
+            <tr className="border-b border-ink-100"><td className="px-3 py-2.5 font-semibold">Mindtrip</td><td className="px-3 py-2.5">Freemium</td><td className="px-3 py-2.5">Chat-first pero solo EN · no highway names · no widget · no LatAm</td></tr>
+            <tr className="border-b border-ink-100 bg-ink-50/30"><td className="px-3 py-2.5 font-semibold">Google My Maps</td><td className="px-3 py-2.5">Gratis</td><td className="px-3 py-2.5">Máx 10 paradas, sin IA, sin colab, sin offline</td></tr>
+            <tr><td className="px-3 py-2.5 font-semibold text-coral-600">TripLoop</td><td className="px-3 py-2.5 text-coral-600 text-[12px]">Beta pública · 24 regiones · 7 continentes</td><td className="px-3 py-2.5 text-coral-700 text-[12px]">Único con bilingüe EN+ES · streaming SSE · curated-first · 231 POIs verificados</td></tr>
           </tbody>
         </table>
       </Section>
@@ -95,7 +118,7 @@ export default async function InvestorReportPage(){
           (fuente: L40°, Windsor Drake 2026). Travel tech en la banda inferior. Escenarios informativos:
         </p>
         <div className="grid gap-3 md:grid-cols-3">
-          <ScenarioCard tier="Hoy · Estado actual" arr="Beta pública · 20 regiones · 5 continentes · LatAm live · 6 endpoints IA + SSE streaming" value="$180K-$500K" note="Producto funcional 18,695 LOC, 100+ páginas SEO indexables (42 templates × 2 idiomas + 20 landings regionales), stack IA con streaming SSE + 6 endpoints (Trip Generator NLP + curated-first + prompt cache LRU, Insights, Checklist, Photo Spots, Reshuffle killer, Discover POIs), Budget Calculator, EV Chargers, WhatsApp bot, widget embebible, 158 POIs curados verificados, brand asset registrable + moat bilingüe único vs Wanderlog/Layla/TripIt" tone="coral" />
+          <ScenarioCard tier="Hoy · Estado actual" arr="Beta · 24 regiones · 7 continentes · streaming SSE" value="$220K-$620K" note="19,380 LOC · 130+ URLs SEO indexables (46 templates × 2 idiomas + 24 landings) · stack IA con streaming SSE + curated-first matcher + 231 POIs verificados · 6 endpoints IA · admin Cside preview · moat bilingüe + WhatsApp + widget + streaming vs Wanderlog EN/Layla paywall/TripIt no-planning/Mindtrip solo EN" tone="coral" />
           <ScenarioCard tier="Año 1 · si convierte 500 Pro" arr="$42K ARR" value="$120K-$220K" note="500 usuarios × $6.99/mes × 12 · múltiplo 2.5-4× ARR banda micro-SaaS + prima diferenciación (AI NLP, WhatsApp)" tone="ocean" />
           <ScenarioCard tier="Año 3 · si escala a 15K Pro" arr="$1.25M ARR" value="$5.5M-$10M" note="15,000 Pro + afiliados + widget embeds · múltiplo 4-8× ARR banda bootstrapped growth con moat AI+bilingüe+geo" tone="emerald" />
         </div>
