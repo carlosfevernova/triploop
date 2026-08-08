@@ -40,13 +40,16 @@ export function applyLocale(tpl: TemplateRow, locale: string): TemplateRow {
 
 export async function getTemplateByRegion(region: Region, slug: string): Promise<TemplateRow | null> {
   const sb = createPublicClient();
-  const { data } = await sb.from('trips')
+  // Try select con campos S36 (highway_notes, best_season, difficulty, total_distance_km)
+  const full = await sb.from('trips')
     .select('id, slug, region, title, seo_description, seo_keywords, days_count, travelers_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, is_template, translations, highway_notes, best_season, difficulty, total_distance_km')
-    .eq('slug', slug)
-    .eq('is_template', true)
-    .eq('region', region)
-    .maybeSingle();
-  return (data as TemplateRow) || null;
+    .eq('slug', slug).eq('is_template', true).eq('region', region).maybeSingle();
+  if(!full.error && full.data) return full.data as TemplateRow;
+  // Fallback sin nuevos campos (migration no aplicada)
+  const basic = await sb.from('trips')
+    .select('id, slug, region, title, seo_description, seo_keywords, days_count, travelers_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, is_template, translations')
+    .eq('slug', slug).eq('is_template', true).eq('region', region).maybeSingle();
+  return (basic.data as TemplateRow) || null;
 }
 
 export async function generateRegionMetadata(region: Region, slug: string, locale: string): Promise<Metadata> {
