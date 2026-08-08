@@ -136,6 +136,70 @@ async function callAnthropic(system: string, user: string): Promise<AiTripSpec |
   } catch { return null; }
 }
 
+// OpenRouter — modelos gratis 100%, sin tarjeta, sin restricción email
+// Modelos free: deepseek/deepseek-chat-v3-0324:free, meta-llama/llama-3.3-70b-instruct:free, google/gemini-2.0-flash-exp:free
+async function callOpenRouter(system: string, user: string): Promise<AiTripSpec | null> {
+  const key = process.env.OPENROUTER_API_KEY;
+  if(!key) return null;
+  const models = [
+    'deepseek/deepseek-chat-v3-0324:free',
+    'meta-llama/llama-3.3-70b-instruct:free',
+    'google/gemini-2.0-flash-exp:free'
+  ];
+  for(const model of models){
+    try {
+      const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'authorization': `Bearer ${key}`,
+          'content-type': 'application/json',
+          'HTTP-Referer': 'https://triploop-six.vercel.app',
+          'X-Title': 'TripLoop AI Generator'
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: 3000,
+          response_format: { type: 'json_object' },
+          messages: [
+            { role: 'system', content: system },
+            { role: 'user', content: user }
+          ]
+        })
+      });
+      if(!r.ok) continue;
+      const data = await r.json();
+      const raw = data?.choices?.[0]?.message?.content || '';
+      const spec = extractSpec(raw);
+      if(spec) return spec;
+    } catch { continue; }
+  }
+  return null;
+}
+
+// Cloudflare Workers AI — free tier ~10k req/día, Llama 3
+async function callCloudflareAI(system: string, user: string): Promise<AiTripSpec | null> {
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  const token = process.env.CLOUDFLARE_AI_TOKEN;
+  if(!accountId || !token) return null;
+  try {
+    const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/meta/llama-3.3-70b-instruct-fp8-fast`, {
+      method: 'POST',
+      headers: { 'authorization': `Bearer ${token}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        max_tokens: 3000,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: user }
+        ]
+      })
+    });
+    if(!r.ok) return null;
+    const data = await r.json();
+    const raw = data?.result?.response || '';
+    return extractSpec(raw);
+  } catch { return null; }
+}
+
 function extractSpec(raw: string): AiTripSpec | null {
   try {
     const parsed = JSON.parse(raw);
@@ -169,9 +233,19 @@ export async function POST(req: Request){
 ${locale === 'es' ? 'Devuelve JSON con este schema exacto' : 'Return JSON matching this exact schema'}:
 ${jsonSchema(locale)}`;
 
-    // Cadena de fallback: Fireworks (barato) → Groq (rápido) → Anthropic (premium)
-    let spec = await callFireworks(system, user);
-    let provider: 'fireworks' | 'groq' | 'anthropic' | 'none' = spec ? 'fireworks' : 'none';
+    // Cadena de fallback: OpenRouter free → Cloudflare free → Fireworks → Groq → Anthropic
+    // Estrategia: providers 100% gratuitos primero, luego paid
+    type Provider = 'openrouter' | 'cloudflare' | 'fireworks' | 'groq' | 'anthropic' | 'none';
+    let spec = await callOpenRouter(system, user);
+    let provider: Provider = spec ? 'openrouter' : 'none';
+    if(!spec){
+      spec = await callCloudflareAI(system, user);
+      provider = spec ? 'cloudflare' : 'none';
+    }
+    if(!spec){
+      spec = await callFireworks(system, user);
+      provider = spec ? 'fireworks' : 'none';
+    }
     if(!spec){
       spec = await callGroq(system, user);
       provider = spec ? 'groq' : 'none';
@@ -184,7 +258,7 @@ ${jsonSchema(locale)}`;
     if(!spec){
       return NextResponse.json({
         error: 'ai_unavailable',
-        hint: 'AI providers not configured. Set FIREWORKS_API_KEY, GROQ_API_KEY, or ANTHROPIC_API_KEY.'
+        hint: 'AI providers not configured. Set OPENROUTER_API_KEY (100% free, recomendado), CLOUDFLARE_AI_TOKEN+CLOUDFLARE_ACCOUNT_ID, FIREWORKS_API_KEY, GROQ_API_KEY, or ANTHROPIC_API_KEY.'
       }, { status: 503 });
     }
 
