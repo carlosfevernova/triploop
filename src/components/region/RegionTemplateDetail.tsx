@@ -16,6 +16,10 @@ export interface TemplateRow {
   total_distance_m?: number; total_duration_s?: number;
   is_template?: boolean;
   translations?: Record<string, { title?: string; seo_description?: string; seo_keywords?: string[]; stops?: Array<{ name: string }> }>;
+  highway_notes?: string[];
+  best_season?: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round' | 'shoulder';
+  difficulty?: 'easy' | 'moderate' | 'challenging' | 'epic';
+  total_distance_km?: number;
 }
 
 // Aplica traducción según locale — si no existe traducción, usa original (fallback EN)
@@ -37,7 +41,7 @@ export function applyLocale(tpl: TemplateRow, locale: string): TemplateRow {
 export async function getTemplateByRegion(region: Region, slug: string): Promise<TemplateRow | null> {
   const sb = createPublicClient();
   const { data } = await sb.from('trips')
-    .select('id, slug, region, title, seo_description, seo_keywords, days_count, travelers_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, is_template, translations')
+    .select('id, slug, region, title, seo_description, seo_keywords, days_count, travelers_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, is_template, translations, highway_notes, best_season, difficulty, total_distance_km')
     .eq('slug', slug)
     .eq('is_template', true)
     .eq('region', region)
@@ -109,9 +113,25 @@ export async function RegionTemplateDetail({ region, slug, locale }: { region: R
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Chip>{tpl.days_count} {isEs ? 'días' : 'days'}</Chip>
               <Chip>{stops.length} {isEs ? 'paradas' : 'stops'}</Chip>
-              {totalKm && <Chip>~{totalKm} km</Chip>}
+              {(tpl.total_distance_km || totalKm) && <Chip>~{tpl.total_distance_km || totalKm} km</Chip>}
               {totalDurationHours && <Chip>~{totalDurationHours}h {isEs ? 'de manejo' : 'drive'}</Chip>}
+              {tpl.best_season && (
+                <Chip>
+                  {seasonEmoji(tpl.best_season)} {isEs ? seasonEs(tpl.best_season) : seasonEn(tpl.best_season)}
+                </Chip>
+              )}
+              {tpl.difficulty && (
+                <Chip>{difficultyEmoji(tpl.difficulty)} {isEs ? difficultyEs(tpl.difficulty) : difficultyEn(tpl.difficulty)}</Chip>
+              )}
             </div>
+            {tpl.highway_notes && tpl.highway_notes.length > 0 && (
+              <div className="mt-4 flex flex-wrap items-center gap-1.5">
+                <span className="mr-1 text-xs font-semibold uppercase tracking-widest text-amber-200">🛣️ {isEs ? 'Ruta' : 'Highways'}</span>
+                {tpl.highway_notes.map((h, i) => (
+                  <span key={i} className="rounded-pill border border-amber-300/40 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-medium text-amber-100">{h}</span>
+                ))}
+              </div>
+            )}
             <div className="mt-8"><ForkButton slug={tpl.slug} locale={locale} isEs={isEs} /></div>
           </div>
         </section>
@@ -216,4 +236,23 @@ function formatMin(min: number, isEs?: boolean){
   const h = Math.floor(min / 60);
   const m = min % 60;
   return m ? `${h}h ${m}m` : (isEs ? `${h}h` : `${h}h`);
+}
+
+function seasonEmoji(s: string){
+  return { spring: '🌸', summer: '☀️', fall: '🍂', winter: '❄️', 'year-round': '🌍', shoulder: '🍃' }[s] || '📅';
+}
+function seasonEn(s: string){
+  return { spring: 'Spring', summer: 'Summer', fall: 'Fall', winter: 'Winter', 'year-round': 'Year-round', shoulder: 'Shoulder season' }[s] || s;
+}
+function seasonEs(s: string){
+  return { spring: 'Primavera', summer: 'Verano', fall: 'Otoño', winter: 'Invierno', 'year-round': 'Todo el año', shoulder: 'Temporada media' }[s] || s;
+}
+function difficultyEmoji(d: string){
+  return { easy: '🟢', moderate: '🟡', challenging: '🟠', epic: '🔴' }[d] || '⚪';
+}
+function difficultyEn(d: string){
+  return { easy: 'Easy', moderate: 'Moderate', challenging: 'Challenging', epic: 'Epic' }[d] || d;
+}
+function difficultyEs(d: string){
+  return { easy: 'Fácil', moderate: 'Moderado', challenging: 'Desafiante', epic: 'Épico' }[d] || d;
 }

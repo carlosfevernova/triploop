@@ -53,12 +53,18 @@ export async function POST(req: Request){
       owner_id: null
     };
     if(tpl.highway_notes) upsertPayload.highway_notes = tpl.highway_notes;
+    if(tpl.best_season) upsertPayload.best_season = tpl.best_season;
+    if(tpl.difficulty) upsertPayload.difficulty = tpl.difficulty;
+    if(tpl.total_distance_km) upsertPayload.total_distance_km = tpl.total_distance_km;
     let { error } = await sb.from('trips').upsert(upsertPayload, { onConflict: 'slug' });
-    if(error && error.message.includes('highway_notes')){
-      // Retry sin highway_notes (columna aún no existe)
-      delete upsertPayload.highway_notes;
-      const retry = await sb.from('trips').upsert(upsertPayload, { onConflict: 'slug' });
-      error = retry.error;
+    // Retry loop soft-fail: si columna nueva no existe, remover y reintentar
+    const newCols = ['best_season', 'difficulty', 'total_distance_km', 'highway_notes'];
+    for(const col of newCols){
+      if(error && error.message.toLowerCase().includes(col)){
+        delete upsertPayload[col];
+        const retry = await sb.from('trips').upsert(upsertPayload, { onConflict: 'slug' });
+        error = retry.error;
+      }
     }
     results.push({ slug: tpl.slug, ok: !error, error: error?.message, translated: !!esTranslation });
   }

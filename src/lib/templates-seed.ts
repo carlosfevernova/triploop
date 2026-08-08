@@ -12,6 +12,9 @@ export interface SeedStop {
 
 export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain' | 'pacific-northwest' | 'northeast' | 'southeast' | 'rockies' | 'italy' | 'iceland' | 'ireland' | 'australia' | 'new-zealand' | 'germany' | 'mexico' | 'chile' | 'argentina' | 'peru' | 'japan' | 'canada' | 'scotland' | 'morocco';
 
+export type BestSeason = 'spring' | 'summer' | 'fall' | 'winter' | 'year-round' | 'shoulder';
+export type Difficulty = 'easy' | 'moderate' | 'challenging' | 'epic';
+
 export interface SeedTemplate {
   slug: string;                // URL: /california/san-francisco-classic-5-days
   region: Region;
@@ -24,6 +27,9 @@ export interface SeedTemplate {
   hero_image_url: string;      // Unsplash direct URLs (comercial OK)
   stops: SeedStop[];
   highway_notes?: string[];    // "I-90", "US-101", "PCH (Highway 1)" — S27
+  best_season?: BestSeason;    // S36: cuándo es mejor hacerlo
+  difficulty?: Difficulty;     // S36: exigencia (novato → épica)
+  total_distance_km?: number;  // S36: distancia total aproximada
 }
 
 export const REGION_META: Record<Region, {
@@ -195,7 +201,10 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Muir Woods National Monument', lat: 37.8917, lng: -122.5717, duration_min: 150, category: 'nature' },
       { name: 'Sausalito', lat: 37.8590, lng: -122.4852, duration_min: 180, category: 'city' },
       { name: 'Napa Valley', lat: 38.5025, lng: -122.2654, duration_min: 480, category: 'food' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'easy',
+    total_distance_km: 350
   },
   {
     slug: 'los-angeles-highlights-4-days',
@@ -214,7 +223,10 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Beverly Hills (Rodeo Drive)', lat: 34.0696, lng: -118.4008, duration_min: 90, category: 'city' },
       { name: 'Venice Beach Boardwalk', lat: 33.9850, lng: -118.4695, duration_min: 150, category: 'attraction' },
       { name: 'Santa Monica Pier', lat: 34.0100, lng: -118.4962, duration_min: 120, category: 'attraction' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'easy',
+    total_distance_km: 200
   },
   {
     slug: 'san-diego-sunny-3-days',
@@ -232,7 +244,10 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Old Town San Diego', lat: 32.7549, lng: -117.1965, duration_min: 120, category: 'food' },
       { name: 'Coronado Beach', lat: 32.6859, lng: -117.1831, duration_min: 180, category: 'nature' },
       { name: 'USS Midway Museum', lat: 32.7137, lng: -117.1751, duration_min: 180, category: 'attraction' }
-    ]
+    ],
+    best_season: 'year-round',
+    difficulty: 'easy',
+    total_distance_km: 150
   },
   {
     slug: 'pacific-coast-highway-5-days',
@@ -252,7 +267,10 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Hearst Castle', lat: 35.6852, lng: -121.1683, duration_min: 180, category: 'attraction' },
       { name: 'Santa Barbara', lat: 34.4208, lng: -119.6982, duration_min: 240, category: 'city' },
       { name: 'Los Angeles', lat: 34.0522, lng: -118.2437, duration_min: 300, category: 'city' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'moderate',
+    total_distance_km: 1000
   },
   {
     slug: 'yosemite-weekend-3-days',
@@ -270,7 +288,10 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Bridalveil Fall', lat: 37.7169, lng: -119.6469, duration_min: 60, category: 'nature' },
       { name: 'Glacier Point', lat: 37.7274, lng: -119.5735, duration_min: 120, category: 'nature' },
       { name: 'Mariposa Grove of Giant Sequoias', lat: 37.5087, lng: -119.6076, duration_min: 240, category: 'nature' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'moderate',
+    total_distance_km: 250
   },
   {
     slug: 'death-valley-vegas-4-days',
@@ -288,7 +309,10 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Artist\'s Palette', lat: 36.3610, lng: -116.7893, duration_min: 60, category: 'nature' },
       { name: 'Dante\'s View', lat: 36.2201, lng: -116.7275, duration_min: 45, category: 'nature' },
       { name: 'Las Vegas Strip', lat: 36.1147, lng: -115.1728, duration_min: 480, category: 'city' }
-    ]
+    ],
+    best_season: 'winter',
+    difficulty: 'moderate',
+    total_distance_km: 600
   },
   {
     slug: 'grand-california-loop-14-days',
@@ -314,7 +338,10 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Hearst Castle', lat: 35.6852, lng: -121.1683, duration_min: 180, category: 'attraction' },
       { name: 'Santa Barbara', lat: 34.4208, lng: -119.6982, duration_min: 300, category: 'city' },
       { name: 'Los Angeles (end)', lat: 34.0522, lng: -118.2437, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'epic',
+    total_distance_km: 2800
   },
   {
     slug: 'napa-sonoma-wine-weekend',
@@ -332,7 +359,10 @@ export const CALIFORNIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Castello di Amorosa', lat: 38.5701, lng: -122.5442, duration_min: 180, category: 'food' },
       { name: 'Silverado Trail (Calistoga)', lat: 38.5788, lng: -122.5794, duration_min: 90, category: 'food' },
       { name: 'Sonoma Plaza', lat: 38.2913, lng: -122.4581, duration_min: 240, category: 'food' }
-    ]
+    ],
+    best_season: 'fall',
+    difficulty: 'easy',
+    total_distance_km: 250
   }
 ];
 
@@ -356,7 +386,10 @@ export const NEVADA_TEMPLATES: SeedTemplate[] = [
       { name: 'Red Rock Canyon Scenic Loop', lat: 36.1358, lng: -115.4270, duration_min: 240, category: 'nature' },
       { name: 'Hoover Dam', lat: 36.0161, lng: -114.7377, duration_min: 180, category: 'attraction' },
       { name: 'Neon Museum (Boneyard)', lat: 36.1830, lng: -115.1330, duration_min: 90, category: 'attraction' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'easy',
+    total_distance_km: 200
   },
   {
     slug: 'lake-tahoe-weekend-4-days',
@@ -374,7 +407,10 @@ export const NEVADA_TEMPLATES: SeedTemplate[] = [
       { name: 'Sand Harbor Beach', lat: 39.1978, lng: -119.9317, duration_min: 240, category: 'nature' },
       { name: 'Cave Rock', lat: 39.0526, lng: -119.9491, duration_min: 60, category: 'nature' },
       { name: 'Incline Village', lat: 39.2508, lng: -119.9718, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'easy',
+    total_distance_km: 250
   },
   {
     slug: 'nevada-loop-vegas-reno-7-days',
@@ -393,7 +429,10 @@ export const NEVADA_TEMPLATES: SeedTemplate[] = [
       { name: 'Highway 50 (Loneliest Road)', lat: 39.4600, lng: -117.4600, duration_min: 300, category: 'attraction' },
       { name: 'Virginia City', lat: 39.3097, lng: -119.6494, duration_min: 240, category: 'attraction' },
       { name: 'Reno', lat: 39.5296, lng: -119.8138, duration_min: 300, category: 'city' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'challenging',
+    total_distance_km: 1400
   }
 ];
 
@@ -417,7 +456,10 @@ export const ARIZONA_TEMPLATES: SeedTemplate[] = [
       { name: 'Desert View Watchtower', lat: 36.0439, lng: -111.8256, duration_min: 90, category: 'attraction' },
       { name: 'Bright Angel Trail (rim walk)', lat: 36.0570, lng: -112.1428, duration_min: 180, category: 'nature' },
       { name: 'Sedona (Cathedral Rock)', lat: 34.8225, lng: -111.7908, duration_min: 240, category: 'nature' }
-    ]
+    ],
+    best_season: 'spring',
+    difficulty: 'easy',
+    total_distance_km: 250
   },
   {
     slug: 'sedona-flagstaff-4-days',
@@ -435,7 +477,10 @@ export const ARIZONA_TEMPLATES: SeedTemplate[] = [
       { name: 'Slide Rock State Park', lat: 34.9451, lng: -111.7529, duration_min: 180, category: 'nature' },
       { name: 'Oak Creek Canyon Scenic Drive', lat: 35.0300, lng: -111.7300, duration_min: 120, category: 'nature' },
       { name: 'Flagstaff Historic Downtown', lat: 35.1983, lng: -111.6513, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'spring',
+    difficulty: 'easy',
+    total_distance_km: 300
   },
   {
     slug: 'arizona-highlights-5-days',
@@ -453,7 +498,10 @@ export const ARIZONA_TEMPLATES: SeedTemplate[] = [
       { name: 'Monument Valley', lat: 36.9980, lng: -110.0985, duration_min: 300, category: 'nature' },
       { name: 'Grand Canyon (South Rim)', lat: 36.0544, lng: -112.1401, duration_min: 480, category: 'nature' },
       { name: 'Sedona (Cathedral Rock)', lat: 34.8225, lng: -111.7908, duration_min: 300, category: 'nature' }
-    ]
+    ],
+    best_season: 'spring',
+    difficulty: 'moderate',
+    total_distance_km: 900
   }
 ];
 
@@ -481,7 +529,10 @@ export const SOUTHWEST_TEMPLATES: SeedTemplate[] = [
       { name: 'Grand Canyon (South Rim)', lat: 36.0544, lng: -112.1401, duration_min: 720, category: 'nature' },
       { name: 'Sedona', lat: 34.8697, lng: -111.7610, duration_min: 480, category: 'nature' },
       { name: 'Las Vegas (return)', lat: 36.1147, lng: -115.1728, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'spring',
+    difficulty: 'challenging',
+    total_distance_km: 2200
   },
   {
     slug: 'route-66-classic-14-days',
@@ -504,7 +555,10 @@ export const SOUTHWEST_TEMPLATES: SeedTemplate[] = [
       { name: 'Grand Canyon (South Rim)', lat: 36.0544, lng: -112.1401, duration_min: 480, category: 'nature' },
       { name: 'Las Vegas', lat: 36.1147, lng: -115.1728, duration_min: 480, category: 'city' },
       { name: 'Santa Monica Pier', lat: 34.0100, lng: -118.4962, duration_min: 240, category: 'attraction' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'epic',
+    total_distance_km: 3940
   }
 ];
 
@@ -528,7 +582,10 @@ export const UTAH_TEMPLATES: SeedTemplate[] = [
       { name: 'The Narrows (Riverside Walk)', lat: 37.2856, lng: -112.9469, duration_min: 240, category: 'nature' },
       { name: 'Emerald Pools Trail', lat: 37.2515, lng: -112.9645, duration_min: 150, category: 'nature' },
       { name: 'Watchman Overlook (sunset)', lat: 37.1988, lng: -112.9856, duration_min: 60, category: 'nature' }
-    ]
+    ],
+    best_season: 'spring',
+    difficulty: 'moderate',
+    total_distance_km: 200
   },
   {
     slug: 'bryce-canyon-weekend-3-days',
@@ -546,7 +603,10 @@ export const UTAH_TEMPLATES: SeedTemplate[] = [
       { name: 'Sunset Point', lat: 37.6237, lng: -112.1642, duration_min: 60, category: 'nature' },
       { name: 'Rainbow Point Scenic Drive', lat: 37.4756, lng: -112.2437, duration_min: 180, category: 'nature' },
       { name: 'Inspiration Point (stargazing)', lat: 37.6118, lng: -112.1615, duration_min: 120, category: 'nature' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'moderate',
+    total_distance_km: 200
   },
   {
     slug: 'utah-mighty-5-national-parks-10-days',
@@ -566,7 +626,10 @@ export const UTAH_TEMPLATES: SeedTemplate[] = [
       { name: 'Arches National Park (Delicate Arch)', lat: 38.7331, lng: -109.5925, duration_min: 480, category: 'nature' },
       { name: 'Canyonlands (Island in the Sky)', lat: 38.3269, lng: -109.8783, duration_min: 480, category: 'nature' },
       { name: 'Moab', lat: 38.5733, lng: -109.5498, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'spring',
+    difficulty: 'challenging',
+    total_distance_km: 1500
   },
   {
     slug: 'salt-lake-park-city-weekend-3-days',
@@ -584,7 +647,10 @@ export const UTAH_TEMPLATES: SeedTemplate[] = [
       { name: 'Bonneville Salt Flats', lat: 40.7500, lng: -113.8500, duration_min: 180, category: 'nature' },
       { name: 'Park City Historic Main Street', lat: 40.6461, lng: -111.4980, duration_min: 240, category: 'city' },
       { name: 'Empire Pass Scenic Drive', lat: 40.5983, lng: -111.4869, duration_min: 120, category: 'nature' }
-    ]
+    ],
+    best_season: 'winter',
+    difficulty: 'easy',
+    total_distance_km: 400
   }
 ];
 
@@ -608,7 +674,10 @@ export const SPAIN_TEMPLATES: SeedTemplate[] = [
       { name: 'Parque del Retiro', lat: 40.4152, lng: -3.6844, duration_min: 180, category: 'nature' },
       { name: 'Toledo (Casco Histórico)', lat: 39.8628, lng: -4.0273, duration_min: 360, category: 'city' },
       { name: 'Segovia (Alcázar + Acueducto)', lat: 40.9420, lng: -4.1088, duration_min: 300, category: 'attraction' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'easy',
+    total_distance_km: 250
   },
   {
     slug: 'barcelona-modernista-3-days',
@@ -627,7 +696,10 @@ export const SPAIN_TEMPLATES: SeedTemplate[] = [
       { name: 'La Boqueria (tapas)', lat: 41.3820, lng: 2.1717, duration_min: 120, category: 'food' },
       { name: 'Montserrat', lat: 41.5921, lng: 1.8375, duration_min: 300, category: 'nature' },
       { name: 'Sitges', lat: 41.2374, lng: 1.8058, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'easy',
+    total_distance_km: 200
   },
   {
     slug: 'andalucia-grand-tour-7-days',
@@ -647,7 +719,10 @@ export const SPAIN_TEMPLATES: SeedTemplate[] = [
       { name: 'Ronda (Puente Nuevo)', lat: 36.7422, lng: -5.1668, duration_min: 300, category: 'attraction' },
       { name: 'Marbella / Puerto Banús', lat: 36.5099, lng: -4.8850, duration_min: 240, category: 'city' },
       { name: 'Málaga (Alcazaba + Playa)', lat: 36.7213, lng: -4.4213, duration_min: 360, category: 'city' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'moderate',
+    total_distance_km: 900
   },
   {
     slug: 'camino-santiago-highlights-10-days',
@@ -668,7 +743,10 @@ export const SPAIN_TEMPLATES: SeedTemplate[] = [
       { name: 'O Cebreiro (mirador)', lat: 42.7078, lng: -7.0432, duration_min: 120, category: 'nature' },
       { name: 'Portomarín', lat: 42.8072, lng: -7.6157, duration_min: 180, category: 'city' },
       { name: 'Santiago de Compostela (Catedral)', lat: 42.8806, lng: -8.5449, duration_min: 480, category: 'attraction' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'challenging',
+    total_distance_km: 800
   }
 ];
 
@@ -693,7 +771,10 @@ export const PACIFIC_NORTHWEST_TEMPLATES: SeedTemplate[] = [
       { name: 'Mt. Rainier National Park', lat: 46.8523, lng: -121.7603, duration_min: 480, category: 'nature' },
       { name: 'Portland Pearl District', lat: 45.5289, lng: -122.6846, duration_min: 240, category: 'city' },
       { name: 'Multnomah Falls', lat: 45.5762, lng: -122.1158, duration_min: 90, category: 'nature' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'moderate',
+    total_distance_km: 1100
   },
   {
     slug: 'oregon-coast-highway-5-days',
@@ -713,7 +794,10 @@ export const PACIFIC_NORTHWEST_TEMPLATES: SeedTemplate[] = [
       { name: 'Oregon Dunes National Recreation Area', lat: 43.7025, lng: -124.1067, duration_min: 180, category: 'nature' },
       { name: 'Thor\'s Well (Cape Perpetua)', lat: 44.2810, lng: -124.1085, duration_min: 90, category: 'nature' },
       { name: 'Brookings (Samuel H. Boardman)', lat: 42.0526, lng: -124.2843, duration_min: 240, category: 'nature' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'moderate',
+    total_distance_km: 580
   }
 ];
 
@@ -736,7 +820,10 @@ export const NORTHEAST_TEMPLATES: SeedTemplate[] = [
       { name: 'Franconia Notch State Park', lat: 44.1585, lng: -71.6811, duration_min: 240, category: 'nature' },
       { name: 'Portland Maine (Old Port)', lat: 43.6591, lng: -70.2568, duration_min: 240, category: 'city' },
       { name: 'Acadia National Park (Cadillac Mountain)', lat: 44.3520, lng: -68.2247, duration_min: 480, category: 'nature' }
-    ]
+    ],
+    best_season: 'fall',
+    difficulty: 'moderate',
+    total_distance_km: 1100
   },
   {
     slug: 'blue-ridge-parkway-5-days',
@@ -755,7 +842,10 @@ export const NORTHEAST_TEMPLATES: SeedTemplate[] = [
       { name: 'Mabry Mill (Milepost 176)', lat: 36.7521, lng: -80.4028, duration_min: 90, category: 'attraction' },
       { name: 'Asheville NC', lat: 35.5951, lng: -82.5515, duration_min: 480, category: 'city' },
       { name: 'Great Smoky Mountains (Clingmans Dome)', lat: 35.5628, lng: -83.4986, duration_min: 240, category: 'nature' }
-    ]
+    ],
+    best_season: 'fall',
+    difficulty: 'moderate',
+    total_distance_km: 950
   }
 ];
 
@@ -778,7 +868,10 @@ export const SOUTHEAST_TEMPLATES: SeedTemplate[] = [
       { name: 'Seven Mile Bridge', lat: 24.7011, lng: -81.1610, duration_min: 30, category: 'attraction' },
       { name: 'Key West (Mallory Square)', lat: 24.5601, lng: -81.8071, duration_min: 240, category: 'city' },
       { name: 'Ernest Hemingway Home', lat: 24.5510, lng: -81.8009, duration_min: 90, category: 'attraction' }
-    ]
+    ],
+    best_season: 'winter',
+    difficulty: 'easy',
+    total_distance_km: 400
   },
   {
     slug: 'great-river-road-mississippi-10-days',
@@ -799,7 +892,10 @@ export const SOUTHEAST_TEMPLATES: SeedTemplate[] = [
       { name: 'Vicksburg National Military Park', lat: 32.3517, lng: -90.8479, duration_min: 180, category: 'attraction' },
       { name: 'Natchez Mississippi', lat: 31.5604, lng: -91.4032, duration_min: 240, category: 'city' },
       { name: 'New Orleans French Quarter', lat: 29.9584, lng: -90.0644, duration_min: 480, category: 'city' }
-    ]
+    ],
+    best_season: 'fall',
+    difficulty: 'epic',
+    total_distance_km: 3000
   }
 ];
 
@@ -823,7 +919,10 @@ export const ROCKIES_TEMPLATES: SeedTemplate[] = [
       { name: 'Grand Canyon of the Yellowstone', lat: 44.7205, lng: -110.4972, duration_min: 240, category: 'nature' },
       { name: 'Grand Teton National Park (Jenny Lake)', lat: 43.7508, lng: -110.7250, duration_min: 480, category: 'nature' },
       { name: 'Jackson WY (Town Square)', lat: 43.4799, lng: -110.7624, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'challenging',
+    total_distance_km: 1600
   },
   {
     slug: 'colorado-rockies-loop-6-days',
@@ -843,7 +942,10 @@ export const ROCKIES_TEMPLATES: SeedTemplate[] = [
       { name: 'Aspen (Maroon Bells)', lat: 39.0708, lng: -106.9890, duration_min: 240, category: 'nature' },
       { name: 'Great Sand Dunes National Park', lat: 37.7326, lng: -105.5124, duration_min: 300, category: 'nature' },
       { name: 'Garden of the Gods (Colorado Springs)', lat: 38.8783, lng: -104.8698, duration_min: 180, category: 'nature' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'challenging',
+    total_distance_km: 1100
   }
 ];
 
@@ -868,7 +970,10 @@ export const ITALY_TEMPLATES: SeedTemplate[] = [
       { name: 'Vernazza (Cinque Terre)', lat: 44.1354, lng: 9.6849, duration_min: 240, category: 'city' },
       { name: 'Manarola (Cinque Terre)', lat: 44.1064, lng: 9.7275, duration_min: 180, category: 'city' },
       { name: 'Florence (Ponte Vecchio)', lat: 43.7679, lng: 11.2531, duration_min: 480, category: 'city' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'moderate',
+    total_distance_km: 800
   }
 ];
 
@@ -894,7 +999,10 @@ export const ICELAND_TEMPLATES: SeedTemplate[] = [
       { name: 'Mývatn Nature Baths', lat: 65.6289, lng: -16.8477, duration_min: 180, category: 'nature' },
       { name: 'Akureyri', lat: 65.6835, lng: -18.1105, duration_min: 240, category: 'city' },
       { name: 'Snæfellsjökull National Park', lat: 64.8080, lng: -23.7772, duration_min: 300, category: 'nature' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'challenging',
+    total_distance_km: 1322
   }
 ];
 
@@ -918,7 +1026,10 @@ export const IRELAND_TEMPLATES: SeedTemplate[] = [
       { name: 'Waterville', lat: 51.8262, lng: -10.1741, duration_min: 120, category: 'city' },
       { name: 'Cliffs of Moher', lat: 52.9715, lng: -9.4309, duration_min: 240, category: 'nature' },
       { name: 'Galway (Latin Quarter)', lat: 53.2707, lng: -9.0568, duration_min: 300, category: 'city' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'easy',
+    total_distance_km: 400
   }
 ];
 
@@ -942,7 +1053,10 @@ export const AUSTRALIA_TEMPLATES: SeedTemplate[] = [
       { name: 'Twelve Apostles', lat: -38.6633, lng: 143.1044, duration_min: 180, category: 'nature' },
       { name: 'Loch Ard Gorge', lat: -38.6467, lng: 143.0733, duration_min: 120, category: 'nature' },
       { name: 'Warrnambool', lat: -38.3823, lng: 142.4844, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'easy',
+    total_distance_km: 450
   }
 ];
 
@@ -967,7 +1081,10 @@ export const NEW_ZEALAND_TEMPLATES: SeedTemplate[] = [
       { name: 'Wanaka (That Wanaka Tree)', lat: -44.6976, lng: 169.1470, duration_min: 240, category: 'nature' },
       { name: 'Franz Josef Glacier', lat: -43.4664, lng: 170.1856, duration_min: 300, category: 'nature' },
       { name: 'Nelson (Abel Tasman)', lat: -41.2706, lng: 173.2840, duration_min: 480, category: 'nature' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'challenging',
+    total_distance_km: 1800
   }
 ];
 
@@ -991,7 +1108,10 @@ export const GERMANY_TEMPLATES: SeedTemplate[] = [
       { name: 'Augsburg (Fuggerei)', lat: 48.3705, lng: 10.8978, duration_min: 240, category: 'city' },
       { name: 'Neuschwanstein Castle', lat: 47.5576, lng: 10.7498, duration_min: 300, category: 'attraction' },
       { name: 'Füssen Old Town', lat: 47.5720, lng: 10.7015, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'easy',
+    total_distance_km: 350
   }
 ];
 
@@ -1017,7 +1137,10 @@ export const MEXICO_TEMPLATES: SeedTemplate[] = [
       { name: 'Chichén Itzá', lat: 20.6843, lng: -88.5678, duration_min: 300, category: 'attraction' },
       { name: 'Valladolid + Cenote Zací', lat: 20.6900, lng: -88.2020, duration_min: 240, category: 'city' },
       { name: 'Mérida Plaza Grande', lat: 20.9674, lng: -89.6237, duration_min: 300, category: 'city' }
-    ]
+    ],
+    best_season: 'winter',
+    difficulty: 'moderate',
+    total_distance_km: 700
   }
 ];
 
@@ -1042,7 +1165,10 @@ export const CHILE_TEMPLATES: SeedTemplate[] = [
       { name: 'Cerro Castillo National Park', lat: -46.1000, lng: -72.1500, duration_min: 480, category: 'nature' },
       { name: 'Lago General Carrera (Marble Caves)', lat: -46.6472, lng: -72.6889, duration_min: 300, category: 'nature' },
       { name: 'Villa O\'Higgins (fin del mundo)', lat: -48.4681, lng: -72.5620, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'epic',
+    total_distance_km: 1500
   }
 ];
 
@@ -1068,7 +1194,10 @@ export const ARGENTINA_TEMPLATES: SeedTemplate[] = [
       { name: 'El Chaltén (Fitz Roy)', lat: -49.3298, lng: -72.8850, duration_min: 480, category: 'nature' },
       { name: 'Perito Moreno Glacier (Los Glaciares NP)', lat: -50.4967, lng: -73.1377, duration_min: 480, category: 'nature' },
       { name: 'El Calafate', lat: -50.3389, lng: -72.2650, duration_min: 240, category: 'city' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'epic',
+    total_distance_km: 2000
   }
 ];
 
@@ -1093,7 +1222,10 @@ export const PERU_TEMPLATES: SeedTemplate[] = [
       { name: 'Ollantaytambo Fortress', lat: -13.2589, lng: -72.2681, duration_min: 240, category: 'attraction' },
       { name: 'Aguas Calientes (Machu Picchu Pueblo)', lat: -13.1548, lng: -72.5251, duration_min: 240, category: 'city' },
       { name: 'Machu Picchu Citadel', lat: -13.1631, lng: -72.5450, duration_min: 360, category: 'attraction' }
-    ]
+    ],
+    best_season: 'shoulder',
+    difficulty: 'moderate',
+    total_distance_km: 320
   }
 ];
 
@@ -1120,7 +1252,10 @@ export const JAPAN_TEMPLATES: SeedTemplate[] = [
       { name: 'Arashiyama Bamboo Grove', lat: 35.0170, lng: 135.6712, duration_min: 180, category: 'nature' },
       { name: 'Nara Park (deer)', lat: 34.6851, lng: 135.8043, duration_min: 240, category: 'attraction' },
       { name: 'Osaka (Dotonbori + Osaka Castle)', lat: 34.6687, lng: 135.5023, duration_min: 300, category: 'city' }
-    ]
+    ],
+    best_season: 'spring',
+    difficulty: 'moderate',
+    total_distance_km: 700
   }
 ];
 
@@ -1146,7 +1281,10 @@ export const CANADA_TEMPLATES: SeedTemplate[] = [
       { name: 'Lake Louise', lat: 51.4254, lng: -116.1773, duration_min: 240, category: 'nature' },
       { name: 'Moraine Lake', lat: 51.3217, lng: -116.1858, duration_min: 180, category: 'nature' },
       { name: 'Banff Town (Sulphur Mountain)', lat: 51.1784, lng: -115.5708, duration_min: 300, category: 'city' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'moderate',
+    total_distance_km: 500
   }
 ];
 
@@ -1171,7 +1309,10 @@ export const SCOTLAND_TEMPLATES: SeedTemplate[] = [
       { name: 'John O\'Groats (northern tip)', lat: 58.6373, lng: -3.0700, duration_min: 90, category: 'attraction' },
       { name: 'Dunrobin Castle', lat: 57.9819, lng: -3.9464, duration_min: 180, category: 'attraction' },
       { name: 'Loch Ness (Urquhart Castle)', lat: 57.3241, lng: -4.4425, duration_min: 240, category: 'attraction' }
-    ]
+    ],
+    best_season: 'summer',
+    difficulty: 'moderate',
+    total_distance_km: 830
   }
 ];
 
@@ -1196,7 +1337,10 @@ export const MOROCCO_TEMPLATES: SeedTemplate[] = [
       { name: 'Erg Chebbi (Merzouga Dunes)', lat: 31.1000, lng: -3.9800, duration_min: 480, category: 'nature' },
       { name: 'Ifrane (Middle Atlas)', lat: 33.5228, lng: -5.1099, duration_min: 180, category: 'city' },
       { name: 'Fes el-Bali (medina UNESCO)', lat: 34.0605, lng: -4.9825, duration_min: 480, category: 'city' }
-    ]
+    ],
+    best_season: 'winter',
+    difficulty: 'challenging',
+    total_distance_km: 1200
   }
 ];
 

@@ -42,6 +42,30 @@ const QA: QA[] = [
     q_es: '¿Mis datos de viaje son privados?',
     a_en: 'Anonymous trips are public via unique share link. Once you register, your trips are private by default and only readable by you (enforced via Supabase Row Level Security). No ads, no data selling.',
     a_es: 'Los viajes anónimos son públicos vía link único. Al registrarte, tus viajes son privados por defecto y solo tú los ves (Row Level Security en Supabase). Sin ads, sin venta de datos.'
+  },
+  {
+    q_en: 'Which regions and countries does TripLoop cover?',
+    q_es: '¿Qué regiones y países cubre TripLoop?',
+    a_en: '24 regions across 7 continents (post-S34): USA (10 regions incl. California PCH, Rockies, Southeast Florida Keys), Europe (Spain, Italy Amalfi, Iceland Ring Road, Ireland Kerry, Germany Romantic Road, Scotland NC500), Asia (Japan Golden Route), Oceania (Australia Great Ocean Road, NZ South Island), Latin America (Mexico Riviera Maya, Chile Carretera Austral, Argentina Ruta 40, Peru Machu Picchu), Canada (Icefields Parkway), Africa (Morocco Sahara). 46 verified iconic routes with highway names.',
+    a_es: '24 regiones en 7 continentes (post-S34): USA (10 regiones incl. California PCH, Rockies, Sureste Florida Keys), Europa (España, Italia Amalfi, Islandia Ring Road, Irlanda Kerry, Alemania Ruta Romántica, Escocia NC500), Asia (Japón Ruta Dorada), Oceanía (Australia Great Ocean Road, NZ Isla Sur), América Latina (México Riviera Maya, Chile Carretera Austral, Argentina Ruta 40, Perú Machu Picchu), Canadá (Icefields Parkway), África (Marruecos Sahara). 46 rutas icónicas verificadas con nombres de highway.'
+  },
+  {
+    q_en: 'How fast is the AI Trip Generator?',
+    q_es: '¿Qué tan rápido es el AI Trip Generator?',
+    a_en: 'Hierarchy: (1) Prompt cache hit ~10ms if you\'ve searched something similar; (2) Curated-first matcher ~50-200ms when your prompt matches one of 46 iconic templates (~40% of queries); (3) AI fresh with Server-Sent Events streaming — first stop visible in ~2-5s, full trip in 15-30s. Curated hits return 0-token because we have 229 POIs verified in DB.',
+    a_es: 'Jerarquía: (1) Cache hit prompt ~10ms si buscaste algo similar; (2) Curated-first matcher ~50-200ms cuando tu prompt matchea uno de 46 templates icónicos (~40% de queries); (3) IA fresh con streaming Server-Sent Events — primer stop visible en ~2-5s, viaje completo en 15-30s. Los curated hits gastan 0 tokens porque tenemos 229 POIs verificados en DB.'
+  },
+  {
+    q_en: 'What is the WhatsApp bot?',
+    q_es: '¿Qué es el bot de WhatsApp?',
+    a_en: 'Twilio-powered bilingual bot that lets you plan trips by chat. Commands: /nuevo (new trip), /mis-viajes (list), /help. Free-form queries fall back to DeepSeek AI. LATAM primary channel (98% WhatsApp penetration MX/AR/CO).',
+    a_es: 'Bot bilingüe con Twilio para planear viajes por chat. Comandos: /nuevo, /mis-viajes, /help. Consultas libres caen a DeepSeek IA. Canal primario LATAM (98% penetración WhatsApp MX/AR/CO).'
+  },
+  {
+    q_en: 'Can I add POIs from the map directly?',
+    q_es: '¿Puedo agregar POIs desde el mapa directamente?',
+    a_en: 'Yes — Discovery chip bar in trip page has 7 categories (🍴 Food · 🎨 Attractions · 🏞️ Nature · ⛽ Gas · 🏨 Hotels · ⚡ EV · 🛍️ Shopping). Tap category, POIs render as markers on map. Tap marker → popup with photo + rating + "+ Add to trip". Google Places under the hood.',
+    a_es: 'Sí — Chip bar Discovery en trip page tiene 7 categorías (🍴 Comida · 🎨 Atracciones · 🏞️ Naturaleza · ⛽ Gasolina · 🏨 Hoteles · ⚡ EV · 🛍️ Tiendas). Tap categoría, POIs renderizan como markers. Tap marker → popup con foto + rating + "+ Agregar al viaje". Google Places under-the-hood.'
   }
 ];
 
