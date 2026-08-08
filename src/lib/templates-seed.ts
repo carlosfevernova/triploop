@@ -974,6 +974,31 @@ export const ITALY_TEMPLATES: SeedTemplate[] = [
     best_season: 'shoulder',
     difficulty: 'moderate',
     total_distance_km: 800
+  },
+  {
+    slug: 'italy-rome-florence-venice-7-days',
+    region: 'italy',
+    title: 'Italy Classic: Rome, Florence, Venice — 7 days',
+    seo_description: 'Rome (Colosseum + Vatican) → Florence (Duomo + Uffizi) → Venice (San Marco + Murano). SS1 Aurelia + A1 Autostrada del Sole.',
+    seo_keywords: ['rome florence venice road trip', 'italy 7 days classic', 'colosseum vatican duomo', 'a1 autostrada del sole'],
+    origin_city: 'Rome',
+    destination_city: 'Venice',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=80',
+    highway_notes: ['A1 Autostrada del Sole (Rome → Florence 280 km)', 'A13 Bologna → Venice', 'SS1 Aurelia (coastal alt)'],
+    stops: [
+      { name: 'Colosseum (Rome)', lat: 41.8902, lng: 12.4922, duration_min: 240, category: 'attraction' },
+      { name: 'Vatican Museums + St. Peter\'s Basilica', lat: 41.9029, lng: 12.4534, duration_min: 300, category: 'attraction' },
+      { name: 'Trevi Fountain', lat: 41.9009, lng: 12.4833, duration_min: 60, category: 'attraction' },
+      { name: 'Florence Duomo (Cattedrale)', lat: 43.7731, lng: 11.2560, duration_min: 180, category: 'attraction' },
+      { name: 'Uffizi Gallery', lat: 43.7678, lng: 11.2553, duration_min: 240, category: 'attraction' },
+      { name: 'Bologna (Piazza Maggiore)', lat: 44.4938, lng: 11.3426, duration_min: 240, category: 'city' },
+      { name: 'Venice (Piazza San Marco)', lat: 45.4340, lng: 12.3388, duration_min: 300, category: 'city' },
+      { name: 'Murano Island (glass workshops)', lat: 45.4587, lng: 12.3530, duration_min: 180, category: 'attraction' }
+    ],
+    best_season: 'shoulder',
+    difficulty: 'moderate',
+    total_distance_km: 900
   }
 ];
 
@@ -1003,6 +1028,31 @@ export const ICELAND_TEMPLATES: SeedTemplate[] = [
     best_season: 'summer',
     difficulty: 'challenging',
     total_distance_km: 1322
+  },
+  {
+    slug: 'iceland-south-coast-golden-circle-5-days',
+    region: 'iceland',
+    title: 'Iceland South Coast + Golden Circle — 5 days',
+    seo_description: 'Route 1 south + Route 36 Golden Circle: Þingvellir, Geysir, Gullfoss, Seljalandsfoss, Skógafoss, Vík black sand, Jökulsárlón lagoon.',
+    seo_keywords: ['iceland south coast itinerary', 'golden circle 5 days', 'route 1 south iceland', 'seljalandsfoss skogafoss'],
+    origin_city: 'Reykjavik',
+    destination_city: 'Jökulsárlón',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=1200&q=80',
+    highway_notes: ['Route 1 (Ring Road south segment)', 'Route 36 Golden Circle (Þingvellir loop)', 'Route 35 (Kerid → Gullfoss)'],
+    stops: [
+      { name: 'Reykjavik (Harpa Concert Hall)', lat: 64.1503, lng: -21.9327, duration_min: 180, category: 'city' },
+      { name: 'Þingvellir National Park', lat: 64.2559, lng: -21.1295, duration_min: 180, category: 'nature' },
+      { name: 'Geysir Hot Springs (Strokkur)', lat: 64.3141, lng: -20.3013, duration_min: 90, category: 'nature' },
+      { name: 'Gullfoss Waterfall', lat: 64.3271, lng: -20.1201, duration_min: 90, category: 'nature' },
+      { name: 'Seljalandsfoss', lat: 63.6156, lng: -19.9887, duration_min: 90, category: 'nature' },
+      { name: 'Skógafoss', lat: 63.5321, lng: -19.5114, duration_min: 90, category: 'nature' },
+      { name: 'Reynisfjara Black Sand Beach (Vík)', lat: 63.4058, lng: -19.0446, duration_min: 120, category: 'nature' },
+      { name: 'Jökulsárlón Glacier Lagoon', lat: 64.0764, lng: -16.2306, duration_min: 240, category: 'nature' }
+    ],
+    best_season: 'summer',
+    difficulty: 'easy',
+    total_distance_km: 600
   }
 ];
 
@@ -1030,6 +1080,30 @@ export const IRELAND_TEMPLATES: SeedTemplate[] = [
     best_season: 'summer',
     difficulty: 'easy',
     total_distance_km: 400
+  },
+  {
+    slug: 'ireland-dublin-cork-kilkenny-south-loop-5-days',
+    region: 'ireland',
+    title: 'Ireland South Loop: Dublin, Cork, Kilkenny — 5 days',
+    seo_description: 'Dublin (Trinity College + Guinness) → Kilkenny Castle → Rock of Cashel → Cork + Cobh → Blarney Castle. M7 + M8 motorway.',
+    seo_keywords: ['ireland south loop', 'dublin cork kilkenny road trip', 'ireland 5 days south', 'blarney rock of cashel'],
+    origin_city: 'Dublin',
+    destination_city: 'Cork',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1518904857080-a55b76e2c1c3?w=1200&q=80',
+    highway_notes: ['M7 Dublin → Limerick motorway', 'M8 Portlaoise → Cork motorway', 'N24 Waterford → Tipperary'],
+    stops: [
+      { name: 'Trinity College (Book of Kells)', lat: 53.3438, lng: -6.2546, duration_min: 180, category: 'attraction' },
+      { name: 'Guinness Storehouse (Dublin)', lat: 53.3418, lng: -6.2867, duration_min: 180, category: 'attraction' },
+      { name: 'Kilkenny Castle', lat: 52.6510, lng: -7.2500, duration_min: 180, category: 'attraction' },
+      { name: 'Rock of Cashel', lat: 52.5202, lng: -7.8905, duration_min: 180, category: 'attraction' },
+      { name: 'Cobh (Titanic Experience)', lat: 51.8506, lng: -8.2954, duration_min: 180, category: 'city' },
+      { name: 'Cork (English Market)', lat: 51.8985, lng: -8.4756, duration_min: 240, category: 'food' },
+      { name: 'Blarney Castle', lat: 51.9294, lng: -8.5706, duration_min: 180, category: 'attraction' }
+    ],
+    best_season: 'summer',
+    difficulty: 'easy',
+    total_distance_km: 500
   }
 ];
 
@@ -1057,6 +1131,31 @@ export const AUSTRALIA_TEMPLATES: SeedTemplate[] = [
     best_season: 'shoulder',
     difficulty: 'easy',
     total_distance_km: 450
+  },
+  {
+    slug: 'australia-sydney-brisbane-east-coast-7-days',
+    region: 'australia',
+    title: 'Sydney to Brisbane East Coast — 7 days',
+    seo_description: 'Pacific Highway M1: Sydney → Hunter Valley → Port Stephens → Byron Bay → Gold Coast → Brisbane. 950 km east coast icons.',
+    seo_keywords: ['sydney to brisbane road trip', 'pacific highway m1 australia', 'east coast 7 days', 'byron bay gold coast'],
+    origin_city: 'Sydney',
+    destination_city: 'Brisbane',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=1200&q=80',
+    highway_notes: ['Pacific Highway M1 (Sydney → Brisbane 900+ km)', 'A15 Hunter Valley wine detour', 'B60 Byron Bay coast'],
+    stops: [
+      { name: 'Sydney Opera House', lat: -33.8568, lng: 151.2153, duration_min: 240, category: 'attraction' },
+      { name: 'Bondi Beach', lat: -33.8908, lng: 151.2743, duration_min: 180, category: 'nature' },
+      { name: 'Hunter Valley Wineries', lat: -32.7778, lng: 151.3000, duration_min: 300, category: 'food' },
+      { name: 'Port Stephens (Nelson Bay)', lat: -32.7130, lng: 152.1548, duration_min: 240, category: 'nature' },
+      { name: 'Coffs Harbour', lat: -30.2962, lng: 153.1139, duration_min: 180, category: 'city' },
+      { name: 'Byron Bay Lighthouse', lat: -28.6389, lng: 153.6367, duration_min: 240, category: 'attraction' },
+      { name: 'Gold Coast (Surfers Paradise)', lat: -28.0023, lng: 153.4145, duration_min: 300, category: 'city' },
+      { name: 'Brisbane (South Bank)', lat: -27.4770, lng: 153.0176, duration_min: 240, category: 'city' }
+    ],
+    best_season: 'shoulder',
+    difficulty: 'moderate',
+    total_distance_km: 950
   }
 ];
 
@@ -1085,6 +1184,31 @@ export const NEW_ZEALAND_TEMPLATES: SeedTemplate[] = [
     best_season: 'summer',
     difficulty: 'challenging',
     total_distance_km: 1800
+  },
+  {
+    slug: 'new-zealand-north-island-auckland-wellington-6-days',
+    region: 'new-zealand',
+    title: 'New Zealand North Island: Auckland to Wellington — 6 days',
+    seo_description: 'SH1 spine: Auckland → Hobbiton → Rotorua geothermal → Lake Taupo → Tongariro NP → Wellington. Māori culture + volcanoes.',
+    seo_keywords: ['nz north island itinerary', 'auckland wellington road trip', 'hobbiton rotorua taupo', 'sh1 new zealand'],
+    origin_city: 'Auckland',
+    destination_city: 'Wellington',
+    days_count: 6,
+    hero_image_url: 'https://images.unsplash.com/photo-1507699622108-4be3abd695ad?w=1200&q=80',
+    highway_notes: ['State Highway 1 (SH1 - Auckland → Wellington 660 km spine)', 'SH5 Rotorua → Taupo scenic', 'SH47/48 Tongariro NP loop'],
+    stops: [
+      { name: 'Auckland Sky Tower', lat: -36.8485, lng: 174.7625, duration_min: 180, category: 'attraction' },
+      { name: 'Hobbiton Movie Set (Matamata)', lat: -37.8721, lng: 175.6822, duration_min: 240, category: 'attraction' },
+      { name: 'Rotorua (Te Puia geothermal)', lat: -38.1608, lng: 176.2528, duration_min: 300, category: 'nature' },
+      { name: 'Wai-O-Tapu Thermal Wonderland', lat: -38.3567, lng: 176.3689, duration_min: 180, category: 'nature' },
+      { name: 'Lake Taupo (Huka Falls)', lat: -38.6489, lng: 176.0900, duration_min: 240, category: 'nature' },
+      { name: 'Tongariro Alpine Crossing', lat: -39.1500, lng: 175.6417, duration_min: 480, category: 'nature' },
+      { name: 'Napier (Art Deco)', lat: -39.4928, lng: 176.9120, duration_min: 240, category: 'city' },
+      { name: 'Wellington (Te Papa Museum)', lat: -41.2905, lng: 174.7821, duration_min: 300, category: 'city' }
+    ],
+    best_season: 'summer',
+    difficulty: 'moderate',
+    total_distance_km: 650
   }
 ];
 
@@ -1112,6 +1236,30 @@ export const GERMANY_TEMPLATES: SeedTemplate[] = [
     best_season: 'summer',
     difficulty: 'easy',
     total_distance_km: 350
+  },
+  {
+    slug: 'germany-berlin-dresden-munich-cities-6-days',
+    region: 'germany',
+    title: 'Germany City Grand Tour: Berlin, Dresden, Munich — 6 days',
+    seo_description: 'Berlin (Brandenburg Gate + Museum Island) → Dresden (Zwinger + Frauenkirche) → Nuremberg → Munich (Marienplatz + BMW). A9 Autobahn 750 km.',
+    seo_keywords: ['germany cities road trip', 'berlin dresden munich itinerary', 'a9 autobahn drive', 'germany 6 days'],
+    origin_city: 'Berlin',
+    destination_city: 'Munich',
+    days_count: 6,
+    hero_image_url: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?w=1200&q=80',
+    highway_notes: ['A9 Autobahn (Berlin → Munich 585 km, no speed limit stretches)', 'A4 Dresden → Chemnitz', 'A93/A73 Nuremberg → Munich'],
+    stops: [
+      { name: 'Brandenburg Gate (Berlin)', lat: 52.5163, lng: 13.3777, duration_min: 120, category: 'attraction' },
+      { name: 'Museum Island (Berlin)', lat: 52.5169, lng: 13.4020, duration_min: 300, category: 'attraction' },
+      { name: 'East Side Gallery (Berlin Wall)', lat: 52.5051, lng: 13.4394, duration_min: 90, category: 'attraction' },
+      { name: 'Dresden Zwinger + Frauenkirche', lat: 51.0533, lng: 13.7373, duration_min: 300, category: 'attraction' },
+      { name: 'Nuremberg Old Town (Kaiserburg)', lat: 49.4577, lng: 11.0751, duration_min: 240, category: 'city' },
+      { name: 'Munich Marienplatz', lat: 48.1374, lng: 11.5755, duration_min: 240, category: 'city' },
+      { name: 'BMW Welt Munich', lat: 48.1770, lng: 11.5561, duration_min: 180, category: 'attraction' }
+    ],
+    best_season: 'summer',
+    difficulty: 'easy',
+    total_distance_km: 750
   }
 ];
 
@@ -1141,6 +1289,31 @@ export const MEXICO_TEMPLATES: SeedTemplate[] = [
     best_season: 'winter',
     difficulty: 'moderate',
     total_distance_km: 700
+  },
+  {
+    slug: 'mexico-baja-california-loreto-cabo-7-days',
+    region: 'mexico',
+    title: 'Baja California Peninsula: Loreto to Los Cabos — 7 days',
+    seo_description: 'MEX-1 Transpeninsular: Loreto → Bahía Concepción → La Paz → Todos Santos → Los Cabos. 1,200 km Sea of Cortez + Pacific.',
+    seo_keywords: ['baja california road trip', 'transpeninsular mex 1', 'loreto to los cabos', 'baja 7 days'],
+    origin_city: 'Loreto',
+    destination_city: 'Los Cabos',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1533310266094-8898a03807dd?w=1200&q=80',
+    highway_notes: ['MEX-1 Transpeninsular (Loreto → Cabo 700 km, mostly 2-lane)', 'BCS-286 La Paz → Todos Santos', 'Cuatro Vientos (Cabo bypass)'],
+    stops: [
+      { name: 'Loreto Mission (Plaza)', lat: 26.0110, lng: -111.3435, duration_min: 180, category: 'city' },
+      { name: 'Bahía Concepción (Playa Santispac)', lat: 26.7500, lng: -111.9000, duration_min: 240, category: 'nature' },
+      { name: 'Mulegé (oasis mission)', lat: 26.8930, lng: -111.9880, duration_min: 180, category: 'city' },
+      { name: 'La Paz Malecón', lat: 24.1426, lng: -110.3128, duration_min: 300, category: 'city' },
+      { name: 'Balandra Beach', lat: 24.3230, lng: -110.3247, duration_min: 240, category: 'nature' },
+      { name: 'Todos Santos (Pueblo Mágico)', lat: 23.4460, lng: -110.2242, duration_min: 240, category: 'city' },
+      { name: 'Cabo San Lucas Arch (El Arco)', lat: 22.8735, lng: -109.8935, duration_min: 180, category: 'nature' },
+      { name: 'San José del Cabo Art District', lat: 23.0614, lng: -109.7085, duration_min: 240, category: 'city' }
+    ],
+    best_season: 'winter',
+    difficulty: 'moderate',
+    total_distance_km: 1200
   }
 ];
 
@@ -1169,6 +1342,31 @@ export const CHILE_TEMPLATES: SeedTemplate[] = [
     best_season: 'summer',
     difficulty: 'epic',
     total_distance_km: 1500
+  },
+  {
+    slug: 'chile-atacama-valparaiso-6-days',
+    region: 'chile',
+    title: 'Chile: Atacama Desert + Valparaíso — 6 days',
+    seo_description: 'Santiago → Valparaíso (UNESCO street art) → flight to Calama → San Pedro Atacama, Valle de la Luna, Tatio geysers, Salar de Atacama.',
+    seo_keywords: ['atacama desert road trip', 'valparaiso itinerary', 'san pedro atacama valle de la luna', 'chile 6 days'],
+    origin_city: 'Santiago',
+    destination_city: 'San Pedro de Atacama',
+    days_count: 6,
+    hero_image_url: 'https://images.unsplash.com/photo-1567636788276-40a47795ba4d?w=1200&q=80',
+    highway_notes: ['Ruta 5 Panamericana (Santiago → Valparaíso 120 km)', 'Ruta 68 Santiago → Valparaíso express', 'Ruta 23 CH Calama → San Pedro'],
+    stops: [
+      { name: 'Santiago (Cerro San Cristóbal)', lat: -33.4260, lng: -70.6316, duration_min: 240, category: 'city' },
+      { name: 'Valparaíso (Cerro Alegre + Concepción)', lat: -33.0396, lng: -71.6197, duration_min: 360, category: 'city' },
+      { name: 'Viña del Mar (Reloj de Flores)', lat: -33.0245, lng: -71.5518, duration_min: 180, category: 'city' },
+      { name: 'San Pedro de Atacama (Iglesia)', lat: -22.9105, lng: -68.2001, duration_min: 240, category: 'city' },
+      { name: 'Valle de la Luna', lat: -22.9333, lng: -68.3000, duration_min: 240, category: 'nature' },
+      { name: 'El Tatio Geysers', lat: -22.3333, lng: -68.0083, duration_min: 240, category: 'nature' },
+      { name: 'Salar de Atacama (Laguna Chaxa)', lat: -23.2870, lng: -68.2001, duration_min: 180, category: 'nature' },
+      { name: 'Lagunas Altiplánicas (Miscanti)', lat: -23.7333, lng: -67.7667, duration_min: 240, category: 'nature' }
+    ],
+    best_season: 'year-round',
+    difficulty: 'moderate',
+    total_distance_km: 1400
   }
 ];
 
@@ -1198,6 +1396,31 @@ export const ARGENTINA_TEMPLATES: SeedTemplate[] = [
     best_season: 'summer',
     difficulty: 'epic',
     total_distance_km: 2000
+  },
+  {
+    slug: 'argentina-buenos-aires-iguazu-mendoza-8-days',
+    region: 'argentina',
+    title: 'Argentina Trio: Buenos Aires, Iguazú, Mendoza Wine — 8 days',
+    seo_description: 'Buenos Aires (Recoleta + tango) → RN14 to Iguazú Falls → flight to Mendoza wine country → Uco Valley Malbec. 2,200 km.',
+    seo_keywords: ['argentina 8 day itinerary', 'buenos aires iguazu mendoza', 'rn9 rn14 argentina', 'mendoza wine road trip'],
+    origin_city: 'Buenos Aires',
+    destination_city: 'Mendoza',
+    days_count: 8,
+    hero_image_url: 'https://images.unsplash.com/photo-1589909202802-8f4aadce1849?w=1200&q=80',
+    highway_notes: ['RN14 Ruta del Mercosur (BsAs → Iguazú 1,300 km)', 'RN9 Panamericana Norte (BsAs → Córdoba)', 'RN7 Buenos Aires → Mendoza 1,050 km'],
+    stops: [
+      { name: 'Buenos Aires (Plaza de Mayo)', lat: -34.6084, lng: -58.3722, duration_min: 240, category: 'city' },
+      { name: 'Recoleta Cemetery + Palermo', lat: -34.5878, lng: -58.3944, duration_min: 300, category: 'city' },
+      { name: 'La Boca (Caminito)', lat: -34.6395, lng: -58.3627, duration_min: 180, category: 'attraction' },
+      { name: 'Iguazú Falls (Argentina side)', lat: -25.6953, lng: -54.4367, duration_min: 480, category: 'nature' },
+      { name: 'Garganta del Diablo', lat: -25.6870, lng: -54.4419, duration_min: 180, category: 'nature' },
+      { name: 'Mendoza (Plaza Independencia)', lat: -32.8908, lng: -68.8272, duration_min: 240, category: 'city' },
+      { name: 'Bodegas Luján de Cuyo', lat: -33.0333, lng: -68.8833, duration_min: 300, category: 'food' },
+      { name: 'Valle de Uco (Malbec)', lat: -33.7500, lng: -69.0500, duration_min: 360, category: 'food' }
+    ],
+    best_season: 'fall',
+    difficulty: 'moderate',
+    total_distance_km: 2200
   }
 ];
 
@@ -1226,6 +1449,31 @@ export const PERU_TEMPLATES: SeedTemplate[] = [
     best_season: 'shoulder',
     difficulty: 'moderate',
     total_distance_km: 320
+  },
+  {
+    slug: 'peru-amazon-iquitos-sacred-valley-8-days',
+    region: 'peru',
+    title: 'Peru Amazon + Sacred Valley Extension — 8 days',
+    seo_description: 'Iquitos Amazon (Pacaya-Samiria river cruise) → flight to Cusco → Sacred Valley (Pisac, Ollantaytambo) → Machu Picchu. Jungle + Andes.',
+    seo_keywords: ['peru amazon iquitos', 'sacred valley extension', 'pacaya samiria river cruise', 'peru 8 days jungle andes'],
+    origin_city: 'Iquitos',
+    destination_city: 'Cusco',
+    days_count: 8,
+    hero_image_url: 'https://images.unsplash.com/photo-1531065208531-4036c0dba3ca?w=1200&q=80',
+    highway_notes: ['Iquitos no highway access (fly or boat only)', 'PE-3S Cusco → Urubamba (Sacred Valley 65 km)', 'PeruRail Ollantaytambo → Machu Picchu (only train access)'],
+    stops: [
+      { name: 'Iquitos Plaza de Armas', lat: -3.7491, lng: -73.2538, duration_min: 240, category: 'city' },
+      { name: 'Belén Market (Amazon floating)', lat: -3.7669, lng: -73.2481, duration_min: 180, category: 'city' },
+      { name: 'Pacaya-Samiria Reserve (river lodge)', lat: -5.3000, lng: -74.8000, duration_min: 720, category: 'nature' },
+      { name: 'Cusco Plaza de Armas', lat: -13.5164, lng: -71.9787, duration_min: 240, category: 'city' },
+      { name: 'Pisac Ruins + Market', lat: -13.4231, lng: -71.8489, duration_min: 240, category: 'attraction' },
+      { name: 'Ollantaytambo Fortress', lat: -13.2589, lng: -72.2681, duration_min: 240, category: 'attraction' },
+      { name: 'Aguas Calientes', lat: -13.1548, lng: -72.5251, duration_min: 180, category: 'city' },
+      { name: 'Machu Picchu Citadel', lat: -13.1631, lng: -72.5450, duration_min: 360, category: 'attraction' }
+    ],
+    best_season: 'year-round',
+    difficulty: 'challenging',
+    total_distance_km: 500
   }
 ];
 
@@ -1256,6 +1504,30 @@ export const JAPAN_TEMPLATES: SeedTemplate[] = [
     best_season: 'spring',
     difficulty: 'moderate',
     total_distance_km: 700
+  },
+  {
+    slug: 'japan-hokkaido-sapporo-otaru-furano-5-days',
+    region: 'japan',
+    title: 'Japan Hokkaido: Sapporo, Otaru, Furano — 5 days',
+    seo_description: 'Sapporo (Odori Park + ramen) → Otaru canal → Furano lavender fields → Biei Blue Pond → Asahiyama Zoo. Route 5 + Route 231.',
+    seo_keywords: ['hokkaido road trip', 'furano lavender itinerary', 'sapporo otaru japan', 'japan 5 days hokkaido'],
+    origin_city: 'Sapporo',
+    destination_city: 'Furano',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=1200&q=80',
+    highway_notes: ['National Route 5 (Sapporo → Otaru 40 km coastal)', 'National Route 231 Sapporo → Rumoi', 'Doto Expressway (Sapporo → Furano fast route)'],
+    stops: [
+      { name: 'Sapporo Odori Park', lat: 43.0611, lng: 141.3465, duration_min: 180, category: 'city' },
+      { name: 'Sapporo Beer Museum', lat: 43.0713, lng: 141.3672, duration_min: 180, category: 'attraction' },
+      { name: 'Otaru Canal', lat: 43.1978, lng: 141.0022, duration_min: 240, category: 'city' },
+      { name: 'Furano Lavender Fields (Farm Tomita)', lat: 43.4114, lng: 142.4844, duration_min: 240, category: 'nature' },
+      { name: 'Biei Blue Pond (Shirogane)', lat: 43.4972, lng: 142.6350, duration_min: 120, category: 'nature' },
+      { name: 'Patchwork Road (Biei)', lat: 43.6100, lng: 142.4650, duration_min: 180, category: 'nature' },
+      { name: 'Asahiyama Zoo (Asahikawa)', lat: 43.7728, lng: 142.4830, duration_min: 240, category: 'attraction' }
+    ],
+    best_season: 'summer',
+    difficulty: 'easy',
+    total_distance_km: 500
   }
 ];
 
@@ -1285,6 +1557,31 @@ export const CANADA_TEMPLATES: SeedTemplate[] = [
     best_season: 'summer',
     difficulty: 'moderate',
     total_distance_km: 500
+  },
+  {
+    slug: 'canada-ontario-toronto-ottawa-montreal-6-days',
+    region: 'canada',
+    title: 'Ontario + Québec: Toronto, Ottawa, Montréal — 6 days',
+    seo_description: 'Toronto (CN Tower) → Niagara Falls → 1000 Islands → Ottawa (Parliament Hill) → Montréal (Old Port). Highway 401 + Highway 417.',
+    seo_keywords: ['toronto ottawa montreal road trip', 'highway 401 canada', 'ontario quebec 6 days', 'niagara falls itinerary'],
+    origin_city: 'Toronto',
+    destination_city: 'Montréal',
+    days_count: 6,
+    hero_image_url: 'https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=1200&q=80',
+    highway_notes: ['Highway 401 (Toronto → Ontario/Québec border, busiest in North America)', 'Highway 417 (Ontario → Ottawa)', 'Autoroute 20 (Ontario border → Montréal)'],
+    stops: [
+      { name: 'CN Tower (Toronto)', lat: 43.6426, lng: -79.3871, duration_min: 180, category: 'attraction' },
+      { name: 'Distillery District', lat: 43.6503, lng: -79.3599, duration_min: 180, category: 'city' },
+      { name: 'Niagara Falls (Horseshoe Falls)', lat: 43.0796, lng: -79.0754, duration_min: 300, category: 'nature' },
+      { name: '1000 Islands (Gananoque)', lat: 44.3306, lng: -76.1636, duration_min: 240, category: 'nature' },
+      { name: 'Parliament Hill (Ottawa)', lat: 45.4247, lng: -75.7002, duration_min: 240, category: 'attraction' },
+      { name: 'ByWard Market (Ottawa)', lat: 45.4278, lng: -75.6928, duration_min: 180, category: 'food' },
+      { name: 'Old Montréal (Notre-Dame Basilica)', lat: 45.5045, lng: -73.5563, duration_min: 240, category: 'city' },
+      { name: 'Mont-Royal Belvédère', lat: 45.5033, lng: -73.5878, duration_min: 180, category: 'nature' }
+    ],
+    best_season: 'fall',
+    difficulty: 'easy',
+    total_distance_km: 900
   }
 ];
 
@@ -1313,6 +1610,31 @@ export const SCOTLAND_TEMPLATES: SeedTemplate[] = [
     best_season: 'summer',
     difficulty: 'moderate',
     total_distance_km: 830
+  },
+  {
+    slug: 'scotland-edinburgh-highlands-skye-5-days',
+    region: 'scotland',
+    title: 'Scotland Edinburgh + Highlands + Isle of Skye — 5 days',
+    seo_description: 'Edinburgh Old Town → Glencoe → Fort William → Isle of Skye (Old Man of Storr, Fairy Pools) → Loch Ness. A9 + A87 Skye Bridge.',
+    seo_keywords: ['scotland highlands skye road trip', 'edinburgh skye itinerary', 'old man of storr fairy pools', 'a9 a87 scotland'],
+    origin_city: 'Edinburgh',
+    destination_city: 'Isle of Skye',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=1200&q=80',
+    highway_notes: ['A9 Edinburgh → Inverness (main highland spine)', 'A82 Glasgow → Fort William (Glencoe)', 'A87 to Skye Bridge (from Kyle of Lochalsh)'],
+    stops: [
+      { name: 'Edinburgh Castle', lat: 55.9486, lng: -3.1999, duration_min: 240, category: 'attraction' },
+      { name: 'Royal Mile + Arthur\'s Seat', lat: 55.9445, lng: -3.1888, duration_min: 240, category: 'city' },
+      { name: 'Glencoe Valley', lat: 56.6739, lng: -5.1017, duration_min: 240, category: 'nature' },
+      { name: 'Fort William (Ben Nevis)', lat: 56.8198, lng: -5.1052, duration_min: 180, category: 'city' },
+      { name: 'Eilean Donan Castle', lat: 57.2740, lng: -5.5162, duration_min: 120, category: 'attraction' },
+      { name: 'Old Man of Storr (Skye)', lat: 57.5075, lng: -6.1811, duration_min: 240, category: 'nature' },
+      { name: 'Fairy Pools (Skye)', lat: 57.2500, lng: -6.2664, duration_min: 180, category: 'nature' },
+      { name: 'Portree (Skye)', lat: 57.4130, lng: -6.1943, duration_min: 180, category: 'city' }
+    ],
+    best_season: 'summer',
+    difficulty: 'moderate',
+    total_distance_km: 600
   }
 ];
 
@@ -1341,6 +1663,31 @@ export const MOROCCO_TEMPLATES: SeedTemplate[] = [
     best_season: 'winter',
     difficulty: 'challenging',
     total_distance_km: 1200
+  },
+  {
+    slug: 'morocco-coastal-casablanca-essaouira-agadir-5-days',
+    region: 'morocco',
+    title: 'Morocco Coast: Casablanca, Essaouira, Agadir — 5 days',
+    seo_description: 'Casablanca (Hassan II Mosque) → El Jadida Portuguese cistern → Oualidia lagoon → Essaouira medina → Agadir beach. N1 Atlantic coastal 750 km.',
+    seo_keywords: ['morocco coast road trip', 'casablanca essaouira agadir', 'n1 morocco coastal highway', 'morocco 5 days beach'],
+    origin_city: 'Casablanca',
+    destination_city: 'Agadir',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=1200&q=80',
+    highway_notes: ['N1 Casablanca → Agadir Atlantic coast (500+ km)', 'A5 Autoroute Casa → El Jadida (fast)', 'N8 Marrakech → Essaouira alternative'],
+    stops: [
+      { name: 'Hassan II Mosque (Casablanca)', lat: 33.6084, lng: -7.6325, duration_min: 180, category: 'attraction' },
+      { name: 'El Jadida Portuguese Cistern', lat: 33.2547, lng: -8.5000, duration_min: 180, category: 'attraction' },
+      { name: 'Oualidia Lagoon', lat: 32.7333, lng: -9.0333, duration_min: 240, category: 'nature' },
+      { name: 'Safi (Pottery Quarter)', lat: 32.2994, lng: -9.2372, duration_min: 180, category: 'city' },
+      { name: 'Essaouira Medina (UNESCO)', lat: 31.5085, lng: -9.7595, duration_min: 300, category: 'city' },
+      { name: 'Essaouira Port + Skala', lat: 31.5133, lng: -9.7728, duration_min: 180, category: 'attraction' },
+      { name: 'Argan Cooperative (Ida Ou Tanane)', lat: 30.7333, lng: -9.5500, duration_min: 120, category: 'food' },
+      { name: 'Agadir Beach + Kasbah', lat: 30.4278, lng: -9.5981, duration_min: 240, category: 'city' }
+    ],
+    best_season: 'shoulder',
+    difficulty: 'easy',
+    total_distance_km: 750
   }
 ];
 
