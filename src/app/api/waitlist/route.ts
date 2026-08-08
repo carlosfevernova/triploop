@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { rateLimit, getClientKey, rateLimitResponse } from '@/lib/rate-limit';
 
 export const runtime = 'edge';
 
 export async function POST(req: Request){
+  // Rate limit: 3 req/min por IP (evita spam waitlist)
+  const rl = rateLimit(getClientKey(req), { limit: 3, windowSec: 60 });
+  if(!rl.ok) return rateLimitResponse(rl);
+
   try {
     const { email, locale = 'en' } = await req.json();
     if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){

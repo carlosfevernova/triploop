@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase-admin';
+import { geocodeFree } from '@/lib/geocode-free';
+import { rateLimit, getClientKey, rateLimitResponse } from '@/lib/rate-limit';
 
 export const runtime = 'edge';
 
@@ -44,6 +46,10 @@ const FIELD_MASK = [
 ].join(',');
 
 export async function POST(req: Request){
+  // Rate limit: 30 req/min por IP (protege Google Maps quota)
+  const rl = rateLimit(getClientKey(req), { limit: 30, windowSec: 60 });
+  if(!rl.ok) return rateLimitResponse(rl);
+
   try {
     const body = (await req.json()) as Body;
     if(!body.name && !body.google_place_id){
@@ -55,15 +61,56 @@ export async function POST(req: Request){
 
     const sb = createAdminClient();
 
-    // 1) Si nos pasan place_id → check cache directo (soft-fail si tabla no existe)
+    // 1) Si nos pasan place_id → check cache directo
     if(body.google_place_id){
       try {
         const cached = await getCached(sb, body.google_place_id);
         if(cached) return NextResponse.json({ poi: cached, source: 'cache' });
-      } catch { /* tabla pois puede no existir aún; seguir sin caché */ }
+      } catch { /* pois table opcional */ }
     }
 
-    // 2) Text Search para localizar el place_id
+    // 1.5) Check cache por name+coord antes de gastar Google quota
+    if(body.name){
+      try {
+        const { data: cachedByName } = await sb.from('pois')
+          .select('*')
+          .ilike('name', body.name.slice(0, 100))
+          .limit(1)
+          .maybeSingle();
+        if(cachedByName){
+          const fetched = cachedByName.fetched_at ? new Date(cachedByName.fetched_at).getTime() : 0;
+          if(Date.now() - fetched < CACHE_TTL_MS){
+            return NextResponse.json({ poi: {
+              google_place_id: cachedByName.google_place_id,
+              name: cachedByName.name, address: cachedByName.address,
+              lat: cachedByName.lat, lng: cachedByName.lng, types: cachedByName.types,
+              rating: cachedByName.rating, user_ratings_total: cachedByName.user_ratings_total,
+              phone: cachedByName.phone, website: cachedByName.website,
+              opening_hours: cachedByName.opening_hours, photo_url: cachedByName.photo_url,
+              price_level: cachedByName.price_level
+            }, source: 'cache_by_name' });
+          }
+        }
+      } catch { /* soft-fail */ }
+    }
+
+    // 1.7) Free geocoding fallback: si Google no configurado, intentar Nominatim/Photon
+    if(!apiKey){
+      const free = await geocodeFree(body.name, { lat: body.lat, lng: body.lng });
+      if(free){
+        return NextResponse.json({
+          poi: {
+            google_place_id: `osm:${free.osm_id || free.name.replace(/\s+/g, '-').toLowerCase()}`,
+            name: free.name, address: free.address,
+            lat: free.lat, lng: free.lng, types: free.types
+          },
+          source: `free_${free.place_source}`
+        });
+      }
+      return NextResponse.json({ error: 'no_geocoding_available' }, { status: 503 });
+    }
+
+    // 2) Text Search para localizar el place_id (Google - último recurso)
     const searchQuery = body.lat && body.lng
       ? `${body.name}`
       : body.name;

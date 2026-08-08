@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
+import { rateLimit, getClientKey, rateLimitResponse } from '@/lib/rate-limit';
 
 export const runtime = 'edge';
 
 // Places API (New) - Nearby Search
 // Docs: https://developers.google.com/maps/documentation/places/web-service/nearby-search
 export async function POST(req: Request){
+  // Rate limit: 30 req/min por IP (protege Google Maps quota)
+  const rl = rateLimit(getClientKey(req), { limit: 30, windowSec: 60 });
+  if(!rl.ok) return rateLimitResponse(rl);
+
   try {
     const { lat, lng, radius = 2000, category, maxResults = 12 } = await req.json();
     if(typeof lat !== 'number' || typeof lng !== 'number'){

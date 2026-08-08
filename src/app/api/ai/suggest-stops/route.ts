@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { PlaceSuggestion } from '@/lib/types';
+import { rateLimit, getClientKey, rateLimitResponse } from '@/lib/rate-limit';
 
 export const runtime = 'edge';
 
@@ -155,6 +156,10 @@ function toSuggestions(items: AiStop[], provider: Provider){
 }
 
 export async function POST(req: Request){
+  // Rate limit: 10 req/min por IP (protege AI credits)
+  const rl = rateLimit(getClientKey(req), { limit: 10, windowSec: 60 });
+  if(!rl.ok) return rateLimitResponse(rl);
+
   try {
     const body = (await req.json()) as Body;
     const {
