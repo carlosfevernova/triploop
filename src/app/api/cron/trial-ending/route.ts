@@ -5,11 +5,16 @@ import { trialEndingEmail } from '@/lib/email/templates';
 
 export const runtime = 'edge';
 
-// Vercel Cron protection: bearer con CRON_SECRET
+// Vercel Cron protection: bearer con CRON_SECRET (constant-time compare)
 function isAuthorized(req: Request){
-  const auth = req.headers.get('authorization');
-  const secret = process.env.CRON_SECRET;
-  return !!secret && auth === `Bearer ${secret}`;
+  const auth = (req.headers.get('authorization') || '').trim();
+  const secret = (process.env.CRON_SECRET || '').trim();
+  const expected = `Bearer ${secret}`;
+  if(!secret || auth.length !== expected.length) return false;
+  // Web Crypto constant-time compare (edge-compat, sin Node crypto)
+  let diff = 0;
+  for(let i = 0; i < auth.length; i++) diff |= auth.charCodeAt(i) ^ expected.charCodeAt(i);
+  return diff === 0;
 }
 
 // GET (Vercel Cron manda GET) → busca trials que terminan en 2-4 días y envía email si aún no.

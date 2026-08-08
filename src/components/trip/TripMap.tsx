@@ -81,7 +81,10 @@ export function TripMap({ stops, polyline, hoveredStopId, onMarkerClick }: Props
       if(!marker){
         const el = document.createElement('div');
         el.className = 'triploop-marker';
-        el.innerHTML = `<div style="width:32px;height:32px;border-radius:50%;background:#ff5a5f;color:white;display:grid;place-items:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer">${i+1}</div>`;
+        const inner = document.createElement('div');
+        inner.style.cssText = "width:32px;height:32px;border-radius:50%;background:#ff5a5f;color:white;display:grid;place-items:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer";
+        inner.textContent = String(i + 1);
+        el.appendChild(inner);
         el.addEventListener('click', () => onMarkerClick?.(s.id));
         marker = new maplibregl.Marker({ element: el })
           .setLngLat([s.lng, s.lat])

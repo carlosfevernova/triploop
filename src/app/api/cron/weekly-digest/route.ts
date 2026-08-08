@@ -6,9 +6,13 @@ import { weeklyDigestEmail } from '@/lib/email/templates';
 export const runtime = 'edge';
 
 function isAuthorized(req: Request){
-  const auth = req.headers.get('authorization');
-  const secret = process.env.CRON_SECRET;
-  return !!secret && auth === `Bearer ${secret}`;
+  const auth = (req.headers.get('authorization') || '').trim();
+  const secret = (process.env.CRON_SECRET || '').trim();
+  const expected = `Bearer ${secret}`;
+  if(!secret || auth.length !== expected.length) return false;
+  let diff = 0;
+  for(let i = 0; i < auth.length; i++) diff |= auth.charCodeAt(i) ^ expected.charCodeAt(i);
+  return diff === 0;
 }
 
 export async function GET(req: Request){

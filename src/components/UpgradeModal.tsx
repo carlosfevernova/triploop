@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 
 interface Props {
@@ -31,17 +32,25 @@ const COPY = {
 export function UpgradeModal({ open, onClose, reason, isEs }: Props){
   const params = useParams<{ locale: string }>();
   const locale = params?.locale || 'en';
+
+  useEffect(() => {
+    if(!open) return;
+    const onKey = (e: KeyboardEvent) => { if(e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
   if(!open) return null;
   const copy = COPY[reason][isEs ? 'es' : 'en'];
 
   return (
     <>
       <div onClick={onClose} className="fixed inset-0 z-50 bg-ink-900/60 backdrop-blur-sm" aria-hidden />
-      <div className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-card bg-white shadow-2xl">
+      <div role="dialog" aria-modal="true" aria-labelledby="upgrade-modal-title" className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-card bg-white shadow-2xl">
         <div className="relative bg-gradient-to-br from-coral-500 via-coral-600 to-ink-900 p-8 text-white">
           <button onClick={onClose} className="absolute right-3 top-3 rounded-full p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white" aria-label="Close">✕</button>
           <div className="text-4xl">{copy.emoji}</div>
-          <h2 className="mt-3 font-display text-2xl font-semibold tracking-tight">{copy.title}</h2>
+          <h2 id="upgrade-modal-title" className="mt-3 font-display text-2xl font-semibold tracking-tight">{copy.title}</h2>
           <p className="mt-2 text-white/85">{copy.body}</p>
         </div>
         <div className="p-6">

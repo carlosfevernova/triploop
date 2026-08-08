@@ -6,12 +6,12 @@ import { createAdminClient } from '@/lib/supabase-admin';
 export const runtime = 'nodejs';
 
 export async function POST(req: Request){
-  const stripeKey = process.env.STRIPE_SECRET_KEY;
-  if(!stripeKey) return NextResponse.json({ error: 'payments_not_configured' }, { status: 503 });
-
   const authClient = createClientFromRequest(req);
   const { data: { user } } = await authClient.auth.getUser();
   if(!user) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if(!stripeKey) return NextResponse.json({ error: 'payments_not_configured' }, { status: 503 });
 
   const sb = createAdminClient();
   const { data: sub } = await sb.from('subscriptions').select('stripe_customer_id').eq('user_id', user.id).maybeSingle();

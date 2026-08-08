@@ -47,8 +47,18 @@ const QA: QA[] = [
 
 export function FAQ({ isEs }: { isEs?: boolean }){
   const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: QA.map((qa) => ({
+      '@type': 'Question',
+      name: isEs ? qa.q_es : qa.q_en,
+      acceptedAnswer: { '@type': 'Answer', text: isEs ? qa.a_es : qa.a_en }
+    }))
+  };
   return (
     <section className="bg-white py-24">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="mx-auto max-w-3xl px-6">
         <div className="mb-10 text-center">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-coral-600">FAQ</p>
@@ -63,18 +73,19 @@ export function FAQ({ isEs }: { isEs?: boolean }){
               <div key={i} className="overflow-hidden rounded-card border border-ink-100 bg-white shadow-card transition hover:shadow-card-hover">
                 <button
                   onClick={() => setOpenIdx(open ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-coral-500"
                   aria-expanded={open}
+                  aria-controls={`faq-answer-${i}`}
                 >
                   <span className="font-display text-base font-semibold text-ink-900">
                     {isEs ? qa.q_es : qa.q_en}
                   </span>
-                  <span className={`grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-coral-50 text-coral-600 transition ${open ? 'rotate-45' : ''}`}>
+                  <span aria-hidden className={`grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-coral-50 text-coral-600 transition ${open ? 'rotate-45' : ''}`}>
                     +
                   </span>
                 </button>
                 {open && (
-                  <div className="border-t border-ink-100 bg-ink-50/30 px-5 py-4 text-sm leading-relaxed text-ink-700">
+                  <div id={`faq-answer-${i}`} className="border-t border-ink-100 bg-ink-50/30 px-5 py-4 text-sm leading-relaxed text-ink-700">
                     {isEs ? qa.a_es : qa.a_en}
                   </div>
                 )}

@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase-admin';
-import { ForkButton } from '@/app/[locale]/california/[slug]/ForkButton';
-import { ViewTracker } from '@/app/[locale]/california/[slug]/ViewTracker';
+import { ForkButton } from '@/components/region/ForkButton';
+import { ViewTracker } from '@/components/region/ViewTracker';
 import { bookingSearchUrl, gygSearchUrl, estimateStayDates } from '@/lib/affiliate';
 import { REGION_META, type Region } from '@/lib/templates-seed';
 

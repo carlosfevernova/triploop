@@ -8,17 +8,17 @@ import { STRIPE_PRICES, PRO_TRIAL_DAYS } from '@/lib/stripe-config';
 export const runtime = 'nodejs';
 
 export async function POST(req: Request){
+  // Auth primero (fail-fast + evita leak de config status a anónimos)
+  const authClient = createClientFromRequest(req);
+  const { data: { user } } = await authClient.auth.getUser();
+  if(!user) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   if(!stripeKey) return NextResponse.json({ error: 'payments_not_configured' }, { status: 503 });
 
   const { plan = 'monthly', return_url } = await req.json().catch(() => ({}));
   const priceId = plan === 'yearly' ? STRIPE_PRICES.yearly : STRIPE_PRICES.monthly;
   if(!priceId) return NextResponse.json({ error: 'price_not_configured', plan }, { status: 503 });
-
-  // Auth check
-  const authClient = createClientFromRequest(req);
-  const { data: { user } } = await authClient.auth.getUser();
-  if(!user) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
 
   const sb = createAdminClient();
   const { data: existing } = await sb.from('subscriptions').select('stripe_customer_id').eq('user_id', user.id).maybeSingle();

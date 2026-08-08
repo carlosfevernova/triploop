@@ -40,12 +40,15 @@ export async function POST(req: Request){
 
     const sb = createAdminClient();
 
-    // Gate free tier: usuarios logeados sin Pro → max 3 trips
+    // Gate free tier: usuarios logeados sin Pro → max 3 trips (paralelo)
     if(owner_id){
-      const { data: sub } = await sb.from('subscriptions').select('status').eq('user_id', owner_id).maybeSingle();
+      const [subQ, countQ] = await Promise.all([
+        sb.from('subscriptions').select('status').eq('user_id', owner_id).maybeSingle(),
+        sb.from('trips').select('id', { count: 'exact', head: true }).eq('owner_id', owner_id)
+      ]);
+      const sub = subQ.data;
       if(!isProSubscription(sub ? { user_id: owner_id, status: sub.status } : null)){
-        const { count } = await sb.from('trips').select('id', { count: 'exact', head: true }).eq('owner_id', owner_id);
-        if((count || 0) >= FREE_TRIP_LIMIT){
+        if((countQ.count || 0) >= FREE_TRIP_LIMIT){
           return NextResponse.json({
             error: 'free_limit_reached',
             limit: FREE_TRIP_LIMIT,
