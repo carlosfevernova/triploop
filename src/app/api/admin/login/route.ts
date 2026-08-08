@@ -9,9 +9,7 @@ export async function POST(req: Request){
     const { passphrase } = await req.json();
     if(!passphrase || !checkPassphrase(passphrase)){
       await new Promise(r => setTimeout(r, 250));
-      // Debug hint (safe to expose lengths, no PII)
-      const expLen = (process.env.ADMIN_PASSPHRASE || '').length;
-      return NextResponse.json({ error: 'invalid', debug: { got_len: passphrase?.length ?? 0, exp_len: expLen } }, { status: 401 });
+      return NextResponse.json({ error: 'invalid' }, { status: 401 });
     }
     const token = signAdminToken();
     const res = NextResponse.json({ ok: true });

@@ -33,11 +33,12 @@ export function verifyAdminToken(token: string | undefined): boolean {
 }
 
 export function checkPassphrase(input: string): boolean {
-  const expected = process.env.ADMIN_PASSPHRASE || '';
+  const expected = (process.env.ADMIN_PASSPHRASE || '').trim();
+  const got = (input || '').trim();
   if(!expected) return false;
-  if(input.length !== expected.length) return false;
+  if(got.length !== expected.length) return false;
   try {
-    return timingSafeEqual(Buffer.from(input), Buffer.from(expected));
+    return timingSafeEqual(Buffer.from(got), Buffer.from(expected));
   } catch { return false; }
 }
 
