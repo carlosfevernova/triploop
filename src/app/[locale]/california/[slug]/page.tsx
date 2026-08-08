@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase-admin';
 import { ForkButton } from './ForkButton';
+import { ViewTracker } from './ViewTracker';
 import { bookingSearchUrl, gygSearchUrl, estimateStayDates } from '@/lib/affiliate';
 
 interface PageProps {
@@ -107,6 +108,7 @@ export default async function CaliforniaTemplatePage({ params }: PageProps){
 
   return (
     <>
+      <ViewTracker slug={slug} locale={locale} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
