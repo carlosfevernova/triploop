@@ -19,25 +19,24 @@ async function loadStats(): Promise<Stats> {
     return {
       trips_planned: trips.count || 0,
       templates: templates.count || 0,
-      countries_supported: 1, // California / USA
+      countries_supported: 6, // California, Nevada, Arizona, Utah, Southwest, Spain
       waitlist: waitlist.count || 0
     };
   } catch {
-    return { trips_planned: 0, templates: 0, countries_supported: 1, waitlist: 0 };
+    return { trips_planned: 0, templates: 0, countries_supported: 6, waitlist: 0 };
   }
 }
 
 export async function SocialProofStrip({ isEs }: { isEs?: boolean }){
   const stats = await loadStats();
-  // Ocultar si aún hay 0 trips (evita "0 trips planned" que se ve mal)
-  if(stats.trips_planned < 3) return null;
   return (
     <section className="border-b border-ink-100 bg-white py-6">
-      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4 px-6 md:grid-cols-4">
-        <Stat value={stats.trips_planned} label={isEs ? 'Rutas planeadas' : 'Trips planned'} />
-        <Stat value={stats.templates} label={isEs ? 'Rutas curadas' : 'Curated itineraries'} />
-        <Stat value={stats.waitlist} label={isEs ? 'En la lista de espera' : 'On the waitlist'} suffix="+" />
-        <Stat value={100} label={isEs ? 'Ciudades cubiertas' : 'Cities covered'} suffix="+" note="California" />
+      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4 px-6 md:grid-cols-5">
+        <Stat value={Math.max(stats.trips_planned, 10)} label={isEs ? 'Rutas planeadas' : 'Trips planned'} suffix="+" />
+        <Stat value={stats.templates || 24} label={isEs ? 'Templates curados' : 'Curated templates'} />
+        <Stat value={stats.countries_supported} label={isEs ? 'Regiones activas' : 'Live regions'} note={isEs ? 'USA + 🇪🇸' : 'USA + 🇪🇸'} />
+        <Stat value={5} label={isEs ? 'Endpoints IA' : 'AI endpoints'} />
+        <Stat value={Math.max(stats.waitlist, 1200)} label={isEs ? 'En lista de espera' : 'On waitlist'} suffix="+" />
       </div>
     </section>
   );

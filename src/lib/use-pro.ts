@@ -1,45 +1,43 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase-browser';
-import { isProSubscription, type SubscriptionRow } from '@/lib/stripe-config';
 
 interface ProState {
   loading: boolean;
   isPro: boolean;
   isTrialing: boolean;
+  adminOverride: boolean;
   cancelAtPeriodEnd: boolean;
   periodEnd: string | null;
   userId: string | null;
-  sub: SubscriptionRow | null;
 }
 
+// Consulta /api/pro-status — respeta admin-cookie override.
+// Cache 30s (server-side header) evita spam.
 export function usePro(): ProState {
   const [state, setState] = useState<ProState>({
-    loading: true, isPro: false, isTrialing: false, cancelAtPeriodEnd: false,
-    periodEnd: null, userId: null, sub: null
+    loading: true, isPro: false, isTrialing: false, adminOverride: false,
+    cancelAtPeriodEnd: false, periodEnd: null, userId: null
   });
 
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const sb = createClient();
-      const { data: { user } } = await sb.auth.getUser();
-      if(!user){
-        if(mounted) setState({ loading: false, isPro: false, isTrialing: false, cancelAtPeriodEnd: false, periodEnd: null, userId: null, sub: null });
-        return;
+      try {
+        const r = await fetch('/api/pro-status', { credentials: 'same-origin' });
+        const data = await r.json();
+        if(!mounted) return;
+        setState({
+          loading: false,
+          isPro: !!data.isPro,
+          isTrialing: data.status === 'trialing',
+          adminOverride: !!data.adminOverride,
+          cancelAtPeriodEnd: !!data.cancel_at_period_end,
+          periodEnd: data.trial_end || null,
+          userId: data.userId ?? null
+        });
+      } catch {
+        if(mounted) setState((s) => ({ ...s, loading: false }));
       }
-      const { data: sub } = await sb.from('subscriptions').select('*').eq('user_id', user.id).maybeSingle();
-      if(!mounted) return;
-      const s = sub as SubscriptionRow | null;
-      setState({
-        loading: false,
-        isPro: isProSubscription(s),
-        isTrialing: s?.status === 'trialing',
-        cancelAtPeriodEnd: !!s?.cancel_at_period_end,
-        periodEnd: s?.current_period_end || null,
-        userId: user.id,
-        sub: s
-      });
     })();
     return () => { mounted = false; };
   }, []);

@@ -9,13 +9,17 @@ export function TrustBadges({ isEs }: { isEs?: boolean }){
         <p className="mb-6 text-center text-[10px] font-semibold uppercase tracking-widest text-ink-400">
           {isEs ? 'Construido sobre infraestructura de clase mundial' : 'Built on world-class infrastructure'}
         </p>
-        <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 text-ink-500">
-          <BadgeItem name="Vercel" />
+        <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-ink-500">
+          <BadgeItem name="Next.js 15" />
+          <BadgeItem name="Vercel Fluid" />
           <BadgeItem name="Supabase" />
           <BadgeItem name="Stripe" />
-          <BadgeItem name="Google Maps" />
-          <BadgeItem name="DeepSeek AI" />
-          <BadgeItem name="MapLibre" />
+          <BadgeItem name="OpenRouter" />
+          <BadgeItem name="Google Places" />
+          <BadgeItem name="OpenChargeMap" />
+          <BadgeItem name="MapLibre GL" />
+          <BadgeItem name="Twilio WhatsApp" />
+          <BadgeItem name="Resend" />
         </ul>
       </div>
     </section>

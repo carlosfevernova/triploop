@@ -3,6 +3,7 @@ import { rateLimit, getClientKey, rateLimitResponse } from '@/lib/rate-limit';
 import { createAdminClient } from '@/lib/supabase-admin';
 import { createClientFromRequest } from '@/lib/supabase-server';
 import { isProSubscription } from '@/lib/stripe-config';
+import { isAdminAuthed } from '@/lib/admin-guard';
 import type { TripStop } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -296,7 +297,9 @@ ${jsonSchema(locale)}`;
     } catch {}
 
     const sb = createAdminClient();
-    if(owner_id){
+    // Admin preview override: skip Pro gate cuando cookie Cside activa
+    const adminOverride = await isAdminAuthed();
+    if(owner_id && !adminOverride){
       const { data: sub } = await sb.from('subscriptions').select('status').eq('user_id', owner_id).maybeSingle();
       if(!isProSubscription(sub ? { user_id: owner_id, status: sub.status } : null)){
         const { count } = await sb.from('trips').select('id', { count: 'exact', head: true }).eq('owner_id', owner_id);

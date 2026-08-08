@@ -2,9 +2,11 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase-admin';
 import { createClientFromRequest } from '@/lib/supabase-server';
 import { isProSubscription } from '@/lib/stripe-config';
+import { isAdminAuthed } from '@/lib/admin-guard';
 import type { Trip } from '@/lib/types';
 
-export const runtime = 'edge';
+// nodejs runtime necesario para admin-guard (crypto HMAC)
+export const runtime = 'nodejs';
 
 const FREE_TRIP_LIMIT = 3;
 
@@ -41,7 +43,9 @@ export async function POST(req: Request){
     const sb = createAdminClient();
 
     // Gate free tier: usuarios logeados sin Pro → max 3 trips (paralelo)
-    if(owner_id){
+    // Admin preview mode: cookie Cside bypasea el gate
+    const adminOverride = await isAdminAuthed();
+    if(owner_id && !adminOverride){
       const [subQ, countQ] = await Promise.all([
         sb.from('subscriptions').select('status').eq('user_id', owner_id).maybeSingle(),
         sb.from('trips').select('id', { count: 'exact', head: true }).eq('owner_id', owner_id)

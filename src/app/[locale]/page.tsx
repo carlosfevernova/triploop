@@ -4,7 +4,7 @@ import { Nav } from '@/components/Nav';
 import { Hero } from '@/components/Hero';
 import { SocialProofStrip } from '@/components/SocialProofStrip';
 import { ProblemSection } from '@/components/ProblemSection';
-import { FeaturesGrid } from '@/components/FeaturesGrid';
+import { FeaturesShowcase } from '@/components/FeaturesShowcase';
 import { TrustBadges } from '@/components/TrustBadges';
 import { RegionsGrid } from '@/components/RegionsGrid';
 import { CitiesGrid } from '@/components/CitiesGrid';
@@ -29,7 +29,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <Hero />
         <SocialProofStrip isEs={isEs} />
         <ProblemSection />
-        <FeaturesGrid />
+        <FeaturesShowcase />
         <TrustBadges isEs={isEs} />
         <RegionsGrid />
         <CitiesGrid />

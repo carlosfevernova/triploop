@@ -11,7 +11,7 @@ export default function AccountPage(){
   const searchParams = useSearchParams();
   const locale = params?.locale || 'en';
   const isEs = locale === 'es';
-  const { loading, isPro, isTrialing, cancelAtPeriodEnd, periodEnd, userId, sub } = usePro();
+  const { loading, isPro, isTrialing, cancelAtPeriodEnd, periodEnd, userId } = usePro();
   const [portalLoading, setPortalLoading] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const justCheckedOut = searchParams?.get('checkout') === 'success';
@@ -66,7 +66,7 @@ export default function AccountPage(){
                     {isTrialing ? (isEs ? 'Prueba activa' : 'Trialing') : 'Pro'}
                   </span>
                   <span className="text-xs text-ink-500">
-                    {sub?.plan === 'yearly' ? (isEs ? 'Plan anual' : 'Yearly plan') : (isEs ? 'Plan mensual' : 'Monthly plan')}
+                    {isEs ? 'Plan Pro' : 'Pro plan'}
                   </span>
                 </div>
                 {periodEnd && (
