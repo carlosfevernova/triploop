@@ -10,7 +10,7 @@ export interface SeedStop {
   category?: 'city' | 'attraction' | 'nature' | 'food' | 'hotel' | 'other';
 }
 
-export type Region = 'california' | 'nevada' | 'arizona' | 'southwest';
+export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain';
 
 export interface SeedTemplate {
   slug: string;                // URL: /california/san-francisco-classic-5-days
@@ -53,6 +53,18 @@ export const REGION_META: Record<Region, {
     tagline_en: 'Multi-state Grand Circle: 5 states, 8 national parks, one epic loop.',
     tagline_es: 'Gran Circuito multi-estado: 5 estados, 8 parques nacionales, un solo viaje épico.',
     hero_image: 'https://images.unsplash.com/photo-1544986581-efac024faf62?w=1200&q=80'
+  },
+  utah: {
+    slug: 'utah', name_en: 'Utah', name_es: 'Utah',
+    tagline_en: 'Zion, Bryce, Arches — the Mighty 5 and Utah\'s red rock playground.',
+    tagline_es: 'Zion, Bryce, Arches — los Mighty 5 y el patio de recreo de rocas rojas de Utah.',
+    hero_image: 'https://images.unsplash.com/photo-1518533954129-7774297db60a?w=1200&q=80'
+  },
+  spain: {
+    slug: 'spain', name_en: 'Spain', name_es: 'España',
+    tagline_en: 'Madrid, Barcelona, Andalucía, and the Camino de Santiago — tapas + history + coast.',
+    tagline_es: 'Madrid, Barcelona, Andalucía y el Camino de Santiago — tapas, historia y costa.',
+    hero_image: 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=1200&q=80'
   }
 };
 
@@ -387,10 +399,176 @@ export const SOUTHWEST_TEMPLATES: SeedTemplate[] = [
   }
 ];
 
+// ══════════════════════════════════════════
+// UTAH
+// ══════════════════════════════════════════
+export const UTAH_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'zion-national-park-3-days',
+    region: 'utah',
+    title: 'Zion National Park — 3 days',
+    seo_description: '3-day Zion trip from Las Vegas: Angels Landing (permit required 2026), The Narrows wade, Emerald Pools + Watchman sunset. Springdale lodging + shuttle logistics.',
+    seo_keywords: ['zion 3 day itinerary', 'zion national park weekend', 'angels landing narrows', 'zion from vegas'],
+    origin_city: 'Springdale',
+    destination_city: 'Springdale',
+    days_count: 3,
+    hero_image_url: 'https://images.unsplash.com/photo-1518533954129-7774297db60a?w=1200&q=80',
+    stops: [
+      { name: 'Zion Canyon Visitor Center', lat: 37.2003, lng: -112.9871, duration_min: 60, category: 'nature' },
+      { name: 'Angels Landing (permit req)', lat: 37.2694, lng: -112.9500, duration_min: 300, category: 'nature' },
+      { name: 'The Narrows (Riverside Walk)', lat: 37.2856, lng: -112.9469, duration_min: 240, category: 'nature' },
+      { name: 'Emerald Pools Trail', lat: 37.2515, lng: -112.9645, duration_min: 150, category: 'nature' },
+      { name: 'Watchman Overlook (sunset)', lat: 37.1988, lng: -112.9856, duration_min: 60, category: 'nature' }
+    ]
+  },
+  {
+    slug: 'bryce-canyon-weekend-3-days',
+    region: 'utah',
+    title: 'Bryce Canyon Weekend — 3 days',
+    seo_description: '3 days at Bryce Canyon: sunrise Bryce Point (essential), Navajo/Queens Garden Loop, Rainbow Point drive and stargazing (Dark Sky Park). Best May-Oct.',
+    seo_keywords: ['bryce canyon 3 day trip', 'bryce canyon sunrise', 'navajo queens garden loop', 'bryce canyon stargazing'],
+    origin_city: 'Bryce Canyon City',
+    destination_city: 'Bryce Canyon City',
+    days_count: 3,
+    hero_image_url: 'https://images.unsplash.com/photo-1518533954129-7774297db60a?w=1200&q=80',
+    stops: [
+      { name: 'Bryce Point (sunrise)', lat: 37.6047, lng: -112.1553, duration_min: 90, category: 'nature' },
+      { name: 'Navajo/Queens Garden Loop', lat: 37.6285, lng: -112.1671, duration_min: 240, category: 'nature' },
+      { name: 'Sunset Point', lat: 37.6237, lng: -112.1642, duration_min: 60, category: 'nature' },
+      { name: 'Rainbow Point Scenic Drive', lat: 37.4756, lng: -112.2437, duration_min: 180, category: 'nature' },
+      { name: 'Inspiration Point (stargazing)', lat: 37.6118, lng: -112.1615, duration_min: 120, category: 'nature' }
+    ]
+  },
+  {
+    slug: 'utah-mighty-5-national-parks-10-days',
+    region: 'utah',
+    title: 'Utah Mighty 5 — 10 days',
+    seo_description: 'The definitive 10-day Utah National Parks road trip: Zion → Bryce → Capitol Reef → Arches → Canyonlands. All 5 mighty parks with real driving times.',
+    seo_keywords: ['utah mighty 5 road trip', 'utah national parks 10 days', 'zion bryce arches canyonlands capitol reef', 'utah parks itinerary'],
+    origin_city: 'Las Vegas',
+    destination_city: 'Moab',
+    days_count: 10,
+    hero_image_url: 'https://images.unsplash.com/photo-1518533954129-7774297db60a?w=1200&q=80',
+    stops: [
+      { name: 'Las Vegas', lat: 36.1147, lng: -115.1728, duration_min: 240, category: 'city' },
+      { name: 'Zion National Park', lat: 37.2982, lng: -113.0263, duration_min: 720, category: 'nature' },
+      { name: 'Bryce Canyon National Park', lat: 37.5930, lng: -112.1871, duration_min: 480, category: 'nature' },
+      { name: 'Capitol Reef National Park', lat: 38.3667, lng: -111.2615, duration_min: 480, category: 'nature' },
+      { name: 'Arches National Park (Delicate Arch)', lat: 38.7331, lng: -109.5925, duration_min: 480, category: 'nature' },
+      { name: 'Canyonlands (Island in the Sky)', lat: 38.3269, lng: -109.8783, duration_min: 480, category: 'nature' },
+      { name: 'Moab', lat: 38.5733, lng: -109.5498, duration_min: 240, category: 'city' }
+    ]
+  },
+  {
+    slug: 'salt-lake-park-city-weekend-3-days',
+    region: 'utah',
+    title: 'Salt Lake + Park City Weekend — 3 days',
+    seo_description: 'City escape 3-day trip: Temple Square, Bonneville Salt Flats drive, Park City Main Street, and Deer Valley/Empire Pass scenic drive. Perfect winter ski add-on.',
+    seo_keywords: ['salt lake city 3 days', 'park city weekend', 'temple square bonneville salt flats', 'utah city break'],
+    origin_city: 'Salt Lake City',
+    destination_city: 'Park City',
+    days_count: 3,
+    hero_image_url: 'https://images.unsplash.com/photo-1518533954129-7774297db60a?w=1200&q=80',
+    stops: [
+      { name: 'Temple Square', lat: 40.7708, lng: -111.8910, duration_min: 120, category: 'attraction' },
+      { name: 'Utah State Capitol', lat: 40.7772, lng: -111.8879, duration_min: 60, category: 'attraction' },
+      { name: 'Bonneville Salt Flats', lat: 40.7500, lng: -113.8500, duration_min: 180, category: 'nature' },
+      { name: 'Park City Historic Main Street', lat: 40.6461, lng: -111.4980, duration_min: 240, category: 'city' },
+      { name: 'Empire Pass Scenic Drive', lat: 40.5983, lng: -111.4869, duration_min: 120, category: 'nature' }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════
+// ESPAÑA (primera región europea)
+// ══════════════════════════════════════════
+export const SPAIN_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'madrid-escapada-fin-de-semana-3-days',
+    region: 'spain',
+    title: 'Madrid Weekend Escape — 3 days',
+    seo_description: '3 days from Madrid with day trips to Toledo and Segovia: Prado, Plaza Mayor, Retiro, Toledo old town + Segovia Alcázar. Practical for first-time visitors.',
+    seo_keywords: ['madrid 3 day itinerary', 'madrid weekend trip', 'madrid toledo segovia day trip', 'first time madrid'],
+    origin_city: 'Madrid',
+    destination_city: 'Madrid',
+    days_count: 3,
+    hero_image_url: 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=1200&q=80',
+    stops: [
+      { name: 'Plaza Mayor + Puerta del Sol', lat: 40.4155, lng: -3.7074, duration_min: 120, category: 'city' },
+      { name: 'Museo del Prado', lat: 40.4138, lng: -3.6921, duration_min: 240, category: 'attraction' },
+      { name: 'Parque del Retiro', lat: 40.4152, lng: -3.6844, duration_min: 180, category: 'nature' },
+      { name: 'Toledo (Casco Histórico)', lat: 39.8628, lng: -4.0273, duration_min: 360, category: 'city' },
+      { name: 'Segovia (Alcázar + Acueducto)', lat: 40.9420, lng: -4.1088, duration_min: 300, category: 'attraction' }
+    ]
+  },
+  {
+    slug: 'barcelona-modernista-3-days',
+    region: 'spain',
+    title: 'Barcelona Modernista — 3 days',
+    seo_description: '3 days in Barcelona: Sagrada Família (book weeks ahead), Park Güell, Gothic Quarter tapas, Montserrat mountain and Sitges coastal escape. Ready for the Gaudí lover.',
+    seo_keywords: ['barcelona 3 day itinerary', 'barcelona sagrada familia park guell', 'gaudi barcelona weekend', 'barcelona montserrat sitges'],
+    origin_city: 'Barcelona',
+    destination_city: 'Sitges',
+    days_count: 3,
+    hero_image_url: 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200&q=80',
+    stops: [
+      { name: 'Sagrada Família', lat: 41.4036, lng: 2.1744, duration_min: 180, category: 'attraction' },
+      { name: 'Park Güell', lat: 41.4145, lng: 2.1527, duration_min: 180, category: 'attraction' },
+      { name: 'Barrio Gótico + Rambla', lat: 41.3833, lng: 2.1770, duration_min: 240, category: 'city' },
+      { name: 'La Boqueria (tapas)', lat: 41.3820, lng: 2.1717, duration_min: 120, category: 'food' },
+      { name: 'Montserrat', lat: 41.5921, lng: 1.8375, duration_min: 300, category: 'nature' },
+      { name: 'Sitges', lat: 41.2374, lng: 1.8058, duration_min: 240, category: 'city' }
+    ]
+  },
+  {
+    slug: 'andalucia-grand-tour-7-days',
+    region: 'spain',
+    title: 'Andalucía Grand Tour — 7 days',
+    seo_description: '7-day Andalusia road trip: Sevilla flamenco + Alcázar, Córdoba Mezquita, Granada Alhambra (book 3 months ahead), Ronda cliff bridge, Málaga beach finale.',
+    seo_keywords: ['andalucia 7 day road trip', 'sevilla cordoba granada malaga', 'alhambra granada itinerary', 'andalucia southern spain trip'],
+    origin_city: 'Sevilla',
+    destination_city: 'Málaga',
+    days_count: 7,
+    hero_image_url: 'https://images.unsplash.com/photo-1543783207-ec64e4d95325?w=1200&q=80',
+    stops: [
+      { name: 'Sevilla (Alcázar + Catedral)', lat: 37.3826, lng: -5.9922, duration_min: 480, category: 'city' },
+      { name: 'Córdoba (Mezquita)', lat: 37.8794, lng: -4.7793, duration_min: 300, category: 'attraction' },
+      { name: 'Granada (Alhambra)', lat: 37.1773, lng: -3.5986, duration_min: 480, category: 'attraction' },
+      { name: 'Nerja (Balcón de Europa)', lat: 36.7500, lng: -3.8770, duration_min: 240, category: 'city' },
+      { name: 'Ronda (Puente Nuevo)', lat: 36.7422, lng: -5.1668, duration_min: 300, category: 'attraction' },
+      { name: 'Marbella / Puerto Banús', lat: 36.5099, lng: -4.8850, duration_min: 240, category: 'city' },
+      { name: 'Málaga (Alcazaba + Playa)', lat: 36.7213, lng: -4.4213, duration_min: 360, category: 'city' }
+    ]
+  },
+  {
+    slug: 'camino-santiago-highlights-10-days',
+    region: 'spain',
+    title: 'Camino de Santiago Highlights — 10 days',
+    seo_description: '10-day drive along the Camino Francés from Pamplona to Santiago: Burgos cathedral, León Gothic, El Bierzo wine, Portomarín and Santiago finale. Perfect first Camino intro.',
+    seo_keywords: ['camino de santiago 10 days road trip', 'camino frances driving itinerary', 'pamplona to santiago compostela', 'camino santiago highlights'],
+    origin_city: 'Pamplona',
+    destination_city: 'Santiago de Compostela',
+    days_count: 10,
+    hero_image_url: 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200&q=80',
+    stops: [
+      { name: 'Pamplona', lat: 42.8125, lng: -1.6458, duration_min: 300, category: 'city' },
+      { name: 'Logroño (La Rioja)', lat: 42.4650, lng: -2.4456, duration_min: 240, category: 'food' },
+      { name: 'Burgos (Catedral)', lat: 42.3400, lng: -3.7040, duration_min: 300, category: 'attraction' },
+      { name: 'León (Catedral Gótica)', lat: 42.5987, lng: -5.5671, duration_min: 300, category: 'attraction' },
+      { name: 'Ponferrada (Castillo Templario)', lat: 42.5461, lng: -6.5951, duration_min: 240, category: 'attraction' },
+      { name: 'O Cebreiro (mirador)', lat: 42.7078, lng: -7.0432, duration_min: 120, category: 'nature' },
+      { name: 'Portomarín', lat: 42.8072, lng: -7.6157, duration_min: 180, category: 'city' },
+      { name: 'Santiago de Compostela (Catedral)', lat: 42.8806, lng: -8.5449, duration_min: 480, category: 'attraction' }
+    ]
+  }
+];
+
 // Unified export para el seed endpoint
 export const ALL_TEMPLATES: SeedTemplate[] = [
   ...CALIFORNIA_TEMPLATES,
   ...NEVADA_TEMPLATES,
   ...ARIZONA_TEMPLATES,
-  ...SOUTHWEST_TEMPLATES
+  ...SOUTHWEST_TEMPLATES,
+  ...UTAH_TEMPLATES,
+  ...SPAIN_TEMPLATES
 ];

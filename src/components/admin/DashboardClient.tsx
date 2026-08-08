@@ -10,12 +10,19 @@ interface Metrics {
   affiliate_7d: number; affiliate_by_provider: Record<string, number>;
   template_views_7d: number;
   template_top: Array<{ slug: string; views: number }>;
+  trips_sparkline: number[];
+  views_sparkline: number[];
+  funnel_visitors: number;
+  funnel_trips: number;
+  funnel_registered: number;
+  funnel_paying: number;
 }
 
 export function DashboardClient({ metrics }: { metrics: Metrics }){
   const [locale, setLocale] = useState<AdminLocale>('es');
   useEffect(() => { setLocale(getAdminLocale()); }, []);
   const t = T[locale];
+  const isEs = locale === 'es';
 
   return (
     <main className="mx-auto max-w-6xl px-8 py-10">
@@ -28,10 +35,34 @@ export function DashboardClient({ metrics }: { metrics: Metrics }){
 
       {/* KPI strip */}
       <section className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-        <KpiCard label={t.totalTrips} value={metrics.trips_total.toLocaleString()} delta={`+${metrics.trips_7d} · 7d`} />
+        <KpiCard label={t.totalTrips} value={metrics.trips_total.toLocaleString()} delta={`+${metrics.trips_7d} · 7d`} sparkline={metrics.trips_sparkline} />
         <KpiCard label={t.registeredUsers} value={metrics.users_total.toLocaleString()} delta={`+${metrics.users_7d} · 7d`} />
         <KpiCard label={t.mrr} value={`$${metrics.mrr_usd.toFixed(2)}`} delta={`ARR $${metrics.arr_usd.toFixed(0)}`} />
         <KpiCard label={t.affiliateClicks} value={metrics.affiliate_7d.toLocaleString()} delta={providerBreak(metrics.affiliate_by_provider)} />
+      </section>
+
+      {/* Sparklines timeline 30d */}
+      <section className="mb-6 grid gap-4 md:grid-cols-2">
+        <Card title={isEs ? 'Viajes creados · últimos 30 días' : 'Trips created · last 30 days'}>
+          <Sparkline data={metrics.trips_sparkline} color="#FF5A5F" total={metrics.funnel_trips} isEs={isEs} />
+        </Card>
+        <Card title={isEs ? 'Vistas de plantillas · últimos 30 días' : 'Template views · last 30 days'}>
+          <Sparkline data={metrics.views_sparkline} color="#0EA5E9" total={metrics.funnel_visitors} isEs={isEs} />
+        </Card>
+      </section>
+
+      {/* Funnel */}
+      <section className="mb-6">
+        <Card title={isEs ? 'Funnel de conversión · 30 días' : 'Conversion funnel · 30 days'}>
+          <FunnelChart
+            steps={[
+              { label: isEs ? 'Visitas plantillas' : 'Template views', value: metrics.funnel_visitors, color: '#0EA5E9' },
+              { label: isEs ? 'Viajes creados' : 'Trips created', value: metrics.funnel_trips, color: '#8B5CF6' },
+              { label: isEs ? 'Usuarios registrados' : 'Registered users', value: metrics.funnel_registered, color: '#F59E0B' },
+              { label: isEs ? 'Pagando (Pro/Trial)' : 'Paying (Pro/Trial)', value: metrics.funnel_paying, color: '#10B981' }
+            ]}
+          />
+        </Card>
       </section>
 
       {/* Detail rows */}
@@ -98,12 +129,77 @@ function providerBreak(byProvider: Record<string, number>){
   return parts.length ? parts.join(' · ') : '—';
 }
 
-function KpiCard({ label, value, delta }: { label: string; value: string; delta: string }){
+function KpiCard({ label, value, delta, sparkline }: { label: string; value: string; delta: string; sparkline?: number[] }){
   return (
     <div className="rounded-2xl border border-ink-100 bg-white p-5">
       <div className="text-[10px] font-semibold uppercase tracking-widest text-ink-400">{label}</div>
       <div className="mt-2 font-display text-[28px] font-semibold tabular-nums leading-none text-ink-900">{value}</div>
-      <div className="mt-2 text-[11px] font-medium text-ink-500">{delta}</div>
+      <div className="mt-2 flex items-end justify-between gap-3">
+        <div className="text-[11px] font-medium text-ink-500">{delta}</div>
+        {sparkline && <MiniSpark data={sparkline} />}
+      </div>
+    </div>
+  );
+}
+
+function MiniSpark({ data }: { data: number[] }){
+  const max = Math.max(...data, 1);
+  const w = 60, h = 20;
+  const points = data.map((v, i) => `${(i / (data.length - 1)) * w},${h - (v / max) * h}`).join(' ');
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="text-ink-300">
+      <polyline points={points} fill="none" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function Sparkline({ data, color, total, isEs }: { data: number[]; color: string; total: number; isEs?: boolean }){
+  const max = Math.max(...data, 1);
+  const w = 600, h = 100;
+  const barW = w / data.length;
+  return (
+    <div>
+      <div className="mb-2 flex items-baseline justify-between">
+        <div className="font-display text-[24px] font-semibold tabular-nums text-ink-900">{total.toLocaleString()}</div>
+        <div className="text-[10px] font-semibold uppercase tracking-widest text-ink-400">total 30d</div>
+      </div>
+      <svg viewBox={`0 0 ${w} ${h}`} className="h-24 w-full">
+        {data.map((v, i) => {
+          const barH = (v / max) * h;
+          return <rect key={i} x={i * barW + 1} y={h - barH} width={barW - 2} height={barH} fill={color} opacity={0.85} rx={1} />;
+        })}
+      </svg>
+      <div className="mt-1 flex justify-between text-[9px] font-medium text-ink-400">
+        <span>{isEs ? 'hace 30d' : '30d ago'}</span>
+        <span>{isEs ? 'hoy' : 'today'}</span>
+      </div>
+    </div>
+  );
+}
+
+function FunnelChart({ steps }: { steps: Array<{ label: string; value: number; color: string }> }){
+  const max = Math.max(...steps.map(s => s.value), 1);
+  return (
+    <div className="space-y-3">
+      {steps.map((s, i) => {
+        const pct = Math.round((s.value / max) * 100);
+        const prevVal = i > 0 ? steps[i - 1].value : max;
+        const convRate = prevVal > 0 ? Math.round((s.value / prevVal) * 100) : 0;
+        return (
+          <div key={i} className="text-[13px]">
+            <div className="mb-1 flex items-baseline justify-between">
+              <span className="font-semibold text-ink-800">{s.label}</span>
+              <span className="flex items-baseline gap-2">
+                <span className="tabular-nums font-semibold text-ink-900">{s.value.toLocaleString()}</span>
+                {i > 0 && <span className="text-[10px] font-medium text-ink-400">{convRate}% conv</span>}
+              </span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-ink-100">
+              <div className="h-2 rounded-full transition-all" style={{ width: `${pct}%`, background: s.color }} />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

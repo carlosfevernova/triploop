@@ -6,6 +6,7 @@ interface TemplateRow {
   slug: string; title: string; seo_description?: string; days_count: number;
   origin_city?: string; destination_city?: string; hero_image_url?: string;
   stops: unknown[]; total_distance_m?: number; total_duration_s?: number;
+  translations?: Record<string, { title?: string; seo_description?: string }>;
 }
 
 export async function RegionIndex({ region, locale }: { region: Region; locale: string }){
@@ -13,13 +14,17 @@ export async function RegionIndex({ region, locale }: { region: Region; locale: 
   const meta = REGION_META[region];
   const sb = createPublicClient();
   const { data } = await sb.from('trips')
-    .select('slug, title, seo_description, days_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s')
+    .select('slug, title, seo_description, days_count, origin_city, destination_city, hero_image_url, stops, total_distance_m, total_duration_s, translations')
     .eq('is_template', true)
     .eq('is_public', true)
     .eq('region', region)
     .order('days_count', { ascending: true });
 
-  const templates = (data || []) as TemplateRow[];
+  const templates = ((data || []) as TemplateRow[]).map((t) => {
+    if(locale === 'en' || !t.translations?.[locale]) return t;
+    const tr = t.translations[locale];
+    return { ...t, title: tr.title || t.title, seo_description: tr.seo_description || t.seo_description };
+  });
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-coral-50/40 via-white to-ocean-400/5">

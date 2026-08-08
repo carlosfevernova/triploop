@@ -22,9 +22,15 @@ const REGIONS = [
     trips: 3
   },
   {
+    slug: 'utah', name_en: 'Utah', name_es: 'Utah',
+    subtitle_en: 'Mighty 5, Zion, Bryce', subtitle_es: 'Mighty 5, Zion, Bryce',
+    image: 'https://images.unsplash.com/photo-1518533954129-7774297db60a?w=800&auto=format&fit=crop',
+    trips: 4
+  },
+  {
     slug: 'southwest', name_en: 'US Southwest', name_es: 'Suroeste USA',
     subtitle_en: 'Grand Circle, Route 66', subtitle_es: 'Grand Circle, Route 66',
-    image: 'https://images.unsplash.com/photo-1547750385-c50c65ff8267?w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1544986581-efac024faf62?w=800&auto=format&fit=crop',
     trips: 2
   }
 ];

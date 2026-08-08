@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase-admin';
 import { ALL_TEMPLATES } from '@/lib/templates-seed';
+import { TEMPLATE_TRANSLATIONS_ES } from '@/lib/templates-seed-es';
 
 export const runtime = 'edge';
 
@@ -26,6 +27,8 @@ export async function POST(req: Request){
       duration_min: s.duration_min,
       category: s.category || 'other'
     }));
+    const esTranslation = TEMPLATE_TRANSLATIONS_ES[tpl.slug];
+    const translations = esTranslation ? { es: esTranslation } : {};
     const { error } = await sb.from('trips').upsert({
       slug: tpl.slug,
       region: tpl.region,
@@ -41,6 +44,7 @@ export async function POST(req: Request){
       currency: 'USD',
       locale: 'en',
       stops,
+      translations,
       is_template: true,
       is_public: true,
       owner_id: null

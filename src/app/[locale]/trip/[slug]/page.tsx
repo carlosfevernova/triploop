@@ -215,6 +215,26 @@ export default function TripPage(){
     } catch { /* silent */ }
   };
 
+  // Auto-describe con IA (background): actualiza stop.notes con 1-2 oraciones
+  const autoDescribeStop = async (stopId: string, name: string, lat: number, lng: number) => {
+    try {
+      const r = await fetch('/api/ai/describe-stop', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ name, lat, lng, locale })
+      });
+      const data = await r.json();
+      if(!data.description) return;
+      setTrip((t) => {
+        if(!t) return t;
+        return {
+          ...t,
+          stops: t.stops.map((s) => s.id === stopId && !s.notes ? { ...s, notes: data.description } : s)
+        };
+      });
+    } catch { /* silent */ }
+  };
+
   const handleAiAdd = (place: PlaceSuggestion & { duration_min?: number; category?: string }) => {
     if(!trip) return;
     const newStop: TripStop = {
@@ -229,8 +249,9 @@ export default function TripPage(){
     };
     setTrip((t) => t ? { ...t, stops: [...t.stops, newStop] } : t);
     broadcastChange('add', newStop.name);
-    // Fire-and-forget enrich contra Google Places
+    // Fire-and-forget enrich contra Google Places + AI description
     enrichStop(newStop.id, newStop.name, newStop.lat, newStop.lng, newStop.place_id);
+    autoDescribeStop(newStop.id, newStop.name, newStop.lat, newStop.lng);
   };
 
   const handleNearbyAdd = (place: PlaceSuggestion) => {
@@ -250,6 +271,7 @@ export default function TripPage(){
     };
     setTrip((t) => t ? { ...t, stops: [...t.stops, newStop] } : t);
     broadcastChange('add', newStop.name);
+    autoDescribeStop(newStop.id, newStop.name, newStop.lat, newStop.lng);
   };
 
   if(loading) return <FullscreenMessage>Cargando…</FullscreenMessage>;

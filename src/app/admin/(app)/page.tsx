@@ -20,6 +20,12 @@ interface Metrics {
   affiliate_by_provider: Record<string, number>;
   template_views_7d: number;
   template_top: Array<{ slug: string; views: number }>;
+  trips_sparkline: number[];    // 30 días, count by day
+  views_sparkline: number[];    // 30 días, count by day
+  funnel_visitors: number;      // template_views 30d = proxy visitors
+  funnel_trips: number;         // trips 30d
+  funnel_registered: number;    // users_total (cumulative)
+  funnel_paying: number;        // subscriptions activas/trial
 }
 
 async function countOf(sb: ReturnType<typeof createAdminClient>, builderFn: () => PromiseLike<{ count: number | null }>){
@@ -33,12 +39,14 @@ async function loadMetrics(): Promise<Metrics> {
   const sb = createAdminClient();
   const now = new Date();
   const week = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const month = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
   const [
     trips_total, trips_7d, trips_owned, trips_anon, templates,
     users_result, users_7d,
     subsList, affiliate_7d, affiliateList,
-    template_views_7d, tplViewsList
+    template_views_7d, tplViewsList,
+    trips_timeline, template_views_timeline
   ] = await Promise.all([
     countOf(sb, () => sb.from('trips').select('id', { count: 'exact', head: true })),
     countOf(sb, () => sb.from('trips').select('id', { count: 'exact', head: true }).gte('created_at', week)),
@@ -51,8 +59,24 @@ async function loadMetrics(): Promise<Metrics> {
     countOf(sb, () => sb.from('affiliate_clicks').select('id', { count: 'exact', head: true }).gte('clicked_at', week)),
     listOf<{ provider: string }>(() => sb.from('affiliate_clicks').select('provider').gte('clicked_at', week)),
     countOf(sb, () => sb.from('template_views').select('id', { count: 'exact', head: true }).gte('viewed_at', week)),
-    listOf<{ template_slug: string }>(() => sb.from('template_views').select('template_slug').gte('viewed_at', week))
+    listOf<{ template_slug: string }>(() => sb.from('template_views').select('template_slug').gte('viewed_at', week)),
+    listOf<{ created_at: string }>(() => sb.from('trips').select('created_at').gte('created_at', month).order('created_at', { ascending: true })),
+    listOf<{ viewed_at: string }>(() => sb.from('template_views').select('viewed_at').gte('viewed_at', month).order('viewed_at', { ascending: true }))
   ]);
+
+  // Bucket por día (30 días) para sparkline
+  const bucketByDay = (rows: Array<{ created_at?: string; viewed_at?: string }>, dateKey: 'created_at' | 'viewed_at') => {
+    const buckets = new Array(30).fill(0);
+    const startMs = new Date(month).getTime();
+    for(const r of rows){
+      const ts = r[dateKey] ? new Date(r[dateKey]!).getTime() : 0;
+      const dayIdx = Math.floor((ts - startMs) / (24 * 60 * 60 * 1000));
+      if(dayIdx >= 0 && dayIdx < 30) buckets[dayIdx]++;
+    }
+    return buckets;
+  };
+  const tripsSparkline = bucketByDay(trips_timeline, 'created_at');
+  const viewsSparkline = bucketByDay(template_views_timeline, 'viewed_at');
 
   const subsByStatus: Record<string, number> = {};
   let mrrCents = 0;
@@ -93,7 +117,13 @@ async function loadMetrics(): Promise<Metrics> {
     affiliate_7d,
     affiliate_by_provider: affiliateByProvider,
     template_views_7d,
-    template_top: tplTop
+    template_top: tplTop,
+    trips_sparkline: tripsSparkline,
+    views_sparkline: viewsSparkline,
+    funnel_visitors: viewsSparkline.reduce((a, b) => a + b, 0),
+    funnel_trips: tripsSparkline.reduce((a, b) => a + b, 0),
+    funnel_registered: usersTotal,
+    funnel_paying: Object.entries(subsByStatus).filter(([s]) => s === 'active' || s === 'trialing').reduce((a, [, v]) => a + v, 0)
   };
 }
 
