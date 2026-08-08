@@ -9,26 +9,35 @@ const intlMiddleware = createIntlMiddleware({
   localePrefix: 'always'
 });
 
+// Rutas 100% públicas indexables: NO refrescar Supabase session
+// para evitar contaminar SSG con DYNAMIC_SERVER_USAGE.
+const PUBLIC_SEO_PREFIXES = ['/en/california', '/es/california'];
+
 export async function middleware(req: NextRequest){
   // 1. i18n primero (redirect a /en o /es)
   const response = intlMiddleware(req);
 
-  // 2. Refresh session Supabase (writes cookies actualizadas al response)
-  try {
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-      {
-        cookies: {
-          getAll(){ return req.cookies.getAll(); },
-          setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]){
-            cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+  const path = req.nextUrl.pathname;
+  const isPublicSeo = PUBLIC_SEO_PREFIXES.some(p => path === p || path.startsWith(p + '/'));
+
+  // 2. Refresh session Supabase salvo en rutas SEO estáticas
+  if(!isPublicSeo){
+    try {
+      const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+        {
+          cookies: {
+            getAll(){ return req.cookies.getAll(); },
+            setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]){
+              cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+            }
           }
         }
-      }
-    );
-    await supabase.auth.getUser();
-  } catch { /* ignore */ }
+      );
+      await supabase.auth.getUser();
+    } catch { /* ignore */ }
+  }
 
   return response;
 }
