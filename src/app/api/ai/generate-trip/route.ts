@@ -4,7 +4,9 @@ import { createAdminClient } from '@/lib/supabase-admin';
 import { createClientFromRequest } from '@/lib/supabase-server';
 import { isProSubscription } from '@/lib/stripe-config';
 import { isAdminAuthed } from '@/lib/admin-guard';
-import { matchTemplate } from '@/lib/template-matcher';
+import { matchTemplate, extractRegionKey } from '@/lib/template-matcher';
+import { getCuratedPOIs } from '@/lib/curated-pois';
+import { promptCacheGet, promptCacheSet } from '@/lib/prompt-cache';
 import type { TripStop } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -46,25 +48,24 @@ interface AiTripSpec {
 
 const FREE_TRIP_LIMIT = 3;
 
-const SYSTEM_PROMPT_ES = `Eres un experto en planeación de viajes. Recibes una descripción del viaje deseado y devuelves un itinerario estructurado.
+// S29: prompts compactados <250 tokens para menor latencia AI.
+const SYSTEM_PROMPT_ES = `Experto trip planner. Devuelve JSON con itinerario.
 
-REGLAS ESTRICTAS:
-- Coordenadas REALES (5 decimales) de lugares que existen en Google Maps
-- Rutas geográficamente coherentes (evita saltos ilógicos)
-- 4-10 paradas para viajes < 7 días, 6-14 para viajes largos
-- Duraciones realistas (city visits 3-8h, natural parks 4-12h, museums 2-4h)
-- Responde SOLO con JSON válido en el formato exacto pedido, sin markdown, sin explicaciones extras
-- title: en el idioma del usuario, descriptivo (ej: "Costa Pacific California — 7 días")`;
+REGLAS:
+- Coords REALES (5 decimales) de Google Maps
+- 4-10 paradas por viaje <7d, 6-14 para +7d
+- Duraciones: cities 3-8h, parks 4-12h, museums 2-4h
+- SOLO JSON válido, sin markdown
+- title descriptivo español`;
 
-const SYSTEM_PROMPT_EN = `You are a trip planning expert. Given a trip description, return a structured itinerary.
+const SYSTEM_PROMPT_EN = `Expert trip planner. Return JSON itinerary.
 
-STRICT RULES:
-- REAL coordinates (5 decimals) of places that exist in Google Maps
-- Geographically coherent routes (no illogical jumps)
-- 4-10 stops for trips < 7 days, 6-14 for longer trips
-- Realistic durations (city visits 3-8h, natural parks 4-12h, museums 2-4h)
-- Respond ONLY with valid JSON in the exact requested format, no markdown, no extra explanation
-- title: in the user's language, descriptive (e.g. "California Pacific Coast — 7 days")`;
+RULES:
+- REAL coords (5 decimals) Google Maps
+- 4-10 stops for <7d trips, 6-14 for longer
+- Durations: cities 3-8h, parks 4-12h, museums 2-4h
+- JSON ONLY, no markdown
+- title descriptive`;
 
 function jsonSchema(locale: 'en' | 'es'){
   return `{
@@ -247,6 +248,11 @@ export async function POST(req: Request){
 
     const locale = body.locale || 'en';
 
+    // === S29 PROMPT CACHE ===
+    // Hit → return cached AiTripSpec en <10ms.
+    const cachedSpec = promptCacheGet<AiTripSpec>(body.prompt, locale);
+    let cacheHit = !!cachedSpec;
+
     // === S28 CURATED-FIRST ===
     // Antes de gastar tiempo/tokens con AI, intentar match con templates verificados.
     // Match hit → return en <100ms sin llamar AI.
@@ -275,16 +281,24 @@ export async function POST(req: Request){
     }
 
     const system = locale === 'es' ? SYSTEM_PROMPT_ES : SYSTEM_PROMPT_EN;
-    const user = `${locale === 'es' ? 'Descripción del viaje del usuario' : 'User trip description'}: "${body.prompt.slice(0, 800)}"
 
-${locale === 'es' ? 'Devuelve JSON con este schema exacto' : 'Return JSON matching this exact schema'}:
+    // === S29 INJECT CURATED POIS EN AI CONTEXT ===
+    // Da al AI POIs verificados de la región detectada → no inventa coords, más rápido, más preciso.
+    const detectedRegion = extractRegionKey(body.prompt);
+    const curatedRefs = detectedRegion ? getCuratedPOIs(detectedRegion, { onlyIconic: true, limit: 15 }) : [];
+    const poiContext = curatedRefs.length > 0
+      ? `\n\n${locale === 'es' ? 'POIs verificados en la región (usa estos si aplican, no inventes coords)' : 'Verified POIs in region (prefer these, don\'t invent coords)'}:\n${curatedRefs.map(p => `- ${p.name} (${p.lat.toFixed(4)},${p.lng.toFixed(4)}) [${p.category}]`).join('\n')}`
+      : '';
+
+    const user = `${locale === 'es' ? 'Descripción del viaje' : 'User trip description'}: "${body.prompt.slice(0, 800)}"${poiContext}
+
+${locale === 'es' ? 'Devuelve JSON con schema' : 'Return JSON with schema'}:
 ${jsonSchema(locale)}`;
 
     // Cadena de fallback: OpenRouter free → Cloudflare free → Fireworks → Groq → Anthropic
-    // Estrategia: providers 100% gratuitos primero, luego paid
-    type Provider = 'openrouter' | 'cloudflare' | 'fireworks' | 'groq' | 'anthropic' | 'none' | 'curated';
-    let spec: AiTripSpec | null = curatedTripSpec;
-    let provider: Provider = curatedTripSpec ? 'curated' : 'none';
+    type Provider = 'openrouter' | 'cloudflare' | 'fireworks' | 'groq' | 'anthropic' | 'none' | 'curated' | 'cache';
+    let spec: AiTripSpec | null = cachedSpec || curatedTripSpec;
+    let provider: Provider = cachedSpec ? 'cache' : (curatedTripSpec ? 'curated' : 'none');
     if(!spec) spec = await callOpenRouter(system, user);
     if(!provider || provider === 'none') provider = spec ? 'openrouter' : 'none';
     if(!spec){
@@ -371,13 +385,19 @@ ${jsonSchema(locale)}`;
 
     if(error) return NextResponse.json({ error: 'insert_failed', detail: error.message }, { status: 500 });
 
+    // S29: guarda AI response en cache si no fue hit ni curated
+    if(!cacheHit && provider !== 'curated' && provider !== 'cache' && spec){
+      try { promptCacheSet(body.prompt, locale, spec); } catch {}
+    }
+
     return NextResponse.json({
       trip,
       ai_provider: provider,
-      source: provider === 'curated' ? 'curated' : 'ai',
+      source: provider === 'curated' ? 'curated' : (provider === 'cache' ? 'cache' : 'ai'),
       curated_template_slug: curatedProviderTag,
       match_confidence: curatedMatch.confidence,
       match_reasons: curatedMatch.reasons,
+      curated_poi_context_count: curatedRefs.length,
       stops_count: tripStops.length,
       region_hint: spec.region_hint || 'other'
     });
