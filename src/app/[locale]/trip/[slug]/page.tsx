@@ -6,8 +6,11 @@ import Link from 'next/link';
 import { ItineraryPanel } from '@/components/trip/ItineraryPanel';
 import { SaveOfflineButton } from '@/components/trip/SaveOfflineButton';
 import { PdfExportButton } from '@/components/trip/PdfExportButton';
+import { CollabPresence } from '@/components/trip/CollabPresence';
+import { CollabToast } from '@/components/trip/CollabToast';
 import { createClient } from '@/lib/supabase-browser';
 import { getOfflineTrip, saveTripOffline } from '@/lib/offline-cache';
+import { useTripRealtime } from '@/lib/use-trip-realtime';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
 
 // Dynamic imports: MapLibre (~85KB) + panels (~30KB) lazy-loaded solo al necesitarse
@@ -35,6 +38,7 @@ export default function TripPage(){
   const [legs, setLegs] = useState<RouteLeg[]>([]);
   const [copiedShare, setCopiedShare] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [forking, setForking] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [nearbyAnchor, setNearbyAnchor] = useState<TripStop | null>(null);
@@ -46,8 +50,29 @@ export default function TripPage(){
 
   // Detect current user
   useEffect(() => {
-    createClient().auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
+    createClient().auth.getUser().then(({ data }) => {
+      setUserId(data.user?.id ?? null);
+      setUserEmail(data.user?.email ?? null);
+    });
   }, []);
+
+  // Realtime collab: presence + remote stop sync + broadcast events
+  const { presence, lastRemoteChange, broadcastChange } = useTripRealtime({
+    slug,
+    currentUserId: userId,
+    currentUserEmail: userEmail,
+    enabled: !!trip && !error,
+    onRemoteTripUpdate: (updates) => {
+      setTrip((t) => {
+        if(!t) return t;
+        // Optimistic: si el update remoto tiene mismo hash que último save, ignorar (self-echo)
+        const incomingHash = JSON.stringify(updates.stops || []);
+        if(incomingHash === JSON.stringify(t.stops)) return t;
+        return { ...t, ...updates };
+      });
+      if(updates.route_geometry?.legs) setLegs(updates.route_geometry.legs);
+    }
+  });
 
   // Initial load con fallback offline (IDB)
   useEffect(() => {
@@ -203,6 +228,7 @@ export default function TripPage(){
       category: (place.category as TripStop['category']) || 'other'
     };
     setTrip((t) => t ? { ...t, stops: [...t.stops, newStop] } : t);
+    broadcastChange('add', newStop.name);
     // Fire-and-forget enrich contra Google Places
     enrichStop(newStop.id, newStop.name, newStop.lat, newStop.lng, newStop.place_id);
   };
@@ -223,6 +249,7 @@ export default function TripPage(){
       category: mapTypeToCategory(place.types)
     };
     setTrip((t) => t ? { ...t, stops: [...t.stops, newStop] } : t);
+    broadcastChange('add', newStop.name);
   };
 
   if(loading) return <FullscreenMessage>Cargando…</FullscreenMessage>;
@@ -239,6 +266,7 @@ export default function TripPage(){
           <span className="font-display text-lg font-semibold tracking-tight">TripLoop</span>
         </Link>
         <div className="flex items-center gap-2">
+          <CollabPresence users={presence} isEs={isEs} />
           <SaveOfflineButton trip={trip} isEs={isEs} />
           {trip.stops.length > 0 && <PdfExportButton slug={trip.slug} isEs={isEs} />}
           {trip.stops.length > 0 && (
@@ -312,6 +340,9 @@ export default function TripPage(){
         isEs={isEs}
         locale={locale}
       />
+
+      {/* Collaborative editing toast */}
+      <CollabToast change={lastRemoteChange} isEs={isEs} />
 
       {/* Split view */}
       <div className="flex flex-1 overflow-hidden">
