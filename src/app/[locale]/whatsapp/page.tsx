@@ -31,7 +31,13 @@ export default async function WhatsAppPage({ params }: PageProps){
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-emerald-50/40 via-white to-ocean-400/5">
-      <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+      <div className="mx-auto max-w-4xl px-6 py-8 md:py-12">
+        <a href={`/${locale}`} className="inline-flex items-center gap-1.5 rounded-pill border border-ink-200 bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-800">
+          <span aria-hidden>←</span>
+          {isEs ? 'Volver' : 'Back'}
+        </a>
+      </div>
+      <div className="mx-auto max-w-4xl px-6 pb-16 md:pb-24">
         {/* Hero */}
         <div className="mb-12 text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-pill border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-emerald-700">

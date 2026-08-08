@@ -3,13 +3,23 @@ import { createPublicClient } from '@/lib/supabase-admin';
 
 const SITE = 'https://triploop-six.vercel.app';
 const LOCALES = ['en', 'es'] as const;
-const REGIONS = ['california', 'nevada', 'arizona', 'southwest'] as const;
+const REGIONS = [
+  'california', 'nevada', 'arizona', 'southwest', 'utah', 'spain',
+  'pacific-northwest', 'northeast', 'southeast', 'rockies',
+  'italy', 'iceland', 'ireland', 'australia', 'new-zealand', 'germany',
+  'mexico', 'chile', 'argentina', 'peru'
+] as const;
 
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const staticPaths = ['', '/california', '/nevada', '/arizona', '/southwest', '/blog', '/whatsapp', '/signin', '/signup', '/pricing/upgrade', '/affiliate-disclosure'];
+  const staticPaths = [
+    '',
+    ...REGIONS.map(r => `/${r}`),
+    '/blog', '/whatsapp', '/signin', '/signup', '/pricing/upgrade', '/affiliate-disclosure',
+    '/trip/new', '/trip/new/ai'
+  ];
 
   const staticEntries: MetadataRoute.Sitemap = LOCALES.flatMap((locale) =>
     staticPaths.map((p) => ({

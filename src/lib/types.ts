@@ -54,6 +54,7 @@ export interface Trip {
   is_public: boolean;
   owner_id?: string;
   region?: string;
+  highway_notes?: string[];   // S32: '🛣️ Following I-90, US-101, PCH'
   created_at: string;
   updated_at: string;
 }

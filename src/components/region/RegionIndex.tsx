@@ -28,7 +28,13 @@ export async function RegionIndex({ region, locale }: { region: Region; locale: 
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-coral-50/40 via-white to-ocean-400/5">
-      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div className="mx-auto max-w-6xl px-6 py-8 md:py-12">
+        <Link href={`/${locale}`} className="inline-flex items-center gap-1.5 rounded-pill border border-ink-200 bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-800">
+          <span aria-hidden>←</span>
+          {isEs ? 'Volver' : 'Back'}
+        </Link>
+      </div>
+      <div className="mx-auto max-w-6xl px-6 pb-16 md:pb-24">
         <div className="mb-12 max-w-3xl">
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-coral-600">
             {isEs ? `Rutas ${meta.name_es} · listas para personalizar` : `${meta.name_en} itineraries · ready to customize`}

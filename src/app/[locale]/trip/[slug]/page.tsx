@@ -332,6 +332,23 @@ export default function TripPage(){
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-white">
+      {/* Highway notes badge — S32 */}
+      {trip.highway_notes && trip.highway_notes.length > 0 && (
+        <div className="border-b border-amber-200 bg-gradient-to-r from-amber-50 via-white to-amber-50/50 px-6 py-1.5 text-xs">
+          <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap">
+            <span aria-hidden className="shrink-0">🛣️</span>
+            <span className="shrink-0 font-semibold uppercase tracking-widest text-amber-800 text-[10px]">
+              {isEs ? 'Ruta' : 'Route'}
+            </span>
+            {trip.highway_notes.map((h, i) => (
+              <span key={i} className="shrink-0 rounded-pill border border-amber-200 bg-white px-2.5 py-0.5 font-medium text-amber-900">
+                {h}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Top bar */}
       <header className="flex items-center justify-between border-b border-ink-100 bg-white px-6 py-3">
         <div className="flex items-center gap-2">

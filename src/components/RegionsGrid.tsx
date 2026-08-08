@@ -98,6 +98,30 @@ const REGIONS = [
     subtitle_en: 'Romantic Road B25, Neuschwanstein', subtitle_es: 'Ruta Romántica B25, Neuschwanstein',
     image: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&auto=format&fit=crop',
     trips: 1
+  },
+  {
+    slug: 'mexico', name_en: 'Mexico 🇲🇽', name_es: 'México 🇲🇽',
+    subtitle_en: 'Riviera Maya, Chichén Itzá, Cenotes', subtitle_es: 'Riviera Maya, Chichén Itzá, Cenotes',
+    image: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'chile', name_en: 'Chile 🇨🇱', name_es: 'Chile 🇨🇱',
+    subtitle_en: 'Carretera Austral Ruta 7', subtitle_es: 'Carretera Austral Ruta 7',
+    image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'argentina', name_en: 'Argentina 🇦🇷', name_es: 'Argentina 🇦🇷',
+    subtitle_en: 'Ruta 40, Bariloche, Perito Moreno', subtitle_es: 'Ruta 40, Bariloche, Perito Moreno',
+    image: 'https://images.unsplash.com/photo-1544552866-d3ed42536cfd?w=800&auto=format&fit=crop',
+    trips: 1
+  },
+  {
+    slug: 'peru', name_en: 'Peru 🇵🇪', name_es: 'Perú 🇵🇪',
+    subtitle_en: 'Sacred Valley, Machu Picchu', subtitle_es: 'Valle Sagrado, Machu Picchu',
+    image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800&auto=format&fit=crop',
+    trips: 1
   }
 ];
 
@@ -116,7 +140,7 @@ export function RegionsGrid(){
             {isEs ? 'Road trips icónicos del mundo' : 'Iconic road trips around the world'}
           </h2>
           <p className="mt-3 text-lg text-ink-500">
-            {isEs ? '38 rutas curadas · 16 regiones · 5 continentes · listas para duplicar' : '38 curated itineraries · 16 regions · 5 continents · fork any in one click'}
+            {isEs ? '42 rutas curadas · 20 regiones · 5 continentes · América Latina incluida' : '42 curated itineraries · 20 regions · 5 continents · Latin America included'}
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

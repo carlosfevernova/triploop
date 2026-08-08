@@ -193,6 +193,49 @@ export const CURATED_POIS: Record<Region, CuratedPOI[]> = {
     { name: 'Munich (Marienplatz)', lat: 48.1374, lng: 11.5755, category: 'city', iconic: true, avg_visit_min: 240 },
     { name: 'Cologne Cathedral', lat: 50.9413, lng: 6.9583, category: 'attraction', iconic: true, avg_visit_min: 180 }
   ],
+  mexico: [
+    { name: 'Chichén Itzá (El Castillo)', lat: 20.6843, lng: -88.5678, category: 'attraction', iconic: true, best_time: 'first entry 8am avoid heat', avg_visit_min: 300, tip: 'Equinox March/Sep: serpent shadow on pyramid' },
+    { name: 'Tulum Ruins', lat: 20.2143, lng: -87.4290, category: 'attraction', iconic: true, avg_visit_min: 180 },
+    { name: 'Cenote Dos Ojos', lat: 20.3234, lng: -87.3849, category: 'nature', iconic: true, avg_visit_min: 180, tip: 'Snorkel gear included in entry' },
+    { name: 'Cenote Ik Kil', lat: 20.6222, lng: -88.5679, category: 'nature', iconic: true, avg_visit_min: 120 },
+    { name: 'Playa del Carmen (5th Ave)', lat: 20.6296, lng: -87.0739, category: 'city', avg_visit_min: 240 },
+    { name: 'Cobá Nohoch Mul Pyramid', lat: 20.4906, lng: -87.7333, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Uxmal Ruins', lat: 20.3592, lng: -89.7714, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Mérida Plaza Grande', lat: 20.9674, lng: -89.6237, category: 'city', avg_visit_min: 300 },
+    { name: 'Isla Mujeres', lat: 21.2371, lng: -86.7311, category: 'nature', avg_visit_min: 480 }
+  ],
+  chile: [
+    { name: 'Perito Moreno Glacier (chilean side view)', lat: -50.4967, lng: -73.1377, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Torres del Paine National Park', lat: -51.2540, lng: -73.0000, category: 'nature', iconic: true, avg_visit_min: 720, tip: 'W trek 4-5 days iconic' },
+    { name: 'Marble Caves (Lago General Carrera)', lat: -46.6472, lng: -72.6889, category: 'nature', iconic: true, best_time: 'morning still water', avg_visit_min: 240 },
+    { name: 'Parque Pumalín', lat: -42.9160, lng: -72.7146, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Ventisquero Colgante (Queulat)', lat: -44.4838, lng: -72.5445, category: 'nature', iconic: true, avg_visit_min: 300 },
+    { name: 'Cerro Castillo', lat: -46.1000, lng: -72.1500, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Valparaíso (UNESCO cerros)', lat: -33.0472, lng: -71.6127, category: 'city', iconic: true, avg_visit_min: 300 },
+    { name: 'Atacama Desert (San Pedro)', lat: -22.9083, lng: -68.2000, category: 'nature', iconic: true, avg_visit_min: 720, tip: 'Driest desert on earth — stargazing epic' }
+  ],
+  argentina: [
+    { name: 'Perito Moreno Glacier (Los Glaciares NP)', lat: -50.4967, lng: -73.1377, category: 'nature', iconic: true, best_time: 'morning for ice calving', avg_visit_min: 480 },
+    { name: 'Fitz Roy (El Chaltén)', lat: -49.3298, lng: -72.8850, category: 'nature', iconic: true, best_time: 'sunrise', avg_visit_min: 720 },
+    { name: 'Cerro Torre', lat: -49.2926, lng: -73.0982, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Bariloche Cerro Catedral', lat: -41.1335, lng: -71.3103, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Ruta de los 7 Lagos', lat: -40.7500, lng: -71.6500, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Iguazú Falls (argentine side)', lat: -25.6867, lng: -54.4372, category: 'nature', iconic: true, avg_visit_min: 480 },
+    { name: 'Buenos Aires La Recoleta', lat: -34.5875, lng: -58.3931, category: 'city', iconic: true, avg_visit_min: 240 },
+    { name: 'Mendoza Wine Region', lat: -32.8908, lng: -68.8272, category: 'food', iconic: true, avg_visit_min: 480 },
+    { name: 'Cueva de las Manos (Santa Cruz)', lat: -47.1550, lng: -70.6467, category: 'attraction', iconic: true, avg_visit_min: 180 }
+  ],
+  peru: [
+    { name: 'Machu Picchu Citadel', lat: -13.1631, lng: -72.5450, category: 'attraction', iconic: true, best_time: 'first entry 6am', avg_visit_min: 360, tip: 'Reserve tickets 2 months ahead + Huayna Picchu +40 min' },
+    { name: 'Sacsayhuamán (Cusco)', lat: -13.5089, lng: -71.9820, category: 'attraction', iconic: true, avg_visit_min: 180 },
+    { name: 'Ollantaytambo Fortress', lat: -13.2589, lng: -72.2681, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Pisac Ruins + Market', lat: -13.4231, lng: -71.8489, category: 'attraction', iconic: true, avg_visit_min: 240 },
+    { name: 'Rainbow Mountain (Vinicunca)', lat: -13.8697, lng: -71.3033, category: 'nature', iconic: true, best_time: 'early to avoid crowds', avg_visit_min: 480, tip: '5,200m altitude — acclimatize 2 days Cusco first' },
+    { name: 'Maras Salt Mines', lat: -13.3389, lng: -72.1547, category: 'attraction', iconic: true, avg_visit_min: 120 },
+    { name: 'Moray Inca Circles', lat: -13.3298, lng: -72.1936, category: 'attraction', iconic: true, avg_visit_min: 120 },
+    { name: 'Cusco Plaza de Armas', lat: -13.5164, lng: -71.9787, category: 'city', iconic: true, avg_visit_min: 300 },
+    { name: 'Lake Titicaca (Puno)', lat: -15.8402, lng: -70.0219, category: 'nature', iconic: true, avg_visit_min: 480 }
+  ],
   rockies: [
     { name: 'Lake McDonald (Glacier NP)', lat: 48.5820, lng: -113.9260, category: 'nature', iconic: true, avg_visit_min: 240 },
     { name: 'Going-to-the-Sun Road (Logan Pass)', lat: 48.6960, lng: -113.7180, category: 'nature', iconic: true, best_time: 'open jul-sep only', avg_visit_min: 480 },

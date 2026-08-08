@@ -48,6 +48,10 @@ export default function MyTripsPage(){
   return (
     <main className="min-h-screen bg-gradient-to-br from-coral-50/50 via-white to-ocean-400/5">
       <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
+        <Link href={`/${locale}`} className="mb-6 inline-flex items-center gap-1.5 rounded-pill border border-ink-200 bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-800">
+          <span aria-hidden>←</span>
+          {locale === 'es' ? 'Volver' : 'Back'}
+        </Link>
         <header className="mb-10 flex items-end justify-between gap-6">
           <div>
             <h1 className="font-display text-display-md text-ink-900">{t('title')}</h1>

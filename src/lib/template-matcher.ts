@@ -26,7 +26,11 @@ const REGION_KEYWORDS: Record<Region, string[]> = {
   ireland: ['ireland', 'irlanda', 'kerry', 'killarney', 'kenmare', 'cliffs of moher', 'galway', 'dublin', 'wild atlantic', 'wicklow'],
   australia: ['australia', 'great ocean road', 'twelve apostles', '12 apostles', 'melbourne', 'sydney', 'warrnambool', 'lorne', 'bells beach'],
   'new-zealand': ['new zealand', 'nueva zelanda', 'queenstown', 'milford sound', 'christchurch', 'franz josef', 'wanaka', 'tekapo', 'south island', 'nelson', 'abel tasman'],
-  germany: ['germany', 'alemania', 'romantic road', 'neuschwanstein', 'rothenburg', 'würzburg', 'wurzburg', 'füssen', 'fussen', 'bavaria', 'baviera', 'augsburg', 'dinkelsbühl']
+  germany: ['germany', 'alemania', 'romantic road', 'neuschwanstein', 'rothenburg', 'würzburg', 'wurzburg', 'füssen', 'fussen', 'bavaria', 'baviera', 'augsburg', 'dinkelsbühl'],
+  mexico: ['mexico', 'méxico', 'riviera maya', 'cancun', 'cancún', 'tulum', 'chichen itza', 'chichén itzá', 'merida', 'mérida', 'yucatan', 'yucatán', 'playa del carmen', 'cozumel', 'cenote', 'coba', 'cobá', 'uxmal'],
+  chile: ['chile', 'carretera austral', 'patagonia chilena', 'puerto montt', 'coyhaique', 'villa o\'higgins', 'ruta 7', 'chaitén', 'puyuhuapi', 'aysen'],
+  argentina: ['argentina', 'ruta 40', 'bariloche', 'el chaltén', 'el chalten', 'el calafate', 'perito moreno', 'fitz roy', 'patagonia argentina', 'ushuaia', 'mendoza', 'los glaciares'],
+  peru: ['peru', 'perú', 'sacred valley', 'valle sagrado', 'cusco', 'cuzco', 'machu picchu', 'ollantaytambo', 'pisac', 'aguas calientes', 'inca', 'maras', 'moray']
 };
 
 const INTEREST_KEYWORDS: Record<string, string[]> = {

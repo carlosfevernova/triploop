@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "TripLoop — Planeador IA de road trips · 16 regiones mundiales · bilingüe EN+ES",
-    "description": "Describe tu viaje en una frase, obtén itinerario en 30 segundos. 38 rutas icónicas curadas en 5 continentes: USA (California PCH, Route 66, Blue Ridge), Europa (España, Italia Amalfi, Islandia Ring Road, Irlanda Kerry, Alemania Ruta Romántica), Oceanía (Great Ocean Road, NZ Isla Sur). Alertas IA, calculadora presupuesto, cargadores EV, bot WhatsApp, PWA offline."
+    "title": "TripLoop — Planeador IA de road trips · 20 regiones mundiales · bilingüe EN+ES",
+    "description": "Describe tu viaje en una frase, obtén itinerario en 30 segundos. 42 rutas icónicas curadas en 5 continentes: USA (PCH, Route 66, Blue Ridge), Europa (España, Italia Amalfi, Islandia Ring Road, Irlanda Kerry, Alemania Ruta Romántica), Oceanía (Great Ocean Road, NZ), América Latina (México Riviera Maya, Chile Carretera Austral, Argentina Ruta 40, Perú Machu Picchu). Alertas IA, cálculo presupuesto, cargadores EV, bot WhatsApp, PWA offline."
   },
   "nav": {
     "features": "Funciones", "pricing": "Precios", "howItWorks": "Cómo funciona",
@@ -37,13 +37,13 @@
     "stops": "paradas"
   },
   "hero": {
-    "eyebrow": "Beta · 16 regiones mundiales · 5 continentes 🌍",
+    "eyebrow": "Beta · 20 regiones · 5 continentes · LatAm ya disponible 🌎",
     "titlePart1": "El planeador IA de road trips",
     "titlePart2": "para donde sea que manejes.",
-    "subtitle": "Describe tu viaje en una frase — mira las paradas aparecer en el mapa en tiempo real. 38 rutas icónicas curadas: PCH · Route 66 · Costa Amalfitana · Ring Road Islandia · Ring of Kerry · Great Ocean Road · NZ Isla Sur · Ruta Romántica. Bilingüe EN+ES · Bot WhatsApp · PWA offline.",
+    "subtitle": "Describe tu viaje en una frase — mira las paradas aparecer en el mapa en tiempo real. 42 rutas icónicas curadas mundialmente: PCH · Route 66 · Costa Amalfitana · Ring Road Islandia · Great Ocean Road · Ruta 40 Patagonia · Machu Picchu · Riviera Maya. Bilingüe nativo EN+ES · Bot WhatsApp · PWA offline.",
     "ctaPrimary": "Prueba AI Trip Generator",
     "ctaSecondary": "Ver un viaje de ejemplo",
-    "trustPill": "38 rutas icónicas · 16 regiones · 5 continentes",
+    "trustPill": "42 rutas icónicas · 20 regiones · 5 continentes",
     "emailPlaceholder": "tu@correo.com",
     "emailButton": "Avísame",
     "emailSuccess": "Listo. Te avisamos apenas abramos.",

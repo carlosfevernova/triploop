@@ -10,7 +10,7 @@ export interface SeedStop {
   category?: 'city' | 'attraction' | 'nature' | 'food' | 'hotel' | 'other';
 }
 
-export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain' | 'pacific-northwest' | 'northeast' | 'southeast' | 'rockies' | 'italy' | 'iceland' | 'ireland' | 'australia' | 'new-zealand' | 'germany';
+export type Region = 'california' | 'nevada' | 'arizona' | 'southwest' | 'utah' | 'spain' | 'pacific-northwest' | 'northeast' | 'southeast' | 'rockies' | 'italy' | 'iceland' | 'ireland' | 'australia' | 'new-zealand' | 'germany' | 'mexico' | 'chile' | 'argentina' | 'peru';
 
 export interface SeedTemplate {
   slug: string;                // URL: /california/san-francisco-classic-5-days
@@ -126,6 +126,30 @@ export const REGION_META: Record<Region, {
     tagline_en: 'Romantic Road B25 · Bavaria castles · Rothenburg · Neuschwanstein.',
     tagline_es: 'Ruta Romántica B25 · castillos de Baviera · Rothenburg · Neuschwanstein.',
     hero_image: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200&q=80'
+  },
+  mexico: {
+    slug: 'mexico', name_en: 'Mexico 🇲🇽', name_es: 'México 🇲🇽',
+    tagline_en: 'Riviera Maya MEX-307 · Yucatán · Chichén Itzá · Tulum cenotes.',
+    tagline_es: 'Riviera Maya MEX-307 · Yucatán · Chichén Itzá · cenotes Tulum.',
+    hero_image: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1200&q=80'
+  },
+  chile: {
+    slug: 'chile', name_en: 'Chile 🇨🇱', name_es: 'Chile 🇨🇱',
+    tagline_en: 'Carretera Austral Ruta 7 (1,240 km) · Patagonia fjords · glaciers.',
+    tagline_es: 'Carretera Austral Ruta 7 (1,240 km) · fiordos Patagonia · glaciares.',
+    hero_image: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?w=1200&q=80'
+  },
+  argentina: {
+    slug: 'argentina', name_en: 'Argentina 🇦🇷', name_es: 'Argentina 🇦🇷',
+    tagline_en: 'Ruta 40 Patagonia · Bariloche · El Chaltén · Perito Moreno glacier.',
+    tagline_es: 'Ruta 40 Patagonia · Bariloche · El Chaltén · glaciar Perito Moreno.',
+    hero_image: 'https://images.unsplash.com/photo-1544552866-d3ed42536cfd?w=1200&q=80'
+  },
+  peru: {
+    slug: 'peru', name_en: 'Peru 🇵🇪', name_es: 'Perú 🇵🇪',
+    tagline_en: 'Sacred Valley + Machu Picchu · Cusco Andes loop 320 km.',
+    tagline_es: 'Valle Sagrado + Machu Picchu · Cusco Andes loop 320 km.',
+    hero_image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1200&q=80'
   }
 };
 
@@ -947,6 +971,108 @@ export const GERMANY_TEMPLATES: SeedTemplate[] = [
   }
 ];
 
+// S32: 4 iconic LatAm routes (mercado hispanohablante primary market)
+export const MEXICO_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'mexico-riviera-maya-yucatan-5-days',
+    region: 'mexico',
+    title: 'Riviera Maya + Yucatán — 5 days',
+    seo_description: 'Cancún → Tulum → cenotes Cobá → Chichén Itzá → Valladolid → Uxmal. MEX-307 costa + MEX-180 Autopista Mérida-Cancún.',
+    seo_keywords: ['riviera maya road trip', 'yucatan itinerary', 'chichen itza cenotes', 'mexico 5 days'],
+    origin_city: 'Cancún',
+    destination_city: 'Mérida',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1200&q=80',
+    highway_notes: ['MEX-307 Riviera Maya (Cancún → Tulum coast)', 'MEX-180 Autopista Mérida-Cancún', 'MEX-295 Cobá → Valladolid'],
+    stops: [
+      { name: 'Cancún Hotel Zone', lat: 21.1213, lng: -86.7736, duration_min: 240, category: 'city' },
+      { name: 'Playa del Carmen (5th Ave)', lat: 20.6296, lng: -87.0739, duration_min: 240, category: 'city' },
+      { name: 'Tulum Ruins', lat: 20.2143, lng: -87.4290, duration_min: 180, category: 'attraction' },
+      { name: 'Cenote Dos Ojos', lat: 20.3234, lng: -87.3849, duration_min: 180, category: 'nature' },
+      { name: 'Cobá Ruins (Nohoch Mul Pyramid)', lat: 20.4906, lng: -87.7333, duration_min: 240, category: 'attraction' },
+      { name: 'Chichén Itzá', lat: 20.6843, lng: -88.5678, duration_min: 300, category: 'attraction' },
+      { name: 'Valladolid + Cenote Zací', lat: 20.6900, lng: -88.2020, duration_min: 240, category: 'city' },
+      { name: 'Mérida Plaza Grande', lat: 20.9674, lng: -89.6237, duration_min: 300, category: 'city' }
+    ]
+  }
+];
+
+export const CHILE_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'chile-carretera-austral-10-days',
+    region: 'chile',
+    title: 'Carretera Austral Patagonia — 10 days',
+    seo_description: 'Ruta 7 completa (1,240 km): Puerto Montt → Chaitén → Puyuhuapi → Coyhaique → Cerro Castillo → Villa O\'Higgins. Fjords, glaciers, ferries.',
+    seo_keywords: ['carretera austral itinerary', 'chile patagonia road trip', 'ruta 7 chile', 'coyhaique villa ohiggins'],
+    origin_city: 'Puerto Montt',
+    destination_city: 'Villa O\'Higgins',
+    days_count: 10,
+    hero_image_url: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?w=1200&q=80',
+    highway_notes: ['Ruta 7 Carretera Austral (1,240 km semi-paved)', '3 ferries requeridos (Hornopirén-Caleta Gonzalo, Puyuhuapi, Yelcho)', 'Ruta X-25 Cerro Castillo scenic'],
+    stops: [
+      { name: 'Puerto Montt (Plaza de Armas)', lat: -41.4693, lng: -72.9424, duration_min: 240, category: 'city' },
+      { name: 'Parque Pumalín (Chaitén)', lat: -42.9160, lng: -72.7146, duration_min: 480, category: 'nature' },
+      { name: 'Puyuhuapi Termas del Ventisquero', lat: -44.3251, lng: -72.5578, duration_min: 240, category: 'nature' },
+      { name: 'Parque Nacional Queulat (Ventisquero Colgante)', lat: -44.4838, lng: -72.5445, duration_min: 300, category: 'nature' },
+      { name: 'Coyhaique (capital Aysén)', lat: -45.5712, lng: -72.0685, duration_min: 240, category: 'city' },
+      { name: 'Cerro Castillo National Park', lat: -46.1000, lng: -72.1500, duration_min: 480, category: 'nature' },
+      { name: 'Lago General Carrera (Marble Caves)', lat: -46.6472, lng: -72.6889, duration_min: 300, category: 'nature' },
+      { name: 'Villa O\'Higgins (fin del mundo)', lat: -48.4681, lng: -72.5620, duration_min: 240, category: 'city' }
+    ]
+  }
+];
+
+export const ARGENTINA_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'argentina-ruta-40-patagonia-10-days',
+    region: 'argentina',
+    title: 'Argentina Patagonia Ruta 40 — 10 days',
+    seo_description: 'Tramo icónico Ruta 40 Patagonia: Bariloche → Ruta 7 Lagos → El Bolsón → Perito Moreno → Los Antiguos → El Chaltén → El Calafate glaciar.',
+    seo_keywords: ['ruta 40 patagonia', 'argentina road trip', 'perito moreno glaciar', 'el chalten fitz roy'],
+    origin_city: 'Bariloche',
+    destination_city: 'El Calafate',
+    days_count: 10,
+    hero_image_url: 'https://images.unsplash.com/photo-1544552866-d3ed42536cfd?w=1200&q=80',
+    highway_notes: ['Ruta 40 (5,224 km total — tramo Patagonia)', 'Ruta 7 Camino de los 7 Lagos (Bariloche → San Martín)', 'Ruta Provincial 11 Perito Moreno glaciar'],
+    stops: [
+      { name: 'San Carlos de Bariloche (Cerro Catedral)', lat: -41.1335, lng: -71.3103, duration_min: 480, category: 'city' },
+      { name: 'Ruta de los 7 Lagos (Villa Angostura)', lat: -40.7500, lng: -71.6500, duration_min: 480, category: 'nature' },
+      { name: 'San Martín de los Andes', lat: -40.1587, lng: -71.3521, duration_min: 240, category: 'city' },
+      { name: 'El Bolsón', lat: -41.9682, lng: -71.5292, duration_min: 240, category: 'city' },
+      { name: 'Parque Nacional Los Alerces', lat: -42.9000, lng: -71.7500, duration_min: 360, category: 'nature' },
+      { name: 'Perito Moreno Town (Cueva de las Manos)', lat: -46.5867, lng: -70.9268, duration_min: 240, category: 'attraction' },
+      { name: 'El Chaltén (Fitz Roy)', lat: -49.3298, lng: -72.8850, duration_min: 480, category: 'nature' },
+      { name: 'Perito Moreno Glacier (Los Glaciares NP)', lat: -50.4967, lng: -73.1377, duration_min: 480, category: 'nature' },
+      { name: 'El Calafate', lat: -50.3389, lng: -72.2650, duration_min: 240, category: 'city' }
+    ]
+  }
+];
+
+export const PERU_TEMPLATES: SeedTemplate[] = [
+  {
+    slug: 'peru-sacred-valley-machu-picchu-5-days',
+    region: 'peru',
+    title: 'Sacred Valley + Machu Picchu — 5 days',
+    seo_description: 'Cusco → Pisac → Ollantaytambo → Aguas Calientes → Machu Picchu → Maras Salt Mines → Moray. 320 km Andean loop.',
+    seo_keywords: ['sacred valley peru itinerary', 'machu picchu road trip', 'cusco 5 days', 'ollantaytambo pisac'],
+    origin_city: 'Cusco',
+    destination_city: 'Cusco',
+    days_count: 5,
+    hero_image_url: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1200&q=80',
+    highway_notes: ['PE-3S Panamericana Cusco→Puno', 'Ruta 28 G Cusco → Valle Sagrado', 'Peru Rail (Ollantaytambo → Aguas Calientes — no road access to Machu Picchu)'],
+    stops: [
+      { name: 'Cusco Plaza de Armas', lat: -13.5164, lng: -71.9787, duration_min: 300, category: 'city' },
+      { name: 'Saqsaywaman (arriba de Cusco)', lat: -13.5089, lng: -71.9820, duration_min: 180, category: 'attraction' },
+      { name: 'Pisac Market + Ruins', lat: -13.4231, lng: -71.8489, duration_min: 240, category: 'attraction' },
+      { name: 'Moray (círculos incas)', lat: -13.3298, lng: -72.1936, duration_min: 120, category: 'attraction' },
+      { name: 'Maras Salt Mines', lat: -13.3389, lng: -72.1547, duration_min: 120, category: 'attraction' },
+      { name: 'Ollantaytambo Fortress', lat: -13.2589, lng: -72.2681, duration_min: 240, category: 'attraction' },
+      { name: 'Aguas Calientes (Machu Picchu Pueblo)', lat: -13.1548, lng: -72.5251, duration_min: 240, category: 'city' },
+      { name: 'Machu Picchu Citadel', lat: -13.1631, lng: -72.5450, duration_min: 360, category: 'attraction' }
+    ]
+  }
+];
+
 // Unified export para el seed endpoint
 export const ALL_TEMPLATES: SeedTemplate[] = [
   ...CALIFORNIA_TEMPLATES,
@@ -964,5 +1090,9 @@ export const ALL_TEMPLATES: SeedTemplate[] = [
   ...IRELAND_TEMPLATES,
   ...AUSTRALIA_TEMPLATES,
   ...NEW_ZEALAND_TEMPLATES,
-  ...GERMANY_TEMPLATES
+  ...GERMANY_TEMPLATES,
+  ...MEXICO_TEMPLATES,
+  ...CHILE_TEMPLATES,
+  ...ARGENTINA_TEMPLATES,
+  ...PERU_TEMPLATES
 ];

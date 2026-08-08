@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "TripLoop — AI road-trip planner · 16 regions worldwide · bilingual EN+ES",
-    "description": "Describe your trip in one sentence, get a full itinerary in 30 seconds. 38 curated iconic routes across 5 continents: USA (California PCH, Route 66, Blue Ridge, Ring Road-style), Europe (Spain, Italy Amalfi, Iceland Ring Road, Ireland Kerry, Germany Romantic Road), Oceania (Great Ocean Road, NZ South Island). AI warnings, budget calc, EV chargers, flight-delay reshuffle, WhatsApp bot, offline PWA."
+    "title": "TripLoop — AI road-trip planner · 20 regions worldwide · bilingual EN+ES",
+    "description": "Describe your trip in one sentence, get a full itinerary in 30 seconds. 42 curated iconic routes across 5 continents: USA (PCH, Route 66, Blue Ridge), Europe (Spain, Italy Amalfi, Iceland Ring Road, Ireland Kerry, Germany Romantic Road), Oceania (Great Ocean Road, NZ), Latin America (Mexico Riviera Maya, Chile Carretera Austral, Argentina Ruta 40, Peru Machu Picchu). AI warnings, budget calc, EV chargers, flight-delay reshuffle, WhatsApp bot, offline PWA."
   },
   "nav": {
     "features": "Features",
@@ -42,13 +42,13 @@
     "stops": "stops"
   },
   "hero": {
-    "eyebrow": "Beta · 16 regions worldwide · 5 continents 🌍",
+    "eyebrow": "Beta · 20 regions · 5 continents · LatAm now live 🌎",
     "titlePart1": "The AI road-trip planner",
     "titlePart2": "for anywhere you drive.",
-    "subtitle": "Describe your trip in one sentence — watch stops appear on the map in real time. 38 curated iconic routes: PCH · Route 66 · Amalfi Coast · Iceland Ring Road · Ring of Kerry · Great Ocean Road · NZ South Island · Romantic Road. Bilingual EN+ES · WhatsApp bot · offline PWA.",
+    "subtitle": "Describe your trip in one sentence — watch stops appear on the map in real time. 42 curated iconic routes worldwide: PCH · Route 66 · Amalfi Coast · Iceland Ring Road · Great Ocean Road · Ruta 40 Patagonia · Machu Picchu · Riviera Maya. Bilingual native EN+ES · WhatsApp bot · offline PWA.",
     "ctaPrimary": "Try AI Trip Generator",
     "ctaSecondary": "See a sample trip",
-    "trustPill": "38 iconic routes · 16 regions · 5 continents",
+    "trustPill": "42 iconic routes · 20 regions · 5 continents",
     "emailPlaceholder": "you@example.com",
     "emailButton": "Notify me",
     "emailSuccess": "You're on the list. Welcome aboard.",

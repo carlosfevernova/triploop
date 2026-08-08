@@ -35,9 +35,16 @@ export default function SignUpPage(){
     router.refresh();
   };
 
+  const isEs = locale === 'es';
   return (
     <main className="min-h-screen bg-gradient-to-br from-coral-50 via-white to-ocean-400/10">
-      <div className="mx-auto max-w-md px-6 py-16 md:py-24">
+      <div className="mx-auto max-w-md px-6 py-8 md:py-12">
+        <Link href={`/${locale}`} className="mb-4 inline-flex items-center gap-1.5 rounded-pill border border-ink-200 bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-800">
+          <span aria-hidden>←</span>
+          {isEs ? 'Volver' : 'Back'}
+        </Link>
+      </div>
+      <div className="mx-auto max-w-md px-6 pb-16">
         <Link href="/" className="mb-10 flex items-center justify-center gap-2 text-ink-800">
           <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-coral-500 to-coral-600 text-white shadow-glow">
             <span className="font-display font-semibold">t</span>

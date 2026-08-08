@@ -95,7 +95,7 @@ export default async function InvestorReportPage(){
           (fuente: L40°, Windsor Drake 2026). Travel tech en la banda inferior. Escenarios informativos:
         </p>
         <div className="grid gap-3 md:grid-cols-3">
-          <ScenarioCard tier="Hoy · Estado actual" arr="Beta pública · 6 regiones · Europa live · 5 features IA" value="$130K-$380K" note="Producto funcional 15,200 LOC, 60+ páginas SEO indexables (24 templates × 2 idiomas), stack IA con 5 endpoints (Trip Generator NLP, Insights warnings, Checklist packing, Photo Spots worth-it, Reshuffle killer feature), Budget Calculator datos 2026, EV Chargers OCM, WhatsApp bot, widget embebible, brand asset registrable" tone="coral" />
+          <ScenarioCard tier="Hoy · Estado actual" arr="Beta pública · 20 regiones · 5 continentes · LatAm live · 6 endpoints IA + SSE streaming" value="$180K-$500K" note="Producto funcional 18,695 LOC, 100+ páginas SEO indexables (42 templates × 2 idiomas + 20 landings regionales), stack IA con streaming SSE + 6 endpoints (Trip Generator NLP + curated-first + prompt cache LRU, Insights, Checklist, Photo Spots, Reshuffle killer, Discover POIs), Budget Calculator, EV Chargers, WhatsApp bot, widget embebible, 158 POIs curados verificados, brand asset registrable + moat bilingüe único vs Wanderlog/Layla/TripIt" tone="coral" />
           <ScenarioCard tier="Año 1 · si convierte 500 Pro" arr="$42K ARR" value="$120K-$220K" note="500 usuarios × $6.99/mes × 12 · múltiplo 2.5-4× ARR banda micro-SaaS + prima diferenciación (AI NLP, WhatsApp)" tone="ocean" />
           <ScenarioCard tier="Año 3 · si escala a 15K Pro" arr="$1.25M ARR" value="$5.5M-$10M" note="15,000 Pro + afiliados + widget embeds · múltiplo 4-8× ARR banda bootstrapped growth con moat AI+bilingüe+geo" tone="emerald" />
         </div>
@@ -106,18 +106,18 @@ export default async function InvestorReportPage(){
 
       <Section title="🛠 Activos técnicos concretos (lo tangible)">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <MiniStat n="15,200" l="Líneas de código" />
-          <MiniStat n="30" l="Endpoints API" />
-          <MiniStat n="48" l="Componentes React" />
-          <MiniStat n="35" l="Páginas producción" />
-          <MiniStat n="14" l="Migrations DB aplicadas" />
+          <MiniStat n="18,695" l="Líneas de código" />
+          <MiniStat n="34" l="Endpoints API" />
+          <MiniStat n="46" l="Componentes React" />
+          <MiniStat n="63" l="Páginas producción" />
+          <MiniStat n="15" l="Migrations DB aplicadas" />
           <MiniStat n="19" l="Integraciones externas" />
-          <MiniStat n="60+" l="URLs indexables SEO" />
-          <MiniStat n="24" l="Templates bilingues" />
-          <MiniStat n="6" l="Regiones (5 USA + España)" />
-          <MiniStat n="16" l="Blog posts (EN+ES)" />
-          <MiniStat n="50+" l="Deploys a producción" />
-          <MiniStat n="5" l="Endpoints IA activos" />
+          <MiniStat n="100+" l="URLs indexables SEO" />
+          <MiniStat n="42" l="Templates bilingues" />
+          <MiniStat n="20" l="Regiones · 5 continentes" />
+          <MiniStat n="158" l="POIs curados verificados" />
+          <MiniStat n="60+" l="Deploys a producción" />
+          <MiniStat n="6" l="Endpoints IA + streaming SSE" />
         </div>
         <p className="mt-4 text-[12px] text-ink-500">
           Todo el código es TypeScript strict, cero errores de tipo, deployado en Vercel Fluid Compute con Supabase Postgres.
