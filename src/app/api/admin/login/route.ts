@@ -8,9 +8,10 @@ export async function POST(req: Request){
   try {
     const { passphrase } = await req.json();
     if(!passphrase || !checkPassphrase(passphrase)){
-      // Constant-ish response time para no leak length via 200/400 delta
       await new Promise(r => setTimeout(r, 250));
-      return NextResponse.json({ error: 'invalid' }, { status: 401 });
+      // Debug hint (safe to expose lengths, no PII)
+      const expLen = (process.env.ADMIN_PASSPHRASE || '').length;
+      return NextResponse.json({ error: 'invalid', debug: { got_len: passphrase?.length ?? 0, exp_len: expLen } }, { status: 401 });
     }
     const token = signAdminToken();
     const res = NextResponse.json({ ok: true });
