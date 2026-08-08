@@ -23,6 +23,23 @@
   }
 }
 
+@layer components {
+  /* Preview blog en editor — estilos livianos que emulan post real */
+  .prose-blog h1 { @apply mt-6 mb-3 font-display text-2xl font-semibold text-ink-900; }
+  .prose-blog h2 { @apply mt-8 mb-3 font-display text-xl font-semibold text-ink-900; }
+  .prose-blog h3 { @apply mt-6 mb-2 font-display text-lg font-semibold text-ink-900; }
+  .prose-blog p  { @apply my-3 leading-relaxed; }
+  .prose-blog ul { @apply my-3 ml-5 list-disc space-y-1; }
+  .prose-blog ol { @apply my-3 ml-5 list-decimal space-y-1; }
+  .prose-blog a  { @apply text-coral-600 underline hover:text-coral-700; }
+  .prose-blog code { @apply rounded bg-ink-100 px-1.5 py-0.5 font-mono text-[0.85em]; }
+  .prose-blog blockquote { @apply my-3 border-l-4 border-coral-500 bg-coral-50/50 px-4 py-2 italic; }
+  .prose-blog hr { @apply my-6 border-ink-100; }
+  .prose-blog table { @apply my-4 w-full text-sm; }
+  .prose-blog th { @apply border-b border-ink-200 px-2 py-1 text-left font-semibold; }
+  .prose-blog td { @apply border-b border-ink-100 px-2 py-1; }
+}
+
 @layer utilities {
   .grain::before {
     content: '';

@@ -17,13 +17,5 @@ export default async function BlogEditorPage(){
   const { data } = await sb.from('blog_posts').select('*').order('published_at', { ascending: false });
   const posts = (data || []) as Post[];
 
-  return (
-    <main className="mx-auto max-w-5xl px-6 py-10">
-      <header className="mb-8">
-        <h1 className="font-display text-3xl font-semibold text-ink-900">Blog Editor</h1>
-        <p className="mt-1 text-sm text-ink-500">{posts.length} posts · edit markdown source + published state</p>
-      </header>
-      <BlogEditorClient initialPosts={posts} />
-    </main>
-  );
+  return <BlogEditorClient initialPosts={posts} />;
 }
