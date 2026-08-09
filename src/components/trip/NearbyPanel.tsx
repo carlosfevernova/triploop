@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import type { PlaceSuggestion, TripStop } from '@/lib/types';
+import { ErrorState, EmptyState } from './StateFallbacks';
 
 interface Props {
   open: boolean;
@@ -123,13 +124,15 @@ export function NearbyPanel({ open, onClose, anchor, onAdd, isEs }: Props){
             </div>
           )}
           {error && (
-            <div className="rounded-card border border-coral-200 bg-coral-50 p-4 text-sm text-coral-700">{error}</div>
+            <ErrorState error={error} onRetry={search} locale={isEs ? 'es' : 'en'} />
           )}
           {!loading && !error && results.length === 0 && (
-            <div className="py-16 text-center text-ink-400">
-              <div className="mb-2 text-4xl">🗺️</div>
-              <p className="text-sm">{isEs ? 'Sin resultados. Prueba otro radio o categoría.' : 'No results. Try another radius or category.'}</p>
-            </div>
+            <EmptyState
+              icon="🗺️"
+              title={isEs ? 'Sin resultados' : 'No results'}
+              hint={isEs ? 'Aumenta el radio o cambia la categoría.' : 'Try widening the radius or switching category.'}
+              cta={{ label: isEs ? '📏 Radio 10 km' : '📏 10 km radius', onClick: () => setRadius(10000) }}
+            />
           )}
           <ul className="space-y-2">
             {results.map((p) => {

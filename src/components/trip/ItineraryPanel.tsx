@@ -3,6 +3,7 @@ import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type D
 import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { PlacesAutocomplete } from './PlacesAutocomplete';
+import { StopVoting, stableStopKey } from './StopVoting';
 import { formatDistance, formatDuration } from '@/lib/format';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop, UnitSystem } from '@/lib/types';
 
@@ -17,8 +18,8 @@ interface Props {
   isEs?: boolean;
 }
 
-function SortableStop({ stop, index, leg, unit, isEs, onHover, onRemove, onExploreNearby }: {
-  stop: TripStop; index: number; leg?: RouteLeg; unit: UnitSystem; isEs?: boolean;
+function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemove, onExploreNearby }: {
+  stop: TripStop; index: number; leg?: RouteLeg; unit: UnitSystem; isEs?: boolean; tripSlug: string;
   onHover: (id: string | null) => void; onRemove: () => void; onExploreNearby?: () => void;
 }){
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: stop.id });
@@ -71,6 +72,10 @@ function SortableStop({ stop, index, leg, unit, isEs, onHover, onRemove, onExplo
         >
           ✕
         </button>
+      </div>
+      {/* S43 P1: Group voting per stop */}
+      <div className="border-t border-dashed border-ink-100 bg-ink-50/40 px-4 py-2">
+        <StopVoting slug={tripSlug} stopKey={stableStopKey(stop, index)} locale={isEs ? 'es' : 'en'} compact />
       </div>
       {leg && (
         <div className="flex items-center gap-2 border-t border-dashed border-ink-100 px-4 py-2 text-xs text-ink-500">
@@ -184,6 +189,7 @@ export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsC
                   leg={legs[i]}
                   unit={trip.unit_system}
                   isEs={isEs}
+                  tripSlug={trip.slug}
                   onHover={onHover}
                   onRemove={() => handleRemove(stop.id)}
                   onExploreNearby={onExploreNearby ? () => onExploreNearby(stop) : undefined}

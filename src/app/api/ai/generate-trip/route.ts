@@ -8,6 +8,7 @@ import { matchTemplate, extractRegionKey } from '@/lib/template-matcher';
 import { getCuratedPOIs } from '@/lib/curated-pois';
 import { promptCacheGet, promptCacheSet } from '@/lib/prompt-cache';
 import { validateTrip } from '@/lib/trip-validator';
+import { logAICall } from '@/lib/ai-cost-tracker';
 import type { TripStop } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -241,6 +242,7 @@ export async function POST(req: Request){
   const rl = rateLimit(getClientKey(req), { limit: 8, windowSec: 60 });
   if(!rl.ok) return rateLimitResponse(rl);
 
+  const _startTime = Date.now();  // S43 P1: track total latency
   try {
     const body = (await req.json()) as Body;
     if(!body.prompt || body.prompt.trim().length < 10){
@@ -393,6 +395,16 @@ ${jsonSchema(locale)}`;
 
     // S40 P0.2: validate itinerary before returning
     const validation = validateTrip(tripStops, spec.days_count);
+
+    // S43 P1: log AI call para observability admin dashboard
+    void logAICall({
+      endpoint: 'generate-trip',
+      provider,
+      latency_ms: Date.now() - _startTime,
+      success: true,
+      source: (provider === 'curated' ? 'curated' : provider === 'cache' ? 'cache' : 'ai'),
+      metadata: { validation_score: validation.score, stops: tripStops.length, region: spec.region_hint }
+    });
 
     return NextResponse.json({
       trip,

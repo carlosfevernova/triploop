@@ -1,6 +1,8 @@
 'use client';
 import { useEffect } from 'react';
 import { BudgetCard } from './BudgetCard';
+import { FinancialTracker } from './FinancialTracker';
+import { calculateBudget } from '@/lib/budget-calculator';
 import { InsightsCard } from './InsightsCard';
 import { ChecklistCard } from './ChecklistCard';
 import { PhotoSpotsCard } from './PhotoSpotsCard';
@@ -53,15 +55,38 @@ export function TripSidePanel({ open, onClose, view, trip, locale }: Props){
         </div>
 
         {view === 'budget' && (
-          <BudgetCard
-            totalDistanceMeters={trip.total_distance_m || 0}
-            daysCount={trip.days_count || 3}
-            travelers={trip.travelers_count || 2}
-            stops={trip.stops || []}
-            region={trip.region || undefined}
-            currency={(trip.currency || 'USD') as 'USD' | 'EUR' | 'MXN' | 'GBP' | 'CAD' | 'AUD'}
-            locale={locale}
-          />
+          <div className="space-y-4">
+            <BudgetCard
+              totalDistanceMeters={trip.total_distance_m || 0}
+              daysCount={trip.days_count || 3}
+              travelers={trip.travelers_count || 2}
+              stops={trip.stops || []}
+              region={trip.region || undefined}
+              currency={(trip.currency || 'USD') as 'USD' | 'EUR' | 'MXN' | 'GBP' | 'CAD' | 'AUD'}
+              locale={locale}
+            />
+            {/* S43 P1: Financial tracker (booked/actual/remaining) — requires auth (RLS) */}
+            {(() => {
+              const b = calculateBudget({
+                totalDistanceMeters: trip.total_distance_m || 0,
+                daysCount: trip.days_count || 3,
+                travelers: trip.travelers_count || 2,
+                stopsCount: (trip.stops || []).length,
+                region: trip.region || undefined,
+                currency: (trip.currency || 'USD') as 'USD' | 'EUR' | 'MXN' | 'GBP' | 'CAD' | 'AUD',
+                tier: 'mid'
+              });
+              return (
+                <FinancialTracker
+                  slug={trip.slug}
+                  budgeted={{ gas: b.gas, hotels: b.hotels, food: b.food, attractions: b.attractions, buffer: b.buffer, total: b.total }}
+                  currency={b.currency}
+                  symbol={b.symbol}
+                  locale={locale}
+                />
+              );
+            })()}
+          </div>
         )}
         {view === 'insights' && <InsightsCard slug={trip.slug} locale={locale} />}
         {view === 'checklist' && <ChecklistCard slug={trip.slug} locale={locale} />}

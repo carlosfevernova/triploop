@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import type { TripInsights } from '@/app/api/ai/trip-insights/route';
+import { ErrorState } from './StateFallbacks';
 
 interface Props {
   slug: string;
@@ -72,14 +73,7 @@ export function InsightsCard({ slug, locale, preloaded }: Props){
   }
 
   if(error && !insights){
-    return (
-      <div className="rounded-card border border-ink-100 bg-white p-6 shadow-card">
-        <p className="text-sm text-ink-700">{isEs ? 'No se pudo generar. Intenta de nuevo.' : 'Could not generate. Try again.'}</p>
-        <button onClick={generate} className="mt-3 rounded-pill bg-ink-900 px-4 py-2 text-xs font-semibold text-white hover:bg-ink-800">
-          {isEs ? 'Reintentar' : 'Retry'}
-        </button>
-      </div>
-    );
+    return <ErrorState error={error} onRetry={generate} locale={locale} />;
   }
 
   if(!insights) return null;

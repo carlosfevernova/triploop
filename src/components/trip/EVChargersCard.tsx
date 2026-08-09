@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import type { EVChargerResult } from '@/app/api/places/ev-chargers/route';
+import { ErrorState, EmptyState } from './StateFallbacks';
 
 interface Props {
   lat: number;
@@ -46,11 +47,7 @@ export function EVChargersCard({ lat, lng, locale }: Props){
   }
 
   if(error){
-    return (
-      <div className="rounded-card border border-ink-100 bg-white p-6 shadow-card">
-        <p className="text-sm text-ink-700">{isEs ? 'No se pudieron cargar los datos EV.' : 'Could not load EV data.'}</p>
-      </div>
-    );
+    return <ErrorState error={error} onRetry={() => setRadiusKm(radiusKm)} locale={locale} />;
   }
 
   return (
@@ -72,7 +69,12 @@ export function EVChargersCard({ lat, lng, locale }: Props){
       </div>
 
       {chargers.length === 0 ? (
-        <p className="text-sm text-ink-500">{isEs ? 'No se encontraron cargadores en este radio.' : 'No chargers found in this radius.'}</p>
+        <EmptyState
+          icon="⚡"
+          title={isEs ? 'Sin cargadores en este radio' : 'No chargers in this radius'}
+          hint={isEs ? 'Prueba con 50 km o 100 km.' : 'Try 50 km or 100 km.'}
+          cta={radiusKm < 100 ? { label: isEs ? '📏 Ampliar a 100 km' : '📏 Extend to 100 km', onClick: () => setRadiusKm(100) } : undefined}
+        />
       ) : (
         <div className="space-y-2">
           {chargers.map(c => (

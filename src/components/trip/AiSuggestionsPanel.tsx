@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import type { PlaceSuggestion, Trip } from '@/lib/types';
 import { usePro } from '@/lib/use-pro';
 import { UpgradeModal } from '@/components/UpgradeModal';
+import { ErrorState, EmptyState } from './StateFallbacks';
 
 const AI_FREE_DAILY_LIMIT = 3;
 const AI_USAGE_KEY = 'triploop_ai_daily_v1';
@@ -217,15 +218,15 @@ export function AiSuggestionsPanel({ open, onClose, trip, onAdd, isEs }: Props){
             </div>
           )}
           {error && (
-            <div className="rounded-card border border-coral-200 bg-coral-50 p-4 text-sm text-coral-700">
-              {error}
-            </div>
+            <ErrorState error={error} onRetry={generate} locale={isEs ? 'es' : 'en'} />
           )}
           {!loading && suggestions.length === 0 && !error && (
-            <div className="py-16 text-center text-ink-400">
-              <div className="mb-2 text-4xl">🧭</div>
-              <p className="text-sm">{isEs ? 'Sin sugerencias todavía.' : 'No suggestions yet.'}</p>
-            </div>
+            <EmptyState
+              icon="🧭"
+              title={isEs ? 'Sin sugerencias todavía' : 'No suggestions yet'}
+              hint={isEs ? 'Elige tus intereses y toca Regenerar para descubrir paradas.' : 'Pick your interests and tap Regenerate to discover stops.'}
+              cta={{ label: isEs ? '✨ Generar' : '✨ Generate', onClick: generate }}
+            />
           )}
           <ul className="space-y-2">
             {suggestions.map((s) => {
