@@ -46,6 +46,7 @@ export default function TripPage(){
   const [forking, setForking] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [nearbyAnchor, setNearbyAnchor] = useState<TripStop | null>(null);
+  const [optimizingRoute, setOptimizingRoute] = useState(false);  // S55
   const [staysOpen, setStaysOpen] = useState(false);
   const [sidePanel, setSidePanel] = useState<null | 'budget' | 'insights' | 'checklist' | 'photos' | 'ev'>(null);
   const [reshuffleOpen, setReshuffleOpen] = useState(false);
@@ -187,6 +188,31 @@ export default function TripPage(){
       const data = await r.json();
       if(r.ok && data.trip?.slug){ router.push(`/${locale}/trip/${data.trip.slug}`); }
     } finally { setForking(false); }
+  };
+
+  // S55: Optimize route order (nearest-neighbor preservando origin + destination)
+  const handleOptimizeRoute = async () => {
+    if(!trip || trip.stops.length < 4) return;
+    setOptimizingRoute(true);
+    try {
+      const r = await fetch('/api/routes/optimize-order', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ stops: trip.stops, preserve_endpoints: true })
+      });
+      const data = await r.json();
+      if(!r.ok){ alert(isEs ? 'No se pudo optimizar' : 'Could not optimize'); return; }
+      if(!data.changed){
+        alert(isEs ? '✓ Tu ruta ya está optimizada' : '✓ Your route is already optimized');
+        return;
+      }
+      const savedStr = data.saved_km < 1 ? `${Math.round(data.saved_km * 1000)} m` : `${data.saved_km.toFixed(1)} km`;
+      const ok = confirm(isEs
+        ? `Optimizar reduciría ${savedStr} (${data.saved_pct}%) del total: ${data.before_km.toFixed(1)} km → ${data.after_km.toFixed(1)} km. ¿Aplicar el nuevo orden?`
+        : `Optimization would save ${savedStr} (${data.saved_pct}%) total: ${data.before_km.toFixed(1)} km → ${data.after_km.toFixed(1)} km. Apply new order?`);
+      if(!ok) return;
+      setTrip((t) => t ? { ...t, stops: data.stops } : t);
+    } finally { setOptimizingRoute(false); }
   };
 
   const isOwnerOrAnon = !trip?.owner_id || trip?.owner_id === userId;
@@ -550,6 +576,8 @@ export default function TripPage(){
             onHover={setHoveredStopId}
             onSettingsChange={(patch) => setTrip((t) => t ? { ...t, ...patch } : t)}
             onExploreNearby={isOwnerOrAnon ? setNearbyAnchor : undefined}
+            onOptimizeRoute={handleOptimizeRoute}
+            optimizing={optimizingRoute}
             saving={saving}
             isEs={isEs}
           />

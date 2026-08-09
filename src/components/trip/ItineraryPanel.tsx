@@ -14,8 +14,10 @@ interface Props {
   onHover: (stopId: string | null) => void;
   onSettingsChange: (patch: Partial<Trip>) => void;
   onExploreNearby?: (stop: TripStop) => void;
-  saving?: boolean;
+  onOptimizeRoute?: () => Promise<void> | void;  // S55
+  optimizing?: boolean;                            // S55
   isEs?: boolean;
+  saving?: boolean;
 }
 
 function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemove, onExploreNearby }: {
@@ -94,7 +96,7 @@ function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemov
   );
 }
 
-export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsChange, onExploreNearby, saving, isEs }: Props){
+export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsChange, onExploreNearby, onOptimizeRoute, optimizing, saving, isEs }: Props){
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
 
   const handleDragEnd = (e: DragEndEvent) => {
@@ -206,6 +208,25 @@ export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsC
             onSelect={handleAdd}
           />
         </div>
+
+        {/* S55: Optimize route button — nearest-neighbor TSP preservando origin+destination */}
+        {trip.stops.length >= 4 && onOptimizeRoute && (
+          <button
+            onClick={() => onOptimizeRoute()}
+            disabled={optimizing}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-pill border border-emerald-400 bg-emerald-50 py-2.5 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-500 hover:text-white disabled:opacity-50"
+            title={isEs ? 'Reordena paradas para minimizar distancia (respeta origen y destino)' : 'Reorder stops to minimize distance (respects origin and destination)'}
+          >
+            {optimizing ? (
+              <>
+                <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-emerald-300 border-t-emerald-700" />
+                {isEs ? 'Optimizando…' : 'Optimizing…'}
+              </>
+            ) : (
+              <>✨ {isEs ? 'Optimizar orden de paradas' : 'Optimize stop order'}</>
+            )}
+          </button>
+        )}
       </div>
     </aside>
   );
