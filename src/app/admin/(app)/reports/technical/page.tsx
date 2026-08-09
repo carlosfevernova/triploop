@@ -3,15 +3,15 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S47 — Audit fixes: undo, analytics, print, self-echo, timezone) desde el repositorio en producción
-const LOC = 24450;                // +650 desde S46 (undo, analytics, print, self-echo filter, share)
-const FILES_TSX = 156;            // +2: UndoBanner, print page
-const FILES_TS = 85;              // +2: analytics, snapshot route
-const APIS = 51;                  // +3: /ai (P4), /ai/apply (P4), /snapshot (undo), /analytics/itinerary
-const COMPONENTS = 60;            // +2: UndoBanner, share button inline
-const PAGES = 73;                 // +1: /itinerary/print
-const MIGRATIONS = 24;            // +1: 024_itinerary_events
-const LIB_HELPERS = 38;           // +1: analytics.ts
+// Métricas reales medidas 2026-08-08 (post S49 — UX rediseño landing + audit fixes) desde el repositorio en producción
+const LOC = 25100;                // +650 desde S47 (Hero rediseño, FeatureQuickAccess, Nav dropdown, StickyCta fix, i18n)
+const FILES_TSX = 157;            // +1: FeatureQuickAccess
+const FILES_TS = 85;
+const APIS = 51;
+const COMPONENTS = 61;            // +1: FeatureQuickAccess
+const PAGES = 73;
+const MIGRATIONS = 24;
+const LIB_HELPERS = 38;
 const RUNTIME_DEPS = 20;
 const REGIONS = 24;
 const TEMPLATES = 60;
@@ -164,7 +164,11 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S46 P5: Offline mutation queue localStorage + auto-flush online + badge UI', hoursLow: 10, hoursHigh: 15,
     detail: 'lib/itinerary/offline-queue.ts con enqueue/flushQueue/queueLength API. Wrapper fetchOrQueue que intercepta fetch: si !navigator.onLine encola, si online ejecuta directo. 4xx errores dropea, 5xx/network reintenta hasta 5 veces. Idempotencia via ts_random id. OfflineQueueBadge component polls queueLength cada 3s + auto-flush al detectar online event (window.addEventListener). Badge amber offline / ocean syncing / oculto cuando 0 pending' },
   { category: 'S47 Audit fix: Realtime self-echo filter + AI Undo + Analytics + Print + Share + Timezone + Free-time visual', hoursLow: 18, hoursHigh: 28,
-    detail: 'Bug fix realtime: hook devuelve markLocalMutation() que registra id+ts en Map local; postgres_changes con id match dentro de ECHO_WINDOW_MS=3s se descarta (fix double updates). Auto-cleanup >100 entries. Wire en 4 handlers (add/edit/delete/reorder). AI Undo: endpoint POST /itinerary/snapshot con upsert-diff atómico + invalidate route cache; AIAssistantDrawer captura snapshot pre-apply vía onSnapshotSaved callback; UndoBanner fixed bottom con countdown 15s auto-dismiss. Analytics fase 34: migration 024 itinerary_events (append-only RLS insert-only), endpoint edge /api/analytics/itinerary, lib/analytics.ts con sendBeacon + session_id sessionStorage; wire en 8 puntos (viewed/day_selected/added/removed/moved/scheduled/optimized/ai_applied/undo). Print fase 31: página /itinerary/print A4-optimizada con @page CSS + break-inside avoid + auto-print 500ms. Share button navigator.share con clipboard fallback. Timezone badge en day header cuando difiere del navegador. Free_time/note visual dashed border + bg-ink-50 discreto' }
+    detail: 'Bug fix realtime: hook devuelve markLocalMutation() que registra id+ts en Map local; postgres_changes con id match dentro de ECHO_WINDOW_MS=3s se descarta (fix double updates). Auto-cleanup >100 entries. Wire en 4 handlers (add/edit/delete/reorder). AI Undo: endpoint POST /itinerary/snapshot con upsert-diff atómico + invalidate route cache; AIAssistantDrawer captura snapshot pre-apply vía onSnapshotSaved callback; UndoBanner fixed bottom con countdown 15s auto-dismiss. Analytics fase 34: migration 024 itinerary_events (append-only RLS insert-only), endpoint edge /api/analytics/itinerary, lib/analytics.ts con sendBeacon + session_id sessionStorage; wire en 8 puntos (viewed/day_selected/added/removed/moved/scheduled/optimized/ai_applied/undo). Print fase 31: página /itinerary/print A4-optimizada con @page CSS + break-inside avoid + auto-print 500ms. Share button navigator.share con clipboard fallback. Timezone badge en day header cuando difiere del navegador. Free_time/note visual dashed border + bg-ink-50 discreto' },
+  { category: 'S48 UX rediseño landing: Hero premium + FeatureQuickAccess + Nav dropdown Destinos', hoursLow: 14, hoursHigh: 22,
+    detail: 'Hero reemplaza waitlist obsoleto (producto vive) con: eyebrow "Live · 100% gratis", título directo "Planea tu road trip. Día por día, hora por hora.", 3 CTAs por intent (🗓 Crea itinerario / ✨ Descríbelo IA 30s / 🌍 Explorar rutas), trust row real (sin tarjeta/offline/colab). Mockup ahora Timeline day×time con 6 stops + travel segments + footer stats (Itinerary Engine core visible). FeatureQuickAccess nueva sección 6 features con 1-click access (Itinerary NEW featured con gradient, AI LIVE, Curated 60+, Colab, Offline, WhatsApp BETA). Nav "Rutas" → "Destinos" dropdown 4 continentes × 24 regiones con flags + Escape/click-outside dismissable + ARIA menu. Get Started ahora apunta a AI Planner. Discovery gap cerrado: usuario que quiere solo itinerario lo ve inmediatamente' },
+  { category: 'S49 Audit fix: StickyCta bilingual proper + i18n counts 46→60 + admin sync', hoursLow: 4, hoursHigh: 8,
+    detail: 'StickyCta EN copy hardcoded "California trip" → itinerario genérico (24 regiones). CTA target /trip/new → /trip/new/ai (mayor conversion). i18n messages en.json+es.json sed replace "46 iconic routes" → "60 iconic routes" alineado con TEMPLATES post-S39. Admin technical + investors updated con post-S48 metrics. Deploy final' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);

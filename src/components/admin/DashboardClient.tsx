@@ -117,19 +117,21 @@ export function DashboardClient({ metrics }: { metrics: Metrics }){
         </Card>
       </section>
 
-      {/* S44: Features shipped index — links a nuevas capacidades */}
+      {/* S44-S48: Features shipped index — links a nuevas capacidades */}
       <section className="mt-6">
-        <Card title={isEs ? 'Features shipped · S40 → S44' : 'Features shipped · S40 → S44'}>
+        <Card title={isEs ? 'Features shipped · S40 → S48' : 'Features shipped · S40 → S48'}>
           <div className="grid gap-2 md:grid-cols-2">
-            <FeatureLink emoji="🗓" href="/en/trip/pacific-coast-highway/itinerary" label="Itinerary Engine (S44)" desc={isEs ? 'Timeline día × hora × actividad + drag&drop cross-day' : 'Timeline day × time × activity + cross-day drag&drop'} tone="coral" />
+            <FeatureLink emoji="🗓" href="/en/trip/pacific-coast-highway/itinerary" label="Itinerary Engine (S44+P0-P5)" desc={isEs ? 'Timeline día×hora + DnD + AI ops + realtime + offline + undo' : 'Timeline day×time + DnD + AI ops + realtime + offline + undo'} tone="coral" />
+            <FeatureLink emoji="🎨" href="/en" label={isEs ? 'Landing rediseño premium (S48)' : 'Landing UX redesign (S48)'} desc={isEs ? 'Hero 3 CTAs por intent · FeatureQuickAccess · Nav Destinos dropdown' : 'Hero 3-intent CTAs · FeatureQuickAccess · Destinations dropdown'} tone="coral" />
             <FeatureLink emoji="💳" href="/admin/ai-costs" label={isEs ? 'AI Cost Dashboard (S43)' : 'AI Cost Dashboard (S43)'} desc={isEs ? 'KPIs · provider/endpoint breakdown · 7-day chart' : 'KPIs · provider/endpoint breakdown · 7-day chart'} tone="ocean" />
-            <FeatureLink emoji="📊" href="/admin/reports/technical" label={isEs ? 'Reporte técnico' : 'Technical report'} desc={isEs ? '~22K LOC · 42 APIs · 56 componentes · 21 migrations' : '~22K LOC · 42 APIs · 56 components · 21 migrations'} tone="emerald" />
+            <FeatureLink emoji="📊" href="/admin/reports/technical" label={isEs ? 'Reporte técnico' : 'Technical report'} desc={isEs ? '~25K LOC · 51 APIs · 61 componentes · 24 migrations' : '~25K LOC · 51 APIs · 61 components · 24 migrations'} tone="emerald" />
             <FeatureLink emoji="💎" href="/admin/reports/investors" label={isEs ? 'Deck inversores' : 'Investor deck'} desc={isEs ? '24 regiones · 7 continentes · valuación 3 escenarios' : '24 regions · 7 continents · 3 valuation scenarios'} tone="amber" />
+            <FeatureLink emoji="🖨" href="/en/trip/pacific-coast-highway/itinerary/print" label={isEs ? 'Print itinerary (S47)' : 'Print itinerary (S47)'} desc={isEs ? 'PDF-ready A4 con auto-print + break-inside avoid' : 'PDF-ready A4 with auto-print + break-inside avoid'} tone="amber" />
           </div>
           <p className="mt-3 text-[11px] text-ink-400">
             {isEs
-              ? 'Migrations 017 (webhook idempotency) · 018 (ai_call_log) · 019 (trip_expenses) · 020 (stop_votes) · 021 (itinerary engine) aplicadas en Supabase.'
-              : 'Migrations 017 (webhook idempotency) · 018 (ai_call_log) · 019 (trip_expenses) · 020 (stop_votes) · 021 (itinerary engine) applied in Supabase.'}
+              ? 'Migrations 017 (webhook) · 018 (ai_call_log) · 019 (trip_expenses) · 020 (stop_votes) · 021 (itinerary engine) · 022 (intelligence) · 023 (realtime) · 024 (analytics events) aplicadas en Supabase.'
+              : 'Migrations 017 (webhook) · 018 (ai_call_log) · 019 (trip_expenses) · 020 (stop_votes) · 021 (itinerary engine) · 022 (intelligence) · 023 (realtime) · 024 (analytics events) applied in Supabase.'}
           </p>
         </Card>
       </section>

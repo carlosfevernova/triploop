@@ -44,14 +44,14 @@ export function StickyCta({ isEs }: { isEs?: boolean }){
         <div className="flex-1 truncate text-sm text-ink-800">
           <span className="font-semibold">{isEs ? '¿Listo para empezar?' : 'Ready to plan?'}</span>{' '}
           <span className="hidden text-ink-500 sm:inline">
-            {isEs ? 'Crea tu primer viaje en 30 segundos.' : 'Start your first California trip in 30 seconds.'}
+            {isEs ? 'Itinerario completo en 30 segundos, gratis.' : 'Full itinerary in 30 seconds, free.'}
           </span>
         </div>
         <Link
-          href={`/${locale}/trip/new`}
+          href={`/${locale}/trip/new/ai`}
           className="whitespace-nowrap rounded-pill bg-coral-500 px-4 py-2 text-xs font-semibold text-white transition hover:bg-coral-600"
         >
-          {isEs ? 'Empezar →' : 'Start now →'}
+          {isEs ? '✨ Probar IA →' : '✨ Try AI →'}
         </Link>
         <button onClick={dismiss} className="text-lg text-ink-400 transition hover:text-ink-800" aria-label="Dismiss">✕</button>
       </div>
