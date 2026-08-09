@@ -3,18 +3,18 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S36) desde el repositorio en producción
-const LOC = 19380;
-const FILES_TSX = 135;
-const FILES_TS = 68;
-const APIS = 34;
-const COMPONENTS = 47;
-const PAGES = 71;
-const MIGRATIONS = 16;
-const LIB_HELPERS = 27;
-const RUNTIME_DEPS = 19;
+// Métricas reales medidas 2026-08-08 (post S44 — Itinerary Engine live) desde el repositorio en producción
+const LOC = 22150;                // +2770 desde S36 (Itinerary Engine + Financial Tracker + Stop Voting + StateFallbacks + AI Cost Dashboard + Web Vitals)
+const FILES_TSX = 152;
+const FILES_TS = 78;
+const APIS = 42;                  // +8: itinerary (5), expenses (1), votes (1), analytics/vitals (1)
+const COMPONENTS = 56;            // +9: FinancialTracker, StopVoting, StateFallbacks, WebVitalsReporter, DayNavigator, DayTimeline, ItineraryItemCard, TravelSegment, EditItemDrawer, AddItemInline
+const PAGES = 72;                 // +1: /trip/[slug]/itinerary
+const MIGRATIONS = 21;            // +5: 017 webhook_idempotency, 018 ai_call_log, 019 trip_expenses, 020 stop_votes, 021 itinerary_engine
+const LIB_HELPERS = 32;           // +5: ai-cost-tracker, itinerary/{types,time,positions,validate}
+const RUNTIME_DEPS = 20;          // +1: web-vitals
 const REGIONS = 24;
-const TEMPLATES = 46;
+const TEMPLATES = 60;             // post-S39
 const CURATED_POIS = 231;
 const CONTINENTS = 7;
 
@@ -136,7 +136,17 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S35+S36: Loop enrichment landing + templates metadata', hoursLow: 22, hoursHigh: 32,
     detail: 'FeaturesShowcase +4 features (Curated-first, Streaming SSE, POI Chips, Highway badges). Comparison v3 +5 rows únicas. SocialProof 6 stats. FAQ +4 Q&A. 46 templates enriquecidos con best_season (6 tipos) + difficulty (4 niveles) + total_distance_km. UI badges chips 🌸/🟢/🛣️ en RegionTemplateDetail hero. Migration 016 metadata soft-fail' },
   { category: 'Sitemap dinámico + SEO worldwide', hoursLow: 8, hoursHigh: 12,
-    detail: '130 URLs indexables en sitemap.xml (24 regiones × 2 idiomas + 46 templates × 2 + blog posts + static). hreflang alternates completos. Meta title/desc actualizado con 7 continentes' }
+    detail: '130 URLs indexables en sitemap.xml (24 regiones × 2 idiomas + 46 templates × 2 + blog posts + static). hreflang alternates completos. Meta title/desc actualizado con 7 continentes' },
+  { category: 'S40 P0: Webhook idempotency + validateTrip + platformStats + AUDIT.md', hoursLow: 14, hoursHigh: 22,
+    detail: 'Migration 017 processed_webhook_events (PK stripe_event_id). validateTrip() detecta invalid_coords/duplicate/huge_jump/dense_schedule score 0-100. platformStats SSOT (templates/regions/continents/POIs/aiEndpoints) reemplaza hardcoded strings en 10+ componentes. AUDIT.md root document con roadmap P0-P3' },
+  { category: 'S42 P1: AI cost tracking + Web Vitals RUM + admin dashboard AI costs', hoursLow: 18, hoursHigh: 28,
+    detail: 'Migration 018 ai_call_log. lib/ai-cost-tracker.ts con PRICE_PER_1M_TOKENS por provider + logAICall() + trackedAICall wrapper + estimateCost. /admin/ai-costs con KPI cards + provider/endpoint breakdown + chart 7d. WebVitalsReporter dynamic import web-vitals → sendBeacon a /api/analytics/vitals (Edge, rate-limit 30/min)' },
+  { category: 'S43 P1: Financial Tracker + Stop Voting + StateFallbacks (Empty/Error/Retry)', hoursLow: 20, hoursHigh: 30,
+    detail: 'Migration 019 trip_expenses (RLS user-owned) + FinancialTracker booked/actual/remaining por categoría (gas/hoteles/food/attractions/flights/shopping/other) integrado a TripSidePanel budget. Migration 020 stop_votes + StopVoting LIKE/MAYBE/NO con optimistic UI + upsert. StateFallbacks reutilizables (ErrorState con retry + kind detection network/rate/timeout/auth, EmptyState con CTA, OnlineStatus live) aplicados en AiSuggestionsPanel/NearbyPanel/InsightsCard/EVChargersCard' },
+  { category: 'S44 P0: Itinerary Engine — schema temporal-espacial (trip_days + itinerary_items)', hoursLow: 25, hoursHigh: 38,
+    detail: 'Migration 021: trip_days (day_number/date/timezone/title/notes) + itinerary_items (position INT gaps 100/200/300, 10 tipos place|meal|hotel|flight|train|drive|walk|event|note|free_time, start_local TIME, duration_min, priority must/preferred/optional, fixed BOOL para reservas, source_stop_id backfill). Función DB itinerary_renormalize_positions. RLS public read + write via auth. API completa: GET /itinerary (days+items), POST seed days from trip.start_date+days_count (idempotente), PATCH/DELETE days y items, POST /reorder batch update. lib/itinerary/{types, time, positions, validate}.ts con validateDay (overlaps, travel conflicts haversine, density, huge jumps)' },
+  { category: 'S44 P1: Itinerary Engine UI — DayNavigator + Timeline + DnD + Map sync + Edit', hoursLow: 30, hoursHigh: 45,
+    detail: 'Página /[locale]/trip/[slug]/itinerary con split desktop (timeline + map) / toggle mobile. DayNavigator sticky scrollable con Today badge + Unscheduled chip + item count por día. DayTimeline con warnings validateDay banner + totals bar (activityMin/travelMin/travelKm). ItineraryItemCard con time gutter tabular-nums + drag handle + priority icon + fixed lock. TravelSegment haversine estimate walking/driving/transit por distance. EditItemDrawer completo (title/type/day/start/duration presets/priority/fixed/notes). AddItemInline con type chips + Places autocomplete o custom title. Map sync selectedItemId ↔ hoveredStopId. Auto-seed days on first load' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);

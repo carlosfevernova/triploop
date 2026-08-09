@@ -14,7 +14,7 @@ export default async function InvestorReportPage(){
       <header className="mb-10 border-b border-ink-100 pb-6">
         <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-ink-400">Confidencial · Estado del producto</p>
         <h1 className="font-display text-[32px] font-semibold tracking-tight text-ink-900">TripLoop — Lo que hemos construido</h1>
-        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-08 · Producto en producción · <b>24 regiones · 7 continentes · Streaming SSE live</b></p>
+        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-08 · Producto en producción · <b>24 regiones · 7 continentes · Streaming SSE · Itinerary Engine live (S44)</b></p>
       </header>
 
       <Section title="🚀 Qué es TripLoop (en lenguaje simple)">
@@ -106,6 +106,10 @@ export default async function InvestorReportPage(){
           <li><b>Mapas offline PWA</b> para parques sin señal. Paridad con Wanderlog Pro pero infraestructura propia.</li>
           <li><b>WhatsApp bot bilingüe con AI</b> — canal preferido LATAM (98% penetración MX/AR/CO). Ningún competidor lo tiene.</li>
           <li><b>Widget embebible</b> para blogs de viaje y agencias — <b>growth loop distribuido</b>. Estrategia estilo Calendly/Typeform.</li>
+          <li><b>Itinerary Engine temporal-espacial (S44 — nuevo)</b> — schema normalizado <code>trip_days</code> + <code>itinerary_items</code> con 10 tipos (place/meal/hotel/flight/train/drive/walk/event/note/free_time), integer position gaps (100/200/300), start_local + duration_min por item, priority (must/preferred/optional), <code>fixed</code> lock para reservas. Vista dedicada <code>/trip/[slug]/itinerary</code> con DayNavigator scrollable, timeline vertical con travel segments haversine-estimados, drag&drop entre días, edit drawer completo, y map sync (highlight item ↔ marker). Diferenciador clave vs Wanderlog: nuestro engine calcula overlaps, travel conflicts (Fase 13 validateDay) y density warnings en cliente sin llamar backend.</li>
+          <li><b>Financial Tracker por trip (S43)</b> — booked vs actual vs remaining por categoría (gas/hoteles/food/attractions/flights/shopping/other) con RLS por user. Complementa el Budget Calculator estimativo con tracking real.</li>
+          <li><b>Stop voting grupal (S43)</b> — LIKE/MAYBE/NO por parada, lecturas públicas / escritura autenticada, optimistic UI. Democratiza decisiones en viajes de grupo.</li>
+          <li><b>Observabilidad AI de nivel enterprise (S42)</b> — <code>logAICall()</code> tracking (endpoint/provider/latency/tokens/cost) → tabla <code>ai_call_log</code> → dashboard admin <code>/ai-costs</code> con KPIs, breakdown por provider y endpoint, chart 7-day. Web Vitals RUM via <code>sendBeacon</code>. Auditable a nivel per-call para tomar decisiones de vendor mix.</li>
           <li><b>Free geocoding fallback</b> (OpenStreetMap) ahorra ~60-80% Google API quota — margen operativo muy superior.</li>
           <li><b>Expansión geo probada</b> — arquitectura template-first permite añadir país nuevo en &lt;3h (Utah + <b>España</b> probaron el patrón). Escalable a Francia, Italia, México, Japón, NZ.</li>
           <li><b>Revenue híbrido</b>: afiliado Booking + GetYourGuide (2-5% comisión) + suscripción Pro ($6.99/mes). Monetización doble desde día 1.</li>
@@ -127,24 +131,28 @@ export default async function InvestorReportPage(){
         </p>
       </Section>
 
-      <Section title="🛠 Activos técnicos concretos (lo tangible)">
+      <Section title="🛠 Activos técnicos concretos (lo tangible · S44 snapshot)">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <MiniStat n="18,695" l="Líneas de código" />
-          <MiniStat n="34" l="Endpoints API" />
-          <MiniStat n="46" l="Componentes React" />
-          <MiniStat n="63" l="Páginas producción" />
-          <MiniStat n="15" l="Migrations DB aplicadas" />
-          <MiniStat n="19" l="Integraciones externas" />
-          <MiniStat n="100+" l="URLs indexables SEO" />
-          <MiniStat n="42" l="Templates bilingues" />
-          <MiniStat n="20" l="Regiones · 5 continentes" />
-          <MiniStat n="158" l="POIs curados verificados" />
-          <MiniStat n="60+" l="Deploys a producción" />
-          <MiniStat n="6" l="Endpoints IA + streaming SSE" />
+          <MiniStat n="~22K" l="Líneas de código TS/TSX" />
+          <MiniStat n="42" l="Endpoints API (S43+S44)" />
+          <MiniStat n="55+" l="Componentes React" />
+          <MiniStat n="65+" l="Páginas producción" />
+          <MiniStat n="21" l="Migrations DB aplicadas" />
+          <MiniStat n="20" l="Integraciones externas" />
+          <MiniStat n="130+" l="URLs indexables SEO" />
+          <MiniStat n="60" l="Templates bilingues (24×2 mín)" />
+          <MiniStat n="24" l="Regiones · 7 continentes" />
+          <MiniStat n="231" l="POIs curados verificados" />
+          <MiniStat n="70+" l="Deploys a producción" />
+          <MiniStat n="6" l="Endpoints IA + SSE + cost tracking" />
+          <MiniStat n="10" l="Tipos itinerary items (S44)" />
+          <MiniStat n="3" l="Layers persistencia (Postgres/IDB/Cache)" />
+          <MiniStat n="4" l="AI providers fallback chain" />
+          <MiniStat n="100%" l="TypeScript strict · 0 tipos errores" />
         </div>
         <p className="mt-4 text-[12px] text-ink-500">
           Todo el código es TypeScript strict, cero errores de tipo, deployado en Vercel Fluid Compute con Supabase Postgres.
-          Auditable en el repositorio. Crecimiento vs snapshot previo: <b>+16% LOC · +8 templates · +1 región Europa · +3 features grandes (AI NLP, WhatsApp, embed)</b>.
+          Auditable en el repositorio. <b>Crecimiento post-S40:</b> +6 migrations (webhook idempotency, ai_call_log, trip_expenses, stop_votes, itinerary engine), +Itinerary Engine (P0+P1 fase 0-15), +Financial Tracker, +Stop Voting, +Web Vitals RUM, +AI Cost Dashboard, +StateFallbacks (Error+Retry+offline detection).
         </p>
       </Section>
 

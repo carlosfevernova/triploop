@@ -366,6 +366,12 @@ export default function TripPage(){
           </Link>
         </div>
         <div className="flex items-center gap-2">
+          {/* S44: Itinerary Engine — nueva vista temporal */}
+          <Link
+            href={`/${locale}/trip/${slug}/itinerary`}
+            className="rounded-pill border border-ink-900 bg-ink-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-ink-700"
+            title={isEs ? 'Ver por día, hora y actividad' : 'View by day, time, and activity'}
+          >🗓 {isEs ? 'Itinerario' : 'Itinerary'}</Link>
           <CollabPresence users={presence} isEs={isEs} />
           <SaveOfflineButton trip={trip} isEs={isEs} />
           {trip.stops.length > 0 && <PdfExportButton slug={trip.slug} isEs={isEs} />}

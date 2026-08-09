@@ -17,6 +17,11 @@ export const platformStats = {
   blogPosts: 16,                                            // 8 EN + 8 ES
   integrations: 20,                                         // Vercel, Supabase (5), Stripe (3), Google (3), Resend, OpenRouter, Fireworks, Groq, Anthropic, OpenChargeMap, Booking+GYG, Twilio, OSM
   languages: 2,                                             // EN + ES
+  // S44: Itinerary Engine metrics
+  itineraryEngine: true,                                    // trip_days + itinerary_items + timeline UI
+  itineraryItemTypes: 10,                                   // place|meal|hotel|flight|train|drive|walk|event|note|free_time
+  dnDReorder: true,                                         // drag & drop cross-day
+  timezoneAware: true,                                      // IANA per day
 } as const;
 
 export type PlatformStats = typeof platformStats;

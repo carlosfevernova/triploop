@@ -117,10 +117,44 @@ export function DashboardClient({ metrics }: { metrics: Metrics }){
         </Card>
       </section>
 
+      {/* S44: Features shipped index — links a nuevas capacidades */}
+      <section className="mt-6">
+        <Card title={isEs ? 'Features shipped · S40 → S44' : 'Features shipped · S40 → S44'}>
+          <div className="grid gap-2 md:grid-cols-2">
+            <FeatureLink emoji="🗓" href="/en/trip/pacific-coast-highway/itinerary" label="Itinerary Engine (S44)" desc={isEs ? 'Timeline día × hora × actividad + drag&drop cross-day' : 'Timeline day × time × activity + cross-day drag&drop'} tone="coral" />
+            <FeatureLink emoji="💳" href="/admin/ai-costs" label={isEs ? 'AI Cost Dashboard (S43)' : 'AI Cost Dashboard (S43)'} desc={isEs ? 'KPIs · provider/endpoint breakdown · 7-day chart' : 'KPIs · provider/endpoint breakdown · 7-day chart'} tone="ocean" />
+            <FeatureLink emoji="📊" href="/admin/reports/technical" label={isEs ? 'Reporte técnico' : 'Technical report'} desc={isEs ? '~22K LOC · 42 APIs · 56 componentes · 21 migrations' : '~22K LOC · 42 APIs · 56 components · 21 migrations'} tone="emerald" />
+            <FeatureLink emoji="💎" href="/admin/reports/investors" label={isEs ? 'Deck inversores' : 'Investor deck'} desc={isEs ? '24 regiones · 7 continentes · valuación 3 escenarios' : '24 regions · 7 continents · 3 valuation scenarios'} tone="amber" />
+          </div>
+          <p className="mt-3 text-[11px] text-ink-400">
+            {isEs
+              ? 'Migrations 017 (webhook idempotency) · 018 (ai_call_log) · 019 (trip_expenses) · 020 (stop_votes) · 021 (itinerary engine) aplicadas en Supabase.'
+              : 'Migrations 017 (webhook idempotency) · 018 (ai_call_log) · 019 (trip_expenses) · 020 (stop_votes) · 021 (itinerary engine) applied in Supabase.'}
+          </p>
+        </Card>
+      </section>
+
       <footer className="mt-10 text-center text-[10px] font-medium tracking-wider text-ink-300">
         RENDERED {new Date().toISOString()}
       </footer>
     </main>
+  );
+}
+
+function FeatureLink({ emoji, href, label, desc, tone }: { emoji: string; href: string; label: string; desc: string; tone: 'coral'|'ocean'|'emerald'|'amber' }){
+  const bg = tone === 'coral' ? 'from-coral-50 border-coral-200 hover:border-coral-500'
+    : tone === 'ocean' ? 'from-ocean-400/10 border-ocean-400/30 hover:border-ocean-400'
+    : tone === 'emerald' ? 'from-emerald-50 border-emerald-200 hover:border-emerald-500'
+    : 'from-amber-50 border-amber-200 hover:border-amber-500';
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className={`group flex items-start gap-3 rounded-xl border bg-gradient-to-br to-white p-3 transition ${bg}`}>
+      <span className="text-2xl leading-none" aria-hidden>{emoji}</span>
+      <div className="min-w-0 flex-1">
+        <div className="text-[13px] font-semibold text-ink-900 group-hover:underline">{label}</div>
+        <div className="mt-0.5 text-[11px] text-ink-500">{desc}</div>
+      </div>
+      <span className="text-ink-300 group-hover:text-ink-700">→</span>
+    </a>
   );
 }
 
