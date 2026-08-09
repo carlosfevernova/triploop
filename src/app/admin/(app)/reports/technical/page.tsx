@@ -3,15 +3,15 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S45 — Itinerary Intelligence live) desde el repositorio en producción
-const LOC = 22850;                // +700 desde S44 (route-matrix, opening-hours, schedule-day, optimize-day, scheduler lib)
-const FILES_TSX = 152;
-const FILES_TS = 80;
-const APIS = 46;                  // +4: itinerary/route-matrix, /opening-hours, /schedule-day, /optimize-day
-const COMPONENTS = 56;
+// Métricas reales medidas 2026-08-08 (post S46 — Itinerary AI + Realtime + Offline live) desde el repositorio en producción
+const LOC = 23800;                // +950 desde S45 (ai-operations lib, /ai + /ai/apply endpoints, AIAssistantDrawer, useItineraryRealtime, offline-queue, OfflineQueueBadge)
+const FILES_TSX = 154;
+const FILES_TS = 83;
+const APIS = 48;                  // +2: /ai, /ai/apply
+const COMPONENTS = 58;            // +2: AIAssistantDrawer, OfflineQueueBadge
 const PAGES = 72;
-const MIGRATIONS = 22;            // +1: 022_itinerary_intelligence (route_cache + opening_hours JSONB)
-const LIB_HELPERS = 34;           // +2: itinerary/opening-hours, itinerary/scheduler
+const MIGRATIONS = 23;            // +1: 023_itinerary_realtime (publication alter)
+const LIB_HELPERS = 37;           // +3: ai-operations, use-itinerary-realtime, offline-queue
 const RUNTIME_DEPS = 20;
 const REGIONS = 24;
 const TEMPLATES = 60;
@@ -154,7 +154,15 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S45 P3.2: Schedule My Day (auto-assign start_local respetando fixed)', hoursLow: 10, hoursHigh: 15,
     detail: 'lib/itinerary/scheduler.ts pure functions scheduleDay(items, {startMin=540}). Pipeline greedy: cursor=09:00, respeta fixed items sync cursor, asigna current_time a items sin start_local, avanza cursor += duration+travel+buffer. Stop si pasa DAY_END_MIN=22:00. Endpoint /schedule-day con preview mode + persist batch. UI botón ⏰ en DayTimeline header' },
   { category: 'S45 P3.3: Optimize Day (nearest-neighbor TSP respetando fixed anchors)', hoursLow: 15, hoursHigh: 22,
-    detail: 'lib/itinerary/scheduler.ts optimizeDay(items): nearest-neighbor greedy sin fixed / con fixed divide en segmentos anchored. Endpoint /optimize-day con preview_km, after_km, saved_km. UI botón ✨ con confirm() mostrando reducción. Invalidate route cache post-optimize. Priority must actúa como fixed. Positions renumeradas a 100/200/300 preservando gaps' }
+    detail: 'lib/itinerary/scheduler.ts optimizeDay(items): nearest-neighbor greedy sin fixed / con fixed divide en segmentos anchored. Endpoint /optimize-day con preview_km, after_km, saved_km. UI botón ✨ con confirm() mostrando reducción. Invalidate route cache post-optimize. Priority must actúa como fixed. Positions renumeradas a 100/200/300 preservando gaps' },
+  { category: 'S46 P4: AI Itinerary Operations Engine (NLP → structured ops schema)', hoursLow: 22, hoursHigh: 32,
+    detail: 'lib/itinerary/ai-operations.ts define 10 ops discriminated union: move_item, update_time, update_duration, add_item, remove_item, set_priority, set_fixed, set_notes, optimize_day, schedule_day. validateOps() rechaza IDs inventados por el LLM (comprueba contra sets de items/days válidos) + cap 20 ops. opLabel() genera preview humano bilingüe. Endpoint /ai llama OpenRouter (gemma-4-26b free) con SYSTEM prompt operations-only forzando JSON schema. Endpoint /ai/apply re-valida server-side y ejecuta ops secuencialmente. logAICall integration. Rate limit 10/60s' },
+  { category: 'S46 P4 UI: AIAssistantDrawer con preview + apply/reject + examples', hoursLow: 15, hoursHigh: 22,
+    detail: 'Componente drawer bilingüe con: textarea 500 chars, chips de ejemplos EN/ES (6 c/u), botón Ask AI (llama /ai), preview de operations numeradas con opLabel + reason del LLM, botón Apply que confirma → llama /ai/apply → onApplied() reload. Integrado en itinerary page header como botón coral ✨ IA. Escape para cerrar. StateFallbacks para errores (retry-able)' },
+  { category: 'S46 P5: Realtime collab itinerary (Supabase postgres_changes wildcards)', hoursLow: 12, hoursHigh: 18,
+    detail: 'Migration 023 añade trip_days + itinerary_items a supabase_realtime publication. lib/itinerary/use-itinerary-realtime.ts hook con 2 subscribes postgres_changes filter=trip_slug=eq.{slug} events INSERT/UPDATE/DELETE. Callbacks onItemChange + onDayChange integrados en itinerary page: merge remoto con state local (add/update/delete). Auto-dedup por id. No presence (esa capa la maneja useTripRealtime en la trip page principal)' },
+  { category: 'S46 P5: Offline mutation queue localStorage + auto-flush online + badge UI', hoursLow: 10, hoursHigh: 15,
+    detail: 'lib/itinerary/offline-queue.ts con enqueue/flushQueue/queueLength API. Wrapper fetchOrQueue que intercepta fetch: si !navigator.onLine encola, si online ejecuta directo. 4xx errores dropea, 5xx/network reintenta hasta 5 veces. Idempotencia via ts_random id. OfflineQueueBadge component polls queueLength cada 3s + auto-flush al detectar online event (window.addEventListener). Badge amber offline / ocean syncing / oculto cuando 0 pending' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);

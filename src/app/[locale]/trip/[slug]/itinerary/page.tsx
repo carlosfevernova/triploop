@@ -7,6 +7,9 @@ import { DayNavigator } from '@/components/itinerary/DayNavigator';
 import { DayTimeline } from '@/components/itinerary/DayTimeline';
 import { EditItemDrawer } from '@/components/itinerary/EditItemDrawer';
 import { AddItemInline } from '@/components/itinerary/AddItemInline';
+import { AIAssistantDrawer } from '@/components/itinerary/AIAssistantDrawer';
+import { OfflineQueueBadge } from '@/components/itinerary/OfflineQueueBadge';
+import { useItineraryRealtime } from '@/lib/itinerary/use-itinerary-realtime';
 import { ErrorState } from '@/components/trip/StateFallbacks';
 import { localReorder } from '@/lib/itinerary/positions';
 import type { ItineraryItem, TripDay } from '@/lib/itinerary/types';
@@ -31,6 +34,7 @@ export default function ItineraryPage(){
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [editItem, setEditItem] = useState<ItineraryItem | null>(null);
   const [addOpen, setAddOpen] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mobileView, setMobileView] = useState<'itinerary' | 'map'>('itinerary');
@@ -73,6 +77,30 @@ export default function ItineraryPage(){
   }, [slug, selectedDayId]);
 
   useEffect(() => { load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [slug]);
+
+  // S46 P5: Realtime collab — sync remote item/day changes
+  useItineraryRealtime({
+    slug,
+    enabled: !loading,
+    onItemChange: ({ event, item, oldItem }) => {
+      if(event === 'INSERT' && item){
+        setItems(prev => prev.some(i => i.id === item.id) ? prev : [...prev, item]);
+      } else if(event === 'UPDATE' && item){
+        setItems(prev => prev.map(i => i.id === item.id ? item : i));
+      } else if(event === 'DELETE' && oldItem){
+        setItems(prev => prev.filter(i => i.id !== oldItem.id));
+      }
+    },
+    onDayChange: ({ event, day, oldDay }) => {
+      if(event === 'INSERT' && day){
+        setDays(prev => prev.some(d => d.id === day.id) ? prev : [...prev, day].sort((a, b) => a.day_number - b.day_number));
+      } else if(event === 'UPDATE' && day){
+        setDays(prev => prev.map(d => d.id === day.id ? day : d));
+      } else if(event === 'DELETE' && oldDay){
+        setDays(prev => prev.filter(d => d.id !== oldDay.id));
+      }
+    }
+  });
 
   // S45 P2: Fetch route matrix cuando cambia día seleccionado (debounced via effect)
   useEffect(() => {
@@ -243,6 +271,12 @@ export default function ItineraryPage(){
           </div>
         </div>
         <div className="hidden items-center gap-2 md:flex">
+          <OfflineQueueBadge locale={locale} onFlushed={load} />
+          <button
+            onClick={() => setAiOpen(true)}
+            className="rounded-pill border border-coral-400 bg-coral-500 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-coral-600"
+            title={isEs ? 'Asistente IA para editar en lenguaje natural' : 'AI assistant to edit in natural language'}
+          >✨ {isEs ? 'IA' : 'AI'}</button>
           <span className="rounded-pill bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-800">
             {items.length} {isEs ? 'items' : 'items'}
           </span>
@@ -313,6 +347,15 @@ export default function ItineraryPage(){
       </div>
 
       {/* Modals */}
+      <AIAssistantDrawer
+        open={aiOpen}
+        onClose={() => setAiOpen(false)}
+        slug={slug}
+        items={items}
+        days={days}
+        locale={locale}
+        onApplied={() => { setRealLegsByDay({}); setPolylineByDay({}); load(); }}
+      />
       <AddItemInline open={addOpen} onClose={() => setAddOpen(false)} onAdd={handleAdd} locale={locale} />
       <EditItemDrawer
         open={editItem !== null}
