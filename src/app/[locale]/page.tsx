@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/request';
 import { Nav } from '@/components/Nav';
 import { Hero } from '@/components/Hero';
@@ -20,6 +20,8 @@ export const revalidate = 300;
 export default async function Home({ params }: { params: Promise<{ locale: string }> }){
   const { locale } = await params;
   const isEs = locale === 'es';
+  // S65 cache fix — enables static rendering (unlocks ISR revalidate=300)
+  setRequestLocale(locale);
   // Descartamos t; keys se leen dentro de componentes Client via useTranslations
   await getTranslations({ locale: locale as Locale });
   return (

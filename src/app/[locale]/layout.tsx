@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Fraunces } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/request';
 import { OfflineBanner } from '@/components/OfflineBanner';
@@ -60,6 +60,8 @@ export default async function LocaleLayout({
 }){
   const { locale } = await params;
   if (!locales.includes(locale as Locale)) notFound();
+  // S65 cache fix — enable static rendering (unlocks ISR revalidate=300)
+  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
