@@ -38,6 +38,7 @@ export default function ItineraryPage(){
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [editItem, setEditItem] = useState<ItineraryItem | null>(null);
   const [addOpen, setAddOpen] = useState(false);
+  const [addPrefillHour, setAddPrefillHour] = useState<string | undefined>(undefined);
   const [aiOpen, setAiOpen] = useState(false);
   const [undoSnapshot, setUndoSnapshot] = useState<ItineraryItem[] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -127,6 +128,20 @@ export default function ItineraryPage(){
       finally { setRouteLoading(false); }
     })();
   }, [selectedDayId, items, slug, realLegsByDay]);
+
+  // S54: Add day inline
+  const handleAddDay = useCallback(async () => {
+    const r = await fetch(`/api/trips/${slug}/itinerary/days/new`, { method: 'POST' });
+    if(r.ok){
+      const data = await r.json();
+      if(data.day){
+        markLocalMutation('day', data.day.id);
+        setDays(prev => [...prev, data.day].sort((a, b) => a.day_number - b.day_number));
+        setSelectedDayId(data.day.id);
+        trackItinerary(slug, 'day_selected', { day_id: data.day.id, added: true });
+      }
+    }
+  }, [slug, markLocalMutation]);
 
   // S45 P3.2 Schedule day
   const handleScheduleDay = useCallback(async () => {
@@ -334,6 +349,7 @@ export default function ItineraryPage(){
         locale={locale}
         itemsCountByDay={itemsCountByDay}
         unscheduledCount={unscheduledCount}
+        onAddDay={handleAddDay}
       />
 
       {/* Main split */}
@@ -349,7 +365,7 @@ export default function ItineraryPage(){
             onReorder={handleReorder}
             onEdit={setEditItem}
             onDelete={handleDelete}
-            onAdd={() => setAddOpen(true)}
+            onAdd={(prefillHour?: string) => { setAddPrefillHour(prefillHour); setAddOpen(true); }}
             onScheduleDay={handleScheduleDay}
             onOptimizeDay={handleOptimizeDay}
             realLegs={selectedDayId ? realLegsByDay[selectedDayId] : undefined}
@@ -405,7 +421,13 @@ export default function ItineraryPage(){
         }}
         locale={locale}
       />
-      <AddItemInline open={addOpen} onClose={() => setAddOpen(false)} onAdd={handleAdd} locale={locale} />
+      <AddItemInline
+        open={addOpen}
+        onClose={() => { setAddOpen(false); setAddPrefillHour(undefined); }}
+        onAdd={handleAdd}
+        locale={locale}
+        prefillStartLocal={addPrefillHour}
+      />
       <EditItemDrawer
         open={editItem !== null}
         onClose={() => setEditItem(null)}

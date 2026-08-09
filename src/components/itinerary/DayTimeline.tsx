@@ -25,12 +25,15 @@ interface Props {
   onReorder: (activeId: number, overId: number) => void;
   onEdit: (item: ItineraryItem) => void;
   onDelete: (item: ItineraryItem) => void;
-  onAdd: () => void;
-  onScheduleDay?: () => Promise<void>;    // S45 P3.2
-  onOptimizeDay?: () => Promise<void>;    // S45 P3.3
-  realLegs?: RealLeg[];                    // S45 P2 route matrix
+  onAdd: (prefillHour?: string) => void;   // S54: acepta hora prellenada
+  onScheduleDay?: () => Promise<void>;
+  onOptimizeDay?: () => Promise<void>;
+  realLegs?: RealLeg[];
   routeLoading?: boolean;
 }
+
+// S54: Calendar-style empty hour slots (Google/Notion Calendar pattern)
+const EMPTY_HOURS = ['09:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00', '19:30', '21:00'];
 
 export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, onReorder, onEdit, onDelete, onAdd, onScheduleDay, onOptimizeDay, realLegs, routeLoading }: Props){
   const isEs = locale === 'es';
@@ -102,7 +105,7 @@ export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, 
             >✨ {isEs ? 'Optimizar' : 'Optimize'}</button>
           )}
           <button
-            onClick={onAdd}
+            onClick={() => onAdd()}
             className="rounded-pill bg-ink-900 px-4 py-2 text-xs font-semibold text-white shadow-card transition hover:bg-ink-700"
           >+ {isEs ? 'Agregar' : 'Add'}</button>
         </div>
@@ -125,15 +128,38 @@ export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, 
       )}
 
       {/* Items */}
-      {sorted.length === 0 ? (
+      {sorted.length === 0 && day ? (
+        <div>
+          <p className="mb-3 text-xs text-ink-500">
+            {isEs ? 'Toca una hora para agregar directamente:' : 'Tap an hour to add directly:'}
+          </p>
+          <ul className="space-y-1">
+            {EMPTY_HOURS.map(h => (
+              <li key={h}>
+                <button
+                  onClick={() => onAdd(h)}
+                  className="group flex w-full items-center gap-3 rounded-lg border border-dashed border-ink-200 bg-white px-3 py-2 text-left transition hover:border-emerald-500 hover:bg-emerald-50/40"
+                >
+                  <span className="w-14 shrink-0 text-right tabular-nums text-xs font-semibold text-ink-500">{h}</span>
+                  <span className="flex-1 text-[13px] italic text-ink-400 group-hover:text-emerald-700">
+                    {isEs ? 'Agregar actividad…' : 'Add activity…'}
+                  </span>
+                  <span className="text-ink-300 group-hover:text-emerald-600">+</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={() => onAdd()}
+            className="mt-3 w-full rounded-pill border border-ink-300 py-2 text-xs font-semibold text-ink-700 transition hover:border-ink-500"
+          >{isEs ? '+ Agregar con hora personalizada' : '+ Add with custom time'}</button>
+        </div>
+      ) : sorted.length === 0 && !day ? (
         <EmptyState
-          icon={day ? '📅' : '💡'}
-          title={day ? (isEs ? 'Sin actividades' : 'No plans yet') : (isEs ? 'Sin ideas guardadas' : 'No saved ideas')}
-          hint={day
-            ? (isEs ? 'Agrega tu primera parada del día.' : 'Add your first stop of the day.')
-            : (isEs ? 'Guarda lugares para asignarlos a un día después.' : 'Save places to schedule them later.')
-          }
-          cta={{ label: isEs ? '+ Agregar' : '+ Add', onClick: onAdd }}
+          icon="💡"
+          title={isEs ? 'Sin ideas guardadas' : 'No saved ideas'}
+          hint={isEs ? 'Guarda lugares para asignarlos a un día después.' : 'Save places to schedule them later.'}
+          cta={{ label: isEs ? '+ Agregar' : '+ Add', onClick: () => onAdd() }}
         />
       ) : (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>

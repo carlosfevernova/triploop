@@ -10,9 +10,10 @@ interface Props {
   locale: 'en' | 'es';
   itemsCountByDay: Record<number, number>;
   unscheduledCount?: number;
+  onAddDay?: () => Promise<void> | void;  // S54
 }
 
-export function DayNavigator({ days, selectedDayId, onSelect, locale, itemsCountByDay, unscheduledCount = 0 }: Props){
+export function DayNavigator({ days, selectedDayId, onSelect, locale, itemsCountByDay, unscheduledCount = 0, onAddDay }: Props){
   const isEs = locale === 'es';
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -87,6 +88,19 @@ export function DayNavigator({ days, selectedDayId, onSelect, locale, itemsCount
             );
           })}
         </div>
+
+        {/* S54: Add day button — expand trip inline sin ir a settings */}
+        {onAddDay && (
+          <button
+            onClick={() => onAddDay()}
+            aria-label={isEs ? 'Agregar día' : 'Add day'}
+            title={isEs ? 'Agregar un día más al viaje' : 'Add one more day to the trip'}
+            className="shrink-0 rounded-2xl border border-dashed border-emerald-400 bg-emerald-50/40 px-3 py-2 text-center text-emerald-700 transition hover:border-emerald-600 hover:bg-emerald-100"
+          >
+            <div className="text-[9px] font-bold uppercase tracking-wider">{isEs ? 'Agregar' : 'Add'}</div>
+            <div className="mt-0.5 font-display text-lg font-semibold leading-none">+</div>
+          </button>
+        )}
 
         <button
           onClick={() => scroll(1)}

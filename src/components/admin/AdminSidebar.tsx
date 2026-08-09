@@ -76,6 +76,13 @@ export function AdminSidebar(){
             </button>
           ))}
         </div>
+        {/* S54: Back to home link (faltaba, admin no tenía forma de salir al sitio público) */}
+        <a
+          href="/"
+          className="mb-2 flex items-center gap-1.5 rounded-lg px-3 py-2 text-[11px] font-medium text-ink-500 transition hover:bg-ink-50 hover:text-ink-900"
+        >
+          <span aria-hidden>←</span> {locale === 'es' ? 'Ver sitio público' : 'View public site'}
+        </a>
         <form action="/api/admin/login" method="POST" className="px-1">
           <button
             type="submit"

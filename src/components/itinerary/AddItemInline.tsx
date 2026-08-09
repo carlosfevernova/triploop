@@ -20,6 +20,7 @@ interface Props {
   onClose: () => void;
   onAdd: (partial: Partial<ItineraryItem>) => Promise<void>;
   locale: 'en' | 'es';
+  prefillStartLocal?: string;  // S54: hora prellenada desde hour slot click
 }
 
 // S52: Quick-add shortcuts con presets (Restaurante 60min, Compromiso 60min, Atracción 90min, Café 30min, Nota sin duración)
@@ -34,7 +35,7 @@ const SHORTCUTS: Array<{ key: string; emoji: string; label_en: string; label_es:
   { key: 'note', emoji: '📝', label_en: 'Quick note', label_es: 'Nota rápida', type: 'note', dur: null }
 ];
 
-export function AddItemInline({ open, onClose, onAdd, locale }: Props){
+export function AddItemInline({ open, onClose, onAdd, locale, prefillStartLocal }: Props){
   const isEs = locale === 'es';
   const [type, setType] = useState<ItineraryItemType>('place');
   const [customTitle, setCustomTitle] = useState('');
@@ -49,7 +50,8 @@ export function AddItemInline({ open, onClose, onAdd, locale }: Props){
       await onAdd({
         type: s.type,
         title: isEs ? s.label_es : s.label_en,
-        duration_min: s.dur
+        duration_min: s.dur,
+        start_local: prefillStartLocal || null   // S54: usa hora del slot si viene
       });
       onClose();
     } finally { setAdding(false); }
@@ -65,7 +67,8 @@ export function AddItemInline({ open, onClose, onAdd, locale }: Props){
         lat: p.lat,
         lng: p.lng,
         address: p.formatted_address,
-        duration_min: 90
+        duration_min: 90,
+        start_local: prefillStartLocal || null
       });
       onClose();
     } finally { setAdding(false); }
@@ -75,7 +78,7 @@ export function AddItemInline({ open, onClose, onAdd, locale }: Props){
     if(!customTitle.trim()) return;
     setAdding(true);
     try {
-      await onAdd({ type, title: customTitle.trim(), duration_min: type === 'meal' ? 60 : type === 'note' ? null : 90 });
+      await onAdd({ type, title: customTitle.trim(), duration_min: type === 'meal' ? 60 : type === 'note' ? null : 90, start_local: prefillStartLocal || null });
       setCustomTitle('');
       onClose();
     } finally { setAdding(false); }
@@ -86,7 +89,14 @@ export function AddItemInline({ open, onClose, onAdd, locale }: Props){
       <div className="absolute inset-0 bg-ink-900/40" onClick={onClose} />
       <div className="absolute inset-x-4 top-1/2 mx-auto max-w-lg -translate-y-1/2 rounded-card bg-white p-5 shadow-2xl md:inset-x-auto md:left-1/2 md:-translate-x-1/2">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="font-display text-lg font-semibold">{isEs ? 'Agregar' : 'Add item'}</h3>
+          <div>
+            <h3 className="font-display text-lg font-semibold">{isEs ? 'Agregar' : 'Add item'}</h3>
+            {prefillStartLocal && (
+              <p className="mt-0.5 text-[11px] text-emerald-700">
+                <span aria-hidden>⏰</span> {isEs ? 'A las' : 'At'} {prefillStartLocal}
+              </p>
+            )}
+          </div>
           <button onClick={onClose} className="rounded-full p-1 text-ink-400 hover:bg-ink-100">✕</button>
         </div>
 
