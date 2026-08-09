@@ -50,13 +50,21 @@ export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, 
   const title = day
     ? (day.date ? formatDateHuman(day.date, locale) : `${isEs ? 'Día' : 'Day'} ${day.day_number}`)
     : (isEs ? 'Ideas guardadas' : 'Saved ideas');
+  // S47 audit: mostrar timezone si difiere del navegador
+  const browserTz = typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'UTC';
+  const showTz = !!(day?.timezone && day.timezone !== 'UTC' && day.timezone !== browserTz);
 
   return (
     <div className="flex-1 overflow-y-auto bg-ink-50/40 p-4">
       {/* Day header */}
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
-          <h2 className="font-display text-2xl font-semibold text-ink-900">{title}</h2>
+          <h2 className="font-display text-2xl font-semibold text-ink-900">
+            {title}
+            {showTz && (
+              <span className="ml-2 rounded-pill bg-ocean-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-ocean-800" title={isEs ? 'Zona horaria del día' : 'Day timezone'}>🌐 {day!.timezone}</span>
+            )}
+          </h2>
           {day && (
             <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-ink-500">
               <span>{sorted.length} {isEs ? (sorted.length === 1 ? 'parada' : 'paradas') : (sorted.length === 1 ? 'stop' : 'stops')}</span>

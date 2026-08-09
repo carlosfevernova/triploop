@@ -41,14 +41,20 @@ export function ItineraryItemCard({ item, index, locale, onEdit, onDelete, onSel
   const prio = PRIORITY_META[item.priority] || PRIORITY_META.preferred;
   const endLocal = computeEndLocal(item.start_local, item.duration_min);
   const startMin = parseTimeToMin(item.start_local);
+  // S47 audit: visual distinto para free_time/note (más discreto)
+  const isFreeOrNote = item.type === 'free_time' || item.type === 'note';
 
   return (
     <div
       ref={setNodeRef}
       style={style}
       onClick={onSelect}
-      className={`group relative flex gap-3 rounded-card border bg-white p-3 transition ${
-        selected ? 'border-ink-900 shadow-card-hover' : 'border-ink-100 hover:border-ink-300 hover:shadow-card'
+      className={`group relative flex gap-3 rounded-card border p-3 transition ${
+        isFreeOrNote
+          ? 'border-dashed border-ink-200 bg-ink-50/40'
+          : 'bg-white'
+      } ${
+        selected ? 'border-ink-900 shadow-card-hover' : (!isFreeOrNote ? 'border-ink-100 hover:border-ink-300 hover:shadow-card' : 'hover:border-ink-400')
       } ${isDragging ? 'shadow-card-hover' : ''}`}
     >
       {/* Time gutter */}

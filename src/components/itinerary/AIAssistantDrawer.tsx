@@ -11,7 +11,9 @@ interface Props {
   items: ItineraryItem[];
   days: TripDay[];
   locale: 'en' | 'es';
-  onApplied: () => void;  // trigger reload
+  onApplied: () => void;
+  // S47 undo: exponemos undoAvailable para que la itinerary page muestre banner Undo
+  onSnapshotSaved?: (snapshot: ItineraryItem[]) => void;
 }
 
 const EXAMPLES_EN = [
@@ -31,7 +33,7 @@ const EXAMPLES_ES = [
   'Fija todos los hoteles para que la IA no los mueva'
 ];
 
-export function AIAssistantDrawer({ open, onClose, slug, items, days, locale, onApplied }: Props){
+export function AIAssistantDrawer({ open, onClose, slug, items, days, locale, onApplied, onSnapshotSaved }: Props){
   const isEs = locale === 'es';
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
@@ -74,6 +76,9 @@ export function AIAssistantDrawer({ open, onClose, slug, items, days, locale, on
     if(operations.length === 0) return;
     setApplying(true);
     try {
+      // S47 Undo: snapshot ANTES de aplicar (deep copy items array)
+      onSnapshotSaved?.([...items]);
+
       const r = await fetch(`/api/trips/${slug}/itinerary/ai/apply`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -83,7 +88,6 @@ export function AIAssistantDrawer({ open, onClose, slug, items, days, locale, on
       if(r.ok){
         setApplied(true);
         onApplied();
-        // Auto-close after 1.5s
         setTimeout(onClose, 1500);
       } else {
         setError(data.error || 'apply_failed');

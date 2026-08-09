@@ -8,8 +8,10 @@ import { DayTimeline } from '@/components/itinerary/DayTimeline';
 import { EditItemDrawer } from '@/components/itinerary/EditItemDrawer';
 import { AddItemInline } from '@/components/itinerary/AddItemInline';
 import { AIAssistantDrawer } from '@/components/itinerary/AIAssistantDrawer';
+import { UndoBanner } from '@/components/itinerary/UndoBanner';
 import { OfflineQueueBadge } from '@/components/itinerary/OfflineQueueBadge';
 import { useItineraryRealtime } from '@/lib/itinerary/use-itinerary-realtime';
+import { trackItinerary } from '@/lib/itinerary/analytics';
 import { ErrorState } from '@/components/trip/StateFallbacks';
 import { localReorder } from '@/lib/itinerary/positions';
 import type { ItineraryItem, TripDay } from '@/lib/itinerary/types';
@@ -35,6 +37,7 @@ export default function ItineraryPage(){
   const [editItem, setEditItem] = useState<ItineraryItem | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
+  const [undoSnapshot, setUndoSnapshot] = useState<ItineraryItem[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mobileView, setMobileView] = useState<'itinerary' | 'map'>('itinerary');
@@ -72,14 +75,15 @@ export default function ItineraryPage(){
       if(daysArr.length > 0 && selectedDayId == null){
         setSelectedDayId(daysArr[0].id);
       }
+      trackItinerary(slug, 'itinerary_viewed', { days: daysArr.length, items: itemsArr.length });
     } catch (e) { setError((e as Error).message); }
     finally { setLoading(false); }
   }, [slug, selectedDayId]);
 
   useEffect(() => { load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [slug]);
 
-  // S46 P5: Realtime collab — sync remote item/day changes
-  useItineraryRealtime({
+  // S46 P5 + S47: Realtime collab con self-echo filter
+  const { markLocalMutation } = useItineraryRealtime({
     slug,
     enabled: !loading,
     onItemChange: ({ event, item, oldItem }) => {
@@ -125,6 +129,7 @@ export default function ItineraryPage(){
   // S45 P3.2 Schedule day
   const handleScheduleDay = useCallback(async () => {
     if(!selectedDayId) return;
+    trackItinerary(slug, 'day_auto_scheduled', { day_id: selectedDayId });
     const r = await fetch(`/api/trips/${slug}/itinerary/schedule-day`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -158,7 +163,7 @@ export default function ItineraryPage(){
       body: JSON.stringify({ day_id: selectedDayId })
     });
     if(r.ok){
-      // Invalidate route cache for this day
+      trackItinerary(slug, 'route_optimized', { day_id: selectedDayId, saved_km: pvData.saved_km });
       setRealLegsByDay(prev => { const c = {...prev}; delete c[selectedDayId]; return c; });
       setPolylineByDay(prev => { const c = {...prev}; delete c[selectedDayId]; return c; });
       await load();
@@ -188,11 +193,16 @@ export default function ItineraryPage(){
       body: JSON.stringify(body)
     });
     const data = await r.json();
-    if(r.ok && data.item) setItems(prev => [...prev, data.item]);
+    if(r.ok && data.item){
+      markLocalMutation('item', data.item.id);
+      setItems(prev => [...prev, data.item]);
+      trackItinerary(slug, 'item_added', { item_id: data.item.id, day_id: selectedDayId, type: data.item.type });
+    }
   };
 
   const handleEdit = async (patch: Partial<ItineraryItem>) => {
     if(!editItem) return;
+    markLocalMutation('item', editItem.id);
     const r = await fetch(`/api/trips/${slug}/itinerary/items/${editItem.id}`, {
       method: 'PATCH',
       headers: { 'content-type': 'application/json' },
@@ -203,21 +213,23 @@ export default function ItineraryPage(){
   };
 
   const handleDelete = async (item: ItineraryItem) => {
-    // Optimistic
+    markLocalMutation('item', item.id);
     setItems(prev => prev.filter(i => i.id !== item.id));
+    trackItinerary(slug, 'item_removed', { item_id: item.id, day_id: item.trip_day_id });
     const r = await fetch(`/api/trips/${slug}/itinerary/items/${item.id}`, { method: 'DELETE' });
-    if(!r.ok){ await load(); /* rollback */ }
+    if(!r.ok){ await load(); }
   };
 
   const handleReorder = async (activeId: number, overId: number) => {
-    // Optimistic reorder local
     const affected = items.filter(i => i.trip_day_id === selectedDayId);
     const reordered = localReorder(affected, activeId, overId);
     const patchMap = new Map(reordered.map(r => [r.id, r.position]));
+    // Mark all reordered as local mutations
+    for(const r of reordered) markLocalMutation('item', r.id);
     setItems(prev => prev.map(i => patchMap.has(i.id) ? { ...i, position: patchMap.get(i.id)! } : i));
 
-    // Persist batch
     const updates = reordered.map(r => ({ id: r.id, position: r.position }));
+    trackItinerary(slug, 'item_moved', { count: updates.length, day_id: selectedDayId });
     const res = await fetch(`/api/trips/${slug}/itinerary/reorder`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -272,6 +284,22 @@ export default function ItineraryPage(){
         </div>
         <div className="hidden items-center gap-2 md:flex">
           <OfflineQueueBadge locale={locale} onFlushed={load} />
+          <Link
+            href={`/${locale}/trip/${slug}/itinerary/print`}
+            className="rounded-pill border border-ink-200 px-3 py-1.5 text-xs font-semibold text-ink-700 hover:border-ink-500"
+            title={isEs ? 'Versión imprimible' : 'Printable version'}
+          >🖨 {isEs ? 'Imprimir' : 'Print'}</Link>
+          <button
+            onClick={async () => {
+              const url = window.location.href.replace('/itinerary', '/itinerary');
+              try {
+                if(navigator.share){ await navigator.share({ title: trip?.title, url }); }
+                else { await navigator.clipboard.writeText(url); alert(isEs ? 'URL copiada' : 'URL copied'); }
+              } catch { /* user cancel */ }
+            }}
+            className="rounded-pill border border-ink-200 px-3 py-1.5 text-xs font-semibold text-ink-700 hover:border-ink-500"
+            title={isEs ? 'Compartir itinerario' : 'Share itinerary'}
+          >🔗 {isEs ? 'Compartir' : 'Share'}</button>
           <button
             onClick={() => setAiOpen(true)}
             className="rounded-pill border border-coral-400 bg-coral-500 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-coral-600"
@@ -300,7 +328,7 @@ export default function ItineraryPage(){
       <DayNavigator
         days={days}
         selectedDayId={selectedDayId}
-        onSelect={setSelectedDayId}
+        onSelect={(id) => { setSelectedDayId(id); trackItinerary(slug, 'day_selected', { day_id: id }); }}
         locale={locale}
         itemsCountByDay={itemsCountByDay}
         unscheduledCount={unscheduledCount}
@@ -354,7 +382,21 @@ export default function ItineraryPage(){
         items={items}
         days={days}
         locale={locale}
-        onApplied={() => { setRealLegsByDay({}); setPolylineByDay({}); load(); }}
+        onApplied={() => {
+          trackItinerary(slug, 'ai_edit_applied', { items_before: items.length });
+          setRealLegsByDay({}); setPolylineByDay({}); load();
+        }}
+        onSnapshotSaved={setUndoSnapshot}
+      />
+      <UndoBanner
+        slug={slug}
+        snapshot={undoSnapshot}
+        onCleared={() => setUndoSnapshot(null)}
+        onRestored={() => {
+          trackItinerary(slug, 'item_undo', {});
+          setRealLegsByDay({}); setPolylineByDay({}); load();
+        }}
+        locale={locale}
       />
       <AddItemInline open={addOpen} onClose={() => setAddOpen(false)} onAdd={handleAdd} locale={locale} />
       <EditItemDrawer

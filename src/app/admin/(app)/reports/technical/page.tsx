@@ -3,15 +3,15 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S46 — Itinerary AI + Realtime + Offline live) desde el repositorio en producción
-const LOC = 23800;                // +950 desde S45 (ai-operations lib, /ai + /ai/apply endpoints, AIAssistantDrawer, useItineraryRealtime, offline-queue, OfflineQueueBadge)
-const FILES_TSX = 154;
-const FILES_TS = 83;
-const APIS = 48;                  // +2: /ai, /ai/apply
-const COMPONENTS = 58;            // +2: AIAssistantDrawer, OfflineQueueBadge
-const PAGES = 72;
-const MIGRATIONS = 23;            // +1: 023_itinerary_realtime (publication alter)
-const LIB_HELPERS = 37;           // +3: ai-operations, use-itinerary-realtime, offline-queue
+// Métricas reales medidas 2026-08-08 (post S47 — Audit fixes: undo, analytics, print, self-echo, timezone) desde el repositorio en producción
+const LOC = 24450;                // +650 desde S46 (undo, analytics, print, self-echo filter, share)
+const FILES_TSX = 156;            // +2: UndoBanner, print page
+const FILES_TS = 85;              // +2: analytics, snapshot route
+const APIS = 51;                  // +3: /ai (P4), /ai/apply (P4), /snapshot (undo), /analytics/itinerary
+const COMPONENTS = 60;            // +2: UndoBanner, share button inline
+const PAGES = 73;                 // +1: /itinerary/print
+const MIGRATIONS = 24;            // +1: 024_itinerary_events
+const LIB_HELPERS = 38;           // +1: analytics.ts
 const RUNTIME_DEPS = 20;
 const REGIONS = 24;
 const TEMPLATES = 60;
@@ -162,7 +162,9 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S46 P5: Realtime collab itinerary (Supabase postgres_changes wildcards)', hoursLow: 12, hoursHigh: 18,
     detail: 'Migration 023 añade trip_days + itinerary_items a supabase_realtime publication. lib/itinerary/use-itinerary-realtime.ts hook con 2 subscribes postgres_changes filter=trip_slug=eq.{slug} events INSERT/UPDATE/DELETE. Callbacks onItemChange + onDayChange integrados en itinerary page: merge remoto con state local (add/update/delete). Auto-dedup por id. No presence (esa capa la maneja useTripRealtime en la trip page principal)' },
   { category: 'S46 P5: Offline mutation queue localStorage + auto-flush online + badge UI', hoursLow: 10, hoursHigh: 15,
-    detail: 'lib/itinerary/offline-queue.ts con enqueue/flushQueue/queueLength API. Wrapper fetchOrQueue que intercepta fetch: si !navigator.onLine encola, si online ejecuta directo. 4xx errores dropea, 5xx/network reintenta hasta 5 veces. Idempotencia via ts_random id. OfflineQueueBadge component polls queueLength cada 3s + auto-flush al detectar online event (window.addEventListener). Badge amber offline / ocean syncing / oculto cuando 0 pending' }
+    detail: 'lib/itinerary/offline-queue.ts con enqueue/flushQueue/queueLength API. Wrapper fetchOrQueue que intercepta fetch: si !navigator.onLine encola, si online ejecuta directo. 4xx errores dropea, 5xx/network reintenta hasta 5 veces. Idempotencia via ts_random id. OfflineQueueBadge component polls queueLength cada 3s + auto-flush al detectar online event (window.addEventListener). Badge amber offline / ocean syncing / oculto cuando 0 pending' },
+  { category: 'S47 Audit fix: Realtime self-echo filter + AI Undo + Analytics + Print + Share + Timezone + Free-time visual', hoursLow: 18, hoursHigh: 28,
+    detail: 'Bug fix realtime: hook devuelve markLocalMutation() que registra id+ts en Map local; postgres_changes con id match dentro de ECHO_WINDOW_MS=3s se descarta (fix double updates). Auto-cleanup >100 entries. Wire en 4 handlers (add/edit/delete/reorder). AI Undo: endpoint POST /itinerary/snapshot con upsert-diff atómico + invalidate route cache; AIAssistantDrawer captura snapshot pre-apply vía onSnapshotSaved callback; UndoBanner fixed bottom con countdown 15s auto-dismiss. Analytics fase 34: migration 024 itinerary_events (append-only RLS insert-only), endpoint edge /api/analytics/itinerary, lib/analytics.ts con sendBeacon + session_id sessionStorage; wire en 8 puntos (viewed/day_selected/added/removed/moved/scheduled/optimized/ai_applied/undo). Print fase 31: página /itinerary/print A4-optimizada con @page CSS + break-inside avoid + auto-print 500ms. Share button navigator.share con clipboard fallback. Timezone badge en day header cuando difiere del navegador. Free_time/note visual dashed border + bg-ink-50 discreto' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);
