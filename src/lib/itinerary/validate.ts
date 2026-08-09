@@ -3,6 +3,7 @@
 
 import type { ItineraryItem, DayWarning } from './types';
 import { parseTimeToMin } from './time';
+import { checkVisitHours, dayOfWeekFromDate, formatCloseTime, type OpeningHours } from './opening-hours';
 
 export function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
   const R = 6371;
@@ -20,8 +21,9 @@ function estimateTravelMin(km: number): number {
   return Math.round(km * 1.5);                         // 40 km/h
 }
 
-export function validateDay(items: ItineraryItem[]): DayWarning[] {
+export function validateDay(items: ItineraryItem[], dateISO?: string | null): DayWarning[] {
   const warnings: DayWarning[] = [];
+  const dow = dateISO ? dayOfWeekFromDate(dateISO) : null;
   const scheduled = items
     .filter(i => i.start_local !== null)
     .map(i => ({ ...i, _startMin: parseTimeToMin(i.start_local)!, _endMin: parseTimeToMin(i.start_local)! + (i.duration_min || 60) }))
@@ -76,6 +78,36 @@ export function validateDay(items: ItineraryItem[]): DayWarning[] {
       message: `${scheduled.length} actividades en un solo día — considera partir en dos`,
       itemIds: scheduled.map(s => s.id)
     });
+  }
+
+  // 4) Opening hours (si tenemos day-of-week + opening_hours cached por item)
+  if(dow !== null){
+    for(const s of scheduled){
+      if(!s.opening_hours) continue;
+      const check = checkVisitHours(s.opening_hours as OpeningHours, dow, s._startMin, s._endMin);
+      if(check.closedAllDay){
+        warnings.push({
+          kind: 'closed',
+          severity: 'error',
+          message: `${s.title} cerrado este día — mueve a otro día`,
+          itemIds: [s.id]
+        });
+      } else if(check.closesDuringVisit && check.closingTimeMin !== null){
+        warnings.push({
+          kind: 'closes_during_visit',
+          severity: 'warning',
+          message: `${s.title} cierra a las ${formatCloseTime(check.closingTimeMin)} — tu visita se extiende más`,
+          itemIds: [s.id]
+        });
+      } else if(!check.openAtStart && !check.closedAllDay){
+        warnings.push({
+          kind: 'closed',
+          severity: 'warning',
+          message: `${s.title} no abre a las ${parseTimeToMin(s.start_local!) !== null ? s.start_local!.slice(0, 5) : '??:??'} este día`,
+          itemIds: [s.id]
+        });
+      }
+    }
   }
 
   return warnings;

@@ -3,18 +3,18 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S44 — Itinerary Engine live) desde el repositorio en producción
-const LOC = 22150;                // +2770 desde S36 (Itinerary Engine + Financial Tracker + Stop Voting + StateFallbacks + AI Cost Dashboard + Web Vitals)
+// Métricas reales medidas 2026-08-08 (post S45 — Itinerary Intelligence live) desde el repositorio en producción
+const LOC = 22850;                // +700 desde S44 (route-matrix, opening-hours, schedule-day, optimize-day, scheduler lib)
 const FILES_TSX = 152;
-const FILES_TS = 78;
-const APIS = 42;                  // +8: itinerary (5), expenses (1), votes (1), analytics/vitals (1)
-const COMPONENTS = 56;            // +9: FinancialTracker, StopVoting, StateFallbacks, WebVitalsReporter, DayNavigator, DayTimeline, ItineraryItemCard, TravelSegment, EditItemDrawer, AddItemInline
-const PAGES = 72;                 // +1: /trip/[slug]/itinerary
-const MIGRATIONS = 21;            // +5: 017 webhook_idempotency, 018 ai_call_log, 019 trip_expenses, 020 stop_votes, 021 itinerary_engine
-const LIB_HELPERS = 32;           // +5: ai-cost-tracker, itinerary/{types,time,positions,validate}
-const RUNTIME_DEPS = 20;          // +1: web-vitals
+const FILES_TS = 80;
+const APIS = 46;                  // +4: itinerary/route-matrix, /opening-hours, /schedule-day, /optimize-day
+const COMPONENTS = 56;
+const PAGES = 72;
+const MIGRATIONS = 22;            // +1: 022_itinerary_intelligence (route_cache + opening_hours JSONB)
+const LIB_HELPERS = 34;           // +2: itinerary/opening-hours, itinerary/scheduler
+const RUNTIME_DEPS = 20;
 const REGIONS = 24;
-const TEMPLATES = 60;             // post-S39
+const TEMPLATES = 60;
 const CURATED_POIS = 231;
 const CONTINENTS = 7;
 
@@ -146,7 +146,15 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S44 P0: Itinerary Engine — schema temporal-espacial (trip_days + itinerary_items)', hoursLow: 25, hoursHigh: 38,
     detail: 'Migration 021: trip_days (day_number/date/timezone/title/notes) + itinerary_items (position INT gaps 100/200/300, 10 tipos place|meal|hotel|flight|train|drive|walk|event|note|free_time, start_local TIME, duration_min, priority must/preferred/optional, fixed BOOL para reservas, source_stop_id backfill). Función DB itinerary_renormalize_positions. RLS public read + write via auth. API completa: GET /itinerary (days+items), POST seed days from trip.start_date+days_count (idempotente), PATCH/DELETE days y items, POST /reorder batch update. lib/itinerary/{types, time, positions, validate}.ts con validateDay (overlaps, travel conflicts haversine, density, huge jumps)' },
   { category: 'S44 P1: Itinerary Engine UI — DayNavigator + Timeline + DnD + Map sync + Edit', hoursLow: 30, hoursHigh: 45,
-    detail: 'Página /[locale]/trip/[slug]/itinerary con split desktop (timeline + map) / toggle mobile. DayNavigator sticky scrollable con Today badge + Unscheduled chip + item count por día. DayTimeline con warnings validateDay banner + totals bar (activityMin/travelMin/travelKm). ItineraryItemCard con time gutter tabular-nums + drag handle + priority icon + fixed lock. TravelSegment haversine estimate walking/driving/transit por distance. EditItemDrawer completo (title/type/day/start/duration presets/priority/fixed/notes). AddItemInline con type chips + Places autocomplete o custom title. Map sync selectedItemId ↔ hoveredStopId. Auto-seed days on first load' }
+    detail: 'Página /[locale]/trip/[slug]/itinerary con split desktop (timeline + map) / toggle mobile. DayNavigator sticky scrollable con Today badge + Unscheduled chip + item count por día. DayTimeline con warnings validateDay banner + totals bar (activityMin/travelMin/travelKm). ItineraryItemCard con time gutter tabular-nums + drag handle + priority icon + fixed lock. TravelSegment haversine estimate walking/driving/transit por distance. EditItemDrawer completo (title/type/day/start/duration presets/priority/fixed/notes). AddItemInline con type chips + Places autocomplete o custom title. Map sync selectedItemId ↔ hoveredStopId. Auto-seed days on first load' },
+  { category: 'S45 P2: Route Matrix real (Google Routes v2) + polyline overlay + hash-based cache', hoursLow: 14, hoursHigh: 20,
+    detail: 'Migration 022 añade route_cache JSONB + route_hash + route_updated_at a trip_days. Endpoint /api/trips/[slug]/itinerary/route-matrix (GET/POST) llama Google Routes v2 computeRoutes con TRAFFIC_AWARE, cachea por hash del orden (lat/lng+id concatenados). Invalidación automática cuando cambia orden. TravelSegment ahora muestra Live badge + duración real (traffic-aware) o fallback haversine. TripMap acepta polyline por día. Fetch debounced por día seleccionado' },
+  { category: 'S45 P3.1: Opening hours check (Google Places details + validateDay warnings)', hoursLow: 12, hoursHigh: 18,
+    detail: 'Migration 022 añade opening_hours JSONB + opening_hours_updated_at a itinerary_items. Endpoint /api/trips/[slug]/itinerary/opening-hours llama Places v1 con FieldMask (regularOpeningHours,currentOpeningHours), cache 30 días. lib/opening-hours.ts checkVisitHours() detecta closedAllDay/closesDuringVisit/openAtStart. validateDay(items, dateISO) extended con 3 nuevas kinds: closed (severity error), closes_during_visit (warning), openAtStart false (warning)' },
+  { category: 'S45 P3.2: Schedule My Day (auto-assign start_local respetando fixed)', hoursLow: 10, hoursHigh: 15,
+    detail: 'lib/itinerary/scheduler.ts pure functions scheduleDay(items, {startMin=540}). Pipeline greedy: cursor=09:00, respeta fixed items sync cursor, asigna current_time a items sin start_local, avanza cursor += duration+travel+buffer. Stop si pasa DAY_END_MIN=22:00. Endpoint /schedule-day con preview mode + persist batch. UI botón ⏰ en DayTimeline header' },
+  { category: 'S45 P3.3: Optimize Day (nearest-neighbor TSP respetando fixed anchors)', hoursLow: 15, hoursHigh: 22,
+    detail: 'lib/itinerary/scheduler.ts optimizeDay(items): nearest-neighbor greedy sin fixed / con fixed divide en segmentos anchored. Endpoint /optimize-day con preview_km, after_km, saved_km. UI botón ✨ con confirm() mostrando reducción. Invalidate route cache post-optimize. Priority must actúa como fixed. Positions renumeradas a 100/200/300 preservando gaps' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);

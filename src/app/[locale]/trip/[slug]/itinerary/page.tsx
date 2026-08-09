@@ -34,6 +34,11 @@ export default function ItineraryPage(){
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mobileView, setMobileView] = useState<'itinerary' | 'map'>('itinerary');
+  // S45 P2: route matrix real por día
+  interface RealLeg { from_item_id: number; to_item_id: number; distance_m: number; duration_s: number; duration_traffic_s: number; polyline?: string }
+  const [realLegsByDay, setRealLegsByDay] = useState<Record<number, RealLeg[]>>({});
+  const [polylineByDay, setPolylineByDay] = useState<Record<number, string>>({});
+  const [routeLoading, setRouteLoading] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -68,6 +73,69 @@ export default function ItineraryPage(){
   }, [slug, selectedDayId]);
 
   useEffect(() => { load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [slug]);
+
+  // S45 P2: Fetch route matrix cuando cambia día seleccionado (debounced via effect)
+  useEffect(() => {
+    if(!selectedDayId) return;
+    if(realLegsByDay[selectedDayId]) return; // ya cargado
+    const dayItems = items.filter(i => i.trip_day_id === selectedDayId && i.lat && i.lng);
+    if(dayItems.length < 2) return;
+    setRouteLoading(true);
+    (async () => {
+      try {
+        const r = await fetch(`/api/trips/${slug}/itinerary/route-matrix?day_id=${selectedDayId}`);
+        const data = await r.json();
+        if(r.ok && Array.isArray(data.legs)){
+          setRealLegsByDay(prev => ({ ...prev, [selectedDayId]: data.legs }));
+          if(data.polyline) setPolylineByDay(prev => ({ ...prev, [selectedDayId]: data.polyline }));
+        }
+      } catch { /* silent — fallback a haversine */ }
+      finally { setRouteLoading(false); }
+    })();
+  }, [selectedDayId, items, slug, realLegsByDay]);
+
+  // S45 P3.2 Schedule day
+  const handleScheduleDay = useCallback(async () => {
+    if(!selectedDayId) return;
+    const r = await fetch(`/api/trips/${slug}/itinerary/schedule-day`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ day_id: selectedDayId })
+    });
+    if(r.ok) await load();
+  }, [selectedDayId, slug, load]);
+
+  // S45 P3.3 Optimize day
+  const handleOptimizeDay = useCallback(async () => {
+    if(!selectedDayId) return;
+    // Preview first
+    const pv = await fetch(`/api/trips/${slug}/itinerary/optimize-day`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ day_id: selectedDayId, preview: true })
+    });
+    const pvData = await pv.json();
+    if(!pv.ok || pvData.saved_km == null || pvData.changes.length === 0){
+      alert(isEs ? 'No hay mejora significativa' : 'No significant improvement');
+      return;
+    }
+    const savedStr = pvData.saved_km < 1 ? `${Math.round(pvData.saved_km * 1000)} m` : `${pvData.saved_km.toFixed(1)} km`;
+    const ok = confirm(isEs
+      ? `Optimizar reduciría ${savedStr} de manejo (de ${pvData.before_km.toFixed(1)} km a ${pvData.after_km.toFixed(1)} km). ¿Aplicar?`
+      : `Optimization would save ${savedStr} of driving (from ${pvData.before_km.toFixed(1)} km to ${pvData.after_km.toFixed(1)} km). Apply?`);
+    if(!ok) return;
+    const r = await fetch(`/api/trips/${slug}/itinerary/optimize-day`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ day_id: selectedDayId })
+    });
+    if(r.ok){
+      // Invalidate route cache for this day
+      setRealLegsByDay(prev => { const c = {...prev}; delete c[selectedDayId]; return c; });
+      setPolylineByDay(prev => { const c = {...prev}; delete c[selectedDayId]; return c; });
+      await load();
+    }
+  }, [selectedDayId, slug, isEs, load]);
 
   const dayItems = useMemo(
     () => items.filter(i => i.trip_day_id === selectedDayId),
@@ -218,6 +286,10 @@ export default function ItineraryPage(){
             onEdit={setEditItem}
             onDelete={handleDelete}
             onAdd={() => setAddOpen(true)}
+            onScheduleDay={handleScheduleDay}
+            onOptimizeDay={handleOptimizeDay}
+            realLegs={selectedDayId ? realLegsByDay[selectedDayId] : undefined}
+            routeLoading={routeLoading}
           />
         </div>
 
@@ -227,6 +299,7 @@ export default function ItineraryPage(){
             <TripMap
               stops={mapStops}
               hoveredStopId={selectedItemId ? String(selectedItemId) : null}
+              polyline={selectedDayId ? polylineByDay[selectedDayId] : undefined}
             />
           ) : (
             <div className="grid h-full place-items-center text-sm text-ink-400">

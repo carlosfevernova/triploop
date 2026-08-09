@@ -8,9 +8,17 @@ import { EmptyState } from '@/components/trip/StateFallbacks';
 import { validateDay, computeDayTotals } from '@/lib/itinerary/validate';
 import { formatDateHuman, formatDurationMin } from '@/lib/itinerary/time';
 
+interface RealLeg {
+  from_item_id: number;
+  to_item_id: number;
+  distance_m: number;
+  duration_s: number;
+  duration_traffic_s: number;
+}
+
 interface Props {
-  day: TripDay | null;          // null = unscheduled bucket
-  items: ItineraryItem[];       // items del día seleccionado
+  day: TripDay | null;
+  items: ItineraryItem[];
   locale: 'en' | 'es';
   selectedItemId: number | null;
   onSelectItem: (id: number | null) => void;
@@ -18,9 +26,13 @@ interface Props {
   onEdit: (item: ItineraryItem) => void;
   onDelete: (item: ItineraryItem) => void;
   onAdd: () => void;
+  onScheduleDay?: () => Promise<void>;    // S45 P3.2
+  onOptimizeDay?: () => Promise<void>;    // S45 P3.3
+  realLegs?: RealLeg[];                    // S45 P2 route matrix
+  routeLoading?: boolean;
 }
 
-export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, onReorder, onEdit, onDelete, onAdd }: Props){
+export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, onReorder, onEdit, onDelete, onAdd, onScheduleDay, onOptimizeDay, realLegs, routeLoading }: Props){
   const isEs = locale === 'es';
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
 
@@ -31,8 +43,9 @@ export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, 
   };
 
   const sorted = [...items].sort((a, b) => a.position - b.position);
-  const warnings = day ? validateDay(sorted) : [];
+  const warnings = day ? validateDay(sorted, day.date) : [];
   const totals = day ? computeDayTotals(sorted) : { activityMin: 0, travelMin: 0, travelKm: 0 };
+  const legByFromId = new Map((realLegs || []).map(l => [l.from_item_id, l]));
 
   const title = day
     ? (day.date ? formatDateHuman(day.date, locale) : `${isEs ? 'Día' : 'Day'} ${day.day_number}`)
@@ -63,10 +76,28 @@ export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, 
             </div>
           )}
         </div>
-        <button
-          onClick={onAdd}
-          className="shrink-0 rounded-pill bg-ink-900 px-4 py-2 text-xs font-semibold text-white shadow-card transition hover:bg-ink-700"
-        >+ {isEs ? 'Agregar' : 'Add'}</button>
+        <div className="flex shrink-0 items-center gap-2">
+          {day && sorted.length >= 2 && onScheduleDay && (
+            <button
+              onClick={onScheduleDay}
+              disabled={routeLoading}
+              className="rounded-pill border border-ocean-400/40 bg-ocean-400/10 px-3 py-2 text-[11px] font-semibold text-ocean-800 transition hover:bg-ocean-400 hover:text-white disabled:opacity-50"
+              title={isEs ? 'Asignar horas a items sin hora' : 'Assign times to unscheduled items'}
+            >⏰ {isEs ? 'Programar día' : 'Schedule day'}</button>
+          )}
+          {day && sorted.length >= 3 && onOptimizeDay && (
+            <button
+              onClick={onOptimizeDay}
+              disabled={routeLoading}
+              className="rounded-pill border border-emerald-400 bg-emerald-50 px-3 py-2 text-[11px] font-semibold text-emerald-800 transition hover:bg-emerald-500 hover:text-white disabled:opacity-50"
+              title={isEs ? 'Reordena minimizando distancia (respeta fijos)' : 'Reorder to minimize distance (respects fixed)'}
+            >✨ {isEs ? 'Optimizar' : 'Optimize'}</button>
+          )}
+          <button
+            onClick={onAdd}
+            className="rounded-pill bg-ink-900 px-4 py-2 text-xs font-semibold text-white shadow-card transition hover:bg-ink-700"
+          >+ {isEs ? 'Agregar' : 'Add'}</button>
+        </div>
       </div>
 
       {/* Warnings */}
@@ -112,7 +143,7 @@ export function DayTimeline({ day, items, locale, selectedItemId, onSelectItem, 
                     selected={selectedItemId === item.id}
                   />
                   {idx < sorted.length - 1 && day && (
-                    <TravelSegment from={item} to={sorted[idx + 1]} locale={locale} />
+                    <TravelSegment from={item} to={sorted[idx + 1]} locale={locale} leg={legByFromId.get(item.id)} />
                   )}
                 </div>
               ))}

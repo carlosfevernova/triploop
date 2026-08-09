@@ -38,6 +38,8 @@ export interface ItineraryItem {
   reservation_id: string | null;
   notes: string | null;
   source_stop_id: string | null;
+  opening_hours: { periods?: unknown[]; weekdayDescriptions?: string[] } | null;
+  opening_hours_updated_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -54,7 +56,7 @@ export interface DaySummary {
 }
 
 export interface DayWarning {
-  kind: 'overlap' | 'travel_conflict' | 'closed' | 'too_short' | 'dense' | 'huge_jump';
+  kind: 'overlap' | 'travel_conflict' | 'closed' | 'closes_during_visit' | 'too_short' | 'dense' | 'huge_jump';
   severity: 'error' | 'warning' | 'info';
   message: string;
   itemIds: number[];
