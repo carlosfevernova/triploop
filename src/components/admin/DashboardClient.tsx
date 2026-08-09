@@ -117,11 +117,11 @@ export function DashboardClient({ metrics }: { metrics: Metrics }){
         </Card>
       </section>
 
-      {/* S44-S48: Features shipped index — links a nuevas capacidades */}
+      {/* S44-S50: Features shipped index — links a nuevas capacidades */}
       <section className="mt-6">
-        <Card title={isEs ? 'Features shipped · S40 → S48' : 'Features shipped · S40 → S48'}>
+        <Card title={isEs ? 'Features shipped · S40 → S50' : 'Features shipped · S40 → S50'}>
           <div className="grid gap-2 md:grid-cols-2">
-            <FeatureLink emoji="🗓" href="/en/trip/pacific-coast-highway/itinerary" label="Itinerary Engine (S44+P0-P5)" desc={isEs ? 'Timeline día×hora + DnD + AI ops + realtime + offline + undo' : 'Timeline day×time + DnD + AI ops + realtime + offline + undo'} tone="coral" />
+            <FeatureLink emoji="🗓" href="/en/trip/pacific-coast-highway/itinerary" label="Itinerary Engine (S44-S50 full)" desc={isEs ? 'Timeline + DnD + AI ops + realtime + offline + undo + Discovery + Tour' : 'Timeline + DnD + AI ops + realtime + offline + undo + Discovery + Tour'} tone="coral" />
             <FeatureLink emoji="🎨" href="/en" label={isEs ? 'Landing rediseño premium (S48)' : 'Landing UX redesign (S48)'} desc={isEs ? 'Hero 3 CTAs por intent · FeatureQuickAccess · Nav Destinos dropdown' : 'Hero 3-intent CTAs · FeatureQuickAccess · Destinations dropdown'} tone="coral" />
             <FeatureLink emoji="💳" href="/admin/ai-costs" label={isEs ? 'AI Cost Dashboard (S43)' : 'AI Cost Dashboard (S43)'} desc={isEs ? 'KPIs · provider/endpoint breakdown · 7-day chart' : 'KPIs · provider/endpoint breakdown · 7-day chart'} tone="ocean" />
             <FeatureLink emoji="📊" href="/admin/reports/technical" label={isEs ? 'Reporte técnico' : 'Technical report'} desc={isEs ? '~25K LOC · 51 APIs · 61 componentes · 24 migrations' : '~25K LOC · 51 APIs · 61 components · 24 migrations'} tone="emerald" />

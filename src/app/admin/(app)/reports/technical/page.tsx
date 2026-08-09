@@ -3,12 +3,12 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S49 — UX rediseño landing + audit fixes) desde el repositorio en producción
-const LOC = 25100;                // +650 desde S47 (Hero rediseño, FeatureQuickAccess, Nav dropdown, StickyCta fix, i18n)
-const FILES_TSX = 157;            // +1: FeatureQuickAccess
+// Métricas reales medidas 2026-08-08 (post S50 — DiscoveryPanel + FeatureTour + Landing cleanup)
+const LOC = 25700;                // +600 desde S49 (DiscoveryPanel, FeatureTour, cleanup)
+const FILES_TSX = 158;            // +2: DiscoveryPanel, FeatureTour  −1: CitiesGrid removido de landing (archivo queda)
 const FILES_TS = 85;
 const APIS = 51;
-const COMPONENTS = 61;            // +1: FeatureQuickAccess
+const COMPONENTS = 63;            // +2: DiscoveryPanel, FeatureTour
 const PAGES = 73;
 const MIGRATIONS = 24;
 const LIB_HELPERS = 38;
@@ -168,7 +168,9 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S48 UX rediseño landing: Hero premium + FeatureQuickAccess + Nav dropdown Destinos', hoursLow: 14, hoursHigh: 22,
     detail: 'Hero reemplaza waitlist obsoleto (producto vive) con: eyebrow "Live · 100% gratis", título directo "Planea tu road trip. Día por día, hora por hora.", 3 CTAs por intent (🗓 Crea itinerario / ✨ Descríbelo IA 30s / 🌍 Explorar rutas), trust row real (sin tarjeta/offline/colab). Mockup ahora Timeline day×time con 6 stops + travel segments + footer stats (Itinerary Engine core visible). FeatureQuickAccess nueva sección 6 features con 1-click access (Itinerary NEW featured con gradient, AI LIVE, Curated 60+, Colab, Offline, WhatsApp BETA). Nav "Rutas" → "Destinos" dropdown 4 continentes × 24 regiones con flags + Escape/click-outside dismissable + ARIA menu. Get Started ahora apunta a AI Planner. Discovery gap cerrado: usuario que quiere solo itinerario lo ve inmediatamente' },
   { category: 'S49 Audit fix: StickyCta bilingual proper + i18n counts 46→60 + admin sync', hoursLow: 4, hoursHigh: 8,
-    detail: 'StickyCta EN copy hardcoded "California trip" → itinerario genérico (24 regiones). CTA target /trip/new → /trip/new/ai (mayor conversion). i18n messages en.json+es.json sed replace "46 iconic routes" → "60 iconic routes" alineado con TEMPLATES post-S39. Admin technical + investors updated con post-S48 metrics. Deploy final' }
+    detail: 'StickyCta EN copy hardcoded "California trip" → itinerario genérico (24 regiones). CTA target /trip/new → /trip/new/ai (mayor conversion). i18n messages en.json+es.json sed replace "46 iconic routes" → "60 iconic routes" alineado con TEMPLATES post-S39. Admin technical + investors updated con post-S48 metrics. Deploy final' },
+  { category: 'S50 UX Discovery: DiscoveryPanel filtros dentro itinerary + FeatureTour first-visit + Landing cleanup', hoursLow: 16, hoursHigh: 24,
+    detail: 'DiscoveryPanel component collapsible dentro de /itinerary: usa /api/places/discover con bbox derivado de items del día + radio padding en km. 7 categorías (food/attraction/nature/hotel/shopping/gas/ev) con chips, filtros radio slider 1-50km + min rating slider + sort rating/distance. Cards con foto/nombre/rating/distancia/price_level + botón +Agregar directo al día seleccionado. Estado optimistic added Set. Diferencial vs Wanderlog Discover: nuestro bbox es del viaje real, no viewport aleatorio. FeatureTour 5 steps interactivos first-visit con localStorage dismiss: DayNavigator, DiscoveryPanel, AI button, TravelSegments live, Colab+Offline. Overlay backdrop-blur + progress dots + Skip/Back/Next. Landing cleanup: CitiesGrid removido (redundante con Nav "Destinos" dropdown post-S48 que ya expone 24 regiones organizadas por 4 continentes). Discovery gap cerrado + tour reduce time-to-first-action' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);

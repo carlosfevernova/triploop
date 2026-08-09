@@ -10,6 +10,8 @@ import { AddItemInline } from '@/components/itinerary/AddItemInline';
 import { AIAssistantDrawer } from '@/components/itinerary/AIAssistantDrawer';
 import { UndoBanner } from '@/components/itinerary/UndoBanner';
 import { OfflineQueueBadge } from '@/components/itinerary/OfflineQueueBadge';
+import { DiscoveryPanel } from '@/components/itinerary/DiscoveryPanel';
+import { FeatureTour } from '@/components/itinerary/FeatureTour';
 import { useItineraryRealtime } from '@/lib/itinerary/use-itinerary-realtime';
 import { trackItinerary } from '@/lib/itinerary/analytics';
 import { ErrorState } from '@/components/trip/StateFallbacks';
@@ -353,6 +355,8 @@ export default function ItineraryPage(){
             realLegs={selectedDayId ? realLegsByDay[selectedDayId] : undefined}
             routeLoading={routeLoading}
           />
+          {/* S50: Discovery panel — filtros de paradas recomendadas */}
+          <DiscoveryPanel slug={slug} dayItems={dayItems} locale={locale} onAdd={handleAdd} />
         </div>
 
         {/* Map */}
@@ -375,6 +379,9 @@ export default function ItineraryPage(){
       </div>
 
       {/* Modals */}
+      {/* S50: FeatureTour first-visit */}
+      <FeatureTour locale={locale} />
+
       <AIAssistantDrawer
         open={aiOpen}
         onClose={() => setAiOpen(false)}

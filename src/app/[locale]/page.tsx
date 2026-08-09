@@ -8,7 +8,6 @@ import { ProblemSection } from '@/components/ProblemSection';
 import { FeaturesShowcase } from '@/components/FeaturesShowcase';
 import { TrustBadges } from '@/components/TrustBadges';
 import { RegionsGrid } from '@/components/RegionsGrid';
-import { CitiesGrid } from '@/components/CitiesGrid';
 import { Comparison } from '@/components/Comparison';
 import { Pricing } from '@/components/Pricing';
 import { FAQ } from '@/components/FAQ';
@@ -35,7 +34,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <FeaturesShowcase />
         <TrustBadges isEs={isEs} />
         <RegionsGrid />
-        <CitiesGrid />
+        {/* S50: CitiesGrid removido — redundante con Nav "Destinos" dropdown que ya expone 24 regiones */}
         <Comparison isEs={isEs} />
         <Pricing locale={locale} />
         <FAQ isEs={isEs} />
