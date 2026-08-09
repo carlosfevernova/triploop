@@ -19,15 +19,26 @@ interface QuickFeature {
 const FEATURES: QuickFeature[] = [
   {
     emoji: '🗓',
-    title: { en: 'Itinerary Engine', es: 'Motor de Itinerario' },
+    title: { en: 'Daily Agenda', es: 'Agenda diaria' },
     desc: {
-      en: 'Timeline day × hour × activity. Drag between days. Auto-optimize by distance. Works offline.',
-      es: 'Timeline día × hora × actividad. Arrastra entre días. Optimiza distancia. Funciona sin señal.'
+      en: 'Just today. Timeline hour by hour. Restaurants, appointments, attractions, notes. No trip macro needed, no signup.',
+      es: 'Solo hoy. Timeline hora por hora. Restaurantes, compromisos, atracciones, notas. Sin viaje macro, sin registro.'
+    },
+    href: (l) => `/${l}/agenda`,
+    cta: { en: 'Plan today', es: 'Planear hoy' },
+    badge: { label: 'NEW', tone: 'emerald' },
+    featured: true
+  },
+  {
+    emoji: '🌍',
+    title: { en: 'Multi-day Trip', es: 'Ruta multi-día' },
+    desc: {
+      en: 'Full road trip planner: multiple days, cities, drag between days, real-time traffic, offline maps, PDF export.',
+      es: 'Planeador road trip completo: varios días, ciudades, DnD entre días, tráfico en vivo, mapas offline, export PDF.'
     },
     href: (l) => `/${l}/trip/new`,
-    cta: { en: 'Start planning', es: 'Empezar a planear' },
-    badge: { label: 'NEW', tone: 'coral' },
-    featured: true
+    cta: { en: 'Start trip', es: 'Empezar viaje' },
+    badge: { label: 'FULL', tone: 'coral' }
   },
   {
     emoji: '✨',

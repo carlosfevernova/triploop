@@ -22,13 +22,38 @@ interface Props {
   locale: 'en' | 'es';
 }
 
+// S52: Quick-add shortcuts con presets (Restaurante 60min, Compromiso 60min, Atracción 90min, Café 30min, Nota sin duración)
+const SHORTCUTS: Array<{ key: string; emoji: string; label_en: string; label_es: string; type: ItineraryItemType; dur: number | null; startHint?: string }> = [
+  { key: 'restaurant', emoji: '🍽️', label_en: 'Restaurant', label_es: 'Restaurante', type: 'meal', dur: 60 },
+  { key: 'coffee', emoji: '☕', label_en: 'Coffee', label_es: 'Café', type: 'meal', dur: 30 },
+  { key: 'appointment', emoji: '🎫', label_en: 'Appointment', label_es: 'Compromiso', type: 'event', dur: 60 },
+  { key: 'attraction', emoji: '🎨', label_en: 'Attraction', label_es: 'Atracción', type: 'place', dur: 90 },
+  { key: 'workout', emoji: '🏋️', label_en: 'Workout', label_es: 'Ejercicio', type: 'event', dur: 60 },
+  { key: 'shopping', emoji: '🛍️', label_en: 'Shopping', label_es: 'Compras', type: 'place', dur: 60 },
+  { key: 'break', emoji: '☕', label_en: 'Break', label_es: 'Descanso', type: 'free_time', dur: 30 },
+  { key: 'note', emoji: '📝', label_en: 'Quick note', label_es: 'Nota rápida', type: 'note', dur: null }
+];
+
 export function AddItemInline({ open, onClose, onAdd, locale }: Props){
   const isEs = locale === 'es';
   const [type, setType] = useState<ItineraryItemType>('place');
   const [customTitle, setCustomTitle] = useState('');
   const [adding, setAdding] = useState(false);
+  const [mode, setMode] = useState<'shortcut' | 'custom'>('shortcut');
 
   if(!open) return null;
+
+  const handleShortcut = async (s: typeof SHORTCUTS[0]) => {
+    setAdding(true);
+    try {
+      await onAdd({
+        type: s.type,
+        title: isEs ? s.label_es : s.label_en,
+        duration_min: s.dur
+      });
+      onClose();
+    } finally { setAdding(false); }
+  };
 
   const handlePlace = async (p: PlaceSuggestion) => {
     setAdding(true);
@@ -65,6 +90,50 @@ export function AddItemInline({ open, onClose, onAdd, locale }: Props){
           <button onClick={onClose} className="rounded-full p-1 text-ink-400 hover:bg-ink-100">✕</button>
         </div>
 
+        {/* Mode toggle: shortcuts (agenda) vs custom (avanzado) */}
+        <div className="mb-4 flex gap-1 rounded-pill border border-ink-200 bg-ink-50 p-0.5 text-[11px]">
+          <button
+            onClick={() => setMode('shortcut')}
+            className={`flex-1 rounded-pill px-3 py-1.5 font-semibold ${mode === 'shortcut' ? 'bg-ink-900 text-white' : 'text-ink-500'}`}
+          >⚡ {isEs ? 'Rápido' : 'Quick'}</button>
+          <button
+            onClick={() => setMode('custom')}
+            className={`flex-1 rounded-pill px-3 py-1.5 font-semibold ${mode === 'custom' ? 'bg-ink-900 text-white' : 'text-ink-500'}`}
+          >🔍 {isEs ? 'Personalizado' : 'Custom'}</button>
+        </div>
+
+        {/* Shortcuts mode: presets para agenda */}
+        {mode === 'shortcut' && (
+          <div>
+            <div className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-ink-400">
+              {isEs ? 'Agregar rápido · con duración por defecto' : 'Quick add · with default duration'}
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {SHORTCUTS.map(s => (
+                <button
+                  key={s.key}
+                  onClick={() => handleShortcut(s)}
+                  disabled={adding}
+                  className="group flex items-center gap-2 rounded-card border border-ink-100 bg-white p-2.5 text-left transition hover:border-emerald-400 hover:shadow-card disabled:opacity-50"
+                >
+                  <span className="text-xl leading-none" aria-hidden>{s.emoji}</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-[13px] font-semibold text-ink-900">{isEs ? s.label_es : s.label_en}</div>
+                    <div className="text-[10px] text-ink-500">{s.dur ? `${s.dur} min` : (isEs ? 'sin duración' : 'no duration')}</div>
+                  </div>
+                  <span className="text-ink-300 group-hover:text-emerald-600">+</span>
+                </button>
+              ))}
+            </div>
+            <p className="mt-3 text-[10px] text-ink-400">
+              {isEs ? 'Edita el título y hora después de agregar.' : 'Edit title and time after adding.'}
+            </p>
+          </div>
+        )}
+
+        {/* Custom mode: original UI */}
+        {mode === 'custom' && (
+          <>
         {/* Type chips */}
         <div className="mb-4 flex flex-wrap gap-1.5">
           {TYPES.map(t => (
@@ -110,6 +179,8 @@ export function AddItemInline({ open, onClose, onAdd, locale }: Props){
               {adding ? (isEs ? 'Agregando…' : 'Adding…') : `+ ${isEs ? 'Agregar' : 'Add'}`}
             </button>
           </div>
+        )}
+          </>
         )}
       </div>
     </div>

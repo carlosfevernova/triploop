@@ -3,13 +3,13 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S51 — Fix 4 broken links + 4 legal/info pages nuevas)
-const LOC = 26150;                // +450 desde S50 (about + terms + privacy + changelog páginas)
-const FILES_TSX = 162;            // +4: about, terms, privacy, changelog
+// Métricas reales medidas 2026-08-08 (post S52 — Agenda standalone + shortcuts quick-add)
+const LOC = 26620;                // +470 desde S51 (agenda landing + agenda/new + AddItemInline shortcuts)
+const FILES_TSX = 164;            // +2: agenda page, agenda/new
 const FILES_TS = 85;
 const APIS = 51;
 const COMPONENTS = 63;
-const PAGES = 77;                 // +4: about, terms, privacy, changelog (× 2 locales cada uno vía [locale])
+const PAGES = 79;                 // +2: agenda, agenda/new
 const MIGRATIONS = 24;
 const LIB_HELPERS = 38;
 const RUNTIME_DEPS = 20;
@@ -172,7 +172,9 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S50 UX Discovery: DiscoveryPanel filtros dentro itinerary + FeatureTour first-visit + Landing cleanup', hoursLow: 16, hoursHigh: 24,
     detail: 'DiscoveryPanel component collapsible dentro de /itinerary: usa /api/places/discover con bbox derivado de items del día + radio padding en km. 7 categorías (food/attraction/nature/hotel/shopping/gas/ev) con chips, filtros radio slider 1-50km + min rating slider + sort rating/distance. Cards con foto/nombre/rating/distancia/price_level + botón +Agregar directo al día seleccionado. Estado optimistic added Set. Diferencial vs Wanderlog Discover: nuestro bbox es del viaje real, no viewport aleatorio. FeatureTour 5 steps interactivos first-visit con localStorage dismiss: DayNavigator, DiscoveryPanel, AI button, TravelSegments live, Colab+Offline. Overlay backdrop-blur + progress dots + Skip/Back/Next. Landing cleanup: CitiesGrid removido (redundante con Nav "Destinos" dropdown post-S48 que ya expone 24 regiones organizadas por 4 continentes). Discovery gap cerrado + tour reduce time-to-first-action' },
   { category: 'S51 Audit: 4 broken links arreglados (/about /terms /privacy /changelog) + Footer dead-links cleanup', hoursLow: 5, hoursHigh: 9,
-    detail: 'Audit programático de links con grep + curl HTTP verification detectó 4 páginas con 404 en producción (referenciadas desde Footer + FeatureQuickAccess). Creadas 4 páginas server-rendered bilingües con revalidate ISR: /[locale]/about (historia + misión + stats platformStats + cómo funciona offline + CTA), /[locale]/terms (8 secciones legales incluyendo as-is service, AI-generated content disclaimer, affiliate links, liability), /[locale]/privacy (essentials list + qué guardamos + proveedores + cookies + tus derechos + no vendemos datos), /[locale]/changelog (6 releases S42-S51 con tags major/feature/fix y bullets por sprint). Footer 4 href="#" reemplazados con URLs reales. Todas las páginas con generateMetadata + alternates hreflang EN/ES + Nav+Footer consistente' }
+    detail: 'Audit programático de links con grep + curl HTTP verification detectó 4 páginas con 404 en producción (referenciadas desde Footer + FeatureQuickAccess). Creadas 4 páginas server-rendered bilingües con revalidate ISR: /[locale]/about (historia + misión + stats platformStats + cómo funciona offline + CTA), /[locale]/terms (8 secciones legales incluyendo as-is service, AI-generated content disclaimer, affiliate links, liability), /[locale]/privacy (essentials list + qué guardamos + proveedores + cookies + tus derechos + no vendemos datos), /[locale]/changelog (6 releases S42-S51 con tags major/feature/fix y bullets por sprint). Footer 4 href="#" reemplazados con URLs reales. Todas las páginas con generateMetadata + alternates hreflang EN/ES + Nav+Footer consistente' },
+  { category: 'S52 Agenda standalone: /[locale]/agenda landing + /agenda/new server-create + Quick shortcuts', hoursLow: 12, hoursHigh: 20,
+    detail: 'Nuevo flujo Agenda diaria completamente separado del concepto Rutas. /[locale]/agenda landing bilingüe con hero (título "Tu día, hora por hora", 2 CTAs primarios agenda vs multi-day trip), mockup día tipo Google/Notion Calendar con 6 items, use cases grid 6 (reservas, compromisos, atracciones, notas, tiempo libre, traslados), bottom CTA. /[locale]/agenda/new server component que RPC gen_trip_slug + inserta trip minimal (1 día, sin destino, sin travelers, is_public=true) + redirect a /trip/{slug}/itinerary — reutiliza tablas existentes sin duplicar schema. Nav "Agenda" primary emerald + "Rutas" secondary. FeatureQuickAccess reordena: Agenda diaria NEW featured emerald + Multi-day Trip FULL coral. AddItemInline agrega Quick/Custom mode toggle: 8 shortcuts con presets (Restaurante 60min, Café 30min, Compromiso 60min, Atracción 90min, Ejercicio 60min, Compras 60min, Descanso 30min, Nota sin duración) con handleShortcut() 1-click add sin buscar. Diferenciación arquitectural: Agenda = flujo day-only, Rutas = flujo multi-day. Ambos comparten Itinerary Engine underneath' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);

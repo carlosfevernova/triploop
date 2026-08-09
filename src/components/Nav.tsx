@@ -78,10 +78,15 @@ export function Nav({ locale }: { locale: Locale }){
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
-          {/* Itinerario primario */}
-          <Link href={`/${locale}/trip/new`} className="text-sm font-semibold text-ink-800 transition hover:text-coral-600">
+          {/* Agenda diaria (nuevo S52) */}
+          <Link href={`/${locale}/agenda`} className="text-sm font-semibold text-emerald-700 transition hover:text-emerald-900">
             <span aria-hidden className="mr-1">🗓</span>
-            {isEs ? 'Crear itinerario' : 'Create itinerary'}
+            {isEs ? 'Agenda' : 'Agenda'}
+          </Link>
+
+          {/* Ruta multi-día */}
+          <Link href={`/${locale}/trip/new`} className="text-sm font-medium text-ink-500 transition hover:text-ink-800">
+            {isEs ? 'Rutas' : 'Trips'}
           </Link>
 
           {/* Destinos dropdown */}
