@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase-admin';
 
@@ -96,8 +97,14 @@ function PostCard({ post, locale, isEs }: { post: Post; locale: string; isEs: bo
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-ink-100">
         {post.hero_image_url ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img src={post.hero_image_url} alt={post.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+          <Image
+            src={post.hero_image_url}
+            alt={post.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            loading="lazy"
+            className="object-cover transition duration-500 group-hover:scale-105"
+          />
         ) : null}
       </div>
       <div className="flex flex-1 flex-col p-5">

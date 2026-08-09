@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase-admin';
@@ -83,8 +84,15 @@ export default async function BlogPost({ params }: PageProps){
         <section className="relative isolate overflow-hidden bg-ink-900 text-white">
           {post.hero_image_url && (
             <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={post.hero_image_url} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-55" />
+              <Image
+                src={post.hero_image_url}
+                alt=""
+                aria-hidden
+                fill
+                sizes="100vw"
+                priority
+                className="object-cover opacity-55"
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-ink-900/40 via-ink-900/60 to-ink-900" />
             </>
           )}
@@ -148,8 +156,14 @@ async function RelatedTemplates({ slugs, locale, isEs }: { slugs: string[]; loca
             className="flex items-center gap-4 rounded-card border border-ink-100 bg-white p-3 transition hover:border-coral-500 hover:shadow-card"
           >
             {t.hero_image_url && (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img src={t.hero_image_url} alt="" className="h-16 w-16 flex-shrink-0 rounded-lg object-cover" loading="lazy" />
+              <Image
+                src={t.hero_image_url}
+                alt=""
+                width={64}
+                height={64}
+                loading="lazy"
+                className="h-16 w-16 flex-shrink-0 rounded-lg object-cover"
+              />
             )}
             <div className="min-w-0 flex-1">
               <div className="font-display text-sm font-semibold text-ink-900">{t.title}</div>
