@@ -1,4 +1,5 @@
 import { getLocale } from 'next-intl/server';
+import { platformStats } from '@/lib/platform-stats';
 
 // Server component. Todo bilingüe inline (no i18n keys) porque data-driven post S17-S22.
 // 3 heroes + 12 secundarios jerárquicos (patrón Linear/Vercel 2026).
@@ -258,7 +259,9 @@ export async function FeaturesShowcase(){
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 text-center">
           <span className="mb-4 inline-block rounded-pill border border-coral-200 bg-coral-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-coral-700">
-            {isEs ? '35+ features · 6 endpoints IA + SSE · 24 regiones · 7 continentes' : '35+ features · 6 AI endpoints + SSE · 24 regions · 7 continents'}
+            {isEs
+              ? `35+ features · ${platformStats.aiEndpoints} endpoints IA + SSE · ${platformStats.regions} regiones · ${platformStats.continents} continentes`
+              : `35+ features · ${platformStats.aiEndpoints} AI endpoints + SSE · ${platformStats.regions} regions · ${platformStats.continents} continents`}
           </span>
           <h2 className="mx-auto max-w-3xl font-display text-display-md text-ink-900 text-balance md:text-display-lg">
             {isEs
@@ -267,8 +270,8 @@ export async function FeaturesShowcase(){
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-500 text-balance">
             {isEs
-              ? 'Wanderlog es visual pero solo EN y Norteamérica. Layla es AI-first pero paywall $49/año. TripIt organiza pero no planea. TripLoop es todo-en-uno: bilingüe nativo · 24 regiones · IA gratis · streaming · 229 POIs curados · WhatsApp bot.'
-              : "Wanderlog is visual but EN-only and North America. Layla is AI-first but paywalled $49/yr. TripIt organizes but doesn't plan. TripLoop is all-in-one: native bilingual · 24 regions · free AI · streaming · 229 curated POIs · WhatsApp bot."}
+              ? `Wanderlog es visual pero solo EN y Norteamérica. Layla es AI-first pero paywall $49/año. TripIt organiza pero no planea. TripLoop es todo-en-uno: bilingüe nativo · ${platformStats.regions} regiones · IA gratis · streaming · ${platformStats.curatedPOIs} POIs curados · WhatsApp bot.`
+              : `Wanderlog is visual but EN-only and North America. Layla is AI-first but paywalled $49/yr. TripIt organizes but doesn't plan. TripLoop is all-in-one: native bilingual · ${platformStats.regions} regions · free AI · streaming · ${platformStats.curatedPOIs} curated POIs · WhatsApp bot.`}
           </p>
         </div>
 

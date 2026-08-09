@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/request';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { AdminPreviewBanner } from '@/components/AdminPreviewBanner';
+import { WebVitalsReporter } from '@/components/WebVitalsReporter';
 import '../globals.css';
 
 const inter = Inter({
@@ -66,6 +67,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages} locale={locale}>
           <AdminPreviewBanner />
           <OfflineBanner />
+          <WebVitalsReporter />
           {children}
         </NextIntlClientProvider>
       </body>

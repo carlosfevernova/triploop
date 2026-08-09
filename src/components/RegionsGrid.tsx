@@ -164,7 +164,7 @@ export function RegionsGrid(){
             {isEs ? 'Road trips icónicos del mundo' : 'Iconic road trips around the world'}
           </h2>
           <p className="mt-3 text-lg text-ink-500">
-            {isEs ? '46 rutas curadas · 24 regiones · 7 continentes · desde Alaska hasta Sahara' : '46 curated itineraries · 24 regions · 7 continents · from Alaska to Sahara'}
+            {isEs ? `${REGIONS.length}+ regiones · rutas icónicas · 7 continentes · desde Alaska hasta Sahara` : `${REGIONS.length}+ regions · iconic routes · 7 continents · from Alaska to Sahara`}
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
