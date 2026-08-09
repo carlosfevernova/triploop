@@ -3,6 +3,7 @@ import type { Locale } from '@/i18n/request';
 import { Nav } from '@/components/Nav';
 import { Hero } from '@/components/Hero';
 import { SocialProofStrip } from '@/components/SocialProofStrip';
+import { FeatureQuickAccess } from '@/components/FeatureQuickAccess';
 import { ProblemSection } from '@/components/ProblemSection';
 import { FeaturesShowcase } from '@/components/FeaturesShowcase';
 import { TrustBadges } from '@/components/TrustBadges';
@@ -27,6 +28,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <Nav locale={locale as Locale} />
       <main>
         <Hero />
+        {/* S48: Quick-access post-hero — 6 features primarias con acción directa (1-click) */}
+        <FeatureQuickAccess />
         <SocialProofStrip isEs={isEs} />
         <ProblemSection />
         <FeaturesShowcase />
