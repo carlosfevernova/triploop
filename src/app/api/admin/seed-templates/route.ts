@@ -2,17 +2,19 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase-admin';
 import { ALL_TEMPLATES } from '@/lib/templates-seed';
 import { TEMPLATE_TRANSLATIONS_ES } from '@/lib/templates-seed-es';
+import { isAdminAuthed } from '@/lib/admin-guard';
 
-// Node runtime: evita problemas de tree-shaking de imports en edge bundle
 export const runtime = 'nodejs';
 
-// One-shot seed endpoint. Idempotent: upserts por slug.
-// Protegido con SEED_TOKEN env var (setear en Vercel + llamar con header X-Seed-Token).
+// S56: Idempotent upsert de todos los templates.
+// Auth: (1) X-Seed-Token header con env SEED_TOKEN OR (2) admin cookie (isAdminAuthed).
 export async function POST(req: Request){
   const token = (req.headers.get('x-seed-token') || '').trim();
   const expected = (process.env.SEED_TOKEN || '').trim();
-  if(!expected || token !== expected){
-    return NextResponse.json({ error: 'unauthorized', hint_len_expected: expected.length, hint_len_got: token.length }, { status: 401 });
+  const tokenValid = !!expected && token === expected;
+  const adminValid = await isAdminAuthed();
+  if(!tokenValid && !adminValid){
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
   const sb = createAdminClient();
