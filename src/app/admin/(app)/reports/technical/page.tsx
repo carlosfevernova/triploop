@@ -3,13 +3,13 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 
 export const metadata = { title: 'Reporte técnico — TripLoop Admin', robots: { index: false } };
 
-// Métricas reales medidas 2026-08-08 (post S50 — DiscoveryPanel + FeatureTour + Landing cleanup)
-const LOC = 25700;                // +600 desde S49 (DiscoveryPanel, FeatureTour, cleanup)
-const FILES_TSX = 158;            // +2: DiscoveryPanel, FeatureTour  −1: CitiesGrid removido de landing (archivo queda)
+// Métricas reales medidas 2026-08-08 (post S51 — Fix 4 broken links + 4 legal/info pages nuevas)
+const LOC = 26150;                // +450 desde S50 (about + terms + privacy + changelog páginas)
+const FILES_TSX = 162;            // +4: about, terms, privacy, changelog
 const FILES_TS = 85;
 const APIS = 51;
-const COMPONENTS = 63;            // +2: DiscoveryPanel, FeatureTour
-const PAGES = 73;
+const COMPONENTS = 63;
+const PAGES = 77;                 // +4: about, terms, privacy, changelog (× 2 locales cada uno vía [locale])
 const MIGRATIONS = 24;
 const LIB_HELPERS = 38;
 const RUNTIME_DEPS = 20;
@@ -170,7 +170,9 @@ const WORK_BREAKDOWN: WorkItem[] = [
   { category: 'S49 Audit fix: StickyCta bilingual proper + i18n counts 46→60 + admin sync', hoursLow: 4, hoursHigh: 8,
     detail: 'StickyCta EN copy hardcoded "California trip" → itinerario genérico (24 regiones). CTA target /trip/new → /trip/new/ai (mayor conversion). i18n messages en.json+es.json sed replace "46 iconic routes" → "60 iconic routes" alineado con TEMPLATES post-S39. Admin technical + investors updated con post-S48 metrics. Deploy final' },
   { category: 'S50 UX Discovery: DiscoveryPanel filtros dentro itinerary + FeatureTour first-visit + Landing cleanup', hoursLow: 16, hoursHigh: 24,
-    detail: 'DiscoveryPanel component collapsible dentro de /itinerary: usa /api/places/discover con bbox derivado de items del día + radio padding en km. 7 categorías (food/attraction/nature/hotel/shopping/gas/ev) con chips, filtros radio slider 1-50km + min rating slider + sort rating/distance. Cards con foto/nombre/rating/distancia/price_level + botón +Agregar directo al día seleccionado. Estado optimistic added Set. Diferencial vs Wanderlog Discover: nuestro bbox es del viaje real, no viewport aleatorio. FeatureTour 5 steps interactivos first-visit con localStorage dismiss: DayNavigator, DiscoveryPanel, AI button, TravelSegments live, Colab+Offline. Overlay backdrop-blur + progress dots + Skip/Back/Next. Landing cleanup: CitiesGrid removido (redundante con Nav "Destinos" dropdown post-S48 que ya expone 24 regiones organizadas por 4 continentes). Discovery gap cerrado + tour reduce time-to-first-action' }
+    detail: 'DiscoveryPanel component collapsible dentro de /itinerary: usa /api/places/discover con bbox derivado de items del día + radio padding en km. 7 categorías (food/attraction/nature/hotel/shopping/gas/ev) con chips, filtros radio slider 1-50km + min rating slider + sort rating/distance. Cards con foto/nombre/rating/distancia/price_level + botón +Agregar directo al día seleccionado. Estado optimistic added Set. Diferencial vs Wanderlog Discover: nuestro bbox es del viaje real, no viewport aleatorio. FeatureTour 5 steps interactivos first-visit con localStorage dismiss: DayNavigator, DiscoveryPanel, AI button, TravelSegments live, Colab+Offline. Overlay backdrop-blur + progress dots + Skip/Back/Next. Landing cleanup: CitiesGrid removido (redundante con Nav "Destinos" dropdown post-S48 que ya expone 24 regiones organizadas por 4 continentes). Discovery gap cerrado + tour reduce time-to-first-action' },
+  { category: 'S51 Audit: 4 broken links arreglados (/about /terms /privacy /changelog) + Footer dead-links cleanup', hoursLow: 5, hoursHigh: 9,
+    detail: 'Audit programático de links con grep + curl HTTP verification detectó 4 páginas con 404 en producción (referenciadas desde Footer + FeatureQuickAccess). Creadas 4 páginas server-rendered bilingües con revalidate ISR: /[locale]/about (historia + misión + stats platformStats + cómo funciona offline + CTA), /[locale]/terms (8 secciones legales incluyendo as-is service, AI-generated content disclaimer, affiliate links, liability), /[locale]/privacy (essentials list + qué guardamos + proveedores + cookies + tus derechos + no vendemos datos), /[locale]/changelog (6 releases S42-S51 con tags major/feature/fix y bullets por sprint). Footer 4 href="#" reemplazados con URLs reales. Todas las páginas con generateMetadata + alternates hreflang EN/ES + Nav+Footer consistente' }
 ];
 
 const TOTAL_LOW = WORK_BREAKDOWN.reduce((sum, w) => sum + w.hoursLow, 0);

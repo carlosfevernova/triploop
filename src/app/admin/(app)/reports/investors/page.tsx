@@ -14,7 +14,7 @@ export default async function InvestorReportPage(){
       <header className="mb-10 border-b border-ink-100 pb-6">
         <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-ink-400">Confidencial · Estado del producto</p>
         <h1 className="font-display text-[32px] font-semibold tracking-tight text-ink-900">TripLoop — Lo que hemos construido</h1>
-        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-08 · Producto en producción · <b>24 regiones · 7 continentes · Itinerary Engine full stack (P0-P5) + Discovery Panel + Feature Tour (S50)</b></p>
+        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-08 · Producto en producción · <b>24 regiones · 7 continentes · Itinerary full stack + Discovery + Tour + Legal/Info pages completas (S51)</b></p>
       </header>
 
       <Section title="🚀 Qué es TripLoop (en lenguaje simple)">

@@ -27,13 +27,13 @@ export function Footer(){
             <ul className="space-y-2 text-sm text-ink-600">
               <li><a href="#features" className="hover:text-ink-900">{t('features')}</a></li>
               <li><a href="#pricing" className="hover:text-ink-900">{t('pricing')}</a></li>
-              <li><a href="#" className="hover:text-ink-900">{t('changelog')}</a></li>
+              <li><a href={`/${locale}/changelog`} className="hover:text-ink-900">{t('changelog')}</a></li>
             </ul>
           </div>
           <div>
             <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-ink-400">{t('company')}</h4>
             <ul className="space-y-2 text-sm text-ink-600">
-              <li><a href="#" className="hover:text-ink-900">{t('about')}</a></li>
+              <li><a href={`/${locale}/about`} className="hover:text-ink-900">{t('about')}</a></li>
               <li><a href={`/${locale}/blog`} className="hover:text-ink-900">{t('blog')}</a></li>
               <li><a href={`/${locale}/whatsapp`} className="hover:text-ink-900">WhatsApp</a></li>
               <li><a href="mailto:hello@triploop.app" className="hover:text-ink-900">{t('contact')}</a></li>
@@ -42,8 +42,8 @@ export function Footer(){
           <div>
             <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-ink-400">{t('legal')}</h4>
             <ul className="space-y-2 text-sm text-ink-600">
-              <li><a href="#" className="hover:text-ink-900">{t('terms')}</a></li>
-              <li><a href="#" className="hover:text-ink-900">{t('privacy')}</a></li>
+              <li><a href={`/${locale}/terms`} className="hover:text-ink-900">{t('terms')}</a></li>
+              <li><a href={`/${locale}/privacy`} className="hover:text-ink-900">{t('privacy')}</a></li>
               <li><a href={`/${locale}/affiliate-disclosure`} className="hover:text-ink-900">{t('affiliate')}</a></li>
             </ul>
           </div>
