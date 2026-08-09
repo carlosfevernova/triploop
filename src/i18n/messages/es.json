@@ -50,11 +50,11 @@
     "emailError": "Algo falló. Intenta de nuevo en un momento."
   },
   "problem": {
-    "title": "Por qué los viajes a California fallan la primera vez",
+    "title": "Por qué planear un road trip todavía cuesta más que el viaje mismo",
     "items": [
-      { "emoji": "🚗", "title": "De LA a San Francisco NO son 2 horas", "body": "Son 6. Google Maps oculta el tráfico real. Te enseñamos el día real de manejo con paradas y buffer por jetlag." },
-      { "emoji": "🧾", "title": "Ese hotel de $89 en realidad son $118", "body": "Los precios en USA no incluyen impuestos ni resort fees. Te mostramos precios finales con IVA California incluido." },
-      { "emoji": "📏", "title": "¿Millas o kilómetros? Los dos.", "body": "Un toggle cambia toda distancia, temperatura y galones a litros. Lee tu viaje en el sistema que sí entiendes." }
+      { "emoji": "🚗", "title": "Google Maps oculta el tráfico real", "body": "Ese manejo de 2h en realidad son 6h con tráfico, comidas y jetlag. Te mostramos el día real con tiempos Google Routes v2 traffic-aware, cacheados por día." },
+      { "emoji": "🧾", "title": "Precios sin sorpresas ocultas", "body": "Hoteles, entradas, comidas — te mostramos precios finales en tu moneda (6 soportadas) con impuestos incluidos. Sin sorpresas en checkout en 24 regiones." },
+      { "emoji": "🌐", "title": "Bilingüe nativo EN + ES", "body": "El único planeador con SEO real hreflang en español + inglés. 500M+ hispanohablantes desatendidos por competidores solo-EN." }
     ]
   },
   "features": {
