@@ -62,7 +62,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${SITE}/${p.locale}/blog/${p.slug}`,
       lastModified: p.updated_at ? new Date(p.updated_at) : (p.published_at ? new Date(p.published_at) : now),
       changeFrequency: 'monthly' as const,
-      priority: 0.7
+      priority: 0.7,
+      // S65 SEO fix — Google linkea versiones EN↔ES del mismo blog post
+      alternates: {
+        languages: {
+          en: `${SITE}/en/blog/${p.slug}`,
+          es: `${SITE}/es/blog/${p.slug}`,
+          'x-default': `${SITE}/en/blog/${p.slug}`
+        }
+      }
     }));
     return [...staticEntries, ...templateEntries, ...blogEntries];
   } catch {

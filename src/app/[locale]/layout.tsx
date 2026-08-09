@@ -44,7 +44,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       canonical: `/${locale}`,
       languages: {
         en: '/en',
-        es: '/es'
+        es: '/es',
+        'x-default': '/en'   // S65 SEO fix — Google necesita fallback para usuarios sin locale
       }
     }
   };

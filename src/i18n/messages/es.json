@@ -54,7 +54,7 @@
     "items": [
       { "emoji": "🚗", "title": "Google Maps oculta el tráfico real", "body": "Ese manejo de 2h en realidad son 6h con tráfico, comidas y jetlag. Te mostramos el día real con tiempos Google Routes v2 traffic-aware, cacheados por día." },
       { "emoji": "🧾", "title": "Precios sin sorpresas ocultas", "body": "Hoteles, entradas, comidas — te mostramos precios finales en tu moneda (6 soportadas) con impuestos incluidos. Sin sorpresas en checkout en 24 regiones." },
-      { "emoji": "🌐", "title": "Bilingüe nativo EN + ES", "body": "El único planeador con SEO real hreflang en español + inglés. 500M+ hispanohablantes desatendidos por competidores solo-EN." }
+      { "emoji": "🌐", "title": "Planea en español, en serio", "body": "Hablas español. 500M+ viajeros hispanohablantes no tienen un planeador road-trip que los atienda — Wanderlog y Layla son solo-inglés. TripLoop es bilingüe EN+ES desde el día uno." }
     ]
   },
   "features": {

@@ -10,8 +10,17 @@ const intlMiddleware = createIntlMiddleware({
 });
 
 // Rutas 100% públicas indexables: NO refrescar Supabase session
-// para evitar contaminar SSG con DYNAMIC_SERVER_USAGE.
+// para evitar contaminar SSG con DYNAMIC_SERVER_USAGE (S65 audit findings — fix TTFB 1.3s → <400ms).
 const PUBLIC_SEO_PREFIXES = [
+  // Landing + páginas info/legal
+  '/en', '/es',   // roots — CRITICAL fix S65 (bloqueaba ISR revalidate=300)
+  '/en/agenda', '/es/agenda',
+  '/en/about', '/es/about',
+  '/en/terms', '/es/terms',
+  '/en/privacy', '/es/privacy',
+  '/en/changelog', '/es/changelog',
+  '/en/affiliate-disclosure', '/es/affiliate-disclosure',
+  // Regiones + templates
   '/en/california', '/es/california',
   '/en/nevada', '/es/nevada',
   '/en/arizona', '/es/arizona',
@@ -46,7 +55,10 @@ export async function middleware(req: NextRequest){
   const response = intlMiddleware(req);
 
   const path = req.nextUrl.pathname;
-  const isPublicSeo = PUBLIC_SEO_PREFIXES.some(p => path === p || path.startsWith(p + '/'));
+  // S65: match exacto para roots (/en, /es) para no cubrir /en/trip/... como público
+  const isPublicSeo = PUBLIC_SEO_PREFIXES.some(p =>
+    (p === '/en' || p === '/es') ? path === p : (path === p || path.startsWith(p + '/'))
+  );
 
   // 2. Refresh session Supabase salvo en rutas SEO estáticas
   if(!isPublicSeo){

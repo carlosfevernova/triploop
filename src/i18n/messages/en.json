@@ -59,7 +59,7 @@
     "items": [
       { "emoji": "🚗", "title": "Google Maps hides real driving reality", "body": "That 2h drive is really 6h with traffic, food stops and jetlag. We show your true day with Google Routes v2 traffic-aware times, cached per day across 24 regions." },
       { "emoji": "🧾", "title": "Prices without hidden fees", "body": "Hotels, tickets, meals — we show final prices in your currency (6 supported) with taxes included. No checkout surprises across 24 regions in 7 continents." },
-      { "emoji": "🌐", "title": "Native bilingual EN + ES", "body": "The only planner with real hreflang SEO in Spanish + English. 500M+ hispanophones underserved by English-only competitors like Wanderlog and Layla." }
+      { "emoji": "🌐", "title": "Plan in Spanish, natively", "body": "You speak Spanish. 500M+ Spanish-speaking travelers have no road-trip planner that serves them — Wanderlog and Layla are English-only. TripLoop is bilingual EN+ES from day one." }
     ]
   },
   "features": {
