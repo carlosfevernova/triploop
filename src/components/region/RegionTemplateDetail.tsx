@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase-admin';
@@ -103,7 +104,15 @@ export async function RegionTemplateDetail({ region, slug, locale }: { region: R
         <section className="relative isolate overflow-hidden bg-ink-900 text-white">
           {tpl.hero_image_url && (
             <>
-              <img src={tpl.hero_image_url} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-60" />
+              <Image
+                src={tpl.hero_image_url}
+                alt=""
+                aria-hidden
+                fill
+                sizes="100vw"
+                priority
+                className="object-cover opacity-60"
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-ink-900/40 via-ink-900/50 to-ink-900/90" />
             </>
           )}

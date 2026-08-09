@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { createPublicClient } from '@/lib/supabase-admin';
 import { REGION_META, type Region } from '@/lib/templates-seed';
 
@@ -73,10 +74,12 @@ function TemplateCard({ tpl, locale, regionSlug, isEs }: { tpl: TemplateRow; loc
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-ink-100">
         {tpl.hero_image_url ? (
-          <img
+          <Image
             src={tpl.hero_image_url}
             alt={tpl.title}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition duration-500 group-hover:scale-105"
             loading="lazy"
           />
         ) : null}
