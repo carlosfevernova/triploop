@@ -14,7 +14,7 @@ export default async function InvestorReportPage(){
       <header className="mb-10 border-b border-ink-100 pb-6">
         <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-ink-400">Confidencial · Estado del producto</p>
         <h1 className="font-display text-[32px] font-semibold tracking-tight text-ink-900">TripLoop — Lo que hemos construido</h1>
-        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-09 · Producto en producción · <b>60 templates · 24 regiones · 7 continentes · Audit S65 3-agent shipped: cache-control fix VERIFICADO producción (private no-store MISS → public HIT, TTFB ~70% mejor) + hreflang x-default + copy benefit-focused bilingüe</b></p>
+        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-09 · Producto en producción · <b>60 templates · 24 regiones · 7 continentes · Auditorías S65+S69 aplicadas (perf+SEO+copy+a11y+security): migration 025 RLS lockdown, focus-visible global, rate-limit /ai/apply</b></p>
       </header>
 
       <Section title="🚀 Qué es TripLoop (en lenguaje simple)">

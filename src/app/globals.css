@@ -21,6 +21,22 @@
     background: theme('colors.coral.500');
     color: white;
   }
+  /* S69 P0 a11y fix (audit accessibility-lead): WCAG 2.4.7 Focus Visible AA.
+     Tailwind Preflight remove outline default — sin este rule, keyboard users no ven indicator en 90% de elements. */
+  *:focus-visible {
+    outline: 2px solid theme('colors.coral.500');
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+  /* Skip-link utility (audit finding #4) */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+  .sr-only.focus\:not-sr-only:focus {
+    position: fixed; width: auto; height: auto; padding: 0.5rem 1rem; margin: 0;
+    overflow: visible; clip: auto; white-space: normal;
+  }
 }
 
 @layer components {

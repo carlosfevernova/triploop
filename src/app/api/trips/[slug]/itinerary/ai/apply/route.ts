@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase-admin';
 import { createClientFromRequest } from '@/lib/supabase-server';
+import { rateLimit, getClientKey, rateLimitResponse } from '@/lib/rate-limit';
 import { validateOps, type ItineraryOp } from '@/lib/itinerary/ai-operations';
 import { scheduleDay, optimizeDay } from '@/lib/itinerary/scheduler';
 import type { ItineraryItem, TripDay } from '@/lib/itinerary/types';
@@ -9,6 +10,7 @@ export const runtime = 'nodejs';
 
 // S46 P4: Apply AI-generated operations (with server-side re-validation).
 // POST { operations: ItineraryOp[] } → ejecuta y devuelve resultado por op.
+// S69 P0 fix: rate-limit missing detectado por audit general-purpose (era gap: /ai tenía 10/60s pero /apply no).
 
 async function checkWriteAccess(req: Request, slug: string){
   const sb = createAdminClient();
@@ -22,6 +24,10 @@ async function checkWriteAccess(req: Request, slug: string){
 }
 
 export async function POST(req: Request, { params }: { params: Promise<{ slug: string }> }){
+  // S69 P0 rate limit fix (audit S69): evita abuso escritura + spam add_item
+  const rl = rateLimit(getClientKey(req), { limit: 20, windowSec: 60 });
+  if(!rl.ok) return rateLimitResponse(rl);
+
   const { slug } = await params;
   const check = await checkWriteAccess(req, slug);
   if(!check.ok) return NextResponse.json({ error: check.error }, { status: check.status });
