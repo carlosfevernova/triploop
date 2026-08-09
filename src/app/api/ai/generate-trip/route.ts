@@ -7,6 +7,7 @@ import { isAdminAuthed } from '@/lib/admin-guard';
 import { matchTemplate, extractRegionKey } from '@/lib/template-matcher';
 import { getCuratedPOIs } from '@/lib/curated-pois';
 import { promptCacheGet, promptCacheSet } from '@/lib/prompt-cache';
+import { validateTrip } from '@/lib/trip-validator';
 import type { TripStop } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -390,6 +391,9 @@ ${jsonSchema(locale)}`;
       try { promptCacheSet(body.prompt, locale, spec); } catch {}
     }
 
+    // S40 P0.2: validate itinerary before returning
+    const validation = validateTrip(tripStops, spec.days_count);
+
     return NextResponse.json({
       trip,
       ai_provider: provider,
@@ -399,7 +403,12 @@ ${jsonSchema(locale)}`;
       match_reasons: curatedMatch.reasons,
       curated_poi_context_count: curatedRefs.length,
       stops_count: tripStops.length,
-      region_hint: spec.region_hint || 'other'
+      region_hint: spec.region_hint || 'other',
+      validation: {
+        valid: validation.valid,
+        score: validation.score,
+        issues: validation.issues.slice(0, 10)
+      }
     });
   } catch (e) {
     return NextResponse.json({ error: 'bad_request', detail: (e as Error).message }, { status: 400 });

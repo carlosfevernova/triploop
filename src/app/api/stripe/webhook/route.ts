@@ -24,6 +24,28 @@ export async function POST(req: Request){
 
   const sb = createAdminClient();
 
+  // S40 P0.1: Idempotency guard — Stripe entrega events at-least-once
+  // Insertar stripe_event_id primero; si duplicado (23505 conflict), skip processing.
+  try {
+    const { error: dupError } = await sb.from('processed_webhook_events').insert({
+      stripe_event_id: event.id,
+      event_type: event.type
+    });
+    if(dupError){
+      // Código 23505 = unique violation → ya procesado. 42P01 = table no existe (soft-fail migration pending).
+      if(dupError.code === '23505'){
+        return NextResponse.json({ received: true, idempotent: true, skipped: 'already_processed' });
+      }
+      if(dupError.code !== '42P01'){
+        // Otro error inesperado — log pero continuar (no bloquear webhook por table gap)
+        console.warn('[stripe webhook] idempotency insert failed:', dupError.message);
+      }
+    }
+  } catch (e) {
+    // Soft-fail: no bloquear webhook si la tabla aún no existe (migration 017)
+    console.warn('[stripe webhook] idempotency check skipped:', (e as Error).message);
+  }
+
   try {
     switch(event.type){
       case 'checkout.session.completed': {
