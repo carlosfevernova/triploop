@@ -55,11 +55,11 @@
     "emailError": "Something went wrong. Try again in a moment."
   },
   "problem": {
-    "title": "Why California trips fail for first-time visitors",
+    "title": "Why road trips still cost more effort than the trip itself",
     "items": [
-      { "emoji": "🚗", "title": "LA to San Francisco isn't 2 hours", "body": "It's 6. Google Maps hides traffic reality. We show your true driving day with rest stops and jetlag buffer." },
-      { "emoji": "🧾", "title": "That $89 hotel is really $118", "body": "US prices exclude sales tax and resort fees. We show final prices with California tax included — no checkout surprises." },
-      { "emoji": "📏", "title": "Miles or kilometers? Yes.", "body": "One toggle switches every distance, temperature, and gallon-to-liter. Read your trip in what actually makes sense." }
+      { "emoji": "🚗", "title": "Google Maps hides real driving reality", "body": "That 2h drive is really 6h with traffic, food stops and jetlag. We show your true day with Google Routes v2 traffic-aware times, cached per day across 24 regions." },
+      { "emoji": "🧾", "title": "Prices without hidden fees", "body": "Hotels, tickets, meals — we show final prices in your currency (6 supported) with taxes included. No checkout surprises across 24 regions in 7 continents." },
+      { "emoji": "🌐", "title": "Native bilingual EN + ES", "body": "The only planner with real hreflang SEO in Spanish + English. 500M+ hispanophones underserved by English-only competitors like Wanderlog and Layla." }
     ]
   },
   "features": {
