@@ -1,4 +1,5 @@
 'use client';
+import { memo } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { ItineraryItem } from '@/lib/itinerary/types';
@@ -33,7 +34,7 @@ interface Props {
   selected: boolean;
 }
 
-export function ItineraryItemCard({ item, index, locale, onEdit, onDelete, onSelect, selected }: Props){
+function ItineraryItemCardImpl({ item, index, locale, onEdit, onDelete, onSelect, selected }: Props){
   const isEs = locale === 'es';
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 };
@@ -117,3 +118,7 @@ export function ItineraryItemCard({ item, index, locale, onEdit, onDelete, onSel
     </div>
   );
 }
+
+// S66: memo — cada card se re-renderiza solo si item/index/locale/selected cambian.
+// Con 30+ items en un día, evita 29 re-renders innecesarios cuando 1 item cambia.
+export const ItineraryItemCard = memo(ItineraryItemCardImpl);

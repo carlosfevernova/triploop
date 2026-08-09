@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import type { TripDay } from '@/lib/itinerary/types';
 import { formatWeekday, formatDay, isToday } from '@/lib/itinerary/time';
 
@@ -13,7 +13,7 @@ interface Props {
   onAddDay?: () => Promise<void> | void;  // S54
 }
 
-export function DayNavigator({ days, selectedDayId, onSelect, locale, itemsCountByDay, unscheduledCount = 0, onAddDay }: Props){
+function DayNavigatorImpl({ days, selectedDayId, onSelect, locale, itemsCountByDay, unscheduledCount = 0, onAddDay }: Props){
   const isEs = locale === 'es';
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -111,3 +111,6 @@ export function DayNavigator({ days, selectedDayId, onSelect, locale, itemsCount
     </div>
   );
 }
+
+// S66: memo — recomputa solo cuando days/selectedDayId/itemsCountByDay/unscheduledCount cambian
+export const DayNavigator = memo(DayNavigatorImpl);

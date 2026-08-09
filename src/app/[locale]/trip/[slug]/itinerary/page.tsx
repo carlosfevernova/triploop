@@ -198,11 +198,15 @@ export default function ItineraryPage(){
     return map;
   }, [items]);
 
-  const unscheduledCount = items.filter(i => i.trip_day_id == null).length;
+  // S66 memoize: recompute solo cuando items cambia
+  const unscheduledCount = useMemo(
+    () => items.filter(i => i.trip_day_id == null).length,
+    [items]
+  );
 
-  // ---- Handlers ----
+  // ---- Handlers ---- (S66: useCallback para evitar re-render children memoized)
 
-  const handleAdd = async (partial: Partial<ItineraryItem>) => {
+  const handleAdd = useCallback(async (partial: Partial<ItineraryItem>) => {
     const body = { ...partial, trip_day_id: selectedDayId };
     const r = await fetch(`/api/trips/${slug}/itinerary/items`, {
       method: 'POST',
@@ -215,9 +219,9 @@ export default function ItineraryPage(){
       setItems(prev => [...prev, data.item]);
       trackItinerary(slug, 'item_added', { item_id: data.item.id, day_id: selectedDayId, type: data.item.type });
     }
-  };
+  }, [slug, selectedDayId, markLocalMutation]);
 
-  const handleEdit = async (patch: Partial<ItineraryItem>) => {
+  const handleEdit = useCallback(async (patch: Partial<ItineraryItem>) => {
     if(!editItem) return;
     markLocalMutation('item', editItem.id);
     const r = await fetch(`/api/trips/${slug}/itinerary/items/${editItem.id}`, {
@@ -227,21 +231,20 @@ export default function ItineraryPage(){
     });
     const data = await r.json();
     if(r.ok && data.item) setItems(prev => prev.map(i => i.id === editItem.id ? data.item : i));
-  };
+  }, [slug, editItem, markLocalMutation]);
 
-  const handleDelete = async (item: ItineraryItem) => {
+  const handleDelete = useCallback(async (item: ItineraryItem) => {
     markLocalMutation('item', item.id);
     setItems(prev => prev.filter(i => i.id !== item.id));
     trackItinerary(slug, 'item_removed', { item_id: item.id, day_id: item.trip_day_id });
     const r = await fetch(`/api/trips/${slug}/itinerary/items/${item.id}`, { method: 'DELETE' });
     if(!r.ok){ await load(); }
-  };
+  }, [slug, markLocalMutation, load]);
 
-  const handleReorder = async (activeId: number, overId: number) => {
+  const handleReorder = useCallback(async (activeId: number, overId: number) => {
     const affected = items.filter(i => i.trip_day_id === selectedDayId);
     const reordered = localReorder(affected, activeId, overId);
     const patchMap = new Map(reordered.map(r => [r.id, r.position]));
-    // Mark all reordered as local mutations
     for(const r of reordered) markLocalMutation('item', r.id);
     setItems(prev => prev.map(i => patchMap.has(i.id) ? { ...i, position: patchMap.get(i.id)! } : i));
 
@@ -253,7 +256,7 @@ export default function ItineraryPage(){
       body: JSON.stringify({ updates })
     });
     if(!res.ok){ await load(); }
-  };
+  }, [slug, selectedDayId, items, markLocalMutation, load]);
 
   // ---- Map data ----
   const mapStops = useMemo(() => {

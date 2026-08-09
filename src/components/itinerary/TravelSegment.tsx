@@ -1,4 +1,5 @@
 'use client';
+import { memo } from 'react';
 import type { ItineraryItem } from '@/lib/itinerary/types';
 import { haversineKm } from '@/lib/itinerary/validate';
 
@@ -23,7 +24,7 @@ function estimateMode(km: number): { emoji: string; mode: 'walk' | 'drive' | 'tr
   return { emoji: '🚗', mode: 'drive', min: Math.round(km * 1.5) };
 }
 
-export function TravelSegment({ from, to, locale, leg }: Props){
+function TravelSegmentImpl({ from, to, locale, leg }: Props){
   const isEs = locale === 'es';
 
   // Datos reales de Google Routes (traffic-aware)
@@ -72,3 +73,6 @@ export function TravelSegment({ from, to, locale, leg }: Props){
     </div>
   );
 }
+
+// S66: memo — evita recompute haversine cuando from/to no cambiaron
+export const TravelSegment = memo(TravelSegmentImpl);
