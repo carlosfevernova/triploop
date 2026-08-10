@@ -34,19 +34,19 @@ export function computeEndLocal(start: string | null, durationMin: number | null
 }
 
 // Format date YYYY-MM-DD → "Tuesday, October 13" según locale
-export function formatDateHuman(dateISO: string | null, locale: 'en' | 'es'): string {
+export function formatDateHuman(dateISO: string | null, locale: string): string {
   if(!dateISO) return '';
   const d = new Date(dateISO + 'T00:00:00');
-  return d.toLocaleDateString(locale === 'es' ? 'es-MX' : 'en-US', {
+  return d.toLocaleDateString(({ en: 'en-US', es: 'es-MX', pt: 'pt-BR', de: 'de-DE' } as Record<string, string>)[locale] ?? 'en-US', {
     weekday: 'long', month: 'long', day: 'numeric'
   });
 }
 
 // "Tuesday" corto
-export function formatWeekday(dateISO: string | null, locale: 'en' | 'es'): string {
+export function formatWeekday(dateISO: string | null, locale: string): string {
   if(!dateISO) return '';
   const d = new Date(dateISO + 'T00:00:00');
-  return d.toLocaleDateString(locale === 'es' ? 'es-MX' : 'en-US', { weekday: 'short' });
+  return d.toLocaleDateString(({ en: 'en-US', es: 'es-MX', pt: 'pt-BR', de: 'de-DE' } as Record<string, string>)[locale] ?? 'en-US', { weekday: 'short' });
 }
 
 // "13" (día del mes)

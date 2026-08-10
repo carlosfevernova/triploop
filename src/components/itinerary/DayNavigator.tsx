@@ -2,19 +2,28 @@
 import { useRef, useEffect, memo } from 'react';
 import type { TripDay } from '@/lib/itinerary/types';
 import { formatWeekday, formatDay, isToday } from '@/lib/itinerary/time';
+import { L } from '@/lib/l4';
 
+// S71m: 4-locale migration. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 interface Props {
   days: TripDay[];
   selectedDayId: number | null;
   onSelect: (dayId: number | null) => void;
-  locale: 'en' | 'es';
+  locale: string;
   itemsCountByDay: Record<number, number>;
   unscheduledCount?: number;
-  onAddDay?: () => Promise<void> | void;  // S54
+  onAddDay?: () => Promise<void> | void;
 }
 
 function DayNavigatorImpl({ days, selectedDayId, onSelect, locale, itemsCountByDay, unscheduledCount = 0, onAddDay }: Props){
-  const isEs = locale === 'es';
+  const dayWord = L(locale, { en: 'Day', es: 'Día', pt: 'Dia', de: 'Tag' });
+  const todayLabel = L(locale, { en: 'Today', es: 'Hoy', pt: 'Hoje', de: 'Heute' });
+  const savedLabel = L(locale, { en: 'Saved', es: 'Ideas', pt: 'Ideias', de: 'Ideen' });
+  const prevLabel = L(locale, { en: 'Previous', es: 'Anterior', pt: 'Anterior', de: 'Vorherige' });
+  const nextLabel = L(locale, { en: 'Next', es: 'Siguiente', pt: 'Próximo', de: 'Nächste' });
+  const addLabel = L(locale, { en: 'Add', es: 'Agregar', pt: 'Adicionar', de: 'Hinzufügen' });
+  const addDayLabel = L(locale, { en: 'Add day', es: 'Agregar día', pt: 'Adicionar dia', de: 'Tag hinzufügen' });
+  const addDayTitle = L(locale, { en: 'Add one more day to the trip', es: 'Agregar un día más al viaje', pt: 'Adicionar mais um dia à viagem', de: 'Einen weiteren Tag zur Reise hinzufügen' });
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   // Scroll selected into view on mount
@@ -33,7 +42,7 @@ function DayNavigatorImpl({ days, selectedDayId, onSelect, locale, itemsCountByD
       <div className="flex items-center gap-1 px-2 py-3">
         <button
           onClick={() => scroll(-1)}
-          aria-label={isEs ? 'Anterior' : 'Previous'}
+          aria-label={prevLabel}
           className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-500 transition hover:border-ink-500 hover:text-ink-900"
         >‹</button>
 
@@ -49,7 +58,7 @@ function DayNavigatorImpl({ days, selectedDayId, onSelect, locale, itemsCountByD
                 : 'border-ink-200 bg-white text-ink-700 hover:border-coral-400'
             }`}
           >
-            <div className="text-[9px] font-bold uppercase tracking-wider opacity-80">{isEs ? 'Ideas' : 'Saved'}</div>
+            <div className="text-[9px] font-bold uppercase tracking-wider opacity-80">{savedLabel}</div>
             <div className="mt-0.5 font-display text-lg font-semibold leading-none">{unscheduledCount}</div>
           </button>
 
@@ -63,7 +72,7 @@ function DayNavigatorImpl({ days, selectedDayId, onSelect, locale, itemsCountByD
                 data-day-id={d.id}
                 onClick={() => onSelect(d.id)}
                 aria-pressed={active}
-                aria-label={`${isEs ? 'Día' : 'Day'} ${d.day_number}${d.date ? ' · ' + d.date : ''}`}
+                aria-label={`${dayWord} ${d.day_number}${d.date ? ' · ' + d.date : ''}`}
                 className={`relative shrink-0 rounded-2xl border px-3 py-2 text-center transition ${
                   active
                     ? 'border-ink-900 bg-ink-900 text-white shadow-card'
@@ -72,16 +81,21 @@ function DayNavigatorImpl({ days, selectedDayId, onSelect, locale, itemsCountByD
                       : 'border-ink-200 bg-white text-ink-700 hover:border-ink-500'
                 }`}
               >
-                {today && <span className="absolute -top-1 -right-1 rounded-pill bg-emerald-500 px-1.5 py-0 text-[8px] font-bold uppercase text-white">{isEs ? 'Hoy' : 'Today'}</span>}
+                {today && <span className="absolute -top-1 -right-1 rounded-pill bg-emerald-500 px-1.5 py-0 text-[8px] font-bold uppercase text-white">{todayLabel}</span>}
                 <div className="text-[9px] font-bold uppercase tracking-wider opacity-80">
-                  {d.date ? formatWeekday(d.date, locale) : `${isEs ? 'Día' : 'Day'}`}
+                  {d.date ? formatWeekday(d.date, locale) : dayWord}
                 </div>
                 <div className="mt-0.5 font-display text-lg font-semibold leading-none">
                   {d.date ? formatDay(d.date) : d.day_number}
                 </div>
                 {count > 0 && (
                   <div className={`mt-1 text-[9px] font-semibold ${active ? 'text-white/80' : 'text-ink-400'}`}>
-                    {count} {isEs ? (count === 1 ? 'parada' : 'paradas') : (count === 1 ? 'stop' : 'stops')}
+                    {count} {L(locale, {
+                      en: count === 1 ? 'stop' : 'stops',
+                      es: count === 1 ? 'parada' : 'paradas',
+                      pt: count === 1 ? 'parada' : 'paradas',
+                      de: count === 1 ? 'Stopp' : 'Stopps'
+                    })}
                   </div>
                 )}
               </button>
@@ -93,18 +107,18 @@ function DayNavigatorImpl({ days, selectedDayId, onSelect, locale, itemsCountByD
         {onAddDay && (
           <button
             onClick={() => onAddDay()}
-            aria-label={isEs ? 'Agregar día' : 'Add day'}
-            title={isEs ? 'Agregar un día más al viaje' : 'Add one more day to the trip'}
+            aria-label={addDayLabel}
+            title={addDayTitle}
             className="shrink-0 rounded-2xl border border-dashed border-emerald-400 bg-emerald-50/40 px-3 py-2 text-center text-emerald-700 transition hover:border-emerald-600 hover:bg-emerald-100"
           >
-            <div className="text-[9px] font-bold uppercase tracking-wider">{isEs ? 'Agregar' : 'Add'}</div>
+            <div className="text-[9px] font-bold uppercase tracking-wider">{addLabel}</div>
             <div className="mt-0.5 font-display text-lg font-semibold leading-none">+</div>
           </button>
         )}
 
         <button
           onClick={() => scroll(1)}
-          aria-label={isEs ? 'Siguiente' : 'Next'}
+          aria-label={nextLabel}
           className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-500 transition hover:border-ink-500 hover:text-ink-900"
         >›</button>
       </div>
