@@ -2,7 +2,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { createPublicClient } from '@/lib/supabase-admin';
 import { REGION_META, type Region } from '@/lib/templates-seed';
+import { L } from '@/lib/l4';
 
+// S71k: 4-locale migration. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
+// Note: REGION_META names/taglines still bilingual EN/ES (data-layer, needs schema extend).
+// UI chrome (back, headings, badges, CTAs) now 4-locale via L().
 interface TemplateRow {
   slug: string; title: string; seo_description?: string; days_count: number;
   origin_city?: string; destination_city?: string; hero_image_url?: string;
@@ -11,7 +15,6 @@ interface TemplateRow {
 }
 
 export async function RegionIndex({ region, locale }: { region: Region; locale: string }){
-  const isEs = locale === 'es';
   const meta = REGION_META[region];
   const sb = createPublicClient();
   const { data } = await sb.from('trips')
@@ -27,35 +30,60 @@ export async function RegionIndex({ region, locale }: { region: Region; locale: 
     return { ...t, title: tr.title || t.title, seo_description: tr.seo_description || t.seo_description };
   });
 
+  // Region meta still has only en/es names in templates-seed.ts — use es for pt (closest romance)
+  // and en for de as fallback until schema extended.
+  const nameFallback = locale === 'pt' || locale === 'es' ? meta.name_es : meta.name_en;
+  const taglineFallback = locale === 'pt' || locale === 'es' ? meta.tagline_es : meta.tagline_en;
+
+  const backLabel = L(locale, { en: 'Back', es: 'Volver', pt: 'Voltar', de: 'Zurück' });
+  const eyebrow = L(locale, {
+    en: `${nameFallback} itineraries · ready to customize`,
+    es: `Rutas ${nameFallback} · listas para personalizar`,
+    pt: `Roteiros de ${nameFallback} · prontos para personalizar`,
+    de: `${nameFallback}-Reisepläne · bereit zum Anpassen`
+  });
+  const heading = L(locale, {
+    en: `${nameFallback} road trips.`,
+    es: `Road trips por ${nameFallback}.`,
+    pt: `Road trips por ${nameFallback}.`,
+    de: `Roadtrips durch ${nameFallback}.`
+  });
+  const emptyMsg = L(locale, {
+    en: 'No templates for this region yet.',
+    es: 'Aún no hay rutas cargadas para esta región.',
+    pt: 'Ainda não há roteiros para esta região.',
+    de: 'Noch keine Templates für diese Region.'
+  });
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-coral-50/40 via-white to-ocean-400/5">
       <div className="mx-auto max-w-6xl px-6 py-8 md:py-12">
         <Link href={`/${locale}`} className="inline-flex items-center gap-1.5 rounded-pill border border-ink-200 bg-white px-3 py-1.5 text-xs font-semibold text-ink-700 transition hover:border-ink-800">
           <span aria-hidden>←</span>
-          {isEs ? 'Volver' : 'Back'}
+          {backLabel}
         </Link>
       </div>
       <div className="mx-auto max-w-6xl px-6 pb-16 md:pb-24">
         <div className="mb-12 max-w-3xl">
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-coral-600">
-            {isEs ? `Rutas ${meta.name_es} · listas para personalizar` : `${meta.name_en} itineraries · ready to customize`}
+            {eyebrow}
           </p>
           <h1 className="font-display text-display-lg tracking-tight text-ink-900">
-            {isEs ? `Road trips por ${meta.name_es}.` : `${meta.name_en} road trips.`}
+            {heading}
           </h1>
           <p className="mt-4 text-lg text-ink-500">
-            {isEs ? meta.tagline_es : meta.tagline_en}
+            {taglineFallback}
           </p>
         </div>
 
         {templates.length === 0 ? (
           <div className="rounded-card border border-dashed border-ink-200 bg-white p-16 text-center">
-            <p className="text-ink-500">{isEs ? 'Aún no hay rutas cargadas para esta región.' : 'No templates for this region yet.'}</p>
+            <p className="text-ink-500">{emptyMsg}</p>
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {templates.map((t) => (
-              <TemplateCard key={t.slug} tpl={t} locale={locale} regionSlug={meta.slug} isEs={isEs} />
+              <TemplateCard key={t.slug} tpl={t} locale={locale} regionSlug={meta.slug} />
             ))}
           </div>
         )}
@@ -64,8 +92,11 @@ export async function RegionIndex({ region, locale }: { region: Region; locale: 
   );
 }
 
-function TemplateCard({ tpl, locale, regionSlug, isEs }: { tpl: TemplateRow; locale: string; regionSlug: string; isEs: boolean }){
+function TemplateCard({ tpl, locale, regionSlug }: { tpl: TemplateRow; locale: string; regionSlug: string }){
   const stopsCount = Array.isArray(tpl.stops) ? tpl.stops.length : 0;
+  const daysWord = L(locale, { en: 'days', es: 'días', pt: 'dias', de: 'Tage' });
+  const stopsWord = L(locale, { en: 'stops', es: 'paradas', pt: 'paradas', de: 'Stopps' });
+  const viewCta = L(locale, { en: 'View trip →', es: 'Ver ruta →', pt: 'Ver roteiro →', de: 'Reise ansehen →' });
   return (
     <Link
       href={`/${locale}/${regionSlug}/${tpl.slug}`}
@@ -84,7 +115,7 @@ function TemplateCard({ tpl, locale, regionSlug, isEs }: { tpl: TemplateRow; loc
           />
         ) : null}
         <div className="absolute right-3 top-3 rounded-pill bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink-800 backdrop-blur">
-          {tpl.days_count} {isEs ? 'días' : 'days'}
+          {tpl.days_count} {daysWord}
         </div>
       </div>
       <div className="flex flex-1 flex-col p-5">
@@ -98,9 +129,9 @@ function TemplateCard({ tpl, locale, regionSlug, isEs }: { tpl: TemplateRow; loc
           <p className="mt-3 line-clamp-2 text-sm text-ink-600">{tpl.seo_description}</p>
         )}
         <div className="mt-4 flex items-center gap-3 border-t border-ink-100 pt-3 text-xs text-ink-500">
-          <span>{stopsCount} {isEs ? 'paradas' : 'stops'}</span>
+          <span>{stopsCount} {stopsWord}</span>
           <span className="ml-auto font-semibold text-coral-600 group-hover:underline">
-            {isEs ? 'Ver ruta →' : 'View trip →'}
+            {viewCta}
           </span>
         </div>
       </div>

@@ -1,18 +1,16 @@
 import Link from 'next/link';
+import { L } from '@/lib/l4';
 
-// S33: shared back button para navegación consistente en todas las rutas.
-// Server component — no state, no client JS. Usa href fallback (no history.back()) para SSR-safety.
-
+// S71k: 4-locale. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 interface Props {
   href: string;
   label?: string;
-  locale?: 'en' | 'es';
+  locale?: string;
   className?: string;
 }
 
 export function BackButton({ href, label, locale = 'en', className = '' }: Props){
-  const isEs = locale === 'es';
-  const finalLabel = label || (isEs ? 'Volver' : 'Back');
+  const finalLabel = label || L(locale, { en: 'Back', es: 'Volver', pt: 'Voltar', de: 'Zurück' });
   return (
     <Link
       href={href}

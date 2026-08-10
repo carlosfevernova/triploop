@@ -6,7 +6,9 @@ import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase-browser';
 import { usePro } from '@/lib/use-pro';
 import type { User } from '@supabase/supabase-js';
+import { L } from '@/lib/l4';
 
+// S71k: 4-locale. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 export function UserMenu({ locale }: { locale: string }){
   const t = useTranslations('nav');
   const router = useRouter();
@@ -59,23 +61,23 @@ export function UserMenu({ locale }: { locale: string }){
       <button
         onClick={() => setOpen((o) => !o)}
         className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-coral-500 to-coral-600 text-sm font-semibold text-white transition hover:shadow-glow"
-        aria-label="User menu"
+        aria-label={L(locale, { en: 'User menu', es: 'Menú de usuario', pt: 'Menu do usuário', de: 'Benutzermenü' })}
       >{initial}</button>
       {open && (
         <div className="absolute right-0 top-full mt-2 w-56 overflow-hidden rounded-card border border-ink-100 bg-white shadow-card-hover">
           <div className="border-b border-ink-100 px-4 py-3">
-            <div className="text-xs text-ink-400">Signed in as</div>
+            <div className="text-xs text-ink-400">{L(locale, { en: 'Signed in as', es: 'Sesión iniciada como', pt: 'Conectado como', de: 'Angemeldet als' })}</div>
             <div className="truncate text-sm font-semibold text-ink-800">{user.email}</div>
           </div>
           <Link href={`/${locale}/my-trips`} onClick={() => setOpen(false)} className="block px-4 py-2.5 text-sm text-ink-700 transition hover:bg-coral-50">
             {t('myTrips')}
           </Link>
           <Link href={`/${locale}/account`} onClick={() => setOpen(false)} className="block px-4 py-2.5 text-sm text-ink-700 transition hover:bg-coral-50">
-            {locale === 'es' ? 'Mi cuenta' : 'Account'}
+            {L(locale, { en: 'Account', es: 'Mi cuenta', pt: 'Minha conta', de: 'Konto' })}
           </Link>
           {!isPro && (
             <Link href={`/${locale}/pricing/upgrade`} onClick={() => setOpen(false)} className="block bg-coral-50 px-4 py-2.5 text-sm font-semibold text-coral-700 transition hover:bg-coral-100">
-              ⭐ {locale === 'es' ? 'Hazte Pro' : 'Go Pro'}
+              ⭐ {L(locale, { en: 'Go Pro', es: 'Hazte Pro', pt: 'Seja Pro', de: 'Pro werden' })}
             </Link>
           )}
           <button onClick={signOut} className="block w-full border-t border-ink-100 px-4 py-2.5 text-left text-sm text-ink-700 transition hover:bg-coral-50">

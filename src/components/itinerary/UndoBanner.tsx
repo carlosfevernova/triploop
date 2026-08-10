@@ -1,19 +1,19 @@
 'use client';
 import { useEffect, useState } from 'react';
 import type { ItineraryItem } from '@/lib/itinerary/types';
+import { L } from '@/lib/l4';
 
-// S47 P4: Undo banner que aparece post-AI-apply. Auto-dismiss 15s.
-
+// S47 P4: Undo banner post-AI-apply. Auto-dismiss 15s.
+// S71k: 4-locale. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 interface Props {
   slug: string;
   snapshot: ItineraryItem[] | null;
   onCleared: () => void;
   onRestored: () => void;
-  locale: 'en' | 'es';
+  locale: string;
 }
 
 export function UndoBanner({ slug, snapshot, onCleared, onRestored, locale }: Props){
-  const isEs = locale === 'es';
   const [restoring, setRestoring] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(15);
 
@@ -46,22 +46,25 @@ export function UndoBanner({ slug, snapshot, onCleared, onRestored, locale }: Pr
     } finally { setRestoring(false); }
   };
 
+  const undoWord = L(locale, { en: 'Undo', es: 'Deshacer', pt: 'Desfazer', de: 'Rückgängig' });
+  const undoingWord = L(locale, { en: 'Undoing…', es: 'Deshaciendo…', pt: 'Desfazendo…', de: 'Wird rückgängig gemacht…' });
+
   return (
     <div className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2 rounded-pill border border-ink-800 bg-ink-900 px-4 py-3 text-white shadow-2xl flex items-center gap-3 text-sm max-w-md">
       <span aria-hidden>✓</span>
       <span className="font-semibold">
-        {isEs ? 'Cambios aplicados' : 'Changes applied'}
+        {L(locale, { en: 'Changes applied', es: 'Cambios aplicados', pt: 'Alterações aplicadas', de: 'Änderungen übernommen' })}
       </span>
       <button
         onClick={restore}
         disabled={restoring}
         className="rounded-pill bg-white/10 px-3 py-1 text-xs font-semibold hover:bg-white/20 disabled:opacity-50"
       >
-        {restoring ? (isEs ? 'Deshaciendo…' : 'Undoing…') : `↺ ${isEs ? 'Deshacer' : 'Undo'} (${secondsLeft}s)`}
+        {restoring ? undoingWord : `↺ ${undoWord} (${secondsLeft}s)`}
       </button>
       <button
         onClick={onCleared}
-        aria-label={isEs ? 'Cerrar' : 'Dismiss'}
+        aria-label={L(locale, { en: 'Dismiss', es: 'Cerrar', pt: 'Fechar', de: 'Schließen' })}
         className="text-white/60 hover:text-white"
       >✕</button>
     </div>
