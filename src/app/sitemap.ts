@@ -36,31 +36,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
+  // S71: query wrapped in Promise.race con timeout 8s + row limits para evitar timeout
+  // total de sitemap.xml (síntoma: Google no puede crawl).
+  const SB_TIMEOUT_MS = 8000;
+  const raceTimeout = <T>(p: PromiseLike<T>): Promise<T | null> =>
+    Promise.race([
+      Promise.resolve(p),
+      new Promise<null>((res) => setTimeout(() => res(null), SB_TIMEOUT_MS))
+    ]);
+
   try {
     const sb = createPublicClient();
-    const { data } = await sb.from('trips')
-      .select('slug, region, updated_at')
-      .eq('is_template', true)
-      .eq('is_public', true);
+    const tripsRes = await raceTimeout(
+      sb.from('trips')
+        .select('slug, region, updated_at')
+        .eq('is_template', true)
+        .eq('is_public', true)
+        .limit(500)
+    );
+    const trips = (tripsRes?.data as Array<{ slug: string; region?: string; updated_at?: string }> | null) || [];
     const templateEntries: MetadataRoute.Sitemap = LOCALES.flatMap((locale) =>
-      (data || []).map((t: { slug: string; region?: string; updated_at?: string }) => {
-        const region = t.region || 'california';
+      trips.map((trip) => {
+        const region = trip.region || 'california';
         return {
-          url: `${SITE}/${locale}/${region}/${t.slug}`,
-          lastModified: t.updated_at ? new Date(t.updated_at) : now,
+          url: `${SITE}/${locale}/${region}/${trip.slug}`,
+          lastModified: trip.updated_at ? new Date(trip.updated_at) : now,
           changeFrequency: 'weekly' as const,
           priority: 0.8,
           alternates: {
-            languages: Object.fromEntries(LOCALES.map((l) => [l, `${SITE}/${l}/${region}/${t.slug}`]))
+            languages: Object.fromEntries(LOCALES.map((l) => [l, `${SITE}/${l}/${region}/${trip.slug}`]))
           }
         };
       })
     );
     // Blog posts
-    const { data: posts } = await sb.from('blog_posts')
-      .select('slug, locale, updated_at, published_at')
-      .eq('published', true);
-    const blogEntries: MetadataRoute.Sitemap = (posts || []).map((p: { slug: string; locale: string; updated_at?: string; published_at?: string }) => ({
+    const postsRes = await raceTimeout(
+      sb.from('blog_posts')
+        .select('slug, locale, updated_at, published_at')
+        .eq('published', true)
+        .limit(500)
+    );
+    const posts = (postsRes?.data as Array<{ slug: string; locale: string; updated_at?: string; published_at?: string }> | null) || [];
+    const blogEntries: MetadataRoute.Sitemap = posts.map((p) => ({
       url: `${SITE}/${p.locale}/blog/${p.slug}`,
       lastModified: p.updated_at ? new Date(p.updated_at) : (p.published_at ? new Date(p.published_at) : now),
       changeFrequency: 'monthly' as const,
