@@ -2,7 +2,10 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
+import { L } from '@/lib/l4';
+import type { Locale } from '@/i18n/request';
 
+// S71i: closes 4-locale migration for landing. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 type Continent = 'north-america' | 'europe' | 'latam' | 'asia' | 'oceania' | 'africa';
 
 const REGIONS = [
@@ -32,14 +35,14 @@ const REGIONS = [
   { slug: 'morocco', continent: 'africa' as Continent, name_en: 'Morocco 🇲🇦', name_es: 'Marruecos 🇲🇦', subtitle_en: 'Marrakech Atlas Sahara Merzouga', subtitle_es: 'Marrakech Atlas Sahara Merzouga', image: 'https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=800&auto=format&fit=crop', trips: 1 }
 ];
 
-const CONTINENT_LABELS: Record<Continent | 'all', { en: string; es: string }> = {
-  all: { en: 'All', es: 'Todos' },
-  'north-america': { en: 'North America', es: 'Norteamérica' },
-  europe: { en: 'Europe', es: 'Europa' },
-  latam: { en: 'Latin America', es: 'Latinoamérica' },
-  asia: { en: 'Asia', es: 'Asia' },
-  oceania: { en: 'Oceania', es: 'Oceanía' },
-  africa: { en: 'Africa', es: 'África' }
+const CONTINENT_LABELS: Record<Continent | 'all', Record<Locale, string>> = {
+  all:            { en: 'All',           es: 'Todos',         pt: 'Todos',           de: 'Alle' },
+  'north-america':{ en: 'North America', es: 'Norteamérica',  pt: 'América do Norte', de: 'Nordamerika' },
+  europe:         { en: 'Europe',        es: 'Europa',        pt: 'Europa',          de: 'Europa' },
+  latam:          { en: 'Latin America', es: 'Latinoamérica', pt: 'América Latina',  de: 'Lateinamerika' },
+  asia:           { en: 'Asia',          es: 'Asia',          pt: 'Ásia',            de: 'Asien' },
+  oceania:        { en: 'Oceania',       es: 'Oceanía',       pt: 'Oceania',         de: 'Ozeanien' },
+  africa:         { en: 'Africa',        es: 'África',        pt: 'África',          de: 'Afrika' }
 };
 
 const CONTINENTS: (Continent | 'all')[] = ['all', 'north-america', 'europe', 'latam', 'asia', 'oceania', 'africa'];
@@ -49,6 +52,17 @@ export function RegionsGrid(){
   const locale = params?.locale || 'en';
   const isEs = locale === 'es';
   const [filter, setFilter] = useState<Continent | 'all'>('all');
+  const tripsWord = L(locale, { en: 'trips', es: 'rutas', pt: 'viagens', de: 'Reisen' });
+  const filterAria = L(locale, { en: 'Filter by continent', es: 'Filtrar por continente', pt: 'Filtrar por continente', de: 'Nach Kontinent filtern' });
+  const eyebrow = L(locale, { en: 'Explore by region', es: 'Explora por región', pt: 'Explore por região', de: 'Nach Region erkunden' });
+  const heading = L(locale, { en: 'Iconic road trips around the world', es: 'Road trips icónicos del mundo', pt: 'Road trips icônicos ao redor do mundo', de: 'Ikonische Roadtrips rund um die Welt' });
+  const subtitle = L(locale, {
+    en: `${REGIONS.length}+ regions · iconic routes · 7 continents · from Alaska to Sahara`,
+    es: `${REGIONS.length}+ regiones · rutas icónicas · 7 continentes · desde Alaska hasta Sahara`,
+    pt: `${REGIONS.length}+ regiões · rotas icônicas · 7 continentes · da Alaska ao Saara`,
+    de: `${REGIONS.length}+ Regionen · ikonische Routen · 7 Kontinente · von Alaska bis Sahara`
+  });
+  const emptyMsg = L(locale, { en: 'No regions for this filter.', es: 'Sin regiones para este filtro.', pt: 'Nenhuma região para este filtro.', de: 'Keine Regionen für diesen Filter.' });
 
   const filtered = filter === 'all' ? REGIONS : REGIONS.filter(r => r.continent === filter);
   const counts = CONTINENTS.reduce((acc, c) => {
@@ -61,18 +75,18 @@ export function RegionsGrid(){
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-10 text-center">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-coral-600">
-            {isEs ? 'Explora por región' : 'Explore by region'}
+            {eyebrow}
           </p>
           <h2 className="font-display text-display-lg text-ink-900 text-balance">
-            {isEs ? 'Road trips icónicos del mundo' : 'Iconic road trips around the world'}
+            {heading}
           </h2>
           <p className="mt-3 text-lg text-ink-500">
-            {isEs ? `${REGIONS.length}+ regiones · rutas icónicas · 7 continentes · desde Alaska hasta Sahara` : `${REGIONS.length}+ regions · iconic routes · 7 continents · from Alaska to Sahara`}
+            {subtitle}
           </p>
         </div>
 
         {/* Filter chips */}
-        <div className="mb-10 flex flex-wrap items-center justify-center gap-2" role="tablist" aria-label={isEs ? 'Filtrar por continente' : 'Filter by continent'}>
+        <div className="mb-10 flex flex-wrap items-center justify-center gap-2" role="tablist" aria-label={filterAria}>
           {CONTINENTS.map(c => {
             const active = filter === c;
             return (
@@ -87,7 +101,7 @@ export function RegionsGrid(){
                     : 'border-ink-200 bg-white text-ink-700 hover:border-coral-300 hover:text-coral-700'
                 }`}
               >
-                {CONTINENT_LABELS[c][isEs ? 'es' : 'en']}
+                {L(locale, CONTINENT_LABELS[c])}
                 <span className={`text-[10px] font-medium ${active ? 'opacity-80' : 'opacity-55'}`}>
                   {counts[c]}
                 </span>
@@ -114,7 +128,7 @@ export function RegionsGrid(){
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/30 to-transparent" />
               <span className="absolute right-3 top-3 rounded-pill bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink-800 backdrop-blur">
-                {r.trips} {isEs ? 'rutas' : 'trips'}
+                {r.trips} {tripsWord}
               </span>
               <div className="absolute inset-x-0 bottom-0 p-5 text-white">
                 <h3 className="font-display text-2xl font-semibold">
@@ -128,7 +142,7 @@ export function RegionsGrid(){
 
         {filtered.length === 0 && (
           <p className="mt-10 text-center text-ink-500">
-            {isEs ? 'Sin regiones para este filtro.' : 'No regions for this filter.'}
+            {emptyMsg}
           </p>
         )}
       </div>
