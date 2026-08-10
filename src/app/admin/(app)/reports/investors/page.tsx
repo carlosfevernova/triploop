@@ -14,22 +14,22 @@ export default async function InvestorReportPage(){
       <header className="mb-10 border-b border-ink-100 pb-6">
         <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-ink-400">Confidencial · Estado del producto</p>
         <h1 className="font-display text-[32px] font-semibold tracking-tight text-ink-900">TripLoop — Lo que hemos construido</h1>
-        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-09 · Producto en producción · <b>60 templates · 24 regiones · 7 continentes · Auditorías S65+S69 aplicadas (perf+SEO+copy+a11y+security): migration 025 RLS lockdown, focus-visible global, rate-limit /ai/apply</b></p>
+        <p className="mt-2 text-[14px] text-ink-500">Vista de socios · 2026-08-10 · Producto en producción · <b>60 templates · 24 regiones · 7 continentes · 4 idiomas (EN·ES·PT·DE) · Auditorías S65+S69+S71 aplicadas (perf+SEO+copy+a11y+security): migration 025 RLS lockdown, focus-visible global, rate-limit /ai/apply, mobile drawer Portal fix + a11y LocaleSwitcher</b></p>
       </header>
 
       <Section title="🚀 Qué es TripLoop (en lenguaje simple)">
         <p className="text-[15px] leading-relaxed">
           Una <b>plataforma web + app</b> que ayuda a turistas a planear road trips <b>por todo el mundo</b> — desde California PCH
           hasta Sahara Morocco, desde Japón Golden Route hasta Patagonia Ruta 40. Sin fricciones comunes: tiempos reales de manejo con
-          tráfico, precios con impuestos incluidos, funciona sin señal, viene con <b>46 rutas icónicas verificadas</b> con nombres de
-          highway (US-101, PCH, NC500, SS163 Amalfi) y stops con coordenadas reales — todo traducido a 2 idiomas.
+          tráfico, precios con impuestos incluidos, funciona sin señal, viene con <b>60 rutas icónicas verificadas</b> con nombres de
+          highway (US-101, PCH, NC500, SS163 Amalfi) y stops con coordenadas reales — todo traducido a 4 idiomas (EN·ES·PT·DE).
         </p>
         <p className="mt-3 text-[15px] leading-relaxed">
           <b>100% en producción</b> en <a href="https://triploop-six.vercel.app" className="text-coral-600 underline">triploop-six.vercel.app</a>.
           Diferenciadores clave: <b>AI Trip Generator con streaming SSE</b> (paradas aparecen en el mapa en tiempo real mientras la IA genera),
           <b> curated-first matcher</b> (respuesta &lt; 200ms con 0 tokens si hay match), <b>231 POIs curados verificados</b>,
-          <b>bot WhatsApp bilingüe</b>, <b>widget embebible</b> para partners, y <b>bilingüe nativo EN+ES</b> — moat único vs
-          Wanderlog (solo EN), Layla ($49/año paywall) y TripIt (solo post-booking).
+          <b>bot WhatsApp bilingüe</b>, <b>widget embebible</b> para partners, y <b>multilingüe nativo EN·ES·PT·DE (S70)</b> — moat único vs
+          Wanderlog (solo EN), Layla ($49/año paywall) y TripIt (solo post-booking). Cobertura combinada: 500M+ hispanohablantes, 240M+ lusófonos, 130M+ germanohablantes.
         </p>
         <p className="mt-3 text-[13px] leading-relaxed text-ink-500">
           <b>Cobertura mundial actual (24 regiones · 7 continentes):</b>
@@ -102,6 +102,8 @@ export default async function InvestorReportPage(){
           <li><b>Precios con impuestos incluidos</b> en checkout. Visitantes MX/EU no sufren el "$89 acaba siendo $118".</li>
           <li><b>SEO programático first</b>: <b>24 plantillas × 2 idiomas</b> + 16 posts blog ya indexables con schema.org completo. Compite en búsquedas orgánicas antes de gastar en ads.</li>
           <li><b>Stack IA open-source triple fallback</b>: Fireworks DeepSeek V3 (base $0.14/1M vs GPT-4 $30/1M = <b>200× más barato</b>) → Groq Llama (free tier) → Anthropic Claude (premium). Sin vendor lock-in.</li>
+          <li><b>Multilingüe nativo 4 idiomas — EN·ES·PT·DE (S70 — nuevo)</b> — expansión de bilingüe a multilingüe con traducciones nativas (no MT automática). Cada string UI, meta title/description, OpenGraph, hreflang, sitemap alternates cubren los 4 idiomas. TAM sumado: mercados anglófono + hispanohablante + lusófono + germanohablante = ~1.1 mil millones de personas. Ningún competidor tiene los 4 (Wanderlog: solo EN; Layla: EN+ES paywall; Roadtrippers: solo EN). Deploy path incluyó middleware locale-aware, sitemap dinámico multi-idioma, y componentes 100% refactoreados para copy locale-aware.</li>
+          <li><b>Mobile drawer fix crítico + a11y polish (S71 — post-audit)</b> — auditoría live Playwright post-S70 detectó bug reportado por usuario "el menú no funciona" con root cause CSS spec: drawer vivía dentro de header con backdrop-filter creando containing block que atrapaba `position:fixed` en 11px de alto (era 1041px de contenido). Fix quirúrgico con React.createPortal a document.body — ahora drawer cubre 92% del viewport correctamente. Close button 44x44 con aria-label i18n × 4 locales agregado (WCAG AA). LocaleSwitcher ahora tiene role="group" + aria-label por botón — screen readers ya no oyen solo "en"/"es"/"pt"/"de" sin contexto. Cero errores consola post-fix (era 3-4 recurrentes). Sitemap.xml de timeout &gt;30s → 216ms (Google puede crawl otra vez). Favicon /favicon.ico legacy resuelto via next.config rewrite. 5 micro-deploys sin regresión.</li>
           <li><b>Colaboración en tiempo real</b> con Supabase Realtime (costo marginal $0). Wanderlog cobra $39.99/año por esta feature.</li>
           <li><b>Mapas offline PWA</b> para parques sin señal. Paridad con Wanderlog Pro pero infraestructura propia.</li>
           <li><b>WhatsApp bot bilingüe con AI</b> — canal preferido LATAM (98% penetración MX/AR/CO). Ningún competidor lo tiene.</li>

@@ -117,16 +117,17 @@ export function DashboardClient({ metrics }: { metrics: Metrics }){
         </Card>
       </section>
 
-      {/* S44-S50: Features shipped index — links a nuevas capacidades */}
+      {/* S44-S71: Features shipped index — links a nuevas capacidades */}
       <section className="mt-6">
-        <Card title={isEs ? 'Features shipped · S40 → S52' : 'Features shipped · S40 → S52'}>
+        <Card title={isEs ? 'Features shipped · S40 → S71' : 'Features shipped · S40 → S71'}>
           <div className="grid gap-2 md:grid-cols-2">
-            <FeatureLink emoji="🗓" href="/en/agenda" label="Agenda diaria (S52 · NEW)" desc={isEs ? 'Day-only flow standalone: sin viaje macro, sin cuenta, 8 shortcuts quick-add' : 'Standalone day-only flow: no macro trip, no account, 8 quick-add shortcuts'} tone="emerald" />
+            <FeatureLink emoji="🌐" href="/pt" label={isEs ? 'Multilingüe 4 idiomas (S70 · NEW)' : '4-language expansion (S70 · NEW)'} desc={isEs ? 'EN·ES·PT·DE nativo · hreflang · sitemap dinámico · TAM +240M lusófonos +130M germanohablantes' : 'Native EN·ES·PT·DE · hreflang · dynamic sitemap · TAM +240M PT +130M DE speakers'} tone="ocean" />
+            <FeatureLink emoji="📱" href="/en" label={isEs ? 'Mobile drawer + a11y (S71)' : 'Mobile drawer + a11y (S71)'} desc={isEs ? 'React Portal fix (drawer 11px → 92% viewport) · close btn WCAG · LocaleSwitcher role=group' : 'React Portal fix (drawer 11px → 92% viewport) · close btn WCAG · LocaleSwitcher role=group'} tone="coral" />
+            <FeatureLink emoji="🗓" href="/en/agenda" label="Agenda diaria (S52)" desc={isEs ? 'Day-only flow standalone: sin viaje macro, sin cuenta, 8 shortcuts quick-add' : 'Standalone day-only flow: no macro trip, no account, 8 quick-add shortcuts'} tone="emerald" />
             <FeatureLink emoji="🌍" href="/en/trip/pacific-coast-highway/itinerary" label="Itinerary Engine (S44-S50 full)" desc={isEs ? 'Multi-día + DnD + AI ops + realtime + offline + Discovery + Tour' : 'Multi-day + DnD + AI ops + realtime + offline + Discovery + Tour'} tone="coral" />
-            <FeatureLink emoji="🎨" href="/en" label={isEs ? 'Landing rediseño premium (S48)' : 'Landing UX redesign (S48)'} desc={isEs ? 'Hero 3 CTAs por intent · FeatureQuickAccess · Nav Destinos dropdown' : 'Hero 3-intent CTAs · FeatureQuickAccess · Destinations dropdown'} tone="coral" />
             <FeatureLink emoji="💳" href="/admin/ai-costs" label={isEs ? 'AI Cost Dashboard (S43)' : 'AI Cost Dashboard (S43)'} desc={isEs ? 'KPIs · provider/endpoint breakdown · 7-day chart' : 'KPIs · provider/endpoint breakdown · 7-day chart'} tone="ocean" />
-            <FeatureLink emoji="📊" href="/admin/reports/technical" label={isEs ? 'Reporte técnico' : 'Technical report'} desc={isEs ? '~25K LOC · 51 APIs · 61 componentes · 24 migrations' : '~25K LOC · 51 APIs · 61 components · 24 migrations'} tone="emerald" />
-            <FeatureLink emoji="💎" href="/admin/reports/investors" label={isEs ? 'Deck inversores' : 'Investor deck'} desc={isEs ? '24 regiones · 7 continentes · valuación 3 escenarios' : '24 regions · 7 continents · 3 valuation scenarios'} tone="amber" />
+            <FeatureLink emoji="📊" href="/admin/reports/technical" label={isEs ? 'Reporte técnico' : 'Technical report'} desc={isEs ? '~27K LOC · 51 APIs · 65 componentes · 24 migrations · 4 locales' : '~27K LOC · 51 APIs · 65 components · 24 migrations · 4 locales'} tone="emerald" />
+            <FeatureLink emoji="💎" href="/admin/reports/investors" label={isEs ? 'Deck inversores' : 'Investor deck'} desc={isEs ? '24 regiones · 7 continentes · 4 idiomas · valuación 3 escenarios' : '24 regions · 7 continents · 4 languages · 3 valuation scenarios'} tone="amber" />
             <FeatureLink emoji="🖨" href="/en/trip/pacific-coast-highway/itinerary/print" label={isEs ? 'Print itinerary (S47)' : 'Print itinerary (S47)'} desc={isEs ? 'PDF-ready A4 con auto-print + break-inside avoid' : 'PDF-ready A4 with auto-print + break-inside avoid'} tone="amber" />
           </div>
           <p className="mt-3 text-[11px] text-ink-400">
