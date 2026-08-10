@@ -6,7 +6,9 @@ import { PlacesAutocomplete } from './PlacesAutocomplete';
 import { StopVoting, stableStopKey } from './StopVoting';
 import { formatDistance, formatDuration } from '@/lib/format';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop, UnitSystem } from '@/lib/types';
+import { L } from '@/lib/l4';
 
+// S71n: 4-locale migration. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 interface Props {
   trip: Trip;
   legs: RouteLeg[];
@@ -14,14 +16,15 @@ interface Props {
   onHover: (stopId: string | null) => void;
   onSettingsChange: (patch: Partial<Trip>) => void;
   onExploreNearby?: (stop: TripStop) => void;
-  onOptimizeRoute?: () => Promise<void> | void;  // S55
-  optimizing?: boolean;                            // S55
+  onOptimizeRoute?: () => Promise<void> | void;
+  optimizing?: boolean;
   isEs?: boolean;
+  locale?: string;
   saving?: boolean;
 }
 
-function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemove, onExploreNearby }: {
-  stop: TripStop; index: number; leg?: RouteLeg; unit: UnitSystem; isEs?: boolean; tripSlug: string;
+function SortableStop({ stop, index, leg, unit, locale, tripSlug, onHover, onRemove, onExploreNearby }: {
+  stop: TripStop; index: number; leg?: RouteLeg; unit: UnitSystem; locale: string; tripSlug: string;
   onHover: (id: string | null) => void; onRemove: () => void; onExploreNearby?: () => void;
 }){
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: stop.id });
@@ -34,12 +37,13 @@ function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemov
       className={`group overflow-hidden rounded-card border border-ink-100 bg-white ${isDragging ? 'shadow-card-hover' : ''}`}
     >
       <div className="flex items-start gap-3 p-4">
-        <button {...attributes} {...listeners} className="mt-0.5 cursor-grab touch-none active:cursor-grabbing" aria-label="drag">
+        <button {...attributes} {...listeners} className="mt-0.5 cursor-grab touch-none active:cursor-grabbing" aria-label={L(locale, { en: 'drag', es: 'arrastrar', pt: 'arrastar', de: 'ziehen' })}>
           <div className="grid h-8 w-8 place-items-center rounded-full bg-coral-500 text-xs font-semibold text-white">
             {index + 1}
           </div>
         </button>
         {stop.photo_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img src={stop.photo_url} alt="" className="h-14 w-14 flex-shrink-0 rounded-lg object-cover" loading="lazy" />
         ) : null}
         <div className="min-w-0 flex-1">
@@ -61,7 +65,7 @@ function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemov
                   onClick={onExploreNearby}
                   className="ml-auto rounded-pill border border-ocean-400/40 bg-ocean-400/10 px-2 py-0.5 text-[10px] font-semibold text-ocean-400 opacity-0 transition group-hover:opacity-100 hover:bg-ocean-400 hover:text-white"
                 >
-                  🔍 {isEs ? 'Cerca' : 'Nearby'}
+                  🔍 {L(locale, { en: 'Nearby', es: 'Cerca', pt: 'Perto', de: 'Nähe' })}
                 </button>
               ) : null}
             </div>
@@ -70,14 +74,13 @@ function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemov
         <button
           onClick={onRemove}
           className="text-ink-300 opacity-0 transition group-hover:opacity-100 hover:text-coral-500"
-          aria-label="remove"
+          aria-label={L(locale, { en: 'remove', es: 'quitar', pt: 'remover', de: 'entfernen' })}
         >
           ✕
         </button>
       </div>
-      {/* S43 P1: Group voting per stop */}
       <div className="border-t border-dashed border-ink-100 bg-ink-50/40 px-4 py-2">
-        <StopVoting slug={tripSlug} stopKey={stableStopKey(stop, index)} locale={isEs ? 'es' : 'en'} compact />
+        <StopVoting slug={tripSlug} stopKey={stableStopKey(stop, index)} locale={(locale === 'es' ? 'es' : 'en') as 'en' | 'es'} compact />
       </div>
       {leg && (
         <div className="flex items-center gap-2 border-t border-dashed border-ink-100 px-4 py-2 text-xs text-ink-500">
@@ -87,7 +90,7 @@ function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemov
           <span className="font-semibold text-ink-700">{formatDuration(leg.duration_traffic_s || leg.duration_s)}</span>
           {leg.duration_traffic_s && leg.duration_s && leg.duration_traffic_s > leg.duration_s * 1.15 && (
             <span className="ml-1 rounded-pill bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-800">
-              {isEs ? 'Tráfico pesado' : 'Heavy traffic'}
+              {L(locale, { en: 'Heavy traffic', es: 'Tráfico pesado', pt: 'Trânsito pesado', de: 'Starker Verkehr' })}
             </span>
           )}
         </div>
@@ -96,7 +99,8 @@ function SortableStop({ stop, index, leg, unit, isEs, tripSlug, onHover, onRemov
   );
 }
 
-export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsChange, onExploreNearby, onOptimizeRoute, optimizing, saving, isEs }: Props){
+export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsChange, onExploreNearby, onOptimizeRoute, optimizing, saving, isEs, locale: localeProp }: Props){
+  const locale = localeProp || (isEs ? 'es' : 'en');
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
 
   const handleDragEnd = (e: DragEndEvent) => {
@@ -121,16 +125,17 @@ export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsC
   };
 
   const handleRemove = (id: string) => {
-    if(trip.stops.length <= 2) return; // mantener min 2
+    if(trip.stops.length <= 2) return;
     onStopsChange(trip.stops.filter(s => s.id !== id));
   };
 
   const totalDist = trip.route_geometry?.total_distance_m || 0;
   const totalDur = trip.route_geometry?.total_duration_s || 0;
+  const savingLabel = L(locale, { en: 'Saving…', es: 'Guardando…', pt: 'Salvando…', de: 'Speichern…' });
+  const savedLabel = L(locale, { en: '✓ Saved', es: '✓ Guardado', pt: '✓ Salvo', de: '✓ Gespeichert' });
 
   return (
     <aside className="flex h-full flex-col border-l border-ink-100 bg-ink-50">
-      {/* Header */}
       <div className="border-b border-ink-100 bg-white p-6">
         <input
           value={trip.title}
@@ -138,7 +143,6 @@ export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsC
           className="w-full bg-transparent font-display text-xl font-semibold text-ink-900 outline-none focus:border-b focus:border-coral-500"
         />
         <div className="mt-3 flex flex-wrap items-center gap-2">
-          {/* Unit toggle */}
           <div className="flex gap-0.5 rounded-pill border border-ink-200 bg-white p-0.5">
             {[['metric','km'],['imperial','mi']].map(([val,label]) => (
               <button key={val}
@@ -155,30 +159,28 @@ export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsC
             {['USD','EUR','MXN','GBP','CAD','AUD'].map(c => <option key={c}>{c}</option>)}
           </select>
           <span className="ml-auto text-[10px] font-semibold uppercase tracking-wider text-emerald-600">
-            {saving ? (isEs ? 'Guardando…' : 'Saving…') : (isEs ? '✓ Guardado' : '✓ Saved')}
+            {saving ? savingLabel : savedLabel}
           </span>
         </div>
       </div>
 
-      {/* Totals */}
       {totalDist > 0 && (
         <div className="grid grid-cols-2 gap-2 border-b border-ink-100 bg-white px-6 pb-4">
           <div className="rounded-lg bg-ink-50 p-3">
             <div className="text-[10px] font-semibold uppercase tracking-wider text-ink-400">
-              {isEs ? 'Distancia total' : 'Total distance'}
+              {L(locale, { en: 'Total distance', es: 'Distancia total', pt: 'Distância total', de: 'Gesamtstrecke' })}
             </div>
             <div className="font-display text-lg font-semibold text-ink-900">{formatDistance(totalDist, trip.unit_system)}</div>
           </div>
           <div className="rounded-lg bg-ink-50 p-3">
             <div className="text-[10px] font-semibold uppercase tracking-wider text-ink-400">
-              {isEs ? 'Manejo total' : 'Drive time'}
+              {L(locale, { en: 'Drive time', es: 'Manejo total', pt: 'Tempo de direção', de: 'Fahrzeit' })}
             </div>
             <div className="font-display text-lg font-semibold text-ink-900">{formatDuration(totalDur)}</div>
           </div>
         </div>
       )}
 
-      {/* Stops list */}
       <div className="flex-1 overflow-auto p-4">
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={trip.stops.map(s => s.id)} strategy={verticalListSortingStrategy}>
@@ -190,7 +192,7 @@ export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsC
                   index={i}
                   leg={legs[i]}
                   unit={trip.unit_system}
-                  isEs={isEs}
+                  locale={locale}
                   tripSlug={trip.slug}
                   onHover={onHover}
                   onRemove={() => handleRemove(stop.id)}
@@ -201,29 +203,32 @@ export function ItineraryPanel({ trip, legs, onStopsChange, onHover, onSettingsC
           </SortableContext>
         </DndContext>
 
-        {/* Add stop */}
         <div className="mt-4">
           <PlacesAutocomplete
-            placeholder={isEs ? '+ Agregar parada' : '+ Add stop'}
+            placeholder={L(locale, { en: '+ Add stop', es: '+ Agregar parada', pt: '+ Adicionar parada', de: '+ Stopp hinzufügen' })}
             onSelect={handleAdd}
           />
         </div>
 
-        {/* S55: Optimize route button — nearest-neighbor TSP preservando origin+destination */}
         {trip.stops.length >= 4 && onOptimizeRoute && (
           <button
             onClick={() => onOptimizeRoute()}
             disabled={optimizing}
             className="mt-3 flex w-full items-center justify-center gap-2 rounded-pill border border-emerald-400 bg-emerald-50 py-2.5 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-500 hover:text-white disabled:opacity-50"
-            title={isEs ? 'Reordena paradas para minimizar distancia (respeta origen y destino)' : 'Reorder stops to minimize distance (respects origin and destination)'}
+            title={L(locale, {
+              en: 'Reorder stops to minimize distance (respects origin and destination)',
+              es: 'Reordena paradas para minimizar distancia (respeta origen y destino)',
+              pt: 'Reordena paradas para minimizar distância (respeita origem e destino)',
+              de: 'Stopps neu anordnen, um Distanz zu minimieren (respektiert Start und Ziel)'
+            })}
           >
             {optimizing ? (
               <>
                 <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-emerald-300 border-t-emerald-700" />
-                {isEs ? 'Optimizando…' : 'Optimizing…'}
+                {L(locale, { en: 'Optimizing…', es: 'Optimizando…', pt: 'Otimizando…', de: 'Optimiere…' })}
               </>
             ) : (
-              <>✨ {isEs ? 'Optimizar orden de paradas' : 'Optimize stop order'}</>
+              <>✨ {L(locale, { en: 'Optimize stop order', es: 'Optimizar orden de paradas', pt: 'Otimizar ordem das paradas', de: 'Stopp-Reihenfolge optimieren' })}</>
             )}
           </button>
         )}

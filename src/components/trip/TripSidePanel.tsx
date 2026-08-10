@@ -8,7 +8,10 @@ import { ChecklistCard } from './ChecklistCard';
 import { PhotoSpotsCard } from './PhotoSpotsCard';
 import { EVChargersCard } from './EVChargersCard';
 import type { Trip } from '@/lib/types';
+import { L } from '@/lib/l4';
+import type { Locale } from '@/i18n/request';
 
+// S71n: 4-locale migration. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 export type SidePanelView = 'budget' | 'insights' | 'checklist' | 'photos' | 'ev';
 
 interface Props {
@@ -16,12 +19,10 @@ interface Props {
   onClose: () => void;
   view: SidePanelView;
   trip: Trip;
-  locale: 'en' | 'es';
+  locale: string;
 }
 
 export function TripSidePanel({ open, onClose, view, trip, locale }: Props){
-  const isEs = locale === 'es';
-
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if(e.key === 'Escape') onClose(); };
     if(open) document.addEventListener('keydown', onKey);
@@ -30,14 +31,14 @@ export function TripSidePanel({ open, onClose, view, trip, locale }: Props){
 
   if(!open) return null;
 
-  const titles: Record<SidePanelView, { es: string; en: string }> = {
-    budget:    { es: 'Presupuesto',       en: 'Budget' },
-    insights:  { es: 'Alertas y consejos', en: 'Warnings & tips' },
-    checklist: { es: 'Qué llevar',         en: 'What to pack' },
-    photos:    { es: 'Spots de foto',      en: 'Photo spots' },
-    ev:        { es: 'Cargadores EV',      en: 'EV chargers' }
+  const titles: Record<SidePanelView, Record<Locale, string>> = {
+    budget:    { en: 'Budget',            es: 'Presupuesto',        pt: 'Orçamento',           de: 'Budget' },
+    insights:  { en: 'Warnings & tips',   es: 'Alertas y consejos', pt: 'Alertas e dicas',     de: 'Warnungen & Tipps' },
+    checklist: { en: 'What to pack',      es: 'Qué llevar',         pt: 'O que levar',         de: 'Was einpacken' },
+    photos:    { en: 'Photo spots',       es: 'Spots de foto',      pt: 'Pontos fotográficos', de: 'Foto-Spots' },
+    ev:        { en: 'EV chargers',       es: 'Cargadores EV',      pt: 'Carregadores EV',     de: 'E-Ladestationen' }
   };
-  const title = isEs ? titles[view].es : titles[view].en;
+  const title = L(locale, titles[view]);
 
   const firstStop = trip.stops?.[0];
 
@@ -50,7 +51,7 @@ export function TripSidePanel({ open, onClose, view, trip, locale }: Props){
           <button
             onClick={onClose}
             className="grid h-9 w-9 place-items-center rounded-full border border-ink-200 bg-white text-ink-500 transition hover:border-ink-800 hover:text-ink-800"
-            aria-label={isEs ? 'Cerrar' : 'Close'}
+            aria-label={L(locale, { en: 'Close', es: 'Cerrar', pt: 'Fechar', de: 'Schließen' })}
           >✕</button>
         </div>
 
@@ -63,7 +64,7 @@ export function TripSidePanel({ open, onClose, view, trip, locale }: Props){
               stops={trip.stops || []}
               region={trip.region || undefined}
               currency={(trip.currency || 'USD') as 'USD' | 'EUR' | 'MXN' | 'GBP' | 'CAD' | 'AUD'}
-              locale={locale}
+              locale={locale as 'en' | 'es'}
             />
             {/* S43 P1: Financial tracker (booked/actual/remaining) — requires auth (RLS) */}
             {(() => {
@@ -82,19 +83,24 @@ export function TripSidePanel({ open, onClose, view, trip, locale }: Props){
                   budgeted={{ gas: b.gas, hotels: b.hotels, food: b.food, attractions: b.attractions, buffer: b.buffer, total: b.total }}
                   currency={b.currency}
                   symbol={b.symbol}
-                  locale={locale}
+                  locale={locale as 'en' | 'es'}
                 />
               );
             })()}
           </div>
         )}
-        {view === 'insights' && <InsightsCard slug={trip.slug} locale={locale} />}
-        {view === 'checklist' && <ChecklistCard slug={trip.slug} locale={locale} />}
-        {view === 'photos' && <PhotoSpotsCard slug={trip.slug} locale={locale} />}
-        {view === 'ev' && firstStop && <EVChargersCard lat={firstStop.lat} lng={firstStop.lng} locale={locale} />}
+        {view === 'insights' && <InsightsCard slug={trip.slug} locale={locale as 'en' | 'es'} />}
+        {view === 'checklist' && <ChecklistCard slug={trip.slug} locale={locale as 'en' | 'es'} />}
+        {view === 'photos' && <PhotoSpotsCard slug={trip.slug} locale={locale as 'en' | 'es'} />}
+        {view === 'ev' && firstStop && <EVChargersCard lat={firstStop.lat} lng={firstStop.lng} locale={locale as 'en' | 'es'} />}
         {view === 'ev' && !firstStop && (
           <p className="rounded-card border border-ink-100 bg-white p-6 text-sm text-ink-500">
-            {isEs ? 'Agrega al menos una parada para buscar cargadores EV cercanos.' : 'Add at least one stop to search EV chargers nearby.'}
+            {L(locale, {
+              en: 'Add at least one stop to search EV chargers nearby.',
+              es: 'Agrega al menos una parada para buscar cargadores EV cercanos.',
+              pt: 'Adicione pelo menos uma parada para buscar carregadores EV próximos.',
+              de: 'Füge mindestens einen Stopp hinzu, um E-Ladestationen in der Nähe zu suchen.'
+            })}
           </p>
         )}
       </div>

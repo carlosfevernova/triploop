@@ -2,25 +2,31 @@
 import { useEffect, useState } from 'react';
 import type { PlaceSuggestion, TripStop } from '@/lib/types';
 import { ErrorState, EmptyState } from './StateFallbacks';
+import { L } from '@/lib/l4';
+import type { Locale } from '@/i18n/request';
 
+// S71n: 4-locale migration. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 interface Props {
   open: boolean;
   onClose: () => void;
   anchor: TripStop | null;
   onAdd: (place: PlaceSuggestion) => void;
   isEs?: boolean;
+  locale?: string;
 }
 
-const CATEGORY_OPTIONS: Array<{ key: string; label_en: string; label_es: string; emoji: string }> = [
-  { key: '', label_en: 'All', label_es: 'Todo', emoji: '🌐' },
-  { key: 'food', label_en: 'Food', label_es: 'Comida', emoji: '🍽️' },
-  { key: 'attraction', label_en: 'Attractions', label_es: 'Atracciones', emoji: '🎡' },
-  { key: 'nature', label_en: 'Nature', label_es: 'Naturaleza', emoji: '🌲' },
-  { key: 'hotel', label_en: 'Hotels', label_es: 'Hoteles', emoji: '🏨' },
-  { key: 'bar', label_en: 'Bars', label_es: 'Bares', emoji: '🍸' }
+type LangStr = Record<Locale, string>;
+const CATEGORY_OPTIONS: Array<{ key: string; label: LangStr; emoji: string }> = [
+  { key: '',           label: { en: 'All',         es: 'Todo',        pt: 'Tudo',       de: 'Alle' },              emoji: '🌐' },
+  { key: 'food',       label: { en: 'Food',        es: 'Comida',      pt: 'Comida',     de: 'Essen' },             emoji: '🍽️' },
+  { key: 'attraction', label: { en: 'Attractions', es: 'Atracciones', pt: 'Atrações',   de: 'Sehenswürdigkeiten' },emoji: '🎡' },
+  { key: 'nature',     label: { en: 'Nature',      es: 'Naturaleza',  pt: 'Natureza',   de: 'Natur' },             emoji: '🌲' },
+  { key: 'hotel',      label: { en: 'Hotels',      es: 'Hoteles',     pt: 'Hotéis',     de: 'Hotels' },            emoji: '🏨' },
+  { key: 'bar',        label: { en: 'Bars',        es: 'Bares',       pt: 'Bares',      de: 'Bars' },              emoji: '🍸' }
 ];
 
-export function NearbyPanel({ open, onClose, anchor, onAdd, isEs }: Props){
+export function NearbyPanel({ open, onClose, anchor, onAdd, isEs, locale: localeProp }: Props){
+  const locale = localeProp || (isEs ? 'es' : 'en');
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<PlaceSuggestion[]>([]);
   const [category, setCategory] = useState('');
@@ -70,18 +76,17 @@ export function NearbyPanel({ open, onClose, anchor, onAdd, isEs }: Props){
               <div className="flex items-center gap-2">
                 <span className="text-xl">🔍</span>
                 <h2 className="font-display text-xl font-semibold text-ink-900">
-                  {isEs ? 'Cerca de' : 'Nearby'}
+                  {L(locale, { en: 'Nearby', es: 'Cerca de', pt: 'Perto de', de: 'In der Nähe' })}
                 </h2>
               </div>
               <p className="mt-1 truncate text-sm font-semibold text-ink-700">{anchor.name}</p>
               <p className="text-xs text-ink-500">
-                {isEs ? 'Radio' : 'Radius'}: {(radius / 1000).toFixed(1)} km
+                {L(locale, { en: 'Radius', es: 'Radio', pt: 'Raio', de: 'Radius' })}: {(radius / 1000).toFixed(1)} km
               </p>
             </div>
-            <button onClick={onClose} className="rounded-full p-1.5 text-ink-500 transition hover:bg-ink-100" aria-label="Close">✕</button>
+            <button onClick={onClose} className="rounded-full p-1.5 text-ink-500 transition hover:bg-ink-100" aria-label={L(locale, { en: 'Close', es: 'Cerrar', pt: 'Fechar', de: 'Schließen' })}>✕</button>
           </div>
 
-          {/* Category chips */}
           <div className="mt-3 flex flex-wrap gap-1.5">
             {CATEGORY_OPTIONS.map((opt) => {
               const active = category === opt.key;
@@ -95,22 +100,17 @@ export function NearbyPanel({ open, onClose, anchor, onAdd, isEs }: Props){
                       : 'border-ink-200 bg-white text-ink-700 hover:border-ink-500'
                   }`}
                 >
-                  {opt.emoji} {isEs ? opt.label_es : opt.label_en}
+                  {opt.emoji} {L(locale, opt.label)}
                 </button>
               );
             })}
           </div>
 
-          {/* Radius slider */}
           <div className="mt-3 flex items-center gap-2 text-[10px] text-ink-500">
             <span>500m</span>
             <input
-              type="range"
-              min={500}
-              max={10000}
-              step={500}
-              value={radius}
-              onChange={(e) => setRadius(Number(e.target.value))}
+              type="range" min={500} max={10000} step={500}
+              value={radius} onChange={(e) => setRadius(Number(e.target.value))}
               className="flex-1 accent-coral-500"
             />
             <span>10km</span>
@@ -124,14 +124,19 @@ export function NearbyPanel({ open, onClose, anchor, onAdd, isEs }: Props){
             </div>
           )}
           {error && (
-            <ErrorState error={error} onRetry={search} locale={isEs ? 'es' : 'en'} />
+            <ErrorState error={error} onRetry={search} locale={(locale === 'es' ? 'es' : 'en') as 'en' | 'es'} />
           )}
           {!loading && !error && results.length === 0 && (
             <EmptyState
               icon="🗺️"
-              title={isEs ? 'Sin resultados' : 'No results'}
-              hint={isEs ? 'Aumenta el radio o cambia la categoría.' : 'Try widening the radius or switching category.'}
-              cta={{ label: isEs ? '📏 Radio 10 km' : '📏 10 km radius', onClick: () => setRadius(10000) }}
+              title={L(locale, { en: 'No results', es: 'Sin resultados', pt: 'Sem resultados', de: 'Keine Ergebnisse' })}
+              hint={L(locale, {
+                en: 'Try widening the radius or switching category.',
+                es: 'Aumenta el radio o cambia la categoría.',
+                pt: 'Aumente o raio ou mude a categoria.',
+                de: 'Vergrößere den Radius oder wechsle die Kategorie.'
+              })}
+              cta={{ label: L(locale, { en: '📏 10 km radius', es: '📏 Radio 10 km', pt: '📏 Raio 10 km', de: '📏 Radius 10 km' }), onClick: () => setRadius(10000) }}
             />
           )}
           <ul className="space-y-2">
@@ -141,6 +146,7 @@ export function NearbyPanel({ open, onClose, anchor, onAdd, isEs }: Props){
                 <li key={p.place_id} className="group overflow-hidden rounded-card border border-ink-100 bg-white transition hover:border-ocean-400 hover:shadow-card">
                   <div className="flex gap-3">
                     {p.photo_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img src={p.photo_url} alt="" className="h-24 w-24 flex-shrink-0 object-cover" loading="lazy" />
                     ) : (
                       <div className="grid h-24 w-24 flex-shrink-0 place-items-center bg-gradient-to-br from-ink-50 to-ink-100 text-2xl">📍</div>
@@ -174,7 +180,9 @@ export function NearbyPanel({ open, onClose, anchor, onAdd, isEs }: Props){
                               : 'bg-ocean-400 text-white hover:brightness-110'
                           }`}
                         >
-                          {isAdded ? (isEs ? '✓ Agregado' : '✓ Added') : (isEs ? '+ Agregar' : '+ Add')}
+                          {isAdded
+                            ? L(locale, { en: '✓ Added', es: '✓ Agregado', pt: '✓ Adicionado', de: '✓ Hinzugefügt' })
+                            : L(locale, { en: '+ Add', es: '+ Agregar', pt: '+ Adicionar', de: '+ Hinzufügen' })}
                         </button>
                       </div>
                     </div>
