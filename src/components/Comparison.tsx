@@ -19,7 +19,7 @@ const ROWS: Row[] = [
   { feature: { en: 'Highway names visible (US-101, PCH, NC500)', es: 'Nombres highway visible (US-101, PCH, NC500)' }, triploop: true, wanderlog: false, layla: false, tripit: false, google_my_maps: 'Auto-map', highlight: true },
   { feature: { en: 'Flight-Delay Reshuffle (AI)', es: 'Reorganización por vuelo (IA)' }, triploop: true, wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
   { feature: { en: 'Bilingual EN + ES (native SEO)', es: 'Bilingüe EN + ES (SEO nativo)' }, triploop: true, wanderlog: 'EN only', layla: 'EN only', tripit: 'EN only', google_my_maps: true, highlight: true },
-  { feature: { en: 'WhatsApp bot', es: 'Bot WhatsApp' }, triploop: 'Twilio + AI', wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
+  { feature: { en: 'WhatsApp bot', es: 'Bot WhatsApp' }, triploop: 'AI-powered', wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
   { feature: { en: 'Embeddable widget', es: 'Widget embebible' }, triploop: true, wanderlog: false, layla: false, tripit: false, google_my_maps: false, highlight: true },
   { feature: { en: 'Budget calculator (real 2026 data)', es: 'Calculadora presupuestos (datos 2026)' }, triploop: true, wanderlog: false, layla: 'Hotels only', tripit: false, google_my_maps: false },
   { feature: { en: 'AI warnings + local tips', es: 'Alertas IA + tips locales' }, triploop: true, wanderlog: false, layla: false, tripit: false, google_my_maps: false },
@@ -64,6 +64,10 @@ export function Comparison({ isEs }: { isEs?: boolean }){
               : 'We audited the 4 most-cited apps in 2026 travel AI tier-lists (Layla, MonkeyTravel, Voyaige). Highlighted rows = our unique features.'}
           </p>
         </div>
+        <p className="mb-3 flex items-center justify-center gap-2 text-[11px] font-medium text-ink-400 md:hidden">
+          <span aria-hidden>↔</span>
+          {isEs ? 'Desliza para ver la tabla completa' : 'Swipe to see full table'}
+        </p>
         <div className="overflow-x-auto rounded-card border border-ink-100 bg-white shadow-card-hover">
           <table className="w-full text-sm">
             <thead>

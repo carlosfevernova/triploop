@@ -22,8 +22,8 @@ const QA: QA[] = [
   {
     q_en: 'What AI does TripLoop use?',
     q_es: '¿Qué IA usa TripLoop?',
-    a_en: 'Open-source models first: DeepSeek V3 via Fireworks (best cost/quality) with fallback to Llama 3.3 70B via Groq (ultra-fast). Anthropic Claude Haiku as backup. Zero vendor lock-in.',
-    a_es: 'Modelos open-source primero: DeepSeek V3 vía Fireworks (mejor costo/calidad) con fallback a Llama 3.3 70B en Groq (ultra rápido). Claude Haiku de Anthropic como respaldo. Cero vendor lock-in.'
+    a_en: 'Top open models with a four-provider safety net — if one goes down, your trip planner keeps working. Answers arrive in seconds, and we never lock into a single vendor so you never pay AI premium.',
+    a_es: 'Los mejores modelos abiertos con red de seguridad de cuatro proveedores — si uno cae, tu planeador sigue funcionando. Las respuestas llegan en segundos, y no dependemos de un solo proveedor para que nunca pagues sobreprecio de IA.'
   },
   {
     q_en: 'Can I use TripLoop offline in a national park?',
@@ -40,8 +40,8 @@ const QA: QA[] = [
   {
     q_en: 'Is my trip data private?',
     q_es: '¿Mis datos de viaje son privados?',
-    a_en: 'Anonymous trips are public via unique share link. Once you register, your trips are private by default and only readable by you (enforced via Supabase Row Level Security). No ads, no data selling.',
-    a_es: 'Los viajes anónimos son públicos vía link único. Al registrarte, tus viajes son privados por defecto y solo tú los ves (Row Level Security en Supabase). Sin ads, sin venta de datos.'
+    a_en: 'Anonymous trips are public via unique share link. Once you register, your trips are private by default and only readable by you — enforced at the database level, not just the app. No ads, no data selling, ever.',
+    a_es: 'Los viajes anónimos son públicos vía link único. Al registrarte, tus viajes son privados por defecto y solo tú los ves — protegido a nivel de base de datos, no solo en la app. Sin ads, sin venta de datos, nunca.'
   },
   {
     q_en: 'Which regions and countries does TripLoop cover?',
@@ -58,8 +58,8 @@ const QA: QA[] = [
   {
     q_en: 'What is the WhatsApp bot?',
     q_es: '¿Qué es el bot de WhatsApp?',
-    a_en: 'Twilio-powered bilingual bot that lets you plan trips by chat. Commands: /nuevo (new trip), /mis-viajes (list), /help. Free-form queries fall back to DeepSeek AI. LATAM primary channel (98% WhatsApp penetration MX/AR/CO).',
-    a_es: 'Bot bilingüe con Twilio para planear viajes por chat. Comandos: /nuevo, /mis-viajes, /help. Consultas libres caen a DeepSeek IA. Canal primario LATAM (98% penetración WhatsApp MX/AR/CO).'
+    a_en: 'Bilingual bot that lets you plan trips right from WhatsApp. Commands: /new (new trip), /trips (list), /help. Free-form questions get an AI answer. Ideal for LATAM (98% WhatsApp penetration in MX/AR/CO).',
+    a_es: 'Bot bilingüe para planear viajes directo desde WhatsApp. Comandos: /nuevo, /mis-viajes, /help. Consultas libres reciben respuesta con IA. Ideal para LATAM (98% de penetración WhatsApp en MX/AR/CO).'
   },
   {
     q_en: 'Can I add POIs from the map directly?',
@@ -81,7 +81,7 @@ export function FAQ({ isEs }: { isEs?: boolean }){
     }))
   };
   return (
-    <section className="bg-white py-24">
+    <section id="faq" className="bg-white py-24">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="mx-auto max-w-3xl px-6">
         <div className="mb-10 text-center">

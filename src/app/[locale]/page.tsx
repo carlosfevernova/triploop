@@ -7,6 +7,7 @@ import { FeatureQuickAccess } from '@/components/FeatureQuickAccess';
 import { ProblemSection } from '@/components/ProblemSection';
 import { FeaturesShowcase } from '@/components/FeaturesShowcase';
 import { TrustBadges } from '@/components/TrustBadges';
+import { DestinationsMarquee } from '@/components/DestinationsMarquee';
 import { RegionsGrid } from '@/components/RegionsGrid';
 import { Comparison } from '@/components/Comparison';
 import { Pricing } from '@/components/Pricing';
@@ -35,6 +36,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <ProblemSection />
         <FeaturesShowcase />
         <TrustBadges isEs={isEs} />
+        <DestinationsMarquee />
         <RegionsGrid />
         {/* S50: CitiesGrid removido — redundante con Nav "Destinos" dropdown que ya expone 24 regiones */}
         <Comparison isEs={isEs} />

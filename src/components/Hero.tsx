@@ -11,15 +11,15 @@ export async function Hero(){
   const isEs = locale === 'es';
 
   const title = isEs ? {
-    line1: 'Planea tu road trip.',
-    line2: 'Día por día, hora por hora.'
+    line1: 'Tu road trip, planeado.',
+    line2: 'No una hoja de cálculo.'
   } : {
-    line1: 'Plan your road trip.',
-    line2: 'Day by day, hour by hour.'
+    line1: 'Your road trip, planned.',
+    line2: 'Not a spreadsheet.'
   };
   const subtitle = isEs
-    ? `${platformStats.templates} rutas curadas · ${platformStats.regions} regiones · ${platformStats.continents} continentes · bilingüe EN+ES · gratis para empezar.`
-    : `${platformStats.templates} curated routes · ${platformStats.regions} regions · ${platformStats.continents} continents · bilingual EN+ES · free to start.`;
+    ? `Describe tu viaje en una frase. La IA devuelve un itinerario editable día × hora, con rutas reales, mapas offline y colaboración en vivo. ${platformStats.regions} regiones en ${platformStats.continents} continentes — gratis para empezar, sin registro.`
+    : `Describe your trip in one sentence. AI returns an editable day × hour itinerary with real routes, offline maps and live collaboration. ${platformStats.regions} regions across ${platformStats.continents} continents — free to start, no signup.`;
 
   const primaryCta = isEs ? '🗓 Crea tu itinerario' : '🗓 Create your itinerary';
   const aiCta = isEs ? '✨ Descríbelo a la IA' : '✨ Describe it to AI';

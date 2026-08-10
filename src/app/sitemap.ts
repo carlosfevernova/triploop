@@ -1,8 +1,10 @@
 import type { MetadataRoute } from 'next';
 import { createPublicClient } from '@/lib/supabase-admin';
+import { locales as ALL_LOCALES } from '@/i18n/request';
 
 const SITE = 'https://triploop-six.vercel.app';
-const LOCALES = ['en', 'es'] as const;
+// S70: expandido de 2 → 4 locales (en, es, pt, de) matching inuit-studio i18n footprint
+const LOCALES = ALL_LOCALES;
 const REGIONS = [
   'california', 'nevada', 'arizona', 'southwest', 'utah', 'spain',
   'pacific-northwest', 'northeast', 'southeast', 'rockies',
@@ -63,11 +65,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: p.updated_at ? new Date(p.updated_at) : (p.published_at ? new Date(p.published_at) : now),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
-      // S65 SEO fix — Google linkea versiones EN↔ES del mismo blog post
+      // S65/S70 SEO fix — Google linkea versiones EN/ES/PT/DE del mismo blog post
       alternates: {
         languages: {
-          en: `${SITE}/en/blog/${p.slug}`,
-          es: `${SITE}/es/blog/${p.slug}`,
+          ...Object.fromEntries(LOCALES.map((l) => [l, `${SITE}/${l}/blog/${p.slug}`])),
           'x-default': `${SITE}/en/blog/${p.slug}`
         }
       }

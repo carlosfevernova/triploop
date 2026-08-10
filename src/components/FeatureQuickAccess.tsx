@@ -128,6 +128,7 @@ export async function FeatureQuickAccess(){
             <Link
               key={f.title.en}
               href={f.href(locale)}
+              data-tilt
               className={`group relative flex flex-col rounded-card border p-5 transition ${
                 f.featured
                   ? 'border-coral-300 bg-gradient-to-br from-coral-50/50 via-white to-white hover:border-coral-500 hover:shadow-card-hover'

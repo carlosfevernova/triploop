@@ -7,6 +7,7 @@ import { locales, type Locale } from '@/i18n/request';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { AdminPreviewBanner } from '@/components/AdminPreviewBanner';
 import { WebVitalsReporter } from '@/components/WebVitalsReporter';
+import { PremiumFX } from '@/components/PremiumFX';
 import '../globals.css';
 
 const inter = Inter({
@@ -26,9 +27,19 @@ export function generateStaticParams(){
   return locales.map((locale) => ({ locale }));
 }
 
+// S70: OG locale map extendido a 4 idiomas matching inuit-studio i18n footprint
+const OG_LOCALE_MAP: Record<Locale, string> = {
+  en: 'en_US',
+  es: 'es_MX',
+  pt: 'pt_BR',
+  de: 'de_DE'
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale: locale as Locale, namespace: 'meta' });
+  const currentOgLocale = OG_LOCALE_MAP[locale as Locale] ?? OG_LOCALE_MAP.en;
+  const alternateOgLocales = locales.filter((l) => l !== locale).map((l) => OG_LOCALE_MAP[l]);
   return {
     title: t('title'),
     description: t('description'),
@@ -37,14 +48,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       title: t('title'),
       description: t('description'),
       type: 'website',
-      locale: locale === 'es' ? 'es_MX' : 'en_US',
-      alternateLocale: locale === 'es' ? 'en_US' : 'es_MX'
+      locale: currentOgLocale,
+      alternateLocale: alternateOgLocales
     },
     alternates: {
       canonical: `/${locale}`,
       languages: {
-        en: '/en',
-        es: '/es',
+        ...Object.fromEntries(locales.map((l) => [l, `/${l}`])),
         'x-default': '/en'   // S65 SEO fix — Google necesita fallback para usuarios sin locale
       }
     }
@@ -72,6 +82,7 @@ export default async function LocaleLayout({
           <AdminPreviewBanner />
           <OfflineBanner />
           <WebVitalsReporter />
+          <PremiumFX />
           {children}
         </NextIntlClientProvider>
       </body>

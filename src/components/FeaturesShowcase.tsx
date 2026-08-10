@@ -31,14 +31,14 @@ const HERO_FEATURES: HeroFeature[] = [
       en: [
         'Natural language input — no forms',
         '4-step guided wizard with kid-ages + interests',
-        '5-provider AI chain: OpenRouter free tier + fallbacks',
-        'Auto-enriches every stop with Google Places'
+        'Four-provider AI safety net — never breaks',
+        'Auto-enriches every stop with real POI data'
       ],
       es: [
         'Lenguaje natural — sin formularios',
         'Wizard 4 pasos con edades niños + intereses',
-        'Cadena 5 providers IA: OpenRouter gratis + fallbacks',
-        'Enriquece cada parada con Google Places'
+        'Red de seguridad IA de cuatro proveedores — nunca falla',
+        'Enriquece cada parada con datos POI reales'
       ]
     },
     accentColor: 'coral'
@@ -75,15 +75,15 @@ const HERO_FEATURES: HeroFeature[] = [
     },
     bullets: {
       en: [
-        'Native bilingual with hreflang SEO',
-        'Twilio WhatsApp bot with AI fallback',
-        'Iframe-friendly widget for blogs',
+        'Native bilingual, ready for global search',
+        'WhatsApp bot with AI-powered replies',
+        'Embeddable widget for blogs',
         '24 templates × 2 languages · 16 blog posts'
       ],
       es: [
-        'Bilingüe nativo con hreflang SEO',
-        'Bot WhatsApp Twilio con fallback IA',
-        'Widget iframe para blogs',
+        'Bilingüe nativo, listo para búsqueda global',
+        'Bot de WhatsApp con respuestas IA',
+        'Widget embebible para blogs',
         '24 templates × 2 idiomas · 16 blog posts'
       ]
     },
@@ -129,16 +129,16 @@ const SMALL_FEATURES: SmallFeature[] = [
     emoji: '⚡',
     title: { en: 'EV Chargers on Route', es: 'Cargadores EV en Ruta' },
     body: {
-      en: 'OpenChargeMap live data across 8 countries. Filter by radius, see power kW and connector types.',
-      es: 'Datos OpenChargeMap en vivo, 8 países. Filtra por radio, ve potencia kW y tipos de conector.'
+      en: 'Live charger data across 8 countries. Filter by radius, see power kW and connector types.',
+      es: 'Datos de cargadores en vivo, 8 países. Filtra por radio, ve potencia kW y tipos de conector.'
     }
   },
   {
     emoji: '🤝',
     title: { en: 'Realtime Collaboration', es: 'Colaboración Tiempo Real' },
     body: {
-      en: 'Invite friends to co-edit. Live cursors, presence, sync via Supabase Realtime. Zero cost vs Liveblocks $99/mo.',
-      es: 'Invita amigos a co-editar. Cursores vivos, presencia, sync Supabase Realtime. Costo $0 vs Liveblocks $99/mo.'
+      en: 'Invite friends to co-edit. Live cursors, presence, instant sync — no extra cost, no add-ons.',
+      es: 'Invita amigos a co-editar. Cursores vivos, presencia, sync instantáneo — sin costo extra, sin add-ons.'
     }
   },
   {

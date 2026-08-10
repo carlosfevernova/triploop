@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "TripLoop — Planejador IA de road trips · 24 regiões · 7 continentes · multilíngue",
+    "description": "Descreva sua viagem em uma frase e obtenha um roteiro completo em 30 segundos. 60 rotas icônicas curadas em 7 continentes: EUA (PCH, Route 66), Europa (Espanha, Itália Amalfi, Islândia Ring Road, Irlanda NC500, Alemanha Rota Romântica, Escócia NC500), Ásia (Japão Rota Dourada), Oceania (Great Ocean Road, NZ), América Latina (Riviera Maya, Carretera Austral, Ruta 40, Machu Picchu), Canadá (Icefields Parkway), África (Marrocos Saara). Avisos IA, calculadora de orçamento, carregadores EV, streaming, bot WhatsApp, PWA offline."
+  },
+  "nav": {
+    "features": "Recursos",
+    "pricing": "Preços",
+    "howItWorks": "Como funciona",
+    "signIn": "Entrar",
+    "signUp": "Cadastrar",
+    "signOut": "Sair",
+    "myTrips": "Minhas viagens",
+    "getStarted": "Planejar viagem"
+  },
+  "auth": {
+    "signInTitle": "Bem-vindo de volta",
+    "signInSubtitle": "Entre para acessar suas viagens salvas.",
+    "signUpTitle": "Crie sua conta",
+    "signUpSubtitle": "Salve viagens, sincronize dispositivos, colabore.",
+    "email": "E-mail",
+    "password": "Senha",
+    "signInBtn": "Entrar",
+    "signUpBtn": "Criar conta",
+    "noAccount": "Ainda sem conta?",
+    "hasAccount": "Já tem uma conta?",
+    "createOne": "Criar uma",
+    "signInInstead": "Entrar",
+    "invalidCredentials": "E-mail ou senha incorretos.",
+    "genericError": "Algo deu errado. Tente novamente."
+  },
+  "myTrips": {
+    "title": "Minhas viagens",
+    "subtitle": "Seus roteiros salvos.",
+    "empty": "Nenhuma viagem ainda. Comece a primeira.",
+    "createNew": "Criar nova viagem",
+    "openTrip": "Abrir",
+    "forkTrip": "Duplicar",
+    "deleteTrip": "Excluir",
+    "confirmDelete": "Excluir esta viagem?",
+    "days": "dias",
+    "stops": "paradas"
+  },
+  "hero": {
+    "eyebrow": "Beta · 24 regiões · 7 continentes 🌏 Japão · Marrocos · Canadá · Escócia agora ativos",
+    "titlePart1": "O planejador IA de road trips",
+    "titlePart2": "para qualquer lugar da Terra.",
+    "subtitle": "Descreva sua viagem em uma frase — veja as paradas aparecerem no mapa em tempo real. 60 rotas icônicas em 7 continentes: PCH · Route 66 · Amalfi · Islândia Ring Road · Great Ocean Road · Ruta 40 · Machu Picchu · Riviera Maya · Rota Dourada Japão · NC500 Escócia · Icefields Parkway Canadá · Saara Marrocos. Bilíngue nativo · bot WhatsApp · PWA offline.",
+    "ctaPrimary": "Testar o Gerador IA",
+    "ctaSecondary": "Ver viagem de exemplo",
+    "trustPill": "60 rotas icônicas · 24 regiões · 7 continentes",
+    "emailPlaceholder": "voce@exemplo.com",
+    "emailButton": "Avise-me",
+    "emailSuccess": "Você está na lista. Bem-vindo a bordo.",
+    "emailError": "Algo deu errado. Tente de novo em instantes."
+  },
+  "problem": {
+    "title": "Planejar um road trip não deveria ser mais difícil que a própria viagem.",
+    "items": [
+      { "emoji": "🚗", "title": "Tempos falsos, arrependimento real", "body": "Aquela viagem de 2h na verdade são 6h com trânsito e almoço. Usamos dados de tráfego em tempo real para que seu dia funcione na vida real — sem chegar ao hotel à meia-noite." },
+      { "emoji": "🧾", "title": "Preços que não escondem taxas", "body": "Hotéis, ingressos e refeições em sua moeda, impostos inclusos. Sem contas em planilha, sem surpresas no checkout. Um orçamento em que você pode confiar." },
+      { "emoji": "🌐", "title": "Finalmente, no seu idioma", "body": "Mais de 500M de falantes de espanhol e português não têm um planejador de road trip sério. Wanderlog e Layla só em inglês. TripLoop é multilíngue desde o dia um — mesma experiência, seu idioma." }
+    ]
+  },
+  "features": {
+    "title": "Tudo o que um viajante de primeira viagem precisa — nada que atrapalhe.",
+    "items": [
+      { "title": "Ponto de partida gerado por IA", "body": "Descreva sua viagem em linguagem natural. Receba um roteiro personalizável de 3–14 dias em menos de 30 segundos." },
+      { "title": "Tempos reais de direção com tráfego", "body": "Alimentado por dados ao vivo do Google. LA→SF diz 6h porque é 6h — não 2." },
+      { "title": "Multi-moeda, impostos inclusos", "body": "Veja preços em USD, EUR, BRL, MXN, GBP com impostos já adicionados. Sem cálculos no checkout." },
+      { "title": "Arraste e solte tudo", "body": "Reorganize paradas, troque dias, adicione restaurantes. Sua rota atualiza em tempo real." },
+      { "title": "Funciona offline em parques nacionais", "body": "PWA que armazena seus mapas e roteiro. Yosemite não tem sinal — planejamos para isso." },
+      { "title": "Reserve atividades em um clique", "body": "Integração GetYourGuide + Booking.com. Ganhamos uma pequena comissão, você nunca paga a mais." }
+    ]
+  },
+  "cities": {
+    "title": "Começando com os clássicos da Califórnia",
+    "subtitle": "Roteiros prontos para personalizar para todo tipo de viajante.",
+    "items": [
+      { "name": "San Francisco", "tag": "3–5 dias", "note": "Cidade + Muir Woods + circuito Napa" },
+      { "name": "Los Angeles", "tag": "3–4 dias", "note": "Hollywood, praias & Griffith" },
+      { "name": "San Diego", "tag": "2–3 dias", "note": "Zoo, La Jolla & Coronado" },
+      { "name": "Yosemite", "tag": "2–4 dias", "note": "Vale + Glacier Point" },
+      { "name": "Big Sur", "tag": "1–2 dias", "note": "PCH de Monterey a Cambria" },
+      { "name": "The Grand Loop", "tag": "10–14 dias", "note": "LA → SF → Yosemite → LA" }
+    ]
+  },
+  "pricing": {
+    "title": "Gratuito para sempre. Faça upgrade só se quiser.",
+    "subtitle": "Sem cartão para começar. Cancele quando quiser.",
+    "free": { "name": "Grátis", "price": "R$ 0", "period": "para sempre", "cta": "Começar a planejar", "features": ["Até 3 viagens salvas", "Iniciador IA de roteiro", "Tempos reais de direção & tráfego", "Métrico/imperial + multi-moeda", "Compartilhar viagem por link público"] },
+    "pro": { "name": "Pro", "price": "US$ 6,99", "period": "por mês", "badge": "Mais popular", "cta": "Testar Pro grátis 14 dias", "features": ["Viagens ilimitadas", "Mapas offline para parques nacionais", "Regenerações IA sem limites", "Colaboração em tempo real", "Exportação PDF & gestor de reservas", "Suporte prioritário"] }
+  },
+  "footer": {
+    "tagline": "O planejador de road trips feito para quem chega de avião — não para quem já dirigiu ali a vida toda.",
+    "product": "Produto", "features": "Recursos", "pricing": "Preços", "changelog": "Changelog",
+    "company": "Empresa", "about": "Sobre", "blog": "Blog", "contact": "Contato",
+    "legal": "Legal", "terms": "Termos", "privacy": "Privacidade", "affiliate": "Divulgação de afiliados",
+    "copyright": "© {year} TripLoop. Todos os direitos reservados."
+  }
+}

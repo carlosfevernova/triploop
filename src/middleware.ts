@@ -11,42 +11,27 @@ const intlMiddleware = createIntlMiddleware({
 
 // Rutas 100% públicas indexables: NO refrescar Supabase session
 // para evitar contaminar SSG con DYNAMIC_SERVER_USAGE (S65 audit findings — fix TTFB 1.3s → <400ms).
+// S70: expandido a 4 locales (en, es, pt, de) matching inuit-studio i18n footprint.
+const PUBLIC_SEO_PATHS_NO_PREFIX = [
+  '',                        // root /en, /es, /pt, /de
+  '/agenda',
+  '/about',
+  '/terms',
+  '/privacy',
+  '/changelog',
+  '/affiliate-disclosure',
+  '/blog',
+  '/whatsapp',
+  '/california', '/nevada', '/arizona', '/southwest',
+  '/utah', '/spain', '/pacific-northwest', '/northeast',
+  '/southeast', '/rockies', '/italy', '/iceland', '/ireland',
+  '/australia', '/new-zealand', '/germany', '/mexico', '/chile',
+  '/argentina', '/peru', '/japan', '/canada',
+  '/scotland', '/morocco'
+];
+
 const PUBLIC_SEO_PREFIXES = [
-  // Landing + páginas info/legal
-  '/en', '/es',   // roots — CRITICAL fix S65 (bloqueaba ISR revalidate=300)
-  '/en/agenda', '/es/agenda',
-  '/en/about', '/es/about',
-  '/en/terms', '/es/terms',
-  '/en/privacy', '/es/privacy',
-  '/en/changelog', '/es/changelog',
-  '/en/affiliate-disclosure', '/es/affiliate-disclosure',
-  // Regiones + templates
-  '/en/california', '/es/california',
-  '/en/nevada', '/es/nevada',
-  '/en/arizona', '/es/arizona',
-  '/en/southwest', '/es/southwest',
-  '/en/blog', '/es/blog',
-  '/en/whatsapp', '/es/whatsapp',
-  '/en/utah', '/es/utah',
-  '/en/spain', '/es/spain',
-  '/en/pacific-northwest', '/es/pacific-northwest',
-  '/en/northeast', '/es/northeast',
-  '/en/southeast', '/es/southeast',
-  '/en/rockies', '/es/rockies',
-  '/en/italy', '/es/italy',
-  '/en/iceland', '/es/iceland',
-  '/en/ireland', '/es/ireland',
-  '/en/australia', '/es/australia',
-  '/en/new-zealand', '/es/new-zealand',
-  '/en/germany', '/es/germany',
-  '/en/mexico', '/es/mexico',
-  '/en/chile', '/es/chile',
-  '/en/argentina', '/es/argentina',
-  '/en/peru', '/es/peru',
-  '/en/japan', '/es/japan',
-  '/en/canada', '/es/canada',
-  '/en/scotland', '/es/scotland',
-  '/en/morocco', '/es/morocco',
+  ...locales.flatMap((l) => PUBLIC_SEO_PATHS_NO_PREFIX.map((p) => `/${l}${p}`)),
   '/embed'
 ];
 
@@ -55,9 +40,10 @@ export async function middleware(req: NextRequest){
   const response = intlMiddleware(req);
 
   const path = req.nextUrl.pathname;
-  // S65: match exacto para roots (/en, /es) para no cubrir /en/trip/... como público
+  // S65/S70: match exacto para roots (/en, /es, /pt, /de) para no cubrir /en/trip/... como público
+  const ROOT_LOCALE_PATHS = locales.map((l) => `/${l}`);
   const isPublicSeo = PUBLIC_SEO_PREFIXES.some(p =>
-    (p === '/en' || p === '/es') ? path === p : (path === p || path.startsWith(p + '/'))
+    ROOT_LOCALE_PATHS.includes(p) ? path === p : (path === p || path.startsWith(p + '/'))
   );
 
   // 2. Refresh session Supabase salvo en rutas SEO estáticas

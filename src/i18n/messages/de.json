@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "TripLoop — KI-Roadtrip-Planer · 24 Regionen · 7 Kontinente · mehrsprachig",
+    "description": "Beschreibe deine Reise in einem Satz und erhalte in 30 Sekunden eine komplette Route. 60 kuratierte ikonische Routen auf 7 Kontinenten: USA (PCH, Route 66), Europa (Spanien, Italien Amalfi, Island Ringstraße, Irland NC500, Deutschland Romantische Straße, Schottland NC500), Asien (Japan Goldene Route), Ozeanien (Great Ocean Road, NZ), Lateinamerika (Riviera Maya, Carretera Austral, Ruta 40, Machu Picchu), Kanada (Icefields Parkway), Afrika (Marokko Sahara). KI-Hinweise, Budgetrechner, EV-Ladestationen, Streaming, WhatsApp-Bot, Offline-PWA."
+  },
+  "nav": {
+    "features": "Funktionen",
+    "pricing": "Preise",
+    "howItWorks": "So funktioniert's",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "signOut": "Abmelden",
+    "myTrips": "Meine Reisen",
+    "getStarted": "Reise planen"
+  },
+  "auth": {
+    "signInTitle": "Willkommen zurück",
+    "signInSubtitle": "Melde dich an, um auf deine gespeicherten Reisen zuzugreifen.",
+    "signUpTitle": "Erstelle dein Konto",
+    "signUpSubtitle": "Speichere Reisen, synchronisiere Geräte, arbeite zusammen.",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "signInBtn": "Anmelden",
+    "signUpBtn": "Konto erstellen",
+    "noAccount": "Noch kein Konto?",
+    "hasAccount": "Bereits ein Konto?",
+    "createOne": "Erstellen",
+    "signInInstead": "Anmelden",
+    "invalidCredentials": "Falsche E-Mail oder falsches Passwort.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
+  },
+  "myTrips": {
+    "title": "Meine Reisen",
+    "subtitle": "Deine gespeicherten Routen.",
+    "empty": "Noch keine Reisen. Starte deine erste.",
+    "createNew": "Neue Reise erstellen",
+    "openTrip": "Öffnen",
+    "forkTrip": "Duplizieren",
+    "deleteTrip": "Löschen",
+    "confirmDelete": "Diese Reise löschen?",
+    "days": "Tage",
+    "stops": "Stopps"
+  },
+  "hero": {
+    "eyebrow": "Beta · 24 Regionen · 7 Kontinente 🌏 Japan · Marokko · Kanada · Schottland jetzt live",
+    "titlePart1": "Der KI-Roadtrip-Planer",
+    "titlePart2": "für überall auf der Erde.",
+    "subtitle": "Beschreibe deine Reise in einem Satz — sieh die Stopps in Echtzeit auf der Karte erscheinen. 60 ikonische Routen auf 7 Kontinenten: PCH · Route 66 · Amalfi · Island Ringstraße · Great Ocean Road · Ruta 40 · Machu Picchu · Riviera Maya · Goldene Route Japan · NC500 Schottland · Icefields Parkway Kanada · Sahara Marokko. Mehrsprachig · WhatsApp-Bot · Offline-PWA.",
+    "ctaPrimary": "KI-Reisegenerator testen",
+    "ctaSecondary": "Beispielreise ansehen",
+    "trustPill": "60 ikonische Routen · 24 Regionen · 7 Kontinente",
+    "emailPlaceholder": "du@beispiel.de",
+    "emailButton": "Benachrichtige mich",
+    "emailSuccess": "Du bist auf der Liste. Willkommen an Bord.",
+    "emailError": "Etwas ist schiefgelaufen. Bitte gleich nochmal versuchen."
+  },
+  "problem": {
+    "title": "Einen Roadtrip zu planen sollte nicht schwerer sein als die Reise selbst.",
+    "items": [
+      { "emoji": "🚗", "title": "Falsche Fahrzeiten, echte Reue", "body": "Diese 2-Stunden-Fahrt sind wirklich 6 Stunden mit Verkehr und Mittagessen. Wir nutzen Live-Verkehrsdaten, damit dein Tagesplan im echten Leben aufgeht — kein Ankommen um Mitternacht mehr." },
+      { "emoji": "🧾", "title": "Preise ohne versteckte Gebühren", "body": "Hotels, Tickets und Mahlzeiten in deiner Währung, Steuern inklusive. Keine Tabellenrechnung, keine Überraschungen beim Checkout. Ein Budget, dem du wirklich vertrauen kannst." },
+      { "emoji": "🌐", "title": "Endlich in deiner Sprache", "body": "Millionen Deutschsprachige haben keinen echten Roadtrip-Planer. Wanderlog und Layla nur auf Englisch. TripLoop ist von Tag eins an mehrsprachig — gleiche Erfahrung, deine Sprache." }
+    ]
+  },
+  "features": {
+    "title": "Alles, was ein Erstbesucher braucht — nichts, was stört.",
+    "items": [
+      { "title": "KI-generierter Ausgangspunkt", "body": "Beschreibe deine Reise in Klartext. Erhalte eine anpassbare 3–14-Tage-Route in unter 30 Sekunden." },
+      { "title": "Echte Fahrzeiten mit Verkehr", "body": "Powered by Live-Google-Verkehrsdaten. LA→SF sagt 6h weil es 6h sind — nicht 2." },
+      { "title": "Mehrwährungsfähig, Steuern inklusive", "body": "Preise in EUR, USD, GBP mit bereits enthaltenen Steuern. Keine Rechnerei beim Checkout." },
+      { "title": "Alles per Drag & Drop", "body": "Ordne Stopps neu, tausche Tage, füge Restaurants hinzu. Deine Route aktualisiert sich in Echtzeit." },
+      { "title": "Funktioniert offline in Nationalparks", "body": "PWA, die deine Karten und Route zwischenspeichert. Yosemite hat keinen Empfang — wir haben das eingeplant." },
+      { "title": "Buche Aktivitäten mit einem Klick", "body": "GetYourGuide + Booking.com Integration. Wir verdienen eine kleine Provision, du zahlst nie mehr." }
+    ]
+  },
+  "cities": {
+    "title": "Beginnend mit den Kalifornien-Klassikern",
+    "subtitle": "Sofort anpassbare Routen für jeden Reisetyp.",
+    "items": [
+      { "name": "San Francisco", "tag": "3–5 Tage", "note": "Stadt + Muir Woods + Napa-Rundfahrt" },
+      { "name": "Los Angeles", "tag": "3–4 Tage", "note": "Hollywood, Strände & Griffith" },
+      { "name": "San Diego", "tag": "2–3 Tage", "note": "Zoo, La Jolla & Coronado" },
+      { "name": "Yosemite", "tag": "2–4 Tage", "note": "Valley + Glacier Point" },
+      { "name": "Big Sur", "tag": "1–2 Tage", "note": "PCH von Monterey nach Cambria" },
+      { "name": "The Grand Loop", "tag": "10–14 Tage", "note": "LA → SF → Yosemite → LA" }
+    ]
+  },
+  "pricing": {
+    "title": "Für immer kostenlos. Upgrade nur wenn du willst.",
+    "subtitle": "Keine Kreditkarte zum Start. Jederzeit kündbar.",
+    "free": { "name": "Kostenlos", "price": "0 €", "period": "für immer", "cta": "Planung starten", "features": ["Bis zu 3 gespeicherte Reisen", "KI-Routen-Starter", "Echte Fahrzeiten & Verkehr", "Metrisch/imperial + Mehrwährung", "Reise per öffentlichem Link teilen"] },
+    "pro": { "name": "Pro", "price": "6,99 €", "period": "pro Monat", "badge": "Am beliebtesten", "cta": "Pro 14 Tage gratis testen", "features": ["Unbegrenzte Reisen", "Offline-Karten für Nationalparks", "Unbegrenzte KI-Neugenerierungen", "Echtzeit-Zusammenarbeit", "PDF-Export & Buchungsmanager", "Priorisierter Support"] }
+  },
+  "footer": {
+    "tagline": "Der Roadtrip-Planer für Menschen, die einfliegen — nicht für die, die ihr Leben lang dorthin fahren.",
+    "product": "Produkt", "features": "Funktionen", "pricing": "Preise", "changelog": "Changelog",
+    "company": "Unternehmen", "about": "Über uns", "blog": "Blog", "contact": "Kontakt",
+    "legal": "Rechtliches", "terms": "AGB", "privacy": "Datenschutz", "affiliate": "Affiliate-Offenlegung",
+    "copyright": "© {year} TripLoop. Alle Rechte vorbehalten."
+  }
+}
