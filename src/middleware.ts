@@ -69,5 +69,6 @@ export async function middleware(req: NextRequest){
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|_vercel|admin|offline|unsubscribe|embed|.*\\..*).*)']
+  // S71: excluir icon* y apple-touch-icon* para que Next.js sirva los dynamic routes de favicon
+  matcher: ['/((?!api|_next|_vercel|admin|offline|unsubscribe|embed|icon|apple-touch-icon|robots|sitemap|manifest|sw|.*\\..*).*)']
 };
