@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "TripLoop — Planeador IA road trips · 24 regiones · 7 continentes · bilingüe EN+ES",
-    "description": "Describe tu viaje en una frase, obtén itinerario en 30 segundos. 60 rutas icónicas curadas en 7 continentes: USA (PCH, Route 66), Europa (España, Italia Amalfi, Islandia Ring Road, Irlanda, Alemania Ruta Romántica, Escocia NC500), Asia (Japón Ruta Dorada), Oceanía (Great Ocean Road, NZ), América Latina (Riviera Maya, Carretera Austral, Ruta 40, Machu Picchu), Canadá (Icefields Parkway), África (Marruecos Sahara). IA, cálculo presupuesto, EV chargers, streaming, WhatsApp bot, PWA offline."
+    "title": "TripLoop — Planeador IA road trips · 24 regiones · 7 continentes · EN·ES·PT·DE",
+    "description": "Describe tu viaje en una frase, obtén itinerario en 30 segundos. 60 rutas icónicas curadas en 7 continentes: USA (PCH, Route 66), Europa (España, Italia Amalfi, Islandia Ring Road, Irlanda, Alemania Ruta Romántica, Escocia NC500), Asia (Japón Ruta Dorada), Oceanía (Great Ocean Road, NZ), América Latina (Riviera Maya, Carretera Austral, Ruta 40, Machu Picchu), Canadá (Icefields Parkway), África (Marruecos Sahara). Multilingüe (EN·ES·PT·DE), IA, cálculo presupuesto, EV chargers, streaming, WhatsApp bot, PWA offline."
   },
   "nav": {
     "features": "Funciones", "pricing": "Precios", "howItWorks": "Cómo funciona",

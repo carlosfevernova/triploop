@@ -32,6 +32,12 @@ const nextConfig: NextConfig = {
         { key: 'Permissions-Policy', value: 'geolocation=(self), microphone=(), camera=()' }
       ]
     }];
+  },
+  async rewrites(){
+    // S71c: /favicon.ico legacy fallback → dynamic icon route (browsers/crawlers que hitean /favicon.ico directo)
+    return [
+      { source: '/favicon.ico', destination: '/icon-192.png' }
+    ];
   }
 };
 
