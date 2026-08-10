@@ -1,9 +1,17 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
-import { locales, type Locale } from '@/i18n/request';
+import { locales, localeLabels, type Locale } from '@/i18n/request';
 
 const LOCALE_PREFIX_RE = new RegExp(`^/(${locales.join('|')})(?=/|$)`);
+
+// S71e: aria-label templates so screen readers say "Switch to Español" instead of just "es"
+const SWITCH_LABELS: Record<Locale, string> = {
+  en: 'Switch language to',
+  es: 'Cambiar idioma a',
+  pt: 'Mudar idioma para',
+  de: 'Sprache wechseln zu'
+};
 
 export function LocaleSwitcher({
   currentLocale,
@@ -36,20 +44,27 @@ export function LocaleSwitcher({
         active ? 'bg-ink-900 text-white' : 'text-ink-500 hover:text-ink-800'
       }`;
 
+  const groupLabel = SWITCH_LABELS[currentLocale];
+
   return (
-    <div className={containerClasses}>
-      {locales.map((loc) => (
-        <button
-          key={loc}
-          type="button"
-          onClick={() => switchTo(loc)}
-          disabled={isPending}
-          aria-current={currentLocale === loc ? 'true' : undefined}
-          className={buttonClasses(currentLocale === loc)}
-        >
-          {loc}
-        </button>
-      ))}
+    <div className={containerClasses} role="group" aria-label={groupLabel}>
+      {locales.map((loc) => {
+        const isActive = currentLocale === loc;
+        return (
+          <button
+            key={loc}
+            type="button"
+            onClick={() => switchTo(loc)}
+            disabled={isPending}
+            aria-current={isActive ? 'true' : undefined}
+            aria-label={`${SWITCH_LABELS[currentLocale]} ${localeLabels[loc]}`}
+            title={localeLabels[loc]}
+            className={buttonClasses(isActive)}
+          >
+            {loc}
+          </button>
+        );
+      })}
     </div>
   );
 }
