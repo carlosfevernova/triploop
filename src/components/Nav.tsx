@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { LocaleSwitcher } from './LocaleSwitcher';
@@ -65,6 +66,7 @@ const NAV_LABELS = {
   popularDest:  { en: 'Popular destinations', es: 'Destinos populares', pt: 'Destinos populares', de: 'Beliebte Ziele' },
   viewAll:      { en: 'View all 24 regions →', es: 'Ver las 24 regiones →', pt: 'Ver as 24 regiões →', de: 'Alle 24 Regionen ansehen →' },
   openMenu:     { en: 'Open menu',    es: 'Abrir menú', pt: 'Abrir menu', de: 'Menü öffnen' },
+  closeMenu:    { en: 'Close menu',   es: 'Cerrar menú', pt: 'Fechar menu', de: 'Menü schließen' },
   mainMenu:     { en: 'Main menu',    es: 'Menú principal', pt: 'Menu principal', de: 'Hauptmenü' },
   language:     { en: 'Language',     es: 'Idioma',    pt: 'Idioma',   de: 'Sprache' }
 } as const;
@@ -82,6 +84,11 @@ export function Nav({ locale }: { locale: Locale }){
   const t = useTranslations('nav');
   const [destOpen, setDestOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  // S71d: SSR-safe portal mount flag — drawer must render in document.body,
+  // not inside <header> (whose .glass backdrop-filter creates a fixed containing block
+  // that clips the drawer to header height ~76px instead of viewport).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   const destRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -105,7 +112,107 @@ export function Nav({ locale }: { locale: Locale }){
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
+  const mobileDrawer = mobileOpen ? (
+    <div
+      id="mobile-nav-panel"
+      className="fixed inset-x-0 top-[65px] bottom-0 z-[60] overflow-y-auto bg-white backdrop-blur-xl overscroll-contain md:hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-label={L(locale, 'mainMenu')}
+    >
+      <button
+        type="button"
+        onClick={() => setMobileOpen(false)}
+        aria-label={L(locale, 'closeMenu')}
+        className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink-200 bg-white text-ink-700 shadow-sm transition hover:border-coral-400 hover:text-coral-600"
+      >
+        <span aria-hidden className="text-lg leading-none">×</span>
+      </button>
+      <div className="mx-auto max-w-md px-6 py-8">
+        <div className="mb-6 flex flex-col gap-2">
+          <Link
+            href={`/${locale}/agenda`}
+            onClick={() => setMobileOpen(false)}
+            className="flex min-h-[56px] items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 font-semibold text-emerald-700"
+          >
+            <span className="text-xl" aria-hidden>🗓</span>
+            <span>{L(locale, 'dailyAgenda')}</span>
+          </Link>
+          <Link
+            href={`/${locale}/trip/new/ai`}
+            onClick={() => setMobileOpen(false)}
+            className="flex min-h-[56px] items-center gap-3 rounded-2xl bg-coral-500 px-5 py-4 font-semibold text-white shadow-md"
+          >
+            <span className="text-xl" aria-hidden>✨</span>
+            <span>{L(locale, 'planWithAI')}</span>
+            <span className="ml-auto text-xs opacity-80">30s</span>
+          </Link>
+          <Link
+            href={`/${locale}/trip/new`}
+            onClick={() => setMobileOpen(false)}
+            className="flex min-h-[56px] items-center gap-3 rounded-2xl border border-ink-200 bg-white px-5 py-4 font-semibold text-ink-800"
+          >
+            <span className="text-xl" aria-hidden>🗺</span>
+            <span>{L(locale, 'multiDay')}</span>
+          </Link>
+        </div>
+
+        <div className="mb-6">
+          <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-ink-400">
+            {L(locale, 'popularDest')}
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            {REGIONS_BY_CONTINENT.flatMap(c => c.regions).slice(0, 12).map(r => (
+              <Link
+                key={r.slug}
+                href={`/${locale}/${r.slug}`}
+                onClick={() => setMobileOpen(false)}
+                className="flex min-h-[44px] items-center gap-2 rounded-lg border border-ink-100 bg-white px-3 py-2.5 text-sm text-ink-700 transition hover:border-coral-300 hover:text-coral-700"
+              >
+                <span aria-hidden>{r.flag}</span>
+                <span className="truncate">{r.label}</span>
+              </Link>
+            ))}
+          </div>
+          <Link
+            href={`/${locale}/california`}
+            onClick={() => setMobileOpen(false)}
+            className="mt-3 block text-center text-sm font-semibold text-coral-600"
+          >
+            {L(locale, 'viewAll')}
+          </Link>
+        </div>
+
+        <div className="border-t border-ink-100 pt-6">
+          <div className="flex flex-col gap-1">
+            <Link href={`/${locale}/blog`} onClick={() => setMobileOpen(false)} className="flex min-h-[44px] items-center px-2 py-2 text-sm font-medium text-ink-700">Blog</Link>
+            <a href="#pricing" onClick={() => setMobileOpen(false)} className="flex min-h-[44px] items-center px-2 py-2 text-sm font-medium text-ink-700">{t('pricing')}</a>
+          </div>
+        </div>
+
+        <div className="mt-6 border-t border-ink-100 pt-6">
+          <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-ink-400">
+            {L(locale, 'language')}
+          </p>
+          <LocaleSwitcher currentLocale={locale} variant="stacked" />
+        </div>
+
+        <div className="mt-6 flex flex-col gap-3 border-t border-ink-100 pt-6 pb-[env(safe-area-inset-bottom,0px)]">
+          <UserMenu locale={locale} />
+          <Link
+            href={`/${locale}/trip/new/ai`}
+            onClick={() => setMobileOpen(false)}
+            className="flex min-h-[48px] items-center justify-center rounded-pill bg-ink-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-ink-700"
+          >
+            {t('getStarted')}
+          </Link>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   return (
+    <>
     <header className="glass sticky top-0 z-40 border-b border-ink-100/60">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href={`/${locale}`} className="flex items-center gap-2 text-ink-800" onClick={() => setMobileOpen(false)}>
@@ -209,100 +316,8 @@ export function Nav({ locale }: { locale: Locale }){
         </div>
       </div>
 
-      {/* Mobile fullscreen menu */}
-      {mobileOpen && (
-        <div
-          id="mobile-nav-panel"
-          className="fixed inset-x-0 top-[65px] bottom-0 z-30 overflow-y-auto bg-white/98 backdrop-blur-xl md:hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-label={L(locale, 'mainMenu')}
-        >
-          <div className="mx-auto max-w-md px-6 py-8">
-            <div className="mb-6 flex flex-col gap-2">
-              <Link
-                href={`/${locale}/agenda`}
-                onClick={() => setMobileOpen(false)}
-                className="flex min-h-[56px] items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 font-semibold text-emerald-700"
-              >
-                <span className="text-xl" aria-hidden>🗓</span>
-                <span>{L(locale, 'dailyAgenda')}</span>
-              </Link>
-              <Link
-                href={`/${locale}/trip/new/ai`}
-                onClick={() => setMobileOpen(false)}
-                className="flex min-h-[56px] items-center gap-3 rounded-2xl bg-coral-500 px-5 py-4 font-semibold text-white shadow-md"
-              >
-                <span className="text-xl" aria-hidden>✨</span>
-                <span>{L(locale, 'planWithAI')}</span>
-                <span className="ml-auto text-xs opacity-80">30s</span>
-              </Link>
-              <Link
-                href={`/${locale}/trip/new`}
-                onClick={() => setMobileOpen(false)}
-                className="flex min-h-[56px] items-center gap-3 rounded-2xl border border-ink-200 bg-white px-5 py-4 font-semibold text-ink-800"
-              >
-                <span className="text-xl" aria-hidden>🗺</span>
-                <span>{L(locale, 'multiDay')}</span>
-              </Link>
-            </div>
-
-            <div className="mb-6">
-              <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-ink-400">
-                {L(locale, 'popularDest')}
-              </p>
-              <div className="grid grid-cols-2 gap-2">
-                {REGIONS_BY_CONTINENT.flatMap(c => c.regions).slice(0, 12).map(r => (
-                  <Link
-                    key={r.slug}
-                    href={`/${locale}/${r.slug}`}
-                    onClick={() => setMobileOpen(false)}
-                    className="flex min-h-[44px] items-center gap-2 rounded-lg border border-ink-100 bg-white px-3 py-2.5 text-sm text-ink-700 transition hover:border-coral-300 hover:text-coral-700"
-                  >
-                    <span aria-hidden>{r.flag}</span>
-                    <span className="truncate">{r.label}</span>
-                  </Link>
-                ))}
-              </div>
-              <Link
-                href={`/${locale}/california`}
-                onClick={() => setMobileOpen(false)}
-                className="mt-3 block text-center text-sm font-semibold text-coral-600"
-              >
-                {L(locale, 'viewAll')}
-              </Link>
-            </div>
-
-            <div className="border-t border-ink-100 pt-6">
-              <div className="flex flex-col gap-1">
-                <Link href={`/${locale}/blog`} onClick={() => setMobileOpen(false)} className="min-h-[44px] px-2 py-2 text-sm font-medium text-ink-700">Blog</Link>
-                <a href="#pricing" onClick={() => setMobileOpen(false)} className="min-h-[44px] px-2 py-2 text-sm font-medium text-ink-700">{t('pricing')}</a>
-              </div>
-            </div>
-
-            {/* S70: LocaleSwitcher + UserMenu movidos aquí para liberar espacio en el header mobile
-                (antes competían con el hamburger en 375px → botón comprimido a 27px, sub-target táctil).
-                Ahora hamburger = 44x44 (WCAG AA), y el usuario cambia idioma/sesión desde el panel abierto. */}
-            <div className="mt-6 border-t border-ink-100 pt-6">
-              <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-ink-400">
-                {L(locale, 'language')}
-              </p>
-              <LocaleSwitcher currentLocale={locale} variant="stacked" />
-            </div>
-
-            <div className="mt-6 flex flex-col gap-3 border-t border-ink-100 pt-6">
-              <UserMenu locale={locale} />
-              <Link
-                href={`/${locale}/trip/new/ai`}
-                onClick={() => setMobileOpen(false)}
-                className="flex min-h-[48px] items-center justify-center rounded-pill bg-ink-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-ink-700"
-              >
-                {t('getStarted')}
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
+    {mounted && mobileDrawer && createPortal(mobileDrawer, document.body)}
+    </>
   );
 }
