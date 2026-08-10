@@ -1,49 +1,53 @@
 'use client';
+import { L } from '@/lib/l4';
 
 // S96 — value-first, traveler-facing. No brand names of tools.
-// Cada tile representa una capability tangible que el viajero experimenta.
-export function TrustBadges({ isEs }: { isEs?: boolean }){
+// S71g: 4-locale migration. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
+export function TrustBadges({ locale = 'en' }: { locale?: string }){
   return (
     <section className="border-y border-ink-100 bg-gradient-to-b from-ink-50/60 via-white to-ink-50/40 py-16">
       <div className="mx-auto max-w-6xl px-6">
         <p className="mb-3 text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-brand-600">
-          {isEs ? 'Lo que impulsa tu viaje' : 'What powers your trip'}
+          {L(locale, { en: 'What powers your trip', es: 'Lo que impulsa tu viaje', pt: 'O que impulsiona sua viagem', de: 'Was deine Reise antreibt' })}
         </p>
         <h2 className="mx-auto mb-12 max-w-2xl text-center font-display text-2xl leading-tight text-ink-900 md:text-3xl text-balance">
-          {isEs
-            ? 'Tecnología que no notas — hasta que la necesitas.'
-            : "Technology you don't notice — until you need it."}
+          {L(locale, {
+            en: "Technology you don't notice — until you need it.",
+            es: 'Tecnología que no notas — hasta que la necesitas.',
+            pt: 'Tecnologia que você não nota — até precisar.',
+            de: 'Technologie, die du nicht bemerkst — bis du sie brauchst.'
+          })}
         </h2>
         <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
           <Benefit
             emoji="🗺️"
-            title={isEs ? 'Mapas en vivo' : 'Live maps'}
-            desc={isEs ? 'Tráfico real, ETAs por minuto' : 'Live traffic, minute-accurate ETAs'}
+            title={L(locale, { en: 'Live maps', es: 'Mapas en vivo', pt: 'Mapas ao vivo', de: 'Live-Karten' })}
+            desc={L(locale, { en: 'Live traffic, minute-accurate ETAs', es: 'Tráfico real, ETAs por minuto', pt: 'Trânsito ao vivo, ETAs precisos ao minuto', de: 'Live-Verkehr, minutengenaue Ankunftszeiten' })}
           />
           <Benefit
             emoji="🧠"
-            title={isEs ? 'IA que planea' : 'AI planning'}
-            desc={isEs ? 'Itinerario completo en segundos' : 'Full itinerary in seconds'}
+            title={L(locale, { en: 'AI planning', es: 'IA que planea', pt: 'IA que planeja', de: 'KI-Planung' })}
+            desc={L(locale, { en: 'Full itinerary in seconds', es: 'Itinerario completo en segundos', pt: 'Roteiro completo em segundos', de: 'Vollständiger Reiseplan in Sekunden' })}
           />
           <Benefit
             emoji="📶"
-            title={isEs ? 'Funciona sin señal' : 'Works offline'}
-            desc={isEs ? 'Sincroniza al reconectar' : 'Auto-syncs when back online'}
+            title={L(locale, { en: 'Works offline', es: 'Funciona sin señal', pt: 'Funciona sem sinal', de: 'Funktioniert offline' })}
+            desc={L(locale, { en: 'Auto-syncs when back online', es: 'Sincroniza al reconectar', pt: 'Sincroniza ao reconectar', de: 'Synchronisiert bei Wiederverbindung' })}
           />
           <Benefit
             emoji="💳"
-            title={isEs ? 'Pago seguro' : 'Secure checkout'}
-            desc={isEs ? 'Global, en tres clics' : 'Global, three clicks'}
+            title={L(locale, { en: 'Secure checkout', es: 'Pago seguro', pt: 'Pagamento seguro', de: 'Sichere Zahlung' })}
+            desc={L(locale, { en: 'Global, three clicks', es: 'Global, en tres clics', pt: 'Global, três cliques', de: 'Weltweit, drei Klicks' })}
           />
           <Benefit
             emoji="💬"
-            title={isEs ? 'Compartir por WhatsApp' : 'WhatsApp sharing'}
-            desc={isEs ? 'Con tu grupo, al instante' : 'With your crew, instantly'}
+            title={L(locale, { en: 'WhatsApp sharing', es: 'Compartir por WhatsApp', pt: 'Compartilhar via WhatsApp', de: 'Über WhatsApp teilen' })}
+            desc={L(locale, { en: 'With your crew, instantly', es: 'Con tu grupo, al instante', pt: 'Com seu grupo, na hora', de: 'Mit deiner Gruppe, sofort' })}
           />
           <Benefit
             emoji="🌎"
-            title={isEs ? '24 regiones curadas' : '24 curated regions'}
-            desc={isEs ? '60 rutas en 7 continentes' : '60 routes across 7 continents'}
+            title={L(locale, { en: '24 curated regions', es: '24 regiones curadas', pt: '24 regiões selecionadas', de: '24 kuratierte Regionen' })}
+            desc={L(locale, { en: '60 routes across 7 continents', es: '60 rutas en 7 continentes', pt: '60 rotas em 7 continentes', de: '60 Routen auf 7 Kontinenten' })}
           />
         </div>
       </div>

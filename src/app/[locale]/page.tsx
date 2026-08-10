@@ -32,19 +32,19 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <Hero />
         {/* S48: Quick-access post-hero — 6 features primarias con acción directa (1-click) */}
         <FeatureQuickAccess />
-        <SocialProofStrip isEs={isEs} />
+        <SocialProofStrip locale={locale} />
         <ProblemSection />
         <FeaturesShowcase />
-        <TrustBadges isEs={isEs} />
+        <TrustBadges locale={locale} />
         <DestinationsMarquee />
         <RegionsGrid />
         {/* S50: CitiesGrid removido — redundante con Nav "Destinos" dropdown que ya expone 24 regiones */}
-        <Comparison isEs={isEs} />
+        <Comparison locale={locale} />
         <Pricing locale={locale} />
-        <FAQ isEs={isEs} />
+        <FAQ locale={locale} />
       </main>
-      <Footer />
-      <StickyCta isEs={isEs} />
+      <Footer locale={locale} />
+      <StickyCta locale={locale} />
     </>
   );
 }

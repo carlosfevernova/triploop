@@ -47,7 +47,10 @@ const COMPETITORS = [
   { key: 'google_my_maps', name: 'Google My Maps', accent: false, url: 'https://mymaps.google.com' }
 ];
 
-export function Comparison({ isEs }: { isEs?: boolean }){
+// S71g: partial 4-locale migration — signature accepts locale, but rows still fallback EN for pt/de.
+// Full row translations pending for follow-up sprint (25 rows × ~50 strings).
+export function Comparison({ locale, isEs: isEsProp }: { locale?: string; isEs?: boolean }){
+  const isEs = isEsProp ?? locale === 'es';
   return (
     <section className="border-t border-ink-100 bg-gradient-to-br from-white to-ink-50/40 py-24">
       <div className="mx-auto max-w-6xl px-6">

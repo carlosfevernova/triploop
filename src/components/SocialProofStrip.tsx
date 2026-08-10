@@ -1,8 +1,8 @@
 import { createAdminClient } from '@/lib/supabase-admin';
 import { platformStats } from '@/lib/platform-stats';
+import { L } from '@/lib/l4';
 
-// SSR con caché 5min via ISR (page-level revalidate)
-// S42 P1: usa platformStats SSOT (deriva de ALL_TEMPLATES + REGION_META + CURATED_POIS)
+// S71g: 4-locale migration. TRANSLATIONS_NEED_NATIVE_REVIEW: pt, de
 interface Stats { trips_planned: number; waitlist: number; }
 
 async function loadStats(): Promise<Stats> {
@@ -18,17 +18,17 @@ async function loadStats(): Promise<Stats> {
   }
 }
 
-export async function SocialProofStrip({ isEs }: { isEs?: boolean }){
+export async function SocialProofStrip({ locale = 'en' }: { locale?: string }){
   const stats = await loadStats();
   return (
     <section className="border-b border-ink-100 bg-white py-6">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-6 md:grid-cols-6">
-        <Stat value={Math.max(stats.trips_planned, 10)} label={isEs ? 'Rutas creadas' : 'Trips created'} suffix="+" />
-        <Stat value={platformStats.templates} label={isEs ? 'Templates icónicos' : 'Iconic templates'} />
-        <Stat value={platformStats.regions} label={isEs ? 'Regiones activas' : 'Live regions'} note={isEs ? `${platformStats.continents} continentes` : `${platformStats.continents} continents`} />
-        <Stat value={platformStats.curatedPOIs} label={isEs ? 'POIs curados' : 'Curated POIs'} note={isEs ? 'verified' : 'verified'} />
-        <Stat value={platformStats.aiEndpoints} label={isEs ? 'Endpoints IA' : 'AI endpoints'} note={platformStats.streamingSSE ? '+ SSE' : ''} />
-        <Stat value={Math.max(stats.waitlist, 1200)} label={isEs ? 'Lista espera' : 'Waitlist'} suffix="+" />
+        <Stat value={Math.max(stats.trips_planned, 10)} label={L(locale, { en: 'Trips created', es: 'Rutas creadas', pt: 'Viagens criadas', de: 'Reisen erstellt' })} suffix="+" />
+        <Stat value={platformStats.templates} label={L(locale, { en: 'Iconic templates', es: 'Templates icónicos', pt: 'Templates icônicos', de: 'Ikonische Vorlagen' })} />
+        <Stat value={platformStats.regions} label={L(locale, { en: 'Live regions', es: 'Regiones activas', pt: 'Regiões ativas', de: 'Aktive Regionen' })} note={L(locale, { en: `${platformStats.continents} continents`, es: `${platformStats.continents} continentes`, pt: `${platformStats.continents} continentes`, de: `${platformStats.continents} Kontinente` })} />
+        <Stat value={platformStats.curatedPOIs} label={L(locale, { en: 'Curated POIs', es: 'POIs curados', pt: 'POIs selecionados', de: 'Kuratierte POIs' })} note="verified" />
+        <Stat value={platformStats.aiEndpoints} label={L(locale, { en: 'AI endpoints', es: 'Endpoints IA', pt: 'Endpoints de IA', de: 'KI-Endpunkte' })} note={platformStats.streamingSSE ? '+ SSE' : ''} />
+        <Stat value={Math.max(stats.waitlist, 1200)} label={L(locale, { en: 'Waitlist', es: 'Lista espera', pt: 'Lista de espera', de: 'Warteliste' })} suffix="+" />
       </div>
     </section>
   );

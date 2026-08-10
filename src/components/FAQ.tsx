@@ -69,7 +69,10 @@ const QA: QA[] = [
   }
 ];
 
-export function FAQ({ isEs }: { isEs?: boolean }){
+// S71g: partial 4-locale migration — signature accepts locale, but QA still fallback EN for pt/de.
+// Full 10-QA translations pending for follow-up sprint.
+export function FAQ({ locale, isEs: isEsProp }: { locale?: string; isEs?: boolean }){
+  const isEs = isEsProp ?? locale === 'es';
   const [openIdx, setOpenIdx] = useState<number | null>(0);
   const faqSchema = {
     '@context': 'https://schema.org',
