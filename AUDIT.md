@@ -6,6 +6,19 @@
 **Repo:** https://github.com/carlosfevernova/triploop (public MIT, 123+ commits)  
 **Métricas base (S71n + post-audit 2026-08-26):** **27,897 LOC** TypeScript · 266 archivos · **51 APIs** · **25 Supabase migrations** · **80+ page routes** · 24 regiones × index+detail · 60 templates · 231 POIs curados · 7 continentes · **4 locales nativos** (EN·ES·PT-BR·DE-DE) · 130+ sitemap URLs · Playwright E2E 44/44 · **1 TODO real en 266 archivos** (falso positivo — comentario español)
 
+## 0-B. Tier A killer-demo sprint shipped 2026-08-26 (asking $50K)
+
+Four demoable features shipped to justify $37K→$50K asking bump:
+
+| Feature | Files | Endpoint |
+|---|---|---|
+| **AI Concierge chat widget** | `src/components/trip/AiConciergeWidget.tsx` + wire in `[locale]/trip/[slug]/page.tsx` | `POST /api/trips/[slug]/concierge` |
+| **Trip export ICS + Wallet** | `src/lib/trip-export.ts` (RFC 5545 compliant) | `GET /api/trips/[slug]/export?format=ics\|wallet` |
+| **Auto-template generation** | `scripts/generate-templates.ts` (Node standalone) | run: `npx tsx scripts/... --region ca --personas family,foodie` |
+| **Structured logger + Sentry** | `src/lib/logger.ts` + `docs/observability.md` + `docs/apple-wallet.md` | opt-in via `SENTRY_DSN` env |
+
+Tests: 32 → **62/62 passing** (+30 for trip-export + logger).
+
 ## 0. Estado post-audit 2026-08-26 (asset sale)
 
 ✅ **Live health verified** (curl 2026-08-26):

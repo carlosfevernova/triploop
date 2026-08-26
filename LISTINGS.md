@@ -15,7 +15,7 @@ TripLoop · AI road-trip planner · Next 15 + Supabase + Stripe + 4 locales
 `SaaS` → `Travel & Tourism`
 
 ### Asking Price
-`$37,000 USD` (firm; buy-it-now $47,000 with 60-day handoff + 8h support)
+`$50,000 USD` (firm; buy-it-now $60,000 with 60-day handoff + 8h support)
 
 ### Live URLs
 - Live product: https://triploop-six.vercel.app
@@ -190,10 +190,10 @@ Upload:
 `30 days`
 
 ### Reserve Price
-`$25,000 USD` (allows negotiation window from $37K asking)
+`$25,000 USD` (allows negotiation window from $50K asking)
 
 ### Buy It Now
-`$47,000 USD` (premium immediate close with 60-day handoff + 8h consulting)
+`$60,000 USD` (premium immediate close with 60-day handoff + 8h consulting)
 
 ---
 
@@ -253,7 +253,7 @@ Live: triploop-six.vercel.app
 Repo público: github.com/carlosfevernova/triploop
 Sale prospectus: triploop-sale.vercel.app
 
-Asking $37K firm. Buy-it-now $47K con 8h consulting.
+Asking $50K firm. Buy-it-now $60K con 8h consulting.
 
 Contexto: Layla (AI travel similar) acquired by Expedia Jul 2026. Sector validado.
 
@@ -271,7 +271,7 @@ Following your work in [travel tech / AI travel / OTA space].
 
 I'm selling TripLoop — a full-stack AI road-trip planner SaaS. 27,897 LOC across 71 sprints. Production-grade: multi-provider AI (6 fallback), Stripe subscriptions wired, 4 native locales (EN/ES/PT-BR/DE-DE), 231 hand-curated POIs across 24 regions, PWA with offline queue, WhatsApp bot.
 
-Asking $37K firm — comparable to what Layla-adjacent teams pay to skip 6-9 months of dev + content curation.
+Asking $50K firm — comparable to what Layla-adjacent teams pay to skip 6-9 months of dev + content curation.
 
 Full pitch: https://github.com/carlosfevernova/triploop/blob/master/FOR_SALE.md
 
@@ -285,7 +285,7 @@ Carlos
 
 ## Reddit `r/SideProject` "For Sale" post template
 
-**Title:** `[FOR SALE] TripLoop — AI road-trip planner SaaS, 27.8K LOC, Next 15 + Supabase + Stripe + 4 locales. $37K.`
+**Title:** `[FOR SALE] TripLoop — AI road-trip planner SaaS, 27.8K LOC, Next 15 + Supabase + Stripe + 4 locales. $50K.`
 
 **Body:** *See CONTENT_PACK.md section 3 for full copy.*
 
@@ -308,11 +308,11 @@ Based on comparables research (Layla exit, Wanderlog benchmarks, SideProjectors 
 
 | Buyer says | Response |
 |---|---|
-| "$37K is high for pre-revenue" | "Replacement cost line-item is $37,650 at $75/hr senior rate. Asking already discounts for pre-revenue. See FOR_SALE.md valuation table." |
+| "$50K is high for pre-revenue" | "Replacement cost line-item is $50,000+ at $75/hr senior rate. Asking already discounts for pre-revenue. See FOR_SALE.md valuation table." |
 | "Layla comp is unfair — they had traction" | "Fair. Adjust down 30% for zero-traction discount → $24.5K. Still fair given 231 POI moat + 4-locale native that a fresh team can't replicate in <6 months." |
 | "How do I know AI actually works?" | "OpenRouter free tier provider chain. Live demo shows streaming SSE first stop in 500ms. I'll generate a trip live on video call." |
 | "What if Vercel/Supabase/Stripe changes API?" | "Stack pinned to versions in package.json. Deploy config battle-tested. Not using any deprecated APIs. Payment webhook idempotency = fix for the one common breakage." |
-| "Why only $37K? Should be $50K+" | "Fair point — I priced for a fast close. Willing to hold at $37K firm for the 30-day active listing period; will re-price to $47K if no offers by then." |
+| "Why only $50K? Should be $50K+" | "Fair point — I priced for a fast close. Willing to hold at $50K firm for the 30-day active listing period; will re-price to $60K if no offers by then." |
 | "Can you finish X feature?" | "Yes at $75/hr. Optimize My Day = 8h. Event detection = 12h. Financial tracker = 10h. Payment on delivery." |
 | "Payment terms?" | "50% on signed agreement, 50% on repo + Vercel transfer complete. Wise, Stripe, or PayPal buyer picks. Escrow via Escrow.com if buyer prefers (~$50 fee, buyer pays)." |
 | "How long is post-sale support?" | "2h included in asking. 8h included in Buy-It-Now. Additional at $75/hr, no long-term commitment." |

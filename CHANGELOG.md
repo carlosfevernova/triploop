@@ -7,6 +7,29 @@ Notable changes to TripLoop, organized by sprint. Version tags follow **S{sprint
 
 ---
 
+## 2026-08-26 — Tier A killer-demo sprint (asking $50K)
+
+Four features shipped to justify asking bump from $37K → $50K:
+
+- `feat(tier-a)` AI Concierge chat widget on every trip page (2-3h)
+  - New endpoint `/api/trips/:slug/concierge` (POST) with OpenRouter free tier + Groq fallback
+  - Client widget `AiConciergeWidget.tsx` — fixed bottom-right, 4 locales, contextual suggestions
+  - Wired in `[locale]/trip/[slug]/page.tsx`
+- `feat(tier-a)` Auto-template generation script `scripts/generate-templates.ts` (2-3h)
+  - Node standalone: `npx tsx scripts/generate-templates.ts --region california --personas family,foodie --duration 3,5`
+  - Uses OpenRouter free tier (200 req/day free)
+  - 7 personas × 24 regions × 4 durations = 672 templates capacity
+  - Rate-limited (4s between calls to stay under 15 req/min)
+- `feat(tier-a)` Trip export ICS + Apple Wallet Pass JSON (1.5h)
+  - `/api/trips/:slug/export?format=ics|wallet` GET endpoint
+  - `lib/trip-export.ts` — RFC 5545-compliant ICS builder + Wallet payload
+  - Supports iOS Calendar, Google Calendar, Outlook, Apple Wallet (via downstream signing)
+- `feat(tier-a)` Structured logger + Sentry docs + observability (1.5h)
+  - `lib/logger.ts` — JSON single-line, typed levels, optional Sentry auto-forward
+  - `docs/observability.md` — Log Drains + Sentry setup + load test baseline
+  - `docs/apple-wallet.md` — signing service integration guide
+- `test(tier-a)` +30 unit tests: trip-export 21 + logger 9 → 62/62 total passing
+
 ## 2026-08-26 — Sale-Prep sprints
 
 ### Value-Up (docs + assets for asset sale)

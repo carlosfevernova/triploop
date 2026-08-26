@@ -14,6 +14,7 @@ import { useTripRealtime } from '@/lib/use-trip-realtime';
 import type { PlaceSuggestion, RouteLeg, Trip, TripStop } from '@/lib/types';
 import type { POICategory, DiscoveryPOI } from '@/app/api/places/discover/route';
 import { POIDiscoveryChips } from '@/components/trip/POIDiscoveryChips';
+import { AiConciergeWidget } from '@/components/trip/AiConciergeWidget';
 
 // Dynamic imports: MapLibre (~85KB) + panels (~30KB) lazy-loaded solo al necesitarse
 const TripMap = dynamic(() => import('@/components/trip/TripMap').then(m => ({ default: m.TripMap })), {
@@ -583,6 +584,14 @@ export default function TripPage(){
           />
         </div>
       </div>
+      {/* AI Concierge — floating widget bottom-right, uses free-tier OpenRouter → Groq fallback */}
+      {trip && (
+        <AiConciergeWidget
+          slug={slug}
+          locale={locale}
+          stops={(trip.stops || []).map((s) => ({ name: s.name, lat: s.lat, lng: s.lng, day: s.day }))}
+        />
+      )}
     </div>
   );
 }
