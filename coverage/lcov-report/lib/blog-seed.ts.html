@@ -1,0 +1,1792 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for lib/blog-seed.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">lib</a> blog-seed.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a>
+<a name='L509'></a><a href='#L509'>509</a>
+<a name='L510'></a><a href='#L510'>510</a>
+<a name='L511'></a><a href='#L511'>511</a>
+<a name='L512'></a><a href='#L512'>512</a>
+<a name='L513'></a><a href='#L513'>513</a>
+<a name='L514'></a><a href='#L514'>514</a>
+<a name='L515'></a><a href='#L515'>515</a>
+<a name='L516'></a><a href='#L516'>516</a>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// 8 blog posts curados para high-search-volume SEO.
+// Cada uno linkea a 1-2 templates existentes para conversión.
+&nbsp;
+export interface SeedBlogPost {
+  slug: string;
+  locale: 'en' | 'es';
+  title: string;
+  excerpt: string;
+  body_md: string;
+  hero_image_url: string;
+  seo_keywords: string[];
+  related_templates: string[]; // slugs
+}
+&nbsp;
+export const BLOG_POSTS: SeedBlogPost[] = <span class="cstat-no" title="statement not covered" >[</span>
+  {
+    slug: 'best-5-day-san-francisco-itinerary-2026',
+    locale: 'en',
+    title: 'The best 5-day San Francisco itinerary for 2026 (local-tested)',
+    excerpt: 'Golden Gate, Alcatraz, Muir Woods, Napa and Sausalito in the right order — with real drive times and where to stay each night.',
+    hero_image_url: 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1200&amp;q=80',
+    seo_keywords: ['best 5 day san francisco itinerary', 'sf 5 days plan', 'san francisco 5 day trip 2026', 'sf muir woods napa itinerary'],
+    related_templates: ['san-francisco-classic-5-days', 'napa-sonoma-wine-weekend'],
+    body_md: `San Francisco fits into 5 days better than most people think — if you plan the geography right. Here's the itinerary we recommend after building trips for hundreds of first-time visitors in 2026.
+&nbsp;
+## Day 1: Arrival + Fisherman's Wharf
+&nbsp;
+Land at SFO, take BART or Lyft to the wharf district. Check in near Pier 39 (Argonaut, Riu, Marriott Fisherman's Wharf are the safe picks).
+&nbsp;
+Afternoon: **walk Fisherman's Wharf** (2h), grab clam chowder in a sourdough bowl at Boudin, sunset from Pier 39 sea lion viewpoint.
+&nbsp;
+Evening: dinner at Scoma's (touristy but the calamari is real).
+&nbsp;
+## Day 2: Alcatraz + Chinatown
+&nbsp;
+**Alcatraz sells out weeks ahead — book NOW if you haven't.** Morning ferry (9:00 AM) gets the best light for photos.
+&nbsp;
+After: walk to Chinatown (30 min from ferry), lunch at Yank Sing (dim sum institution).
+&nbsp;
+Afternoon: cable car to Union Square, wander SFMOMA (Rothko + Warhol permanent collection is worth 2h).
+&nbsp;
+## Day 3: Golden Gate + Muir Woods
+&nbsp;
+Rent a car morning (Enterprise on Van Ness is cheapest for wharf stays). Drive:
+&nbsp;
+- **9 AM**: Golden Gate Bridge crossing → Battery Spencer viewpoint
+- **10 AM**: [Muir Woods National Monument](/en/california/san-francisco-classic-5-days) — reserve parking online 48h ahead ($9.50)
+- **1 PM**: lunch at Fish in Sausalito (their crab roll)
+- **3 PM**: back over the bridge, park in Presidio, walk Crissy Field
+&nbsp;
+Return car (or keep for Day 4).
+&nbsp;
+## Day 4: Napa Valley wine country
+&nbsp;
+Full-day trip north. Silverado Trail is the scenic route (skip Highway 29 which is trafficky).
+&nbsp;
+**3 wineries max in one day** — more and you can't drive. Recommended:
+&nbsp;
+1. **Domaine Carneros** (sparkling, French-style estate)
+2. **Castello di Amorosa** (Tuscan castle replica, kid-friendly)
+3. **Frog's Leap** (biodynamic, tastings in the garden)
+&nbsp;
+Lunch at Oxbow Public Market in downtown Napa. If you love wine, extend Day 5 into Sonoma too — see our [Napa &amp; Sonoma weekend guide](/en/california/napa-sonoma-wine-weekend).
+&nbsp;
+## Day 5: Twin Peaks + departure
+&nbsp;
+Morning: Uber to **Twin Peaks** sunrise (best free view of SF), coffee at Sightglass on Divisadero.
+&nbsp;
+Late morning: Painted Ladies at Alamo Square, walk Haight-Ashbury, browse Amoeba Records.
+&nbsp;
+Airport by 3 PM to catch afternoon flights.
+&nbsp;
+## What we'd change
+&nbsp;
+If you have 6 days, add a night in Sausalito. If you have 7, skip Muir Woods for Point Reyes (better lighthouse hike). If you have 8, drop the whole thing and do the [Pacific Coast Highway 5-day trip](/en/california/pacific-coast-highway-5-days) SF-to-LA — more variety.
+&nbsp;
+## Fork this exact trip
+&nbsp;
+We built [this itinerary as a template](/en/california/san-francisco-classic-5-days) you can fork in one click and customize with your own dates. Real drive times with traffic already factored in.`
+  },
+  {
+    slug: 'how-long-does-pacific-coast-highway-take',
+    locale: 'en',
+    title: 'How long does the Pacific Coast Highway really take? (SF to LA, honest answer)',
+    excerpt: 'Google says 8 hours. Reality is 3-5 days if you actually stop. Here\'s the breakdown by stop with real times.',
+    hero_image_url: 'https://images.unsplash.com/photo-1590093060686-e7c2f00e35c1?w=1200&amp;q=80',
+    seo_keywords: ['how long pacific coast highway', 'pch driving time', 'sf to la coast route days', 'pacific coast highway 5 days'],
+    related_templates: ['pacific-coast-highway-5-days'],
+    body_md: `Google Maps says 8 hours San Francisco to Los Angeles via Highway 1. That's if you drive nonstop and don't stop for photos, food, or Big Sur (which is the whole point).
+&nbsp;
+**Realistic answer: 3 days minimum, 5 days is the sweet spot.**
+&nbsp;
+## Why Google lies
+&nbsp;
+Google's ETA assumes 55 mph average on Highway 1. Reality:
+&nbsp;
+- **35 mph average** on the Big Sur stretch (winding, blind curves)
+- **Photo stops every 10-20 miles** in Big Sur (McWay Falls, Bixby Bridge, Julia Pfeiffer Burns)
+- **PCH lunch/gas is slow** — Nepenthe waits are 45 min in summer
+- **Landslides** — check [Caltrans QuickMap](https://quickmap.dot.ca.gov) before leaving; the road closes 2-3x/year
+&nbsp;
+## Realistic day-by-day breakdown
+&nbsp;
+### Minimum (3 days)
+&nbsp;
+- **Day 1**: SF → Monterey (2h drive + Monterey Aquarium 3h). Sleep Monterey.
+- **Day 2**: Monterey → Big Sur → Cambria (6h with 4-5 photo stops). Sleep Cambria.
+- **Day 3**: Cambria → Hearst Castle (2h) → Santa Barbara (2.5h) → LA (2h). Long day.
+&nbsp;
+### Sweet spot (5 days) — [see full template](/en/california/pacific-coast-highway-5-days)
+&nbsp;
+- Day 1: SF (settle in)
+- Day 2: SF → Monterey (Aquarium, 17-Mile Drive)
+- Day 3: Monterey → Big Sur (all the stops, sunset at Nepenthe)
+- Day 4: Big Sur → Hearst Castle → Santa Barbara
+- Day 5: Santa Barbara → LA (via Malibu)
+&nbsp;
+## Where to stop (the real must-sees)
+&nbsp;
+1. **17-Mile Drive** (Pebble Beach) — $12 entrance, worth it
+2. **Bixby Bridge** — most photographed spot on the coast
+3. **McWay Falls** — 80ft waterfall dropping onto beach, 2-min walk from parking
+4. **Nepenthe restaurant** — reserve or arrive at 11:30 AM
+5. **Hearst Castle** — book grand rooms tour 2 weeks ahead
+6. **Solvang** — Danish village 40 min inland from Santa Barbara (skippable if tight)
+&nbsp;
+## Skip these
+&nbsp;
+- Cannery Row (touristy, better food elsewhere in Monterey)
+- Rocky Point restaurant (view yes, food no)
+- Sunset Cliffs in San Diego (add-on, not PCH proper)
+&nbsp;
+## Gas + logistics
+&nbsp;
+Fill up in Monterey. Next reliable gas is Cambria (100 miles south). Don't count on Big Sur gas stations — often closed or 2x price.
+&nbsp;
+## When to go
+&nbsp;
+- **May-June**: best weather, before summer crowds
+- **September-October**: warm, no fog, prices drop
+- **Avoid** July-August (fog, expensive, packed) and Jan-Feb (landslide risk)
+&nbsp;
+## Do it yourself
+&nbsp;
+We packaged the [5-day PCH itinerary as a template](/en/california/pacific-coast-highway-5-days) — fork it, adjust dates, and get real drive times factoring current traffic.`
+  },
+  {
+    slug: 'grand-canyon-vs-yosemite',
+    locale: 'en',
+    title: 'Grand Canyon vs Yosemite: which national park should you visit first?',
+    excerpt: 'Same trip length, opposite experiences. Here\'s the honest side-by-side to help you pick.',
+    hero_image_url: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200&amp;q=80',
+    seo_keywords: ['grand canyon vs yosemite', 'yosemite or grand canyon', 'which national park first', 'yosemite grand canyon comparison'],
+    related_templates: ['yosemite-weekend-3-days', 'grand-canyon-weekend-3-days'],
+    body_md: `Both are on every US road trip list. Both take a long weekend. Both leave you speechless — but for opposite reasons.
+&nbsp;
+## Quick summary
+&nbsp;
+- **Grand Canyon** = the "wow, this is enormous" park. Best for first-time US national park visitors.
+- **Yosemite** = the "let's get in this landscape" park. Best if you like hiking + waterfalls.
+&nbsp;
+## Access and logistics
+&nbsp;
+| | Grand Canyon (South Rim) | Yosemite Valley |
+|---|---|---|
+| Closest airport | Flagstaff (80 mi) or Phoenix (230 mi) | Fresno (95 mi) or San Francisco (170 mi) |
+| Best base town | Tusayan / Williams | El Portal / Groveland |
+| Reservations needed | No entrance res | Yes summer 6am-4pm (2026) |
+| Season | Year-round South Rim | May–Oct (Tioga closed winter) |
+| Crowds | Manageable weekdays | Very heavy Jun-Aug |
+&nbsp;
+## The experiences
+&nbsp;
+**Grand Canyon** is a viewing experience. Most visitors stay at the rim, take shuttle to viewpoints, take photos, walk 1 mile down Bright Angel and back. It's grand but the visitor stays on top. Bright Angel to Plateau Point is the one "big hike" day trip (12mi round-trip). To really "get in" the canyon you need a permit + rim-to-river backpacking (2-3 days minimum).
+&nbsp;
+**Yosemite** you're IN the landscape immediately. Valley floor loop is 12 miles of flat scenery. Mist Trail to Vernal Falls is 3 miles round-trip and drenches you. Half Dome is a bucket-list day hike (permit required, 14mi). If hiking makes your trip, Yosemite wins.
+&nbsp;
+## For first-time US visitors
+&nbsp;
+Pick **Grand Canyon** if:
+- You have 2-3 days max
+- You want easy sunset photos, no hiking required
+- You're combining with Vegas / Sedona / Antelope Canyon
+&nbsp;
+Pick **Yosemite** if:
+- You love hiking / waterfalls
+- You're already in California (SF or LA)
+- May-October travel dates
+- You want longer walks in nature
+&nbsp;
+## For photography
+&nbsp;
+Grand Canyon: golden hour at **Hopi Point** (sunset) and **Mather Point** (sunrise).
+&nbsp;
+Yosemite: **Tunnel View** at sunset, **Glacier Point** at sunset (2026 note: road may be closed for repair — check nps.gov).
+&nbsp;
+## Combo trip idea
+&nbsp;
+You don't have to choose. Our [US Southwest Grand Circle 10-day template](/en/southwest/us-southwest-grand-circle-10-days) covers Grand Canyon + Zion + Bryce + Antelope + Monument Valley from Vegas. Yosemite fits perfectly into a [California Grand Loop 14-day trip](/en/california/grand-california-loop-14-days) instead.
+&nbsp;
+## Bottom line
+&nbsp;
+For most first-timers with limited time: **Grand Canyon first** (easier logistics, iconic wow). Save Yosemite for a Cal-focused trip when you have hiking legs and time to spare.`
+  },
+  {
+    slug: 'best-time-of-year-visit-california',
+    locale: 'en',
+    title: 'The best time of year to visit California (honest month-by-month breakdown)',
+    excerpt: 'April-May and September-October win. Here\'s why, and when to avoid each region.',
+    hero_image_url: 'https://images.unsplash.com/photo-1580655653885-65763b2597d0?w=1200&amp;q=80',
+    seo_keywords: ['best time to visit california', 'when to go california', 'california weather month', 'california travel seasons 2026'],
+    related_templates: ['grand-california-loop-14-days', 'pacific-coast-highway-5-days'],
+    body_md: `California is huge — weather in Death Valley and Lake Tahoe on the same day differs by 50°F. But there are patterns.
+&nbsp;
+**Short answer: April–May and September–October are the sweet spots for most of the state.** Here's the detailed breakdown.
+&nbsp;
+## Month-by-month
+&nbsp;
+### January-February — cheap but wet
+Rainy in NorCal, snow in Sierra. Good for: skiing Tahoe, indoor SF/LA. Bad for: Big Sur (landslides), Yosemite (partial closures), beach anything.
+&nbsp;
+### March — wildflowers begin
+Death Valley superbloom (once per 3-5 years, unpredictable). Poppies in Antelope Valley late March. Warmer but still cold nights.
+&nbsp;
+### April — the sweet spot begins
+Wildflowers peak Central Coast. Napa green + not busy yet. Ocean cold but sun's out. Yosemite waterfalls at maximum flow from snowmelt.
+&nbsp;
+### May — best all-around
+Comfortable everywhere. Yosemite waterfalls still huge. Wine country perfect. Beaches warming. Book June bookings NOW (May fills fast).
+&nbsp;
+### June — busy but great
+School's out → prices rise. Coastal fog (SF "June Gloom") — 60°F while inland is 90°F. Great for: Sierra hiking (snow melted).
+&nbsp;
+### July-August — expensive + hot
+Death Valley hits 120°F+ (avoid). LA + SD great. NorCal hot inland (95°F+). Coast still foggy morning. Peak crowds Yosemite.
+&nbsp;
+### September — insiders' month
+Second sweet spot. Warm ocean water (finally). Wine harvest (crush season is festive). Kids back in school → prices drop 30%. Fewer crowds.
+&nbsp;
+### October — golden
+Wine country peaks (autumn color + harvest events). Yosemite less crowded. Weather still warm coast. First storms possible late month.
+&nbsp;
+### November — quiet + cheap
+Off-season deals. Yosemite dusting of snow beautiful. Wine tasting rooms less busy. Rain risk moderate. Big Sur can close after storms.
+&nbsp;
+### December — Vegas + SoCal shine
+Rest of state cold/wet. SoCal beaches 65°F sun-warm. Vegas Christmas lights. Snow driving in Sierra.
+&nbsp;
+## By region
+&nbsp;
+**San Francisco**: Sept-Oct clearly best (June-Aug is foggy despite being "summer").
+&nbsp;
+**Los Angeles / San Diego**: Year-round OK, best April-June + Sep-Oct.
+&nbsp;
+**Yosemite**: May-June (waterfalls) or Sept-Oct (crowds gone, colors).
+&nbsp;
+**Big Sur / PCH**: April-June, Sept-Oct. Avoid winter (road closures).
+&nbsp;
+**Napa / Sonoma**: Sept (harvest) or April (green + no crowds).
+&nbsp;
+**Death Valley**: Nov-March. Never May-October (deadly heat).
+&nbsp;
+**Yosemite / Sierra**: May-October for driving Tioga Road. December-March for Tahoe skiing.
+&nbsp;
+## When to book
+&nbsp;
+- **Peak (Jun-Aug)**: book 3-6 months ahead
+- **Sweet spots (May, Sep)**: 6-8 weeks ahead
+- **Off-season (Nov-Mar)**: 2-3 weeks fine, walk-ins OK
+&nbsp;
+## Pack for California
+&nbsp;
+Layers, always. Coastal fog + inland heat + Sierra cold means you'll wear a t-shirt AND fleece the same day. Bring both.
+&nbsp;
+## Plan by season
+&nbsp;
+Our [California templates](/en/california) show you real drive times factoring current traffic patterns. Fork one, adjust to your travel month, and we'll surface season-specific tips like "book Yosemite lodging" or "check road closures."`
+  },
+  {
+    slug: 'road-trip-3-national-parks-week',
+    locale: 'en',
+    title: 'How to plan a road trip through 3 national parks in one week',
+    excerpt: 'Practical formulas that work: choose parks by geography, book lodging first, and don\'t over-plan the middle days.',
+    hero_image_url: 'https://images.unsplash.com/photo-1445307806294-bff7f67ff225?w=1200&amp;q=80',
+    seo_keywords: ['road trip 3 national parks week', 'multi park road trip 7 days', 'national parks itinerary week', 'usa national parks road trip planning'],
+    related_templates: ['us-southwest-grand-circle-10-days', 'yosemite-weekend-3-days'],
+    body_md: `Everyone underestimates the driving. You can genuinely fit 3 US national parks in 7 days, but not the way most bloggers tell you.
+&nbsp;
+## The rules
+&nbsp;
+1. **Choose parks within a 500-mile loop.** Yellowstone + Grand Canyon in a week is a nightmare (1,500 mi). Zion + Bryce + Grand Canyon is doable (600 mi loop from Vegas).
+2. **Reserve lodging first, then build the itinerary.** In-park lodging books 12-18 months ahead. If you can't get Yosemite Lodge for your dates, pick different park.
+3. **1.5 days per park minimum.** Half day arrival + full day exploring + half day exiting.
+4. **Don't drive more than 4h in a single day** if you want to enjoy it.
+5. **Buy the America the Beautiful Pass** ($80, breaks even at 3 parks).
+&nbsp;
+## Best 7-day multi-park routes
+&nbsp;
+### Southwest Grand Circle (Vegas-based)
+The gold standard. [Full template](/en/southwest/us-southwest-grand-circle-10-days) but doable in 7:
+- Day 1: Vegas → Zion (150 mi, 2.5h)
+- Day 2-3: Zion + Angels Landing / Narrows
+- Day 4: Zion → Bryce (75 mi) + Bryce sunset
+- Day 5: Bryce → Antelope Canyon → Page
+- Day 6: Grand Canyon South Rim
+- Day 7: Grand Canyon → Vegas (270 mi)
+&nbsp;
+### California Sierra (SF-based)
+- Day 1: SF → Yosemite (170 mi)
+- Day 2-3: Yosemite Valley + Glacier Point
+- Day 4: Yosemite → Sequoia (200 mi, includes Giant Forest afternoon)
+- Day 5-6: Kings Canyon + Sequoia General Sherman
+- Day 7: Return SF or continue LA
+&nbsp;
+### Pacific Northwest (Seattle-based)
+- Day 1: Seattle → Olympic (Hurricane Ridge)
+- Day 2-3: Olympic rainforest + coast
+- Day 4: Olympic → Mount Rainier (via Portland)
+- Day 5: Mount Rainier Paradise + wildflowers
+- Day 6-7: North Cascades or Crater Lake day-add
+&nbsp;
+## What to book NOW
+&nbsp;
+For 2026 trips:
+&nbsp;
+- **In-park lodging** (Yosemite, Grand Canyon lodges): 12+ months ahead
+- **Zion Angels Landing permit** (lottery): 2 months ahead
+- **Yosemite reservation** (May-Sept 6am-4pm): 5 months ahead
+- **Antelope Canyon Navajo tour**: 4-6 weeks ahead
+&nbsp;
+## The hidden killer: elevation
+&nbsp;
+Zion (4,000ft) → Bryce (8,000ft) → Grand Canyon (7,000ft) means you're constantly changing altitude. If flying from sea level: give yourself Day 1 as rest day, drink 2x water.
+&nbsp;
+## Skip these traps
+&nbsp;
+- **"Just add Bryce"** — 90 min further from Zion but adds 6h round-trip if you rush it
+- **Grand Canyon North Rim in single day** — closed Nov-May, 4h from South Rim
+- **Death Valley in summer** — 120°F+ kills people yearly
+- **Yosemite in July without lodging** — day parking is a lottery
+&nbsp;
+## Getting practical
+&nbsp;
+Every template on [TripLoop California](/en/california) and [Southwest](/en/southwest) has drive times pre-computed with real traffic. Duplicate any 7-day loop, adjust dates, we handle the "did you leave enough time?" math.`
+  },
+  {
+    slug: 'cost-breakdown-southwest-grand-circle-10-days',
+    locale: 'en',
+    title: 'Cost breakdown: 10-day US Southwest Grand Circle in 2026',
+    excerpt: 'Real numbers from Vegas rental to hotel taxes. Budget, mid, and splurge tiers for a couple.',
+    hero_image_url: 'https://images.unsplash.com/photo-1547750385-c50c65ff8267?w=1200&amp;q=80',
+    seo_keywords: ['southwest usa road trip cost', 'grand circle budget', 'how much cost 10 day road trip usa', 'zion bryce grand canyon cost'],
+    related_templates: ['us-southwest-grand-circle-10-days'],
+    body_md: `Real breakdown for a couple doing the Vegas → Zion → Bryce → Antelope → Monument Valley → Grand Canyon → Sedona → Vegas loop in September 2026. All prices in USD, tax-included.
+&nbsp;
+**TL;DR: $1,900–$5,400 total for two people.** Full breakdown below.
+&nbsp;
+## Rental car (Vegas pickup/dropoff)
+&nbsp;
+10 days, mid-size sedan, unlimited miles, insurance included:
+&nbsp;
+- **Budget** (Enterprise, book 2mo ahead): $520 total ($52/day)
+- **Mid** (Alamo, 4-week lead time): $780 ($78/day)
+- **Splurge** (SUV, walk-in): $1,150 ($115/day)
+&nbsp;
+Gas: ~1,800 mi at 32 mpg = 56 gal × $4.20/gal = **$236**
+&nbsp;
+**Rental total: $756–$1,386**
+&nbsp;
+## Lodging (9 nights)
+&nbsp;
+### Budget: motels + camping ($720)
+- Zion: Springdale off-strip motel, $90/night × 2 = $180
+- Bryce: Ruby's Inn, $85 × 1 = $85
+- Page (AZ): Lake Powell Resort budget, $110 × 1 = $110
+- Kayenta (Monument Valley area): Wetherill Inn, $95 × 1 = $95
+- Grand Canyon: Tusayan Best Western, $130 × 2 = $260 (or campground $18 × 2 if you bring gear)
+- Sedona: budget outside town, $90 × 1 = $90
+- Vegas return: $60 off-strip
+&nbsp;
+### Mid: mid-range hotels ($1,650)
+- Zion: Cliffrose Lodge, $220 × 2 = $440
+- Bryce: Best Western Ruby's, $180 × 1
+- Lake Powell: Courtyard Marriott, $190 × 1
+- Kayenta: The View Hotel (Navajo Nation), $290 × 1
+- Grand Canyon: Yavapai Lodge in-park, $270 × 2 = $540
+- Sedona: mid-range, $250 × 1
+- Vegas: $150
+&nbsp;
+### Splurge: in-park lodges + spa ($3,300)
+- Zion Lodge (in-park), $400 × 2 = $800
+- Under Canvas Bryce (glamping), $500 × 1
+- Amangiri (Utah) — 1 night $2,500+ [technically over budget, skip or replace]
+- Bright Angel Lodge in-park, $350 × 2 = $700
+- L'Auberge de Sedona, $650 × 1
+- Wynn Vegas return, $350
+&nbsp;
+## Food
+&nbsp;
+- **Budget**: $50/day per couple (self-catering breakfast + gas station lunch + $30 dinner) = $500
+- **Mid**: $110/day (restaurant dinner + café lunch) = $1,100
+- **Splurge**: $200+/day (nice dinners, wine, tastings) = $2,000+
+&nbsp;
+## Park entrance + activities
+&nbsp;
+- **America the Beautiful Pass**: $80 (covers all 5 parks — this is what you buy)
+- **Antelope Canyon Upper Navajo tour**: $65 × 2 = $130 (only way to enter)
+- **Horseshoe Bend parking**: $10
+- **Monument Valley Navajo entry**: $8 × 2 = $16
+- Optional: helicopter Grand Canyon $250-$500/person, Zion narrows guide $150
+&nbsp;
+**Parks + activities baseline: $236 per couple** (skip helicopter)
+&nbsp;
+## Total by tier
+&nbsp;
+| Tier | Rental+gas | Lodging | Food | Activities | Total |
+|---|---|---|---|---|---|
+| **Budget** | $756 | $720 | $500 | $236 | **~$2,200** |
+| **Mid** | $1,016 | $1,650 | $1,100 | $236 | **~$4,000** |
+| **Splurge** | $1,386 | $3,300 | $2,000 | $736 | **~$7,400** |
+&nbsp;
+## What we'd cut first
+&nbsp;
+- Antelope Canyon helicopter (photos don't justify $500/person)
+- In-park lodges (they're $200 more than "just outside" alternatives, view is 90% same)
+- Rental SUV (mid-size sedan handles every road on this loop)
+&nbsp;
+## What's worth splurging on
+&nbsp;
+- Under Canvas Bryce or Zion (glamping night makes the trip)
+- Sedona spa night (after 8 days driving your back will thank you)
+- Grand Canyon rim rooms with sunset view (Yavapai East)
+&nbsp;
+## Getting your itinerary
+&nbsp;
+Full [10-day Grand Circle template](/en/southwest/us-southwest-grand-circle-10-days) with drive times, coordinates and one-click Booking.com hotel search per stop.`
+  },
+  {
+    slug: 'route-66-driving-guide',
+    locale: 'en',
+    title: 'Route 66 driving guide 2026: what to see and what to skip',
+    excerpt: 'The 2,400-mile mother road takes 2-3 weeks done right. Here\'s the trimmed-down version that still hits every icon.',
+    hero_image_url: 'https://images.unsplash.com/photo-1508361727343-ca787442dcd7?w=1200&amp;q=80',
+    seo_keywords: ['route 66 driving guide', 'route 66 what to see', 'route 66 itinerary 2 weeks', 'chicago to la route 66', 'historic route 66 stops'],
+    related_templates: ['route-66-classic-14-days'],
+    body_md: `Route 66 no longer exists as a single official highway (decommissioned 1985). What people drive today is a patchwork of I-40, I-44 and preserved "Historic Route 66" business loops through small towns.
+&nbsp;
+**The truth: 90% of the road looks like any US interstate.** The magic is in the 10% of preserved icons. Here's the trimmed 14-day version that hits them all.
+&nbsp;
+## The route in 14 days
+&nbsp;
+Full [template with coordinates here](/en/southwest/route-66-classic-14-days). Highlights:
+&nbsp;
+### Section 1: Illinois → Missouri (Days 1-2)
+- **Chicago**: Route 66 Begin Sign at Adams &amp; Michigan. Photo, then start.
+- **Wilmington IL**: Gemini Giant (28-ft roadside statue)
+- **Pontiac IL**: Route 66 Association Hall of Fame Museum ($5, worth it)
+- **St. Louis**: Gateway Arch (2h)
+&nbsp;
+### Section 2: Missouri → Oklahoma (Days 3-4)
+- **Meramec Caverns MO**: touristy but the cave is real
+- **Cuba MO**: murals every block
+- **Tulsa OK**: art deco downtown + Blue Whale of Catoosa
+&nbsp;
+### Section 3: Texas panhandle (Days 5-6) — the icons
+- **Amarillo**: **Cadillac Ranch** (10 half-buried Cadillacs, bring spray paint, it's encouraged)
+- **Groom TX**: Leaning Water Tower + giant cross
+&nbsp;
+### Section 4: New Mexico (Days 7-8)
+- **Tucumcari**: neon-era motels still lit (Blue Swallow Motel is the icon — stay there if possible)
+- **Santa Fe**: skip the Route 66 direct route to hit adobe town for a night
+- **Albuquerque**: 66 Diner (real, working) + Old Town Plaza
+&nbsp;
+### Section 5: Arizona (Days 9-11) — the scenic peak
+- **Petrified Forest National Park**: half-day, 28mi through park
+- **Painted Desert**: same visit
+- **Winslow AZ**: "Standin' on the Corner" statue (Eagles fans required stop)
+- **Meteor Crater**: half-mile diameter, $22 entry
+- **Grand Canyon detour**: 80 mi north from Flagstaff — do it, 1-2 days
+- **Route 66 Williams**: gateway town, longest continuous stretch of original 66
+&nbsp;
+### Section 6: California → LA (Days 12-14)
+- **Amboy CA**: ghost town, Roy's Motel sign for photos
+- **Barstow**: Route 66 Mother Road Museum
+- **San Bernardino**: original McDonald's (the one built in 1948)
+- **Santa Monica Pier**: END OF THE TRAIL SIGN — take the photo, order a hot dog
+&nbsp;
+## Skip these
+&nbsp;
+- **Bagdad Cafe (Newberry Springs)** — the movie set, food is bad, 30 min detour
+- **Wigwam Motel Rialto CA** — sketchy neighborhood, do the Holbrook AZ wigwam instead
+- **Roy's Motel Amboy at night** — no gas, no rooms, 40 mi to nearest town
+&nbsp;
+## Best time to drive it
+&nbsp;
+**April-May** or **September-October**. Avoid:
+- July-August (100°F+ in Panhandle and Mojave)
+- December-February (snow in NM/AZ high desert)
+&nbsp;
+## How long really?
+&nbsp;
+- **14 days**: full experience, one night per major stop
+- **10 days**: skip Grand Canyon detour + Santa Fe
+- **7 days**: not recommended, you'll drive 10h/day and see nothing
+&nbsp;
+## Cost
+&nbsp;
+Budget: **$3,000-4,500 per couple** (rental 14 days + budget motels + food). Full breakdown coming in a future post.
+&nbsp;
+## Fork it
+&nbsp;
+We packaged the [Route 66 Classic 14-day template](/en/southwest/route-66-classic-14-days) with the essential stops geocoded — fork it and customize.`
+  },
+  {
+    slug: 'vegas-to-grand-canyon-day-trip-vs-3-days',
+    locale: 'en',
+    title: 'Vegas to Grand Canyon: day trip vs 3-day trip (honest comparison)',
+    excerpt: 'Day trip is 15 hours door-to-door. 3-day trip lets you sleep at the rim. Here\'s which fits your energy.',
+    hero_image_url: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200&amp;q=80',
+    seo_keywords: ['vegas to grand canyon day trip', 'grand canyon from vegas', 'vegas grand canyon 3 days', 'how far vegas grand canyon'],
+    related_templates: ['grand-canyon-weekend-3-days', 'las-vegas-weekend-3-days'],
+    body_md: `Distance Vegas → Grand Canyon South Rim: **270 miles / 4.5h each way**. So a day trip means **9-10 hours driving + 3-4 hours at rim = 13-14 hour day**. Possible? Yes. Recommended? Only if you have zero other options.
+&nbsp;
+## Day trip breakdown
+&nbsp;
+- **6:30 AM**: leave Vegas (Uber to airport pickup or self-drive)
+- **7 AM**: hit road via I-11 south → I-40 east
+- **11:30 AM**: arrive Grand Canyon Village (with breakfast + gas stops)
+- **12–3 PM**: Mather Point + Bright Angel rim walk + Yavapai geology museum + lunch
+- **3–4 PM**: Hopi Point sunset shuttle (in winter)
+- **4 PM**: start return
+- **8:30-9 PM**: back to Vegas
+&nbsp;
+**Cost**: rental car ~$70, gas ~$50, food $60, park entry (with America the Beautiful pass $80 or day-use $35) = **$160-220 solo, less per person if 2+.**
+&nbsp;
+## 3-day breakdown (recommended)
+&nbsp;
+- **Day 1**: Vegas morning drive → Grand Canyon by lunch. Afternoon rim, sunset Hopi. Sleep Tusayan or Grand Canyon Village.
+- **Day 2**: Full day — Bright Angel Trail to Plateau Point (12mi, all-day hike) OR Desert View Watchtower + Kaibab Trail short hike + sunset Yavapai Point.
+- **Day 3**: Sunrise Mather Point + drive back to Vegas by afternoon.
+&nbsp;
+Follow [our 3-day template](/en/arizona/grand-canyon-weekend-3-days) for the exact stops and coordinates.
+&nbsp;
+## Which is right for you?
+&nbsp;
+**Do the day trip if:**
+- You're on a 3-day Vegas weekend and won't be back
+- You just want the "I've seen it" photo
+- You have kids under 5 who won't hike anyway
+&nbsp;
+**Do the 3-day trip if:**
+- You want to actually experience the canyon
+- Sunrise or sunset photography matters to you
+- You want to hike more than rim walk
+- Any of you have altitude sensitivity (7,000 ft is not trivial)
+&nbsp;
+## Bus tours (skip if you can)
+&nbsp;
+$120-180/person for day tours from Vegas. Pros: no driving, guides. Cons: 40+ people, 90 min at rim total (yes, really), touristy stops. Do it only if no license.
+&nbsp;
+## Helicopter tours
+&nbsp;
+$350-500/person. Actually worth it if you're doing day trip because you skip the drive. West Rim (Skywalk) 90 min, South Rim 3.5h. Book Papillon or Maverick — both safe, been operating 30+ years.
+&nbsp;
+## Combine it right
+&nbsp;
+The smart 5-day Vegas trip: 2 days Vegas + 3 days Grand Canyon → [see our template](/en/nevada/las-vegas-weekend-3-days) chained with the [Grand Canyon 3-day trip](/en/arizona/grand-canyon-weekend-3-days). Or the full [Southwest Grand Circle](/en/southwest/us-southwest-grand-circle-10-days) covers both plus Zion, Bryce, Antelope in 10 days.`
+  }
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-08-26T21:56:18.198Z
+            </div>
+        <script src="../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../sorter.js"></script>
+        <script src="../block-navigation.js"></script>
+    </body>
+</html>
+    

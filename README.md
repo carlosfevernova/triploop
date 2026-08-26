@@ -5,6 +5,8 @@
 [![Prospectus](https://img.shields.io/badge/for%20sale-%2435K%20firm-orange)](./FOR_SALE.md)
 [![Commits](https://img.shields.io/github/commit-activity/m/carlosfevernova/triploop)](https://github.com/carlosfevernova/triploop/commits/master)
 [![Last commit](https://img.shields.io/github/last-commit/carlosfevernova/triploop)](https://github.com/carlosfevernova/triploop/commits/master)
+[![Tests](https://img.shields.io/badge/tests-32%2F32%20passing-brightgreen?logo=vitest)](./src/lib/__tests__)
+[![Playwright E2E](https://img.shields.io/badge/E2E-44%2F44%20passing-brightgreen?logo=playwright)](./AUDIT.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15.1-black?logo=nextdotjs)](https://nextjs.org)
 [![Supabase](https://img.shields.io/badge/Supabase-Postgres%20%2B%20RLS-3ECF8E?logo=supabase)](https://supabase.com)
 [![Stripe](https://img.shields.io/badge/Stripe-Checkout%20%2B%20Webhooks-635BFF?logo=stripe)](https://stripe.com)
@@ -78,6 +80,18 @@ npm install
 cp .env.example .env.local  # fill in keys
 npm run dev  # http://localhost:3000
 ```
+
+## Testing
+
+```bash
+npm run test         # Vitest watch mode
+npm run test:run     # Single run (CI)
+npm run coverage     # v8 coverage report (html + lcov + text)
+```
+
+**Baseline (2026-08-26):** 32/32 unit tests passing across 4 files · 5.17% line coverage · Playwright E2E 44/44 (separate).
+
+Unit tests cover: `L()` locale helper · feature flags infra (`parseFlagEnv`, `getFlag`, `setFlag`, `clearFlag`, `getAllFlags`) · AI cost estimator across 5 provider tiers · admin HMAC auth (`signAdminToken`, `verifyAdminToken`, `checkPassphrase`). Coverage floor intentionally not enforced (buyer decides thresholds).
 
 ## Environment variables
 

@@ -4,11 +4,14 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { T, getAdminLocale, setAdminLocale, type AdminLocale } from '@/lib/admin-i18n';
 
-type NavKey = 'dashboard' | 'blogEditor' | 'technicalReport' | 'investorDeck';
+type NavKey = 'dashboard' | 'blogEditor' | 'aiCosts' | 'featureFlags' | 'changelog' | 'technicalReport' | 'investorDeck';
 
 const NAV: Array<{ href: string; key: NavKey; icon: React.ReactNode }> = [
   { href: '/admin', key: 'dashboard',        icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M3 3h6v8H3zM11 3h6v4h-6zM11 9h6v8h-6zM3 13h6v4H3z" /></svg> },
   { href: '/admin/blog', key: 'blogEditor',  icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M14.586 2.586a2 2 0 112.828 2.828l-9.9 9.9L4 17l1.686-3.514 9.9-9.9z" /></svg> },
+  { href: '/admin/ai-costs', key: 'aiCosts', icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm.75 4v4.5l3 1.5-.75 1.3-3.75-2V6h1.5z" /></svg> },
+  { href: '/admin/flags', key: 'featureFlags', icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M4 2a1 1 0 00-1 1v14a1 1 0 002 0v-5h9l-2-3 2-3H5V3a1 1 0 00-1-1z" /></svg> },
+  { href: '/admin/changelog', key: 'changelog', icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M6 2a2 2 0 00-2 2v14l4-2 4 2 4-2V4a2 2 0 00-2-2H6zm1 4h6v1.5H7V6zm0 3h6v1.5H7V9zm0 3h4v1.5H7V12z" /></svg> },
   { href: '/admin/reports/technical', key: 'technicalReport', icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path d="M12 2l2 5 5 .8-3.6 3.5.8 5.2L12 14l-4.2 2.5.8-5.2L5 7.8 10 7l2-5z" /></svg> },
   { href: '/admin/reports/investors',  key: 'investorDeck',    icon: <svg viewBox="0 0 20 20" fill="currentColor" className="h-[15px] w-[15px]"><path fillRule="evenodd" d="M6 5V3a2 2 0 012-2h4a2 2 0 012 2v2h3a1 1 0 011 1v10a2 2 0 01-2 2H3a2 2 0 01-2-2V6a1 1 0 011-1h3zM8 3h4v2H8V3z" clipRule="evenodd" /></svg> }
 ];
