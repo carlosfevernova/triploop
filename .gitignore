@@ -13,3 +13,6 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# Local receipt audit log (Cedar policy enforcer)
+receipts/
