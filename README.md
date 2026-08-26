@@ -1,5 +1,16 @@
 # TripLoop
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Live](https://img.shields.io/badge/live-triploop--six.vercel.app-brightgreen)](https://triploop-six.vercel.app)
+[![Prospectus](https://img.shields.io/badge/for%20sale-%2435K%20firm-orange)](./FOR_SALE.md)
+[![Commits](https://img.shields.io/github/commit-activity/m/carlosfevernova/triploop)](https://github.com/carlosfevernova/triploop/commits/master)
+[![Last commit](https://img.shields.io/github/last-commit/carlosfevernova/triploop)](https://github.com/carlosfevernova/triploop/commits/master)
+[![Next.js](https://img.shields.io/badge/Next.js-15.1-black?logo=nextdotjs)](https://nextjs.org)
+[![Supabase](https://img.shields.io/badge/Supabase-Postgres%20%2B%20RLS-3ECF8E?logo=supabase)](https://supabase.com)
+[![Stripe](https://img.shields.io/badge/Stripe-Checkout%20%2B%20Webhooks-635BFF?logo=stripe)](https://stripe.com)
+[![PWA](https://img.shields.io/badge/PWA-Serwist%209.5-5A0FC8?logo=pwa)](https://serwist.pages.dev)
+[![Locales](https://img.shields.io/badge/locales-EN%20%C2%B7%20ES%20%C2%B7%20PT%20%C2%B7%20DE-blue)](./AUDIT.md)
+
 > **🏷 FOR SALE:** Production-ready AI road-trip planner. Full-stack Next.js 15 + Supabase + Stripe + multi-provider AI + PWA. **Asking $35,000 USD firm ($45,000 with 60-day handoff).** See [FOR_SALE.md](./FOR_SALE.md) for full details.
 
 **AI road-trip planner for international tourists — 24 regions curated, 60 templates, 231 hand-picked POIs. Streaming AI itinerary generation, multi-provider fallback chain, 4 native locales (EN·ES·PT·DE), Stripe subscriptions, WhatsApp bot, PWA with offline mode.**
