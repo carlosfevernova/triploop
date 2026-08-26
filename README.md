@@ -70,16 +70,27 @@ npm run dev  # http://localhost:3000
 
 ## Environment variables
 
-See `.env.example`. Required:
+See `.env.example` — 33 variables fully documented across 8 categories (Supabase, AI providers × 6, Maps, Stripe, Email + WhatsApp, Admin + cron, Affiliates, Vercel runtime metadata) with dashboard URLs and free-tier notes per key.
 
-- `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` + `SUPABASE_SECRET_KEY`
-- `STRIPE_SECRET_KEY` + `STRIPE_WEBHOOK_SECRET` + `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
-- At least one AI provider key (OpenRouter free tier works)
-- `GOOGLE_MAPS_API_KEY` (Places + Routes v2)
-- `RESEND_API_KEY` (waitlist + trial-ending emails)
-- `TWILIO_ACCOUNT_SID` + `TWILIO_AUTH_TOKEN` + `TWILIO_WHATSAPP_FROM` (optional, gated by feature flag)
-- `ADMIN_PASSPHRASE` (HMAC signed cookie, 24h TTL)
-- `CRON_SECRET` (Bearer token for `/api/cron/*`)
+**Live config verification:** `curl https://triploop-six.vercel.app/api/health` returns a JSON `checks` object reporting which required env vars are configured (without leaking values). Buyer due-diligence tool.
+
+```json
+{
+  "status": "ok",
+  "service": "triploop",
+  "commit": "9fb9cd4",
+  "region": "iad1",
+  "environment": "production",
+  "checks": {
+    "supabase_url_configured": true,
+    "supabase_secret_configured": true,
+    "stripe_configured": false,
+    "openrouter_configured": true,
+    "google_maps_configured": true,
+    "resend_configured": false
+  }
+}
+```
 
 ## Deploy
 
