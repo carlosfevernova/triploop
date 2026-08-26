@@ -1,23 +1,49 @@
 # TripLoop — Audit técnico + roadmap priorizado
 
-**Fecha:** 2026-08-08 · post S40  
-**Producto:** https://triploop-six.vercel.app  
-**Métricas base:** 19,380 LOC · 34 APIs · 71 pages · 24 regiones · 60 templates · 231 POIs curados · 7 continentes
+**Última actualización:** 2026-08-26 · post S71n · asset-sale-ready  
+**Producto:** https://triploop-six.vercel.app (HTTP 200 verified)  
+**Prospectus:** https://triploop-sale.vercel.app (HTTP 200)  
+**Repo:** https://github.com/carlosfevernova/triploop (public MIT, 123+ commits)  
+**Métricas base (S71n + post-audit 2026-08-26):** **27,897 LOC** TypeScript · 266 archivos · **51 APIs** · **25 Supabase migrations** · **80+ page routes** · 24 regiones × index+detail · 60 templates · 231 POIs curados · 7 continentes · **4 locales nativos** (EN·ES·PT-BR·DE-DE) · 130+ sitemap URLs · Playwright E2E 44/44 · **1 TODO real en 266 archivos** (falso positivo — comentario español)
+
+## 0. Estado post-audit 2026-08-26 (asset sale)
+
+✅ **Live health verified** (curl 2026-08-26):
+- `/en`, `/es`, `/pt`, `/de` — HTTP 200 (los 4 locales sirven)
+- `/en/pricing/upgrade`, `/en/trip/new`, `/en/blog`, `/en/about`, `/en/agenda`, `/en/whatsapp`, `/en/california`, `/en/mexico` — HTTP 200
+- `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest` — HTTP 200
+- `/en/opengraph-image` — HTTP 200 image/png 194KB 1200×630 (dynamic OG via next/og)
+- **`/api/health`** — new endpoint added post-audit para uptime monitoring (buyer serio hará curl)
+- `tsc --noEmit` passes (zero TypeScript errors)
+
+✅ **Métricas creación (Δ desde S40):**
+- LOC: 19,380 → **27,897** (+44%, ~470h total)
+- APIs: 34 → **51** (+50%)
+- Migrations: 16 → **25** (+56%)
+- Locales: 2 (EN·ES) → **4 nativos** (EN·ES·PT-BR·DE-DE, ~1,300 strings hand-authored en S71g-n)
+
+✅ **Sale-ready assets (in-repo):**
+- README.md · FOR_SALE.md · LISTINGS.md · CONTENT_PACK.md · BUNDLE.md
+- marketing/outreach/ — 5 personalizados (Wanderlog · Mindtrip · Roadtrippers · Marc Lou · Levelsio)
+- marketing/submit/ — 5 marketplaces copy-paste (SideProjectors · Flippa · Reddit · HN · PH)
+- src/app/[locale]/opengraph-image.tsx + twitter-image.tsx — dynamic OG per locale
+- public/og-image.png — static fallback (194 KB, 1200×630)
 
 ---
 
-## 1. Arquitectura actual (verificada)
+## 1. Arquitectura actual (verificada 2026-08-26)
 
-**Stack:**
-- Next.js 15.5 App Router + Turbopack + React 19
-- Vercel Fluid Compute (Edge default · Node.js para Stripe/HMAC/crypto)
-- Supabase Postgres (RLS 11 tablas) + Auth (JWT cookies) + Realtime + Storage
-- Stripe SDK v18 (Checkout + Portal + Webhooks HMAC)
-- Multi-provider AI: OpenRouter (5 free models) → Cloudflare → Fireworks → Groq → Anthropic
+**Stack (post-S71n):**
+- Next.js 15.1 App Router + Turbopack + React 19
+- Vercel Fluid Compute (Node.js runtime — no Edge, evita compat issues)
+- Supabase Postgres (RLS 12 tablas + 25 migrations aplicadas) + Auth (JWT cookies) + Realtime + Storage
+- Stripe SDK v22 (Checkout + Portal + Webhooks HMAC + idempotency table migration 017)
+- Multi-provider AI: OpenRouter (5 free models) → Cloudflare → Fireworks → Groq → Anthropic → Vertex (6-provider chain)
 - MapLibre GL 6.2 + Carto Voyager + Google Places (New) + Routes v2 + OpenChargeMap
-- Serwist PWA + IndexedDB + tile pre-caching
-- next-intl 3.26 (EN + ES nativo con hreflang)
-- Twilio WhatsApp + Resend email + Vercel Cron
+- Serwist 9.5 PWA + IndexedDB (via `idb`) + tile pre-caching + install prompt
+- next-intl 3.26 (**4 locales nativos: EN, ES, PT-BR, DE-DE** — 100% hand-authored, ~1,300 PT+DE strings)
+- Twilio WhatsApp + Resend email + Vercel Cron (trial-ending + weekly-digest)
+- Dynamic OG image via `next/og` ImageResponse (Edge runtime)
 
 **Data flow crítico:**
 ```
