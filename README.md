@@ -4,7 +4,9 @@
 
 **AI road-trip planner for international tourists — 24 regions curated, 60 templates, 231 hand-picked POIs. Streaming AI itinerary generation, multi-provider fallback chain, 4 native locales (EN·ES·PT·DE), Stripe subscriptions, WhatsApp bot, PWA with offline mode.**
 
-**Live product:** https://triploop-six.vercel.app · **Sale prospectus:** https://triploop-sale.vercel.app
+**Sale prospectus (live):** https://triploop-sale.vercel.app · **Repo (public MIT):** https://github.com/carlosfevernova/triploop
+
+> **Note on the product URL** (`triploop-six.vercel.app`): env vars are currently rotated out ahead of the asset sale, so the product returns 503. Buyer gets a fresh env walkthrough + restored URL on video call. Live prospectus above is the primary artifact for buyer evaluation.
 
 ---
 

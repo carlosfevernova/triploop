@@ -18,9 +18,9 @@ TripLoop · AI road-trip planner · Next 15 + Supabase + Stripe + 4 locales
 `$35,000 USD` (firm; buy-it-now $45,000 with 60-day handoff + 8h support)
 
 ### Live URLs
-- Live product: https://triploop-six.vercel.app
-- Sale prospectus: https://triploop-sale.vercel.app
-- GitHub repo: https://github.com/carlosfevernova/triploop
+- Sale prospectus (live): https://triploop-sale.vercel.app
+- GitHub repo (public MIT): https://github.com/carlosfevernova/triploop
+- Product URL: `triploop-six.vercel.app` (env vars rotated out ahead of sale; restored for buyer on video call)
 - Loom demo: (to be recorded — request via DM)
 
 ### Short Description (max 200 chars)

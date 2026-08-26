@@ -5,9 +5,9 @@
 - **Asking:** **$35,000 USD firm** (asset sale, MIT-licensed source)
 - **Buy It Now (60-day handoff + 8h consulting included):** **$45,000 USD**
 - **Fire sale (7-day close):** $18,000 USD floor
-- **Live product:** https://triploop-six.vercel.app
-- **Sale prospectus site:** https://triploop-sale.vercel.app
-- **Repo:** https://github.com/carlosfevernova/triploop (public, MIT)
+- **Sale prospectus site (live):** https://triploop-sale.vercel.app
+- **Repo (public MIT):** https://github.com/carlosfevernova/triploop
+- **Product URL:** `triploop-six.vercel.app` — env vars rotated out ahead of sale. Restored for buyer on video call.
 
 ---
 
@@ -233,8 +233,8 @@ A: Yes — Checkout, Portal, Webhook with HMAC + idempotency. Feature-flag your 
 **Q: What's the state of the 4 locales?**  
 A: 100% of user-facing strings translated by hand (EN, ES, PT-BR, DE-DE). Sprints S71g-n. See `git log --oneline | grep s71` for the migration passes.
 
-**Q: Deployment protection SSO is on prod — how do I demo?**  
-A: I'll turn off SSO on the demo URL during buyer eval, and re-enable if you want private staging afterward.
+**Q: The product URL returns 503 — is it broken?**  
+A: No. Env vars are intentionally rotated out ahead of asset sale to avoid leaking credentials to random visitors. Buyer gets fresh Supabase project + API keys walkthrough during transfer, plus 2h post-sale support (8h with Buy-It-Now) covering setup. All patterns are proven (see repo + AUDIT.md + admin reports).
 
 **Q: What breaks if I unplug the admin passphrase?**  
 A: Nothing user-facing. Admin routes gate on HMAC cookie. Swapping to a real user/role system is 6-8h of work (Supabase Auth + role in `profiles`).
