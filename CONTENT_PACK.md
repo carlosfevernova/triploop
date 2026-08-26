@@ -11,7 +11,7 @@ Copy-paste ready content for launch/sale marketing. Each block is self-contained
 > 
 > Just shipped TripLoop — a full-stack AI road-trip planner SaaS. Multi-provider AI, Stripe subs, PWA, WhatsApp bot, 4 native locales.
 > 
-> Selling it for $50K.
+> Selling it for $55K.
 > 
 > Thread on what's inside and why 👇
 
@@ -88,7 +88,7 @@ Copy-paste ready content for launch/sale marketing. Each block is self-contained
 > Live: https://triploop-six.vercel.app
 > Repo (public MIT): https://github.com/carlosfevernova/triploop
 > 
-> DM if interested. $50K firm / $60K Buy-It-Now with 60-day handoff + 8h consulting.
+> DM if interested. $55K firm / $65K Buy-It-Now with 60-day handoff + 8h consulting.
 
 ---
 
@@ -128,7 +128,7 @@ Curious what you'd change if you took it over. Also happy to answer technical qu
 
 ## 3. Reddit r/SideProject "For Sale" post
 
-**Title:** `[FOR SALE] TripLoop — AI road-trip planner SaaS, 27.8K LOC, Next 15 + Supabase + Stripe + 4 locales. $50K firm.`
+**Title:** `[FOR SALE] TripLoop — AI road-trip planner SaaS, 27.8K LOC, Next 15 + Supabase + Stripe + 4 locales. $55K firm.`
 
 **Body:**
 
@@ -156,7 +156,7 @@ TL;DR: 71-sprint AI road-trip planner. Production-grade patterns end-to-end (mul
 
 **Stack:** Next.js 15.1 · Supabase · Vercel Fluid Compute · Stripe SDK v22 · MapLibre GL · Serwist PWA · next-intl · Twilio · Resend
 
-**Asking:** $50,000 USD firm. Buy-It-Now $60,000 with 60-day handoff + 8h post-sale consulting.
+**Asking:** $55,000 USD firm. Buy-It-Now $65,000 with 60-day handoff + 8h post-sale consulting.
 
 **What's included:** Full MIT-licensed source · 25 Supabase migrations · 231 POIs seed data · 60 templates seed · AUDIT.md · admin reports · Vercel deploy config · PWA config · 4 locale message catalogs · Playwright E2E · 2h post-sale support (8h with BIN)
 
@@ -190,7 +190,7 @@ It's a full-stack AI road-trip planner SaaS with production-grade patterns end t
 
 **Why now:** Layla (AI travel planner) was acquired by Expedia in July 2026 — the AI-travel sector is being validated by strategic acquirers. TripLoop is 6-9 months ahead of any team starting today. But it needs a full-time operator for partnerships + affiliate deals + content SEO push, and I'm juggling multiple products.
 
-**Asking:** $50,000 USD firm. Buy-It-Now $60,000 with 60-day handoff + 8h consulting.
+**Asking:** $55,000 USD firm. Buy-It-Now $65,000 with 60-day handoff + 8h consulting.
 
 Full pitch and repo (public MIT-licensed):
 🔗 https://github.com/carlosfevernova/triploop  
@@ -292,7 +292,7 @@ If TripLoop still hasn't sold in 60 days, launch on Product Hunt as "AI Road-Tri
 
 Script (60 seconds):
 
-**Hook (0-3s):** "I built an AI road-trip planner in 3 months and I'm selling it for $50K."
+**Hook (0-3s):** "I built an AI road-trip planner in 3 months and I'm selling it for $55K."
 
 **Setup (3-15s):** "It has 27,897 lines of code, 6 AI providers with automatic fallback, streaming responses, 4 native languages, and 231 hand-curated places across 24 regions."
 
@@ -339,7 +339,7 @@ Great chat. Here's a recap of what we covered + what's next.
 3. [Question 3] → [Short answer + link to code]
 
 **Purchase terms confirmed:**
-- $50,000 USD firm (or $60K Buy-It-Now if you want 60-day handoff + 8h consulting)
+- $55,000 USD firm (or $65K Buy-It-Now if you want 60-day handoff + 8h consulting)
 - 50% on signed agreement, 50% on repo + Vercel transfer complete
 - Payment method: [Wise / Stripe / PayPal / Escrow.com]
 

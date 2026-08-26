@@ -2,7 +2,7 @@
 
 **Optional bundle for buyers who want both: TripLoop (AI road-trip planner, 24 regions global) + FiestaMap (GDL events marketplace, single-city freemium).**
 
-- **Bundle asking:** **$55,000 USD** (individual sum $49,500 — bundle discount ~16%)
+- **Bundle asking:** **$60,000 USD** (individual sum $49,500 — bundle discount ~16%)
 - **Buy It Now bundle:** **$52,000 USD** (60-day handoff + 12h total consulting)
 - **Fire sale bundle (7-day close):** $28,000 USD floor
 
@@ -33,7 +33,7 @@ Both share the same underlying tech stack, so **one dev can operate both**:
 
 ## Individual product summary
 
-### 1. TripLoop ($50,000 individual)
+### 1. TripLoop ($60,000 individual)
 
 **AI road-trip planner for international tourists visiting the USA.**
 
@@ -78,9 +78,9 @@ Repo: https://github.com/carlosfevernova/fiestamap (public MIT)
 
 | | Individual | Bundle |
 |---|---|---|
-| TripLoop asking | $50,000 | $30,000 (discount) |
+| TripLoop asking | $60,000 | $30,000 (discount) |
 | FiestaMap asking | $12,500 | $10,000 (discount) |
-| **Total** | **$49,500** | **$55,000** |
+| **Total** | **$49,500** | **$60,000** |
 | **Discount** | | **~16%** |
 
 **Bundle buyer saves $7,500** and gets a coherent LATAM travel/events portfolio ready to launch as a combined operator.
@@ -140,7 +140,7 @@ Total time first message → complete transfer: **~10-14 days** with active buye
 ## FAQ Bundle
 
 **Q: Can I buy only 1 product?**  
-A: Yes. TripLoop $50K individual, FiestaMap $12.5K individual. Bundle is a discount for buying both together.
+A: Yes. TripLoop $60K individual, FiestaMap $12.5K individual. Bundle is a discount for buying both together.
 
 **Q: Are the products integrated?**  
 A: Independent currently. Bundle strategy is portfolio (2 complementary verticals sharing tech patterns), not integrated product. Cross-learning opportunities documented above.

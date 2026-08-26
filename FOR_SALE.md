@@ -2,8 +2,8 @@
 
 **Production-ready AI road-trip planning SaaS. Full Next.js + Supabase + Stripe + multi-provider AI + PWA + WhatsApp bot + 4 native locales.**
 
-- **Asking:** **$50,000 USD firm** (asset sale, MIT-licensed source)
-- **Buy It Now (60-day handoff + 8h consulting included):** **$60,000 USD**
+- **Asking:** **$55,000 USD firm** (asset sale, MIT-licensed source)
+- **Buy It Now (60-day handoff + 8h consulting included):** **$65,000 USD**
 - **Fire sale (7-day close):** $20,000 USD floor
 - **Live product:** https://triploop-six.vercel.app
 - **Sale prospectus site:** https://triploop-sale.vercel.app
@@ -11,7 +11,7 @@
 
 ---
 
-## Why this is worth $50K
+## Why this is worth $55K
 
 **71 sprints of shipping across 3 months + intensive sale-prep + Tier A killer-demo sprint (2026-08-26).**
 
@@ -33,7 +33,7 @@ Four killer-demo features shipped today (all in main branch):
 | Templates | **60** |
 | Pages | 80+ page routes |
 
-**Replacement cost at $75/hr senior full-stack rate:** ~500 hours × $75 = **$37,650** (line-item breakdown below). Asking $50K firm ≈ $0.99/hour of dev time — the discount for pre-revenue and buyer taking over.
+**Replacement cost at $75/hr senior full-stack rate:** ~500 hours × $75 = **$37,650** (line-item breakdown below). Asking $55K firm ≈ $0.99/hour of dev time — the discount for pre-revenue and buyer taking over.
 
 ---
 
@@ -167,7 +167,7 @@ Each is 4-16 hours of dev work with clear specs in AUDIT.md.
 | Flippa micro-SaaS with Stripe wired + i18n + multi-tenant + AI | $15-45K |
 | Median micro-SaaS exit multiple 2025 (Acquire.com H2'25) | 3.9× SDE |
 
-### Line-item defense of $50K
+### Line-item defense of $55K
 
 | Component | Hours | $75/hr rate |
 |---|---|---|
@@ -203,14 +203,14 @@ Each is 4-16 hours of dev work with clear specs in AUDIT.md.
 | ↳ +30 unit tests (trip-export 21 + logger 9 = 62/62 passing) | 1h | $75 |
 | **Total replacement cost** | **~509h** | **$38,250** |
 
-Asking **$50,000** reflects not just dev-hours but the **wow-factor differentiators** each Tier A feature adds:
+Asking **$55,000** reflects not just dev-hours but the **wow-factor differentiators** each Tier A feature adds:
 
 - **AI Concierge in-trip chat** — differentiator vs Wanderlog (manual only) and Roadtrippers (legacy). Buyer sees "this is the killer feature" in demo call.
 - **Auto-template script** — one command generates 600+ templates (24 regions × 7 personas × 4 durations). Sitemap grows 130→700+ URLs. SEO moat 5-10× visible.
 - **Trip export ICS + Wallet** — buyers wanting mobile-first UX pay for this. "It goes right into your Google Calendar / Apple Wallet."
 - **Observability infrastructure** — eliminates the "how do I monitor this?" buyer objection. Sentry + logs + health endpoint + admin AI cost dashboard = enterprise-ready signal.
 
-Effective per-hour ratio: **$50,000 / 509h = $98/hour of dev time equivalent** (buyer pays $0.10/hour discount for pre-revenue + taking over).
+Effective per-hour ratio: **$55,000 / 509h = $98/hour of dev time equivalent** (buyer pays $0.10/hour discount for pre-revenue + taking over).
 
 ---
 
@@ -245,7 +245,7 @@ Typical time first message → fully transferred: **~7-10 days** with active buy
 
 ## Bundle option
 
-TripLoop can be bundled with **FiestaMap** (GDL events marketplace, Next 16 + Supabase PostGIS + MapLibre freemium) at **$60,000 total** for the "LATAM/AI travel duo" — same underlying tech patterns, complementary verticals. See `BUNDLE.md`.
+TripLoop can be bundled with **FiestaMap** (GDL events marketplace, Next 16 + Supabase PostGIS + MapLibre freemium) at **$65,000 total** for the "LATAM/AI travel duo" — same underlying tech patterns, complementary verticals. See `BUNDLE.md`.
 
 ---
 
@@ -277,8 +277,8 @@ A: Yes. Video call walkthrough is free. If you want deeper eval, $500 refundable
 
 ---
 
-**Serious inquiries only.** Not looking for advice on the price or the market — the numbers above are researched (`reference-monetization-ideas-2026-08-26`, `reference-portfolio-vercel-audit-2026-08-25` in my memory). Not looking for "will you split for $5K" — floor is $25K.
+**Serious inquiries only.** Not looking for advice on the price or the market — the numbers above are researched (`reference-monetization-ideas-2026-08-26`, `reference-portfolio-vercel-audit-2026-08-25` in my memory). Not looking for "will you split for $5K" — floor is $28K.
 
 Contact: GitHub Issues or `hola@nano-almacen.mx`.
 
-_Listing valid until 2026-12-31 or first serious offer. Price firm at $50K for the 30-day active listing period; may re-price after 60 days without offers._
+_Listing valid until 2026-12-31 or first serious offer. Price firm at $55K for the 30-day active listing period; may re-price after 60 days without offers._
