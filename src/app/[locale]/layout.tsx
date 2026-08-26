@@ -58,14 +58,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: t('description'),
       type: 'website',
       locale: currentOgLocale,
-      alternateLocale: alternateOgLocales,
-      images: [{ url: '/icon-512.png', width: 512, height: 512, alt: 'TripLoop' }]
+      alternateLocale: alternateOgLocales
+      // images: auto-detected from src/app/[locale]/opengraph-image.tsx (1200×630 branded)
     },
     twitter: {
       card: 'summary_large_image',
       title: t('title'),
-      description: t('description'),
-      images: ['/icon-512.png']
+      description: t('description')
+      // images: auto-detected from src/app/[locale]/twitter-image.tsx
     },
     alternates: {
       canonical: `/${locale}`,
