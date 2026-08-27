@@ -138,7 +138,7 @@ If launch generates 100+ waitlist signups, use that traction as leverage for sal
 ## Post-launch pivot decision
 
 **Scenario A: Launch bombs (<300 upvotes, <30 waitlist)**  
-→ Sell asset ASAP at $28-32K. Product isn't finding organic PMF; buyer needs to bring distribution.
+→ Sell asset ASAP at $22-28K (fire sale window). Product isn't finding organic PMF; buyer needs to bring distribution.
 
 **Scenario B: Launch modest (500-800 upvotes, 100-300 waitlist)**  
 → Hold sale at $35K for 60 more days. Traction adds narrative value.

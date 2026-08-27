@@ -2,7 +2,7 @@
 
 Public roadmap for TripLoop. Updated after each shipping sprint. See [CHANGELOG.md](./CHANGELOG.md) for detailed sprint history.
 
-**Repo status:** 140+ commits · 89/89 tests · 4 native locales · [Live](https://triploop-six.vercel.app) · MIT public · [For Sale $55K](./FOR_SALE.md)
+**Repo status:** 140+ commits · 89/89 tests · 4 native locales · [Live](https://triploop-six.vercel.app) · MIT public · [For Sale $35K](./FOR_SALE.md)
 
 ---
 

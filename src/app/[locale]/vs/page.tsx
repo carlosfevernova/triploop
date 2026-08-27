@@ -32,7 +32,7 @@ const ROWS: Row[] = [
   { feature: 'Admin AI cost dashboard', triploop: 'per-provider breakdown', wanderlog: false, mindtrip: false, roadtrippers: false, layla: false },
   { feature: 'Feature flags runtime (no redeploy)', triploop: '10 typed flags + admin UI', wanderlog: false, mindtrip: false, roadtrippers: false, layla: false },
   { feature: 'Public MIT-licensed source', triploop: '140+ commits public', wanderlog: false, mindtrip: false, roadtrippers: false, layla: false },
-  { feature: 'For sale as asset', triploop: '$55K firm', wanderlog: false, mindtrip: false, roadtrippers: 'acquired 2018', layla: 'acquired by Expedia Jul 2026' }
+  { feature: 'For sale as asset', triploop: '$35K firm', wanderlog: false, mindtrip: false, roadtrippers: 'acquired 2018', layla: 'acquired by Expedia Jul 2026' }
 ];
 
 function Cell({ value }: { value: string | boolean }){

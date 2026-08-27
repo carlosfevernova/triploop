@@ -5,15 +5,15 @@ import type { Locale } from '@/i18n/request';
 
 export const revalidate = 3600;
 export const metadata = {
-  title: 'Buy TripLoop (Asset Sale $55K) — pricing + process + FAQ',
-  description: 'TripLoop is for sale as an asset. $55K firm / $65K handoff / $60K bundle. 140+ commits, MIT public, live product. Loom demo on request.',
+  title: 'Buy TripLoop (Asset Sale $35K) — pricing + process + FAQ',
+  description: 'TripLoop is for sale as an asset. $35K firm / $45K handoff / $40K bundle. 140+ commits, MIT public, live product. Loom demo on request.',
   robots: { index: true, follow: true }
 };
 
 const TIERS = [
-  { name: 'Asset only', price: '$55,000', desc: 'MIT-licensed source + 25 migrations + 231 POI seed + 60 templates seed + docs.', includes: ['Full source code', '25 Supabase migrations', '231 curated POI seed', '60 template seed', '2h post-sale video support', 'Optional Vercel alias transfer'], featured: false },
-  { name: 'Buy It Now (recommended)', price: '$65,000', desc: 'Everything in Asset + 60-day handoff + 8h consulting. Fastest path to running the business yourself.', includes: ['Everything in Asset only', '60-day handoff walkthrough', '8h total consulting (video)', 'Roadmap consulting session', 'Introductions to 2 buyer-friendly investors if requested'], featured: true },
-  { name: 'Bundle w/ FiestaMap', price: '$60,000', desc: 'TripLoop + FiestaMap (LATAM events marketplace) at 16% discount vs individual sum. Two verticals, shared stack.', includes: ['Both codebases', 'Both Supabase migrations', 'Cross-project architecture doc', '12h total post-sale support (8 + 4)', 'Bundle process (7-14 days transfer)'], featured: false }
+  { name: 'Asset only', price: '$35,000', desc: 'MIT-licensed source + 25 migrations + 231 POI seed + 60 templates seed + docs.', includes: ['Full source code', '25 Supabase migrations', '231 curated POI seed', '60 template seed', '2h post-sale video support', 'Optional Vercel alias transfer'], featured: false },
+  { name: 'Buy It Now (recommended)', price: '$45,000', desc: 'Everything in Asset + 60-day handoff + 8h consulting. Fastest path to running the business yourself.', includes: ['Everything in Asset only', '60-day handoff walkthrough', '8h total consulting (video)', 'Roadmap consulting session', 'Introductions to 2 buyer-friendly investors if requested'], featured: true },
+  { name: 'Bundle w/ FiestaMap', price: '$40,000', desc: 'TripLoop + FiestaMap (LATAM events marketplace) at 16% discount vs individual sum. Two verticals, shared stack.', includes: ['Both codebases', 'Both Supabase migrations', 'Cross-project architecture doc', '12h total post-sale support (8 + 4)', 'Bundle process (7-14 days transfer)'], featured: false }
 ];
 
 const FAQ = [
@@ -75,7 +75,7 @@ export default async function BuyPage({ params }: { params: Promise<{ locale: st
               ))}
             </div>
             <p className="mt-8 text-center text-[11px] text-ink-500">
-              Fire sale (7-day close): $28,000 floor. All prices USD, firm. Wise / Stripe / PayPal / Escrow.com accepted.
+              Fire sale (7-day close): $22,000 floor. All prices USD, firm. Wise / Stripe / PayPal / Escrow.com accepted.
             </p>
           </div>
         </section>
@@ -100,7 +100,7 @@ export default async function BuyPage({ params }: { params: Promise<{ locale: st
             <p className="mt-2 text-[14px] text-ink-600">
               Reply with 1-2 lines on who you are + what you\'d do with it. Response within 24h.
             </p>
-            <a href="mailto:hola@nano-almacen.mx?subject=TripLoop%20acquisition%20interest&body=Who%20I%20am%3A%20%0A%0AWhat%20I%27d%20do%20with%20it%3A%20%0A%0ATier%3A%20%5BAsset%20%2455K%20%2F%20BIN%20%2465K%20%2F%20Bundle%20%2460K%5D" className="mt-6 inline-flex items-center rounded-full bg-coral-500 px-8 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-coral-600">
+            <a href="mailto:hola@nano-almacen.mx?subject=TripLoop%20acquisition%20interest&body=Who%20I%20am%3A%20%0A%0AWhat%20I%27d%20do%20with%20it%3A%20%0A%0ATier%3A%20%5BAsset%20%2435K%20%2F%20BIN%20%2445K%20%2F%20Bundle%20%2440K%5D" className="mt-6 inline-flex items-center rounded-full bg-coral-500 px-8 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-coral-600">
               Send acquisition inquiry
             </a>
             <p className="mt-4 text-[11px] text-ink-400">
